@@ -9,7 +9,7 @@
 配置HBase Standalone模式1. 前提条件MacOS 10.9Java安装好Standalone模式是单机的，基于Local Fil">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Set up Hadoop 2.2 and HBase 0.96 part2">
-<meta property="og:url" content="http://yoursite.com/2014/02/06/set-hadoop-hbase-part2/index.html">
+<meta property="og:url" content="http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part2/index.html">
 <meta property="og:site_name" content="CyannyLive">
 <meta property="og:description" content="在完成Hadoop配置后，我们可以开始HBase的安装和配置了。对于HBase，我只想说走对了路就成功了一半，选对了版本就省事好多。之前下载的是0.94版，按照官方的配置，连Standalone都跑不通，纠结了半天，放弃治疗，选用0.96版本，一切顺利。
 配置HBase Standalone模式1. 前提条件MacOS 10.9Java安装好Standalone模式是单机的，基于Local Fil">
@@ -18,7 +18,13 @@
 <meta name="twitter:title" content="Set up Hadoop 2.2 and HBase 0.96 part2">
 <meta name="twitter:description" content="在完成Hadoop配置后，我们可以开始HBase的安装和配置了。对于HBase，我只想说走对了路就成功了一半，选对了版本就省事好多。之前下载的是0.94版，按照官方的配置，连Standalone都跑不通，纠结了半天，放弃治疗，选用0.96版本，一切顺利。
 配置HBase Standalone模式1. 前提条件MacOS 10.9Java安装好Standalone模式是单机的，基于Local Fil">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
   
+  
+    <link rel="icon" href="favicon.ico">
   
   <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
   <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
@@ -36,10 +42,26 @@
       <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
       <nav id="main-nav">
         
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
       </nav>
       
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
       </div>
     </div>
   </div>
@@ -47,8 +69,18 @@
     <table class="menu outer">
       <tr>
       
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
       <td>
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
       </td>
       </tr>
     </table>
@@ -56,6 +88,45 @@
 </header>
 
     <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">Big Data &amp; Cloud Computing</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        43
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        24
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
       
       <section id="main"><article id="post-set-hadoop-hbase-part2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -114,7 +185,9 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/02/06/set-hadoop-hbase-part2/" data-id="cibopc2on0016b8rtzvvlr7ub" class="article-share-link">分享到</a>
+      <a data-url="http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part2/" data-id="cibosbb0b0016gprthxngeiyf" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part2/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HBase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li></ul>
@@ -145,7 +218,92 @@
   
 </article>
 
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
 </section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/Algorithm/">Algorithm</a></p>
+              <p class="item-title"><a href="/2015/05/04/bitsort-ant-qsort/" class="title">位排序和快排</a></p>
+              <p class="item-date"><time datetime="2015-05-04T13:57:53.000Z" itemprop="datePublished">2015-05-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/Algorithm/">Algorithm</a></p>
+              <p class="item-title"><a href="/2015/04/03/find-median-for-two-sorted-array/" class="title">查找两个排序数组的中位数</a></p>
+              <p class="item-date"><time datetime="2015-04-03T14:07:01.000Z" itemprop="datePublished">2015-04-03</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/Hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Hadoop/Hive/">Hive</a></p>
+              <p class="item-title"><a href="/2014/08/16/hive-architecture/" class="title">Hive架构笔记</a></p>
+              <p class="item-date"><time datetime="2014-08-16T15:32:27.000Z" itemprop="datePublished">2014-08-16</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/Algorithm/">Algorithm</a></p>
+              <p class="item-title"><a href="/2014/04/12/dijkstra-algorithm-in-java/" class="title">Dijkstra Algorithm</a></p>
+              <p class="item-date"><time datetime="2014-04-12T03:55:04.000Z" itemprop="datePublished">2014-04-12</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/Hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Hadoop/HBase/">HBase</a></p>
+              <p class="item-title"><a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/" class="title">HBase MapReduce排序Secondary Sort</a></p>
+              <p class="item-date"><time datetime="2014-03-20T10:51:08.000Z" itemprop="datePublished">2014-03-20</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Agile/Life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-System/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-System/Life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/HBase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/Hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/System-Analysis-and-Design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Agile/" style="font-size: 10px;">Agile</a> <a href="/tags/Big-Data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/Design/" style="font-size: 14.29px;">Design</a> <a href="/tags/HBase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Learn/" style="font-size: 10px;">Learn</a> <a href="/tags/Learning/" style="font-size: 20px;">Learning</a> <a href="/tags/Linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Research/" style="font-size: 17.14px;">Research</a> <a href="/tags/Resource/" style="font-size: 10px;">Resource</a> <a href="/tags/Scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/SystemAnalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/VPS/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
       
     </div>
     <footer id="footer">
@@ -159,9 +317,23 @@
 </footer>
     
 
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
 
 
 <script src="/js/script.js" type="text/javascript"></script>

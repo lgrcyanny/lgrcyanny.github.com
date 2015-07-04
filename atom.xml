@@ -1,0 +1,1274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  
+  <title><![CDATA[CyannyLive]]></title>
+  
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://www.cyanny.com//"/>
+  <updated>2015-06-30T15:28:30.000Z</updated>
+  <id>http://www.cyanny.com//</id>
+  
+  <author>
+    <name><![CDATA[Cyanny Liang]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[位排序和快排]]></title>
+    <link href="http://www.cyanny.com/2015/05/04/bitsort-ant-qsort/"/>
+    <id>http://www.cyanny.com/2015/05/04/bitsort-ant-qsort/</id>
+    <published>2015-05-04T13:57:53.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>这已经不是一个新话题了，但是从开始实现一个C++位排序和快排，我还是花费了2个多小时，这里就记下自己的一点点体会啦。</p>
+<p>首先，题目来自《编程珠玑》第一章，主要是做位排序，同时和快排做比较：</p>
+<p>1. 实现位逻辑运算，实现位向量，并用该位向量实现1,000,000个数字的排序，数字最大是10,000,000</p>
+<p>2. 实现1000,000个数字的快排序</p>
+<p>3. 实现生成小于n且没有重复的k个整数，这里n=10,000,000, k = 1,000,000</p>
+<a id="more"></a>
+<h3 id="1-_位排序">1. 位排序</h3><p>[cpp]</p>
+<h1 id="include_&lt;iostream&gt;">include &lt;iostream&gt;</h1><h1 id="include_&lt;string&gt;">include &lt;string&gt;</h1><h1 id="include_&lt;fstream&gt;">include &lt;fstream&gt;</h1><p>// 这里以32位的int来实现位向量，初始化的开销可能会比较大<br>class BitVector {<br>public:<br>    BitVector(int size) {<br>        int n = (1 + (size / BITS_PER_WORD));<br>        buffer = new int[n];<br>        for (int i = 0; i &lt; n; ++i) {<br>            buffer[i] = 0;<br>        }<br>    }<br>    ~BitVector() {<br>        delete[] buffer;<br>    }<br>    void set(int i) {<br>        buffer[(i &gt;&gt; SHIFT)] |= 1 &lt;&lt; (i &amp; MASK);<br>    }<br>    void clr(int i) {<br>        buffer[(i &gt;&gt; SHIFT)] &amp;= ~(1 &lt;&lt; (i &amp; MASK));<br>    }<br>    int test(int i) {<br>        return buffer[(i &gt;&gt; SHIFT)] &amp; (1 &lt;&lt; (i &amp; MASK));<br>    }</p>
+<p>private:<br>    int* buffer;<br>    static const int BITS_PER_WORD = 32;<br>    static const int MASK = 0x1f;<br>    static const int SHIFT = 5;<br>};</p>
+<p>const int BitVector::BITS_PER_WORD;<br>const int BitVector::MASK;<br>const int BitVector::SHIFT;</p>
+<p>class Solution {<br>public:<br>    // 输入是要排序的文件名，同时需要给出输出文件名称<br>    // range是数字的范围<br>    void sort(<br>            int range,<br>            const std::string&amp; input_file_name,<br>            const std::string&amp; output_file_name) {<br>        BitVector bits_vector(range);<br>        std::ifstream fin(input_file_name);<br>        int i = 0;<br>        while (fin &gt;&gt; i) {<br>            bits_vector.set(i);<br>        }<br>        std::ofstream fout(output_file_name);<br>        for (int i = 0; i &lt; range; ++i) {<br>            if (bits_vector.test(i)) {<br>                fout &lt;&lt; i &lt;&lt; std::endl;<br>            }<br>        }<br>    }<br>};</p>
+<p>int main(int argc, char const *argv[]) {<br>    Solution s;<br>    int range = 10000000;<br>    s.sort(range, &quot;numbers_input.txt&quot;, &quot;numbers_output.txt&quot;);<br>}<br>[/cpp]</p>
+<h3 id="2-_Quick_Sort">2. Quick Sort</h3><p>[cpp]<br>class Solution {<br>public:<br>    void sort(<br>            const std::string&amp; input_file_name,<br>            const std::string&amp; output_file_name) {<br>        std::vector&lt;int&gt; arr;<br>        int number = 0;<br>        std::ifstream fin(input_file_name);<br>        while(fin &gt;&gt; number) {<br>            arr.push_back(number);<br>        }<br>        qsort(&amp;arr, 0, arr.size() - 1);<br>        std::ofstream fout(output_file_name);<br>        for (int i = 0; i &lt; arr.size(); ++i) {<br>            fout &lt;&lt; arr[i] &lt;&lt; std::endl;<br>        }<br>    }</p>
+<p>private:<br>    void qsort(std::vector&lt;int&gt;* arr, int p, int r) {<br>        if (p &gt;= r) {<br>            return;<br>        }<br>        int q = partition(arr, p, r);<br>        qsort(arr, p, q - 1);<br>        qsort(arr, q + 1, r);<br>    }</p>
+<pre><code><span class="keyword">int</span> partition(std::vector&amp;<span class="keyword">lt</span>;<span class="keyword">int</span>&amp;<span class="keyword">gt</span>;* arr, <span class="keyword">int</span> p, <span class="keyword">int</span> r) {
+    <span class="keyword">int</span> i = p;
+    <span class="keyword">int</span> j = i - <span class="number">1</span>;
+    <span class="keyword">for</span> (; i &amp;<span class="keyword">lt</span>; r; ++i) {
+        <span class="keyword">if</span> (arr-&amp;<span class="keyword">gt</span>;at(i) &amp;<span class="keyword">lt</span>; arr-&amp;<span class="keyword">gt</span>;at(r)) {
+            ++j;
+            std::swap(arr-&amp;<span class="keyword">gt</span>;at(i) , arr-&amp;<span class="keyword">gt</span>;at(j));
+        }
+    }
+    ++j;
+    std::swap(arr-&amp;<span class="keyword">gt</span>;at(j) , arr-&amp;<span class="keyword">gt</span>;at(r));
+    <span class="keyword">return</span> j;
+}
+</code></pre><p>};<br>[/cpp]</p>
+<h3 id="3-_生成范围是[0,n)的k个随机数">3. 生成范围是[0,n)的k个随机数</h3><p>该算法首先生成顺序的n个数字，再遍历该数组，将当前索引i和 random(i, n)生成的索引对应的数字交换，保证生成不重复的随机序列，生成1000000个范围为10000000的数字5.3s可以完成</p>
+<p>[python]<br>import sys<br>import random<br>def swap(list, i, j):<br>    tmp = list[i]<br>    list[i] = list[j]<br>    list[j] = tmp</p>
+<p>def generate():<br>    number_limit = int(sys.argv[1])<br>    n = int(sys.argv[2])<br>    list = []<br>    for i in range(number_limit):<br>        list.append(i)<br>    f = open(‘numbers_input.txt’, ‘w’)<br>    for i in range(n):<br>        random_index = random.randint(i, number_limit - 1)<br>        swap(list, i, random_index)<br>        f.write(str(list[i]) + ‘\n’)<br>    f.close()<br>generate()<br>[/python]</p>
+<h3 id="4-性能比较">4.性能比较</h3><p>运行的环境是Mac OSX 10.10，内存DDR3 4G，1.8GHz Inter Core i5<br>1. 位排序总运行时间是: 3.98s, 去掉读写文件的时间，0.47s完成排序<br>2. 快排序总运行时间: 4.71s, 去掉读写文件时间，0.63s完成排序<br>总之，快排的优势在于不限制排序数字范围，位排序限定范围，性能比快排高效。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>这已经不是一个新话题了，但是从开始实现一个C++位排序和快排，我还是花费了2个多小时，这里就记下自己的一点点体会啦。</p>
+<p>首先，题目来自《编程珠玑》第一章，主要是做位排序，同时和快排做比较：</p>
+<p>1. 实现位逻辑运算，实现位向量，并用该位向量实现1,000,000个数字的排序，数字最大是10,000,000</p>
+<p>2. 实现1000,000个数字的快排序</p>
+<p>3. 实现生成小于n且没有重复的k个整数，这里n=10,000,000, k = 1,000,000</p>]]>
+    
+    </summary>
+    
+      <category term="algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
+    
+      <category term="Algorithm" scheme="http://www.cyanny.com/categories/Algorithm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[查找两个排序数组的中位数]]></title>
+    <link href="http://www.cyanny.com/2015/04/03/find-median-for-two-sorted-array/"/>
+    <id>http://www.cyanny.com/2015/04/03/find-median-for-two-sorted-array/</id>
+    <published>2015-04-03T14:07:01.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>题目是：求两个排序数组的中位数。<br>设：两个排序的数组a[m], b[n]，求a和b数组的中位数。<br>算法是：<br>mid_a是数组a的中位数index，同理mid_b是数组b的中位数索引<br>1. 如果a[mid_a] == b[mid_b] 中位数为a[mid_a]</p>
+<p>2. 如果a[mid_a] &lt; b[mid_b], 递归查找a(mid_a + 1, m - 1), b(0, mid_b)，因为a[mid_a]比较小，不可能作为下一次查询的中位数</p>
+<p>3. 如果a[mid_a] &gt; b[mid_b], 递归查找a(0, mid_a), b(mid_b + 1, n - 1)，因为b[mid_b]比较小，不可能作为下一次查询的中位数</p>
+<p>4. 当只少于4个元素需要查找时递归停止，merge这少于4的元素，求出中位数。这里需要考虑奇偶数的情况，只剩下2个或3个元素，不如只考虑4个简单。</p>
+<p>注意：这里求上中位数，当n为奇数时，中位数是唯一的，出现位置为n/2；当n为偶数时候，存在两个中位数，数组index从0开始，位置分别为n/2 - 1（上中位数）和n/2（下中位数）。</p>
+<a id="more"></a>
+<p>[cpp]</p>
+<h1 id="include_&lt;iostream&gt;">include &lt;iostream&gt;</h1><p>using namespace std;</p>
+<p>class Solution {<br>public:<br>  int find_median(int a[], int p, int q, int b[], int r, int s) {<br>    int size_a = q - p + 1;<br>    int size_b = s - r + 1;<br>    int total_size = size_a + size_b;<br>    if (total_size &lt;= 4) {<br>      // calcuate median for less than 4 elements<br>      int i = p;<br>      int j = r;<br>      int num = (total_size + 1) / 2;<br>      for (int k = 1; k &lt; num; k++) {<br>        // A fake merge without copying, just move index<br>        if (i &lt;= q &amp;&amp; j &lt;= s) {<br>          if (a[i] &lt;= b[j]) {<br>            ++i;<br>          } else {<br>            ++j;<br>          }<br>        } else if (i &gt; q) {<br>          ++j;<br>        } else if (j &gt; s) {<br>          ++i;<br>        }<br>      }<br>      int median = 0;<br>      if (i &lt;= q &amp;&amp; j &lt;= s) {<br>        median = a[i] &lt; b[j] ? a[i] : b[j];<br>      } else if (i &gt; q){<br>        median = b[j];<br>      } else if (j &gt; s) {<br>        median = a[i];<br>      }<br>      return median;<br>    }<br>    int mid_a = get_median_index(a, p, q);<br>    int mid_b = get_median_index(b, r, s);<br>    if (a[mid_a] == b[mid_b]) {<br>      return a[mid_a];<br>    } else if (a[mid_a] &lt; b[mid_b]) {<br>      // mid_a is less, no need to be seached later, no possible to be median<br>      return find_median(a, mid_a + 1, q, b, r, mid_b);<br>    } else {<br>      // mid_b is less, no need to be seached later, no possible to be median<br>      return find_median(a, p, mid_a, b, mid_b + 1, s);<br>    }<br>  }</p>
+<p>private:<br>  int get_median_index(int a[], int p, int q) {<br>    int n = q - p + 1;<br>    int mid = n / 2;<br>    if (n % 2 == 0) {<br>      return p + mid - 1;<br>    } else {<br>      return p + mid;<br>    }<br>  }<br>};</p>
+<p>int main(int argc, char const *argv[])<br>{<br>  int a[] = {5, 6, 7, 8};<br>  int m = sizeof(a) / sizeof(int);<br>  int b[] = {1, 2, 3, 4};<br>  int n = sizeof(b) / sizeof(int);<br>  Solution s;<br>  int median = s.find_median(a, 0, m - 1, b, 0, n - 1);<br>  cout &lt;&lt; median &lt;&lt; endl;<br>  return 0;<br>}<br>[/cpp]</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>题目是：求两个排序数组的中位数。<br>设：两个排序的数组a[m], b[n]，求a和b数组的中位数。<br>算法是：<br>mid_a是数组a的中位数index，同理mid_b是数组b的中位数索引<br>1. 如果a[mid_a] == b[mid_b] 中位数为a[mid_a]</p>
+<p>2. 如果a[mid_a] &lt; b[mid_b], 递归查找a(mid_a + 1, m - 1), b(0, mid_b)，因为a[mid_a]比较小，不可能作为下一次查询的中位数</p>
+<p>3. 如果a[mid_a] &gt; b[mid_b], 递归查找a(0, mid_a), b(mid_b + 1, n - 1)，因为b[mid_b]比较小，不可能作为下一次查询的中位数</p>
+<p>4. 当只少于4个元素需要查找时递归停止，merge这少于4的元素，求出中位数。这里需要考虑奇偶数的情况，只剩下2个或3个元素，不如只考虑4个简单。</p>
+<p>注意：这里求上中位数，当n为奇数时，中位数是唯一的，出现位置为n/2；当n为偶数时候，存在两个中位数，数组index从0开始，位置分别为n/2 - 1（上中位数）和n/2（下中位数）。</p>]]>
+    
+    </summary>
+    
+      <category term="algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
+    
+      <category term="Algorithm" scheme="http://www.cyanny.com/categories/Algorithm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hive架构笔记]]></title>
+    <link href="http://www.cyanny.com/2014/08/16/hive-architecture/"/>
+    <id>http://www.cyanny.com/2014/08/16/hive-architecture/</id>
+    <published>2014-08-16T15:32:27.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>Hive是基于Hadoop的大数据查询引擎, 存储于HDFS上的数据,要求开发者采用MR才能进行计算, 但MR是low-level的分布式计算,对于复杂的分析job, 多重MR是很复杂的, Hive致力于让用户采用传统的RDBMS的SQL查询处理分布式的大数据.<br><a id="more"></a></p>
+<h3 id="1-_架构">1. 架构</h3><p><a href="http://tinypic.com?ref=2qs2w6e" target="_blank" rel="external"><img src="http://i60.tinypic.com/2qs2w6e.jpg" alt="Image and video hosting by TinyPic"></a></p>
+<p>(1) external interface: 提供用户接口，WebUI, CLI, JDBC, ODBC<br>(2) Thrift Server：为JDBC, ODBC 提供服务<br>(3) MetaStore: 存储元数据信息<br>(4) Driver：控制HQL的生命周期， 包括</p>
+<ul>
+<li>Compiler: 将HQL编译为Operator DAG的执行计划</li>
+<li>Optimizer: 对Operator DAG进行基于规则的优化</li>
+<li>Executor: 执行Optimizer最终生成的DAG MR<br>(5) Hadoop：MR， HDFS： 执行physical plan（DAG）</li>
+</ul>
+<h3 id="2-_Hive与传统数据库的区别">2. Hive与传统数据库的区别</h3><p>虽然Hive提供的HQL和RDBMS很类似,并且也致力于向标准SQL靠近, 但还是有一些区别:</p>
+<p>(1) Hive Data Model and Typed System</p>
+<ul>
+<li>Hive支持传统数据类型,如int , float, double, string, 也支持struct, array, map</li>
+<li>Hive 提供对struct, array, map的field访问的语法,例如”a[1]”, “a.b.c”</li>
+<li><p>Hive提供SerDe Interface, 可以支持用户自定义的文件格式的读写<br>(2) HQL</p>
+</li>
+<li><p>Hive的子查询只能在from子句中, from可以在select前面</p>
+</li>
+<li>Hive join只支持等值join</li>
+<li>Hive支持multi insert</li>
+<li>HQL中可以自定义Map和Reduce脚本</li>
+<li>Hive引入了Partition的概念, 例如数据总是按day, hour产生时,可以分配event_day, event_hour的partition, 每一个查询针对每一个partition操作,就不会加载所有的数据,加快查询,提高性能</li>
+</ul>
+<h3 id="3-_Hive_MetaStore_and_Data_Model">3. Hive MetaStore and Data Model</h3><p>Hive MetaStore提供元数据信息的抽象<br>(1) DataBase<br>类似传统的数据库概念，是表的namespace，默认的table放入’default’ database</p>
+<p>(2) Table<br>数据表<br>重要信息包括：schema, location, SerDe, input_format, out_format等</p>
+<p>(3) Partition<br>每个表的数据可以有分区, 每个partition key需要在create table时指定,例如: event_day, event_hour等<br>每个Partition可以有自己的schema和location.</p>
+<p>(4) Bucket<br>Table和Partition的Storage Descriptor可以按指定的column bucket(分桶), 默认以hash分桶, 分桶可以优化map join, table sample操作.<br>Bucket是Table或Partition所在directory下的file</p>
+<p>Hive Metastore信息可以存储在本地Derby数据库,或MySQL, Hive采用DataNucleus进行ORM</p>
+<h3 id="4-_Driver">4. Driver</h3><p>目标：将HQL解析为DAG DAG的物理执行计划<br>步骤：<br>(1) Compiler的Parser将HQL解析为AST(Abstract Syntax Tree), Hive中采用Antlr进行词法解析和语法解析</p>
+<p>(2)Semantic Analyzer, 语义分析,检查Table是否存在, 类型, 表达式等是否合法<br>语义分析将AST解析为中间表示(Intermediate Representation), 即Query Block(QB) tree,<br>QB tree 是一个tree的结构, 目的是方便将AST转化为Operator DAG.</p>
+<p>(3) Logical Plan Generator将QB tree转化为logical plan, 即Operator DAG</p>
+<p>(4) Optimizer优化Operator DAG, 进行基于规则的算子变换(transformation), 每一个变换会实现5个接口, Node, GraphWalker, Dispatcher, Rule 和Processor, Opritimizer提供的优化包括:</p>
+<ul>
+<li>列裁剪</li>
+<li>partition裁剪</li>
+<li>谓词下推, 更早地filter数据, 从源头减少数据量</li>
+<li>合并多个共享join key的join算子</li>
+<li>Join Reordering: 在reduce时, 让small table常驻内存</li>
+<li><p>基于用户的Hint的优化, 包括:</p>
+<ul>
+<li>Repartitioning of data to handle skews in group by processing: 对于有倾斜性的数据, reducer分配到的数据不均匀,影响性能, 做聚集时, 例如sum, 可以将group by拆分为两个map reduce阶段, 第一个阶段hash randomly分配数据,并部分聚集, 减少第二个阶段的聚集量.</li>
+<li>map side join(将小的表存储在内存中)</li>
+<li>Hash based partial aggregations in the mappers, 将需要聚集的行存在内存hash table中</li>
+<li>Physical Plan Generator 将Operator DAG转化为Physical Plan, 包括多个阶段的MR和HDFS tasks</li>
+</ul>
+</li>
+<li><p>Execution Engine 按照物理计划的依赖关系执行task</p>
+</li>
+</ul>
+<h3 id="5-_相关的">5. 相关的</h3><ul>
+<li>Hive基于成本的优化</li>
+<li>Scope, 微软的SQL Like language</li>
+<li>Pig, allows users to write declarative scripts to process data</li>
+<li>Dremel, Google’s Query Engine</li>
+<li>Apache Drill</li>
+<li>Spark</li>
+<li>MR</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Hive是基于Hadoop的大数据查询引擎, 存储于HDFS上的数据,要求开发者采用MR才能进行计算, 但MR是low-level的分布式计算,对于复杂的分析job, 多重MR是很复杂的, Hive致力于让用户采用传统的RDBMS的SQL查询处理分布式的大数据.<br>]]>
+    
+    </summary>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="Hive" scheme="http://www.cyanny.com/tags/Hive/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+      <category term="Hive" scheme="http://www.cyanny.com/categories/Hadoop/Hive/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Dijkstra Algorithm]]></title>
+    <link href="http://www.cyanny.com/2014/04/12/dijkstra-algorithm-in-java/"/>
+    <id>http://www.cyanny.com/2014/04/12/dijkstra-algorithm-in-java/</id>
+    <published>2014-04-12T03:55:04.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>计算单源最短路径的算法有Bellman-Ford算法，主要是计算带负权有向图的单源最短路径。第二种算法：对于DAG图（Directed Acyclic Graph, 有向无环图）可以通过拓扑排序后再计算单源最短路径。第三，可以使用BFS(广度优先搜索)计算单源最短路径。第四，就是著名的Dijkstra算法，要求有向图的所有边的权值非负，当然图可以不是DAG图。</p>
+<a id="more"></a>
+<p>Dijkstra的实现思想主要是采用最小优先级队列，队列排序的标准是source节点到当前节点的距离，每次从堆顶取出一个节点，遍历该节点的邻接表，进行松弛(Relax)操作，松弛操作的伪代码如下：<br>[java]<br>relax(u, v) {<br>  if (v.distance &gt; u.distance + weight[u, v]) {<br>    v.distance = u.distance + weight[u, v];<br>    v.parent = u;<br>  }<br>}<br>[/java]</p>
+<p>Dijkstra算法的伪代码如下：<br>[java]<br>dijkstraShortestPath(graph, s) {<br>  for each v in graph {<br>    v.parent = null;<br>    v.distance = MaxValue;<br>  }<br>  MinPriorityQueue queue;<br>  s.distance = 0;<br>  queue.add(s);<br>  while (queue != empty) {<br>    u = queue.extractMin();<br>    for each v in adjacentlist of u {<br>      if (v.distance &gt; u.distance + weight[u, v]) {<br>        v.distance = u.distance + weight[u, v];<br>        v.parent = u;<br>        queue.add(v);<br>      }<br>    }<br>  }<br>}<br>[/java]</p>
+<p>Dijkstra算法实现时的一个难点是如何实现最小优先级队列以及图如何表示，我在实现中采用Java提供的PriorityQueue，同时Graph的表示采用邻接表。而邻接表最初的想法是一个ArrayList<arraylist<edge>&gt;, 每个Edge对象 = Vertex + weight; 但这个实现的限制是，在ArrayList中每个list的index就十分重要，当从queue中取得一个节点，需要按index找到他的邻接list。在<a href="https://github.com/mburst/dijkstras-algorithm/blob/master/Dijkstras.java" target="_blank" rel="external">GitHub上</a>看到一个实现，是用LinkedHashMap表示邻接表，但凭什么给每个节点按string的key进行标识呢？不是很认同。<br>最后采取的办法是，将每个节点的邻接list放入每个节点对象中，主要是受<a href="http://www.algolist.com/code/java/Dijkstra%27s_algorithm" target="_blank" rel="external">这个博客</a>的启发。<br>最后实现代码如下，也不是很长。</arraylist<edge></p>
+<h3 id="1-_定义Vertex">1. 定义Vertex</h3><p>[java]<br>public class Vertex implements Comparable&lt;Vertex&gt;{<br>    public String id = null;<br>    public Vertex parent = null;<br>    public Edge[] adjacencyList = null;<br>    public int distance = Integer.MAX_VALUE; // The min distance from source to the current vertex</p>
+<pre><code><span class="function"><span class="keyword">public</span> <span class="title">Vertex</span><span class="params">()</span> </span>{
+
+}
+
+<span class="function"><span class="keyword">public</span> <span class="title">Vertex</span><span class="params">(String id)</span> </span>{
+    <span class="keyword">this</span>.id = id;
+}
+
+<span class="comment">/**
+ * Override this method for min priority queue
+ */</span>
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Vertex o)</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">this</span>.distance &amp;lt; o.distance ? -<span class="number">1</span> : (<span class="keyword">this</span>.distance == o.distance ? 0 : 1);
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function">String <span class="title">toString</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> &amp;quot;Vertex [id=&amp;quot; + id + &amp;quot;, distance=&amp;quot; + distance + &amp;quot;]&amp;quot;;
+}
+</code></pre><p>}<br>[/java]</p>
+<h3 id="2-_定义Edge对象">2. 定义Edge对象</h3><p>[java]<br>public class Edge {<br>    public Vertex vertex = null;<br>    public int weight = 0;</p>
+<pre><code><span class="keyword">public</span> Edge() {
+
+}
+
+<span class="keyword">public</span> Edge(Vertex <span class="built_in">vertex</span>, <span class="built_in">int</span> weight) {
+    <span class="keyword">this</span>.<span class="built_in">vertex</span> = <span class="built_in">vertex</span>;
+    <span class="keyword">this</span>.weight = weight;
+}
+</code></pre><p>}<br>[/java]</p>
+<h3 id="3-_Dijkstra算法实现">3. Dijkstra算法实现</h3><p>测试的图如下：</p>
+<p><a href="http://tinypic.com?ref=9ggih1.jpg" target="_blank" rel="external"><img src="http://i59.tinypic.com/9ggih1.jpg" alt="Image and video hosting by TinyPic"></a><br>[java]<br>public class DijkstraGraph {<br>    public Vertex[] graph = null;</p>
+<pre><code><span class="function"><span class="keyword">public</span> <span class="title">DijkstraGraph</span><span class="params">(Vertex[] graph)</span> </span>{
+    <span class="keyword">this</span>.graph = graph;
+}
+
+<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">computShortestPath</span><span class="params">(Vertex source)</span> </span>{
+    PriorityQueue&amp;lt;Vertex&amp;gt; queue = <span class="keyword">new</span> PriorityQueue&amp;lt;Vertex&amp;gt;();
+    source.distance = <span class="number">0</span>;
+    queue.add(source);
+    <span class="keyword">while</span> (!queue.isEmpty()) {
+        Vertex u = queue.remove();
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &amp;lt; u.adjacencyList.length; i++) {
+            Edge v = u.adjacencyList[i]; <span class="comment">// The neighbor of vertex u</span>
+            <span class="keyword">if</span> (v.vertex.distance &amp;gt; u.distance + v.weight) {
+                v.vertex.distance = u.distance + v.weight;
+                v.vertex.parent = u;
+                queue.add(v.vertex);
+            }
+        }
+    }
+}
+
+<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">printShortestPath</span><span class="params">()</span> </span>{
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &amp;lt; graph.length; i++) {
+        Vertex <span class="keyword">target</span> = graph[i];
+        Stack&amp;lt;Vertex&amp;gt; path = <span class="keyword">new</span> Stack&amp;lt;Vertex&amp;gt;();
+        <span class="keyword">while</span> (<span class="keyword">target</span> != <span class="keyword">null</span>) {
+            path.push(<span class="keyword">target</span>);
+            <span class="keyword">target</span> = <span class="keyword">target</span>.parent;
+        }
+        printPath(path);
+    }
+}
+
+<span class="keyword">private</span> <span class="function"><span class="keyword">void</span> <span class="title">printPath</span><span class="params">(Stack&amp;lt;Vertex&amp;gt; path)</span> </span>{
+    System.out.println(&amp;quot;=============The path is=========&amp;quot;);
+    <span class="keyword">while</span> (!path.isEmpty()) {
+        System.out.println(path.pop());
+    }
+}
+
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{
+    Vertex v0 = <span class="keyword">new</span> Vertex(&amp;quot;s&amp;quot;);
+    Vertex v1 = <span class="keyword">new</span> Vertex(&amp;quot;t&amp;quot;);
+    Vertex v2 = <span class="keyword">new</span> Vertex(&amp;quot;x&amp;quot;);
+    Vertex v3 = <span class="keyword">new</span> Vertex(&amp;quot;z&amp;quot;);
+    Vertex v4 = <span class="keyword">new</span> Vertex(&amp;quot;y&amp;quot;);
+
+    v0.adjacencyList = <span class="keyword">new</span> Edge[] { <span class="keyword">new</span> Edge(v1, <span class="number">10</span>), <span class="keyword">new</span> Edge(v4, <span class="number">5</span>) };
+    v1.adjacencyList = <span class="keyword">new</span> Edge[] { <span class="keyword">new</span> Edge(v2, <span class="number">1</span>), <span class="keyword">new</span> Edge(v4, <span class="number">2</span>) };
+    v2.adjacencyList = <span class="keyword">new</span> Edge[] { <span class="keyword">new</span> Edge(v3, <span class="number">4</span>) };
+    v3.adjacencyList = <span class="keyword">new</span> Edge[] { <span class="keyword">new</span> Edge(v0, <span class="number">7</span>), <span class="keyword">new</span> Edge(v2, <span class="number">6</span>) };
+    v4.adjacencyList = <span class="keyword">new</span> Edge[] { <span class="keyword">new</span> Edge(v1, <span class="number">3</span>), <span class="keyword">new</span> Edge(v2, <span class="number">9</span>),
+            <span class="keyword">new</span> Edge(v3, <span class="number">2</span>) };
+
+    Vertex[] graph = { v0, v1, v2, v3 };
+
+    DijkstraGraph dijkstraGraph = <span class="keyword">new</span> DijkstraGraph(graph);
+    dijkstraGraph.computShortestPath(v0);
+    dijkstraGraph.printShortestPath(); <span class="comment">// Each path from v0</span>
+
+}
+</code></pre><p>}<br>[/java]</p>
+<p>源码在<a href="https://github.com/lgrcyanny/Algorithm/tree/master/src/com/algorithm/graph/dijkstra" target="_blank" rel="external">Cyanny GitHub</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>计算单源最短路径的算法有Bellman-Ford算法，主要是计算带负权有向图的单源最短路径。第二种算法：对于DAG图（Directed Acyclic Graph, 有向无环图）可以通过拓扑排序后再计算单源最短路径。第三，可以使用BFS(广度优先搜索)计算单源最短路径。第四，就是著名的Dijkstra算法，要求有向图的所有边的权值非负，当然图可以不是DAG图。</p>]]>
+    
+    </summary>
+    
+      <category term="algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
+    
+      <category term="Algorithm" scheme="http://www.cyanny.com/categories/Algorithm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[HBase MapReduce排序Secondary Sort]]></title>
+    <link href="http://www.cyanny.com/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/"/>
+    <id>http://www.cyanny.com/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/</id>
+    <published>2014-03-20T10:51:08.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>MapReduce是Hadoop中处理大数据的方法，是一个处理大数据的简单算法、编程泛型。虽然思想简单，但其实真正用起来还是有很多问题，不是所有的问题都可以像WordCount那样典型和直观, 有很多需要trick的地方。MapReduce的中心思想是分而治之，数据要松耦合，可以划分为小数据集并行处理，如果数据本身在计算上存在很强的依赖关系，就不要赶鸭子上架，用MapReduce了。<br>MapReduce编程中，最重要的是要抓住Map和Reduce的input和output，好的input和output可以降低实现的复杂度。最近，写了很多关于MapReduce的job，有倒排索引，统计，排序等。其中，对排序花费了一番功夫，MapReduce做WordCount很好理解,<br>Map input:[offset, text],  output: [word, 1],</p>
+<p>Reduce input: [word, 1], output: [word, totalcount],还可以设置Combiner进行优化。</p>
+<a id="more"></a>
+<p>但排序不同了，大量的文件记录，分配给map，然后reduce出来的文件分布在各个机器上，怎么保证有序呢？排序是算法中常考常用的，MapReduce做排序还需要理解一下MapReduce过程中，非常magic的过程Shuffle and Sort.[more…]</p>
+<h3 id="Shuffle_and_Sort过程解析">Shuffle and Sort过程解析</h3><p><a href="http://tinypic.com?ref=1416uzt" target="_blank" rel="external"><img src="http://i59.tinypic.com/1416uzt.jpg" alt="Image and video hosting by TinyPic"></a><br>如上图，Shuffle的过程包括了Map端和Reduce端。</p>
+<h4 id="Map端">Map端</h4><p><a href="http://tinypic.com?ref=j0ftw0" target="_blank" rel="external"><img src="http://i59.tinypic.com/j0ftw0.jpg" alt="Image and video hosting by TinyPic"></a></p>
+<ol>
+<li>Input Split分配给Map</li>
+<li>Map进行计算，输出[key, value]形式的output</li>
+<li>Map的输出结果缓存在内存里</li>
+<li>内存中进行Partition，默认是HashPartitioner(采用取模hash (key.hashCode() &amp; Integer.MAX_VALUE) % numReduceTasks)， 目的是将map的结果分给不同的reducer，有几个Partition，就有几个reducer，partition的数目可以在job启动时通过参数 “-Dmapreduc.job.reduces”设置(Hadoop 2.2.0), HashPartitioner可以让map的结果均匀的分给不同机器上的reducer，保证负载均衡。</li>
+<li>内存中在Partition结束后，会对每个Partition中的结果按照key进行排序。</li>
+<li>排序结束后，相同的key在一起了，如果设置过combiner，就合并数据，减少写入磁盘的记录数</li>
+<li>当内存中buffer(default 100M)达到阈值(default 80%)，就会把记录spill(即溢写)到磁盘中，优化Map时可以调大buffer的阈值，缓存更多的数据。</li>
+<li>当磁盘中的spill文件数目在3(min.num.spills.for.combine)个（包括）以上, map的新的output会再次运行combiner，而如果磁盘中spill file文件就1~2个，就没有必要调用combiner，因为combiner大多数情况和reducer是一样的逻辑，可以在reduer端再计算。</li>
+<li>Map结束时会把spill出来的多个文件合并成一个，merge过程最多10（默认）个文件同时merge成一个文件，多余的文件分多次merge，merge过程是merge sort的算法。</li>
+<li>Map端shuffle完毕，数据都有序的存放在磁盘里，等待reducer来拿取</li>
+</ol>
+<h4 id="Reducer端">Reducer端</h4><p>shuffle and sort的过程不仅仅在map端，别忘了reducer端还没拿数据呢，reduce job当然不能开启。</p>
+<ol>
+<li>Copy phase: reducer的后台进程(default 5个)到被Application Master (Hadoop 2.2), 或者之前的JobTracker 指定的机器上将map的output拷贝到本地，先拷贝到内存，内存满了就拷贝的磁盘。</li>
+<li>Sort phase(Merge phase): Reduer采用merge sort，将来自各个map的data进行merge， merge成有序的更大的文件。</li>
+<li>如果设置过Combiner，merge过程可能会调用Combiner，调不调用要看在磁盘中产生的文件数目是否超过了设定的阈值。(这一点我还没有确认，但Combiner在Reducer端是可能调用。)</li>
+<li>Reduce phase: reduce job开始，输入是shuffle sort过程merge产生的文件。</li>
+</ol>
+<h3 id="MapReduce排序(Secondary_Sort)案例">MapReduce排序(Secondary Sort)案例</h3><p>理解了Shuffle的过程后，我们可以着手开始做排序了。<br>1. 需求<br>现在我在HBase里面，存储了10万条文献的评论统计记录，每个文献的评论数目是2~20，每个文献评论统计记录在HBase的存储示例如下：<br>即表 “pb_stat_comments_count”的记录<br>[rowkey, column family, column qualifer, value] =<br>[literature row key, ‘info’, ‘count’, 12]<br>[literature row key, ‘info’, ‘avgts’, 1400815843854]<br>count:是每个文献的记录<br>avgts：是所有文献的平均评价时间戳<br>排序要求：将文献按照评价次数逆序排，次数大的靠前，次数相同的平均评价时间相同的靠前。</p>
+<p>2. 思想<br>MapReduce在Map端排序时，都只按key排序，而现在我们的排序指标有两个字段count, avgts,组合的key，为了保证排序结果对于第二个字段有序，MapReduce里面叫做Secondary Sort,就是个名称而已，可以扩展为保证第三个字段有序，第四，第五…</p>
+<ul>
+<li>首先，我们需要重新自定义一个组合Key,即我们将看到的示例中的SortKeyPair类, 包括count和avgts两个字段，并overwrite里面的compare to方法，按我们的需求，count大的靠前，count相同，avgts大的靠前。</li>
+<li>其次，利用SortKeyPair，自定义一个SortComparatorClass给Map端排序时用。</li>
+<li>再次，自定义PartitionClass.<br>我们单机伪分布式下，默认只有一个Partition，一个Reducer，Partition有无均可，但是分布式环境下，我们要求分布在各个reducer上的结果有序，即评论次数2~5的在reducer0上，6~10的在reducer 1上，11~15在reducer2上，16~20在reducer3上，如果采用取模hash，会造成各个reducer的结果顺序无法控制，因此我们不能用HashPartitioner。而自己的Partitioner则需要只按count进行partition，不管平均评价时间，我们这里把partition的主要的这个key叫做NaturalKey.</li>
+<li>最后，我们可以看到reduce端要进行merge，merge过程中，我们需要把相同的count分做一组，需要自定义GroupingComparatorClass。<br>否则如果是按整个组合key进行分组，每个组合key都是不同的，不能分到一个reduce调用中，reduce方法会被调用10万次（单机环境，一个reducer拿到所有10万条文献）， 而如果按count分组，文献评论数目2~20，reduce方法只会被调用最多19次，减少了开销。<br>我们可以看到一个Reducer实例中，reduce方法会被调用多次，按道理是调用一次，但是因为Reducer过程会把数据分成多个组，reduce调用多次是可能的。（具体的需要再看看源码）</li>
+</ul>
+<h3 id="案例代码">案例代码</h3><p>1. 自定义组合key类：SortKeyPair.java</p>
+<p>[java]<br>public class SortKeyPair implements WritableComparable&lt;SortKeyPair&gt; {<br>    private int count = 0;<br>    private long avgts = 0;</p>
+<pre><code>    <span class="comment">//要写一个默认构造函数，否则MapReduce的反射机制，无法创建该类报错</span>
+<span class="function"><span class="keyword">public</span> <span class="title">SortKeyPair</span><span class="params">()</span> </span>{
+
+}
+
+<span class="comment">/**
+ * 
+ * <span class="doctag">@param</span> count
+ * <span class="doctag">@param</span> timestamp
+ *            Average timestamp
+ */</span>
+<span class="function"><span class="keyword">public</span> <span class="title">SortKeyPair</span><span class="params">(<span class="keyword">int</span> count, <span class="keyword">long</span> avgts)</span> </span>{
+    <span class="keyword">super</span>();
+    <span class="keyword">this</span>.count = count;
+    <span class="keyword">this</span>.avgts = avgts;
+}
+
+<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> count;
+}
+
+<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setCount</span><span class="params">(<span class="keyword">int</span> count)</span> </span>{
+    <span class="keyword">this</span>.count = count;
+}
+
+<span class="keyword">public</span> <span class="function"><span class="keyword">long</span> <span class="title">getAvgts</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> avgts;
+}
+
+<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setAvgts</span><span class="params">(<span class="keyword">long</span> avgts)</span> </span>{
+    <span class="keyword">this</span>.avgts = avgts;
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">write</span><span class="params">(DataOutput out)</span> <span class="keyword">throws</span> IOException </span>{
+    out.writeInt(<span class="keyword">this</span>.count);
+    out.writeLong(<span class="keyword">this</span>.avgts);
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">readFields</span><span class="params">(DataInput in)</span> <span class="keyword">throws</span> IOException </span>{
+    <span class="keyword">this</span>.count = in.readInt();
+    <span class="keyword">this</span>.avgts = in.readLong();
+}
+
+<span class="comment">/**
+ * We want sort in descending count and descending avgts， Java里面排序默认小的放前面，即返回-1的放前面，这里直接把小值返回1，就会被排序到后面了。
+ */</span>
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(SortKeyPair o)</span> </span>{
+    <span class="keyword">int</span> res = <span class="keyword">this</span>.count &amp;lt; o.getCount() ? <span class="number">1</span>
+            : (<span class="keyword">this</span>.count == o.getCount() ? 0 : -1);
+
+    <span class="keyword">if</span> (res == <span class="number">0</span>) {
+        res = <span class="keyword">this</span>.avgts &amp;lt; o.getAvgts() ? <span class="number">1</span>
+                : (<span class="keyword">this</span>.avgts == o.getAvgts() ? 0 : -1);
+    }
+
+    <span class="keyword">return</span> res;
+}
+
+    <span class="comment">//这个方法需要Overrride</span>
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> Integer.MAX_VALUE - <span class="keyword">this</span>.count;
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function">String <span class="title">toString</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">this</span>.count + &amp;quot;,&amp;quot; + <span class="keyword">this</span>.avgts;
+}
+
+    <span class="comment">// 这个方法，写不写都不会影响的，至少我测的是这样</span>
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>{
+    <span class="keyword">if</span> (obj == <span class="keyword">null</span>) {
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+    <span class="keyword">if</span> (<span class="keyword">this</span> == obj) {
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+    <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> SortKeyPair) {
+        SortKeyPair s = (SortKeyPair) obj;
+        <span class="keyword">return</span> <span class="keyword">this</span>.count == s.getCount() &amp;amp;&amp;amp; <span class="keyword">this</span>.avgts == s.getAvgts();
+    } <span class="keyword">else</span> {
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+}
+</code></pre><p>}<br>[/java]</p>
+<p>2. 自定义SortComparatorClass, 我命名为：CompositeKeyComparator.java</p>
+<p>[java]<br>public class CompositeKeyComparator extends WritableComparator{</p>
+<pre><code><span class="function"><span class="keyword">public</span> <span class="title">CompositeKeyComparator</span> <span class="params">()</span> </span>{
+    <span class="keyword">super</span>(SortKeyPair.class, <span class="keyword">true</span>);
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(WritableComparable a, WritableComparable b)</span> </span>{
+    SortKeyPair s1 = (SortKeyPair)a;
+    SortKeyPair s2 = (SortKeyPair)b;
+
+    <span class="function"><span class="keyword">return</span> s1.<span class="title">compareTo</span><span class="params">(s2)</span></span>;
+}
+</code></pre><p>}<br>[/java]</p>
+<p>3. 自定义PartitionerClass, 我命名为NaturalKeyPartitioner.java</p>
+<p>[java]<br>public class NaturalKeyPartitioner extends Partitioner&lt;SortKeyPair, Text&gt;{</p>
+<pre><code>@Override
+<span class="keyword">public</span> <span class="keyword">int</span> getPartition(SortKeyPair key, Text value, <span class="keyword">int</span> numPartitions) {
+    <span class="comment">// % is hash partition, can't make sure bigger count go to reducer with small id.</span>
+    <span class="keyword">int</span> <span class="keyword">count</span> = key.getCount();
+    <span class="keyword">if</span> (<span class="keyword">count</span> &amp;lt;= <span class="number">5</span>) {
+        <span class="keyword">return</span> <span class="number">0</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">count</span> &amp;gt; <span class="number">5</span> &amp;amp;&amp;amp; <span class="keyword">count</span> &amp;lt;= <span class="number">10</span>) {
+        <span class="keyword">return</span> <span class="number">1</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">count</span> &amp;gt; <span class="number">10</span> &amp;amp;&amp;amp; <span class="keyword">count</span> &amp;lt;= <span class="number">15</span>) {
+        <span class="keyword">return</span> <span class="number">2</span>;
+    } <span class="keyword">else</span> {
+        <span class="keyword">return</span> <span class="number">3</span>;
+    }
+}
+</code></pre><p>}<br>[/java]</p>
+<p>4. 自定义GroupingComparatorClass,<br>我命名为NaturalKeyGroupComparator.java</p>
+<p>[java]<br>public class NaturalKeyGroupComparator extends WritableComparator {</p>
+<pre><code><span class="function"><span class="keyword">public</span> <span class="title">NaturalKeyGroupComparator</span><span class="params">()</span> </span>{
+    <span class="keyword">super</span>(SortKeyPair.class, <span class="keyword">true</span>);
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(WritableComparable a, WritableComparable b)</span> </span>{
+    SortKeyPair s1 = (SortKeyPair) a;
+    SortKeyPair s2 = (SortKeyPair) b;
+    <span class="keyword">int</span> res = s1.getCount() &amp;lt; s2.getCount() ? <span class="number">1</span> : (s1.getCount() == s2
+            .getCount() ? 0 : -1);
+
+    <span class="keyword">return</span> res;
+}
+</code></pre><p>}<br>[/java]</p>
+<p>5. 定义Mapper，Reducer，并定义Job提交</p>
+<p>[java]<br>public class SecondarySort {</p>
+<pre><code>/**
+ * <span class="type">It</span> must be declared <span class="keyword">static</span>, <span class="keyword">in</span> <span class="keyword">case</span> <span class="keyword">of</span> reflection error
+ * 
+ * @author lgrcyanny
+ * 
+ */
+public <span class="keyword">static</span> class <span class="type">SortMapper</span> extends <span class="type">TableMapper</span>&amp;lt;<span class="type">SortKeyPair</span>, <span class="type">Text</span>&amp;gt; {
+
+            // <span class="type">Map</span> input [hbase row key, hbase <span class="literal">result</span>], output: [<span class="type">SortKeyPair</span>, <span class="type">Text</span>] (<span class="type">Text</span>中包括了我们最后输出到文件的信息：literature row key, count, avgts)
+    @<span class="type">Override</span>
+    protected <span class="type">void</span> map(<span class="type">ImmutableBytesWritable</span> key, <span class="type">Result</span> rs,
+            <span class="type">Context</span> context) throws <span class="type">IOException</span>, <span class="type">InterruptedException</span> {
+        <span class="type">String</span> literature = <span class="type">Bytes</span>.toString(rs.getRow());
+        <span class="type">int</span> count = <span class="type">Integer</span>.valueOf(<span class="type">Bytes</span>.toString(rs.getValue(
+                <span class="type">Bytes</span>.toBytes(&amp;quot;info&amp;quot;), <span class="type">Bytes</span>.toBytes(&amp;quot;count&amp;quot;))));
+        long avgts = <span class="type">Long</span>.valueOf(<span class="type">Bytes</span>.toString(rs.getValue(
+                <span class="type">Bytes</span>.toBytes(&amp;quot;info&amp;quot;), <span class="type">Bytes</span>.toBytes(&amp;quot;avgts&amp;quot;))));
+        context.write(new <span class="type">SortKeyPair</span>(count, avgts), new <span class="type">Text</span>(literature
+                + &amp;quot;,&amp;quot; + count + &amp;quot;,&amp;quot; + avgts));
+    }
+
+}
+
+public <span class="keyword">static</span> class <span class="type">SortReducer</span> extends
+        <span class="type">Reducer</span>&amp;lt;<span class="type">SortKeyPair</span>, <span class="type">Text</span>, <span class="type">Text</span>, <span class="type">Text</span>&amp;gt; {
+
+    /**
+     * <span class="type">Now</span> the key <span class="keyword">is</span> max <span class="type">SortKeyPair</span> <span class="keyword">in</span> the list, we just dump the ordered
+     * items
+             * <span class="type">Reduce</span> input: [<span class="type">SorKeyPair</span>, list <span class="keyword">of</span> text], <span class="type">Output</span>: [text, text] 
+     */
+    @<span class="type">Override</span>
+    protected <span class="type">void</span> reduce(<span class="type">SortKeyPair</span> key, <span class="type">Iterable</span>&amp;lt;<span class="type">Text</span>&amp;gt; items,
+            <span class="type">Context</span> context) throws <span class="type">IOException</span>, <span class="type">InterruptedException</span> {
+        <span class="type">Iterator</span>&amp;lt;<span class="type">Text</span>&amp;gt; <span class="keyword">iterator</span> = items.<span class="keyword">iterator</span>();
+        <span class="keyword">while</span> (<span class="keyword">iterator</span>.hasNext()) {
+            context.write(null, <span class="keyword">iterator</span>.next());// 因为value中已经包括了需要输出的信息，<span class="type">SortKeyPair</span>的信息不需要输出，key设置为null即可。
+        }
+    }
+}
+
+public <span class="keyword">static</span> <span class="type">void</span> main(<span class="type">String</span>[] args) throws <span class="type">IOException</span>,
+        <span class="type">ClassNotFoundException</span>, <span class="type">InterruptedException</span> {
+            // 因为数据源是<span class="type">HBase</span>，因此需要使用<span class="type">HBase</span>中的<span class="type">MapReduce</span>启动设置，可以参考<span class="type">HBase</span>官方网站
+            // 自己做测试，可以改成文件输入，看具体需求而定
+    <span class="type">Configuration</span> conf = <span class="type">HBaseConfiguration</span>.create();
+    <span class="type">Job</span> job = new <span class="type">Job</span>(conf, &amp;quot;<span class="type">Secondarysort</span>&amp;quot;);
+    job.setJarByClass(<span class="type">SecondarySort</span>.class);
+    <span class="type">Scan</span> scan = new <span class="type">Scan</span>();
+    scan.addFamily(<span class="type">Bytes</span>.toBytes(&amp;quot;info&amp;quot;));
+    scan.setCaching(<span class="number">5000</span>); // <span class="type">Default</span> <span class="keyword">is</span> <span class="number">1</span>, <span class="type">set</span> <span class="number">500</span> improve performance
+    scan.setCacheBlocks(<span class="literal">false</span>); // <span class="type">Close</span> <span class="keyword">block</span> cache <span class="keyword">for</span> <span class="type">MR</span> job
+    <span class="type">TableMapReduceUtil</span>.initTableMapperJob(&amp;quot;pb_stat_comments_count&amp;quot;, scan,
+            <span class="type">SortMapper</span>.class, <span class="type">SortKeyPair</span>.class, <span class="type">Text</span>.class, job);
+    job.setReducerClass(<span class="type">SortReducer</span>.class);
+
+    // <span class="type">For</span> secondary sort, 这里设置自定义排序的三个类
+    job.setSortComparatorClass(<span class="type">CompositeKeyComparator</span>.class);
+    job.setPartitionerClass(<span class="type">NaturalKeyPartitioner</span>.class);
+    job.setGroupingComparatorClass(<span class="type">NaturalKeyGroupComparator</span>.class);
+
+    job.setOutputKeyClass(<span class="type">Text</span>.class);
+    job.setOutputValueClass(<span class="type">Text</span>.class);
+
+            // <span class="type">Reducer</span>的输出，设置为文件输出
+    <span class="type">FileOutputFormat</span>.setOutputPath(job, new <span class="type">Path</span>(&amp;quot;secondary-sort-res&amp;quot;));
+
+    long start = <span class="type">System</span>.currentTimeMillis();
+    boolean res = job.waitForCompletion(<span class="literal">true</span>);
+    long <span class="keyword">end</span> = <span class="type">System</span>.currentTimeMillis();
+    <span class="keyword">if</span> (res) {
+        <span class="type">System</span>.<span class="keyword">out</span>.println(&amp;quot;<span class="type">Job</span> done <span class="keyword">with</span> time &amp;quot; + (<span class="keyword">end</span> - start));
+    } <span class="keyword">else</span> {
+        throw new <span class="type">IOException</span>(&amp;quot;<span class="type">Job</span> exit <span class="keyword">with</span> error.&amp;quot;);
+    }
+}
+</code></pre><p>}<br>[/java]</p>
+<h3 id="总结">总结</h3><p>MapReduce做排序，麻烦的不是写Mapper和Reducer，而是自定义<br>CompositeKeyClass<br>SortComparatorClas<br>PartitionerClass<br>GroupingComparatorClass<br>利用好Shuffle这个很magic课程，可以实现很多奇妙的功能。<br>本次案例的代码在<a href="https://github.com/lgrcyanny/PaperBook-MapReduce/tree/master/src/com/paperbook/mapreduce/stat/secondarysort" target="_blank" rel="external">我的GitHub上</a>。<br>这些都是个人的理解，如有不对之处，还请指正。</p>
+<p>最后，本学期的云计算课到最后了才让我们去些MapReduce程序，之前做无关的MySQL的项目，然后迁移HBase，看着很高端，但是做那个网站到底有什么意义，这是云计算，不是前端计算，HBase in Action中也提到，HBase的设计和MySQL的设计是完全不同的，而MySQL我相信到这个阶段的同学们都会用，何必再次重复劳动呢？直接上HBase不就可以了，本末倒置是我对本学期的课程的失望和吐槽。课程内容多半是概念，涉及技术的有多少？看论文，看概念每一个研究生都可以做到，而我想我们缺的是实践上的指导，比如MapReduce，除了能讲讲WordCount，还能再深入点么？Shuffle的过程可以多说说么？Zookeeper里面的PAXOS算法可以跟我们说说么？学院有Hadoop的集群机器，可以让我们去玩玩不？而不是写那个无聊的网站。<br>我个人觉得让我们去写一些Hadoop的架构分析，看看源码，也比写那个无聊的网站强。最后9次作业，做的头大，重复劳动，体力劳动，最后还考试，说写的多分会高，有意思么？那么多作业还考试，数据库课程就两次作业+一个论文，但是我觉得我学了也复习了很多知识，比起那些大而空的概念，高到不知哪里去了。<br>我对云计算，Hadoop,HBase感兴趣，本学期学了很多，但不是课堂上学的，估计我最后对云计算的概念们，要靠下周背PPT了。 我对云计算有兴趣，但对本学期的课程没兴趣。吐槽都是不好的情绪，调整好心态，好好考试吧~BTW，下周还有一次作业。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>MapReduce是Hadoop中处理大数据的方法，是一个处理大数据的简单算法、编程泛型。虽然思想简单，但其实真正用起来还是有很多问题，不是所有的问题都可以像WordCount那样典型和直观, 有很多需要trick的地方。MapReduce的中心思想是分而治之，数据要松耦合，可以划分为小数据集并行处理，如果数据本身在计算上存在很强的依赖关系，就不要赶鸭子上架，用MapReduce了。<br>MapReduce编程中，最重要的是要抓住Map和Reduce的input和output，好的input和output可以降低实现的复杂度。最近，写了很多关于MapReduce的job，有倒排索引，统计，排序等。其中，对排序花费了一番功夫，MapReduce做WordCount很好理解,<br>Map input:[offset, text],  output: [word, 1],</p>
+<p>Reduce input: [word, 1], output: [word, totalcount],还可以设置Combiner进行优化。</p>]]>
+    
+    </summary>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="MapReduce" scheme="http://www.cyanny.com/tags/MapReduce/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[HBase Architecture Analysis Part 3 Pros and Cons]]></title>
+    <link href="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/"/>
+    <id>http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/</id>
+    <published>2014-03-13T14:13:20.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="5-_HBase_Physical_Architecture">5. HBase Physical Architecture</h2><p>Figure 5.1 shows the deployment view for HBase cluster:<br>HBase is the master-slave cluster on top of HDFS. The classic deployment is as follows:<br>➢<strong> Master node:</strong> one HMaster and one NameNode running on a machine as the master node.<br>➢ <strong>Slave node:</strong> Each node is running one HRegionServer and one DataNode. And each node report status to the master node and Zookeeper.<br>➢<strong> Zookeeper:</strong> HBase is shipped with ensemble Zookeeper, but for large clusters, using existing Zookeeper is better. Zookeeper is crucial, the HMaster and HRegionServers will register on Zookeeper.<br>➢ <strong>Client</strong>: There can be many clients to access HRegionServer, like Java Client, Shell Client, Thrift Client and Avro Client</p>
+<p><a id="more"></a> <a href="http://tinypic.com?ref=6eg29d" target="_blank" rel="external"><img src="http://i58.tinypic.com/6eg29d.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 5.1 HBase Deployment View</p>
+<h2 id="6-HBase_Pros">6.HBase Pros</h2><p><strong>1. Master-Slave Architecture</strong><br>HBase build on top HDFS, HDFS is mater-slave architecture, HBase follows this style. It will improve the interoperability between HBase and HDFS.<br>This style do good for load balance, the HMaster takes over the load balance job, assign regions to region servers and auto failover dead RegionServers.</p>
+<p><strong>2. Real-time , random big data access</strong><br>HDFS handles large blocks of data well, but small blocks of data with real-time access is not efficient. HBase uses LSM-trees as data storage architecture. Data is written into WAL first, then to Mem Store. WAL is in case of data lost before Mem Store is flushed to HDFS. Mem Store will be flushed to HDFS when it’s filled up. The mechanism insures that data write is operated in memory, no need of HDFS disk access, which improves write performance.<br>Meanwhile, data read accesses Mem Store first, then to Block Cache, and last the HFiles, so for random data access, if there is cache in memory, the read performance is very well.<br>In short, HBase brings big data online, it is efficient for real-time operations on big data(TB, PB);</p>
+<p><strong>3. Column-Oriented data model for big sparse table</strong><br>HBase is NO-SQL, column-family-oriented, each column family is stored together in HStore. The key-value data model stores only non-empty values, no null values. So for large spares table, the disk usage is great in HBase, not like RDBMS storing large quantities of null values.</p>
+<p><strong>4. LSM-trees vs. B+ tree</strong><br>HBase data storage architecture is LSM-trees. A big feature of LSM-trees is the merge housekeeping, which merge small files into a larger one to reduce disk seek. The housekeeping is a background process, which will not impact real-time data access.<br>LSM-trees transform random data access into sequential data access, which improves read performance. But B+ tree in RDBMS requires more disk seeks for data modifications, which is very efficient for big data process.</p>
+<p><strong>5. Row-level Atomic</strong><br>HBase has no strictly ACID features like RDBMS, how to insure data consistent in HBase and how to avoid dirty read. HBase is row-level automic, in other words, each Put operation on a given row either success or fail. Meanwhile, CheckAnd<em>, Increment</em> operations are also atomic.<br>The scan operation across the table is not on a snapshot of a table, if the data is updated before a Scan operation, the updated version is read by Scan, It ensures data consistent.<br>HBase is good at loose coupled data and not high requirements for consistent. Row-level atomic is a mechanism to improve data consistent, but data consistent is really a shortage of HBase.</p>
+<p><strong>6. High Scalability</strong><br>HBase data is stored across the cluster, the cluster has many HRegionServer, which can be scaled. HBase build on top of HDFS, HDFS is high scalability, that is the DataNode can be scaled. HDFS brings great scalability to HBase. Moreover, the master-slave architecture do well in data scalability.</p>
+<p><strong>7. High Reliability</strong><br>The HBase cluster is built on commodity hardware, which will be dead at any time. HBase data is replicated across the cluster. Data replication is done by HDFS. HDFS stores 3 replications for each block: on the same node, on another node on the same rack, on another node on another rack. The feature brings high reliability for HBase.</p>
+<p><strong>8. Auto Failover</strong><br>HMaster is in charge of auto failover work. When HMaster detects the dead HRegionServer. It will find that the region assignment is invalid, and it will do region assignment again. Auto failover brings great availability for HBase, which is no need of manually HRegionServer failover.</p>
+<p><strong>9. Data auto sharding</strong><br>Since data is stored distributed across the cluster. HBase must makes use of all of the machines in the cluster. HRegionServer stores many HRegions. When a HRegion size reaches its threshold, HRegionServer will split it into half.<br>In addition, when the number of regions is over the threshold that the HMaster can handle, the HMaster will merge small regions into a larger one. Auto sharding brings HBase great load balance and keeps programmer away from the details of distributed data sharding.</p>
+<p><strong>10. Simple Client Interface</strong><br>HBase provides 5 basic data operations : Put, Get, Delete, Scan and Increment. The Interface is easy to use. HBase provide java interface, and non java interface: Thrift, Avro, REST and Shell. Each interface is transparent for developers to do data operations on HBase.</p>
+<h2 id="7-_HBase_Cons">7. HBase Cons</h2><p><strong>1. Single Point of Failure (SPOF)</strong><br>The master-slave architecture always has SPOF, HBase is no exception. When there is only on HMaster in a cluster, if the cluster has more than 4000 nodes, the HMaster is the performance bottleneck. Even though client talks directly to HRegionServer, when the HMaster is down, the cluster can be “steady” for a short time, HMaster long time down will bring down the cluster.<br>It is possible to start multi HMaster in a cluster, but only one is active, which is also a performance bottleneck.</p>
+<p><strong>2. No transaction</strong><br>As we talked before, HBase data consistent is a shortage. Interrow operations are not atomic, which will bring dirty read. HBase is good at louse coupled data but not good at highly rational data records. That is an important point we must be aware of.</p>
+<p><strong>3. No Join, if you want, use MapReduce</strong><br>HBase has no join operation, so data model has to be redesign when migrate from RDBMS, which is a big headache. For highly rational data records, HBase will make you sick. But if you really want implement join, you can use MapReduce, please refer to “HBase in Action”.</p>
+<p><strong>4. Index only on key, sorted by key, but RDBMS can be indexed on arbitrary column</strong><br>The column-oriented data model is key-value style, HBase only has index on key: &lt;rowkey, column family, qualifier, version&gt;, rowkey design is the most important thing.<br>The data model paradigm for HBase is quite different for RDBMS. HBase has no index on value. Scan with columnvalue filter for big data is very slow. But RDBMS can be indexed on arbitrary column.<br>If you want to improve index for HBase, you can use MapReduce to build Inverted Index.</p>
+<p><strong>5. Security Problem</strong><br>Finally, HBase has security problem. RDBMS like MySQL has authentication and authorization feature, different user has different data access authority. But HBase has no such feature yet. But we can see that, improve security will lower the performance, If the online application can insure the security, HBase will has no need to care about that.</p>
+<p><strong>Refereces</strong><br>[1] George, Lars. HBase: the definitive guide. O’Reilly Media, Inc., 2011.<br>[2] Dimiduk, Nick, Amandeep Khurana, and Mark Henry Ryan. HBase in action. Manning, 2013.<br>[3] Chang, Fay, et al. “Bigtable: A distributed storage system for structured data.”ACM Transactions on Computer Systems (TOCS) 26.2 (2008): 4.<br>[4] White, Tom. Hadoop: The Definitive Guide: The Definitive Guide. O’Reilly Media, 2009.<br>[5] Kruchten, Philippe B. “The 4+ 1 view model of architecture.” Software, IEEE12.6 (1995): 42-50.<br>[6] Apache HBase, “The Apache HBase Reference Guide”, apache.org, 2013</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="5-_HBase_Physical_Architecture">5. HBase Physical Architecture</h2><p>Figure 5.1 shows the deployment view for HBase cluster:<br>HBase is the master-slave cluster on top of HDFS. The classic deployment is as follows:<br>➢<strong> Master node:</strong> one HMaster and one NameNode running on a machine as the master node.<br>➢ <strong>Slave node:</strong> Each node is running one HRegionServer and one DataNode. And each node report status to the master node and Zookeeper.<br>➢<strong> Zookeeper:</strong> HBase is shipped with ensemble Zookeeper, but for large clusters, using existing Zookeeper is better. Zookeeper is crucial, the HMaster and HRegionServers will register on Zookeeper.<br>➢ <strong>Client</strong>: There can be many clients to access HRegionServer, like Java Client, Shell Client, Thrift Client and Avro Client</p>
+<p>]]>
+    
+    </summary>
+    
+      <category term="Big Data" scheme="http://www.cyanny.com/tags/Big-Data/"/>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[HBase Architecture Analysis Part2(Process Architecture)]]></title>
+    <link href="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part2-process-architecture/"/>
+    <id>http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part2-process-architecture/</id>
+    <published>2014-03-13T14:00:11.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="4-_Process_Architecture">4. Process Architecture</h2><h3 id="4-1_HBase_Write_Path">4.1 HBase Write Path</h3><p>The client doesn’t write data directly into HFile on HDFS. Firstly it writes data to WAL(Write Ahead Log), and Secondly, writes to MemStore shared by a HStore in memory.<br><a id="more"></a><br><a href="http://tinypic.com?ref=20i77l0" target="_blank" rel="external"><img src="http://i58.tinypic.com/20i77l0.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure4.1 HBase Write Path</p>
+<p><strong>MemStore</strong> is a write buffer(64MB by default). When the data in MemStore accumulates its threshold, data will be flush to a new HFile on HDFS persistently. Each Column Family can have many HFiles, but each HFile only belongs to one Column Family.<br><strong>WAL</strong> is for data reliability, WAL is persistent on HDFS and each Region Server has only on WAL. When the Region Server is down before MemStore flush, HBase can replay WAL to restore data on a new Region Server.<br>A data write completes successfully only after the data is written to WAL and MemStore.</p>
+<h3 id="4-2_HBase_Read_Path">4.2 HBase Read Path</h3><p>As shown in Figure 4.2, it’s the read path of HBase.<br>1. Client will query the MemStore in memory, if it has the target row.<br>2. When MemStore query failed, client will hit the BlockCache.<br>3. After the MemStore and BlockCache query failed, HBase will load HFiles into memory which may contain the target row info.<br>The MemStore and BlockCache is the mechanism for real time data access for distributed large data.<br><strong>BlockCache is a LRU(Lease Recently Used) priority cache.</strong> Each RegionServer has a single BlockCache. It keeps frequently accessed data from HFile in memory to reduce disk data reads. The “Block”(64KB by default) is the smallest index unit of data or the smallest unit of data that can be read from disk by one pass.<br>For random data access, small block size is preferred, but block index consumes more memory. And for sequential data access, large block size is better, fewer index save more memory.</p>
+<p><a href="http://tinypic.com?ref=290x9qt" target="_blank" rel="external"><img src="http://i61.tinypic.com/290x9qt.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 4.2 HBase Read Path</p>
+<h3 id="4-3-HBase_Housekeeping:_HFile_Compaction">4.3.HBase Housekeeping: HFile Compaction</h3><p>The data of each column family is flush into multiple HFiles. Too many HFiles means many disk data reads and lower the read performance. Therefore, HBase do HFile compaction periodically.<br><a href="http://tinypic.com?ref=2nk85xj" target="_blank" rel="external"><img src="http://i62.tinypic.com/2nk85xj.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure4.3 HFile Compaction</p>
+<p><strong>➢Minor Compaction</strong><br>It happens on multiple HFiles in one HStore. Minor compaction will pick up a couple of adjacent small HFiles and rewrite them into a larger one.<br>The process will keep the deleted or expired cells. The HFile selection standard is configurable. Since minor compaction will affect HBase performace, there is an upper limit on the number of HFiles involved (10 by default).<br><strong>➢Major Compaction</strong><br>Major Compaction compact all HFiles in a HStore(Column Family) into one HFile. It is the only chance to delete records permanently. Major Compaction will usually have to be triggered manually for large clusters.<br>Major Compaction is not region merge, it happens to HStore which will not result in region merge.</p>
+<h3 id="4-4_HBase_Delete">4.4 HBase Delete</h3><p>When HBase client send delete request, the record will be marked “tombstone”, it is a “predicate deletion”, which is supported by LSM-tree. Since HFile is immutable, deletion isn’t available for HFile on HDFS. Therefore, HBase adopts major compaction(Section 4.3) to clean up deleted or expired records.</p>
+<h3 id="4-5_Region_Assignment">4.5 Region Assignment</h3><p>It is a main task of HMaster:<br>1. HMaster invoke the AssignmentManager to do region assignment.<br>2. AssignmentManager checks the existing region assignments in .META.<br>3. If region assignment is valid, then keep the region.<br>4. If region assignment is invalid, then the LoadBalancerFactory will create a DefaultLoadBalancer<br>5. DefaultLoadBalancer will assign the new region randomly to a RegionServer<br>6. Update the assignment to .META.<br>7. The RegionServer open the new region</p>
+<h3 id="4-6_Region_Split">4.6 Region Split</h3><p>Region split is the work of RegionServer, not participated by HMaster. When a region in a RegionServer accumulates over size threshold, RegionServer will split the region into half.<br>1. RegionServer offline the region to be split.<br>2. RegionServer split the region into two half<br>3. Update new daughter regions info to .META.<br>4. Open the new daughter regions.<br>5. Report the split info to HMaster.</p>
+<h3 id="4-7_Region_Merge">4.7 Region Merge</h3><p>A RegionServer can’t have too many regions, because too many regions bring large cost of memory and lower the performance of RegionServer. Meanwhile, HMaster can’t handle load balance with too many regions.<br>Therefore, when the number of regions is over a threshold, region merge is trigged. Region Merge is joined by RegionServer and HMaster.<br>1. Client send RPC region merge request to HMaster<br>2. HMaster moves regions together to the same RegionServer where the more heavily loaded region resided.<br>3. HMaster send request to the RegionServer to run region merge.<br>4. The RegionServer offline the regions to be merged.<br>5. The RegionServer Merge the regions on the local file system.<br>6. Delete the meta info of the merging regions on .META. table, add new meta info to .META. table.<br>7. Open the new merged region<br>8. Report the merge to HMaster</p>
+<h3 id="4-8_Auto_Failover">4.8 Auto Failover</h3><h4 id="4-8-1_RegionServer_Failover">4.8.1 RegionServer Failover</h4><p>When a region server fails, HMaster will do failover automatically.<br>1. RegionServer is down<br>2. HMaster will detect the unavailable RegionServer when there is no heartbeat report.<br>3. HMaster start region reassignment, detect that the region assignment is invalid, then re-assign the regions like the region assignment sequence.</p>
+<h4 id="4-8-2_Master_Failover">4.8.2 Master Failover</h4><p>In centralized architecture style, the SPOF is a problem, you may ask How does HBase will do when HMaster failed? There two safeguards for SPOF:<br><strong>1. Multi-Master environment</strong><br>HBase can run in multi-master cluster. There is only one active master, when the master is down, the remaining master will take over the master role.<br>It looks like Hadoop HDFS new feature high availability, a standby NameNode will take over the NameNode role when the active one failed.<br><strong>2. Catalog tables are on RegionServers</strong><br>When client send read/write request to HBase, it talks directly to RegionServer, not HMaster. Hence, the cluster can be steady for a time without HMaster. But it requires that the HMaster failover as soon as possible, HMaster is the vital of the cluster.</p>
+<h4 id="4-9_Data_Replication">4.9 Data Replication</h4><p>For data reliability, HBase replicates data blocks across the cluster. This is achieved by Hadoop HDFS.<br>By default, there 3 replicas:<br>1. The First replica is written to local node.<br>2. The second replica is written to a random node on a different rack.<br>3. The third replica is on a random node on the same rack<br>HBase stores HFiles and WAL on HDFS. When RegionServer is down, new region assignment can be done by read replicas of HFile and replay the replicas the WAL. In short, HBase has high reliability.</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="4-_Process_Architecture">4. Process Architecture</h2><h3 id="4-1_HBase_Write_Path">4.1 HBase Write Path</h3><p>The client doesn’t write data directly into HFile on HDFS. Firstly it writes data to WAL(Write Ahead Log), and Secondly, writes to MemStore shared by a HStore in memory.<br>]]>
+    
+    </summary>
+    
+      <category term="Big Data" scheme="http://www.cyanny.com/tags/Big-Data/"/>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[HBase Architecture Analysis Part1(Logical Architecture)]]></title>
+    <link href="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/"/>
+    <id>http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/</id>
+    <published>2014-03-13T13:18:32.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="1-_Overview">1. Overview</h2><p>Apache HBase is an open source column-oriented database. <strong>It is often described as a sparse, consistent, distributed, multi-dimensional sorted map.</strong> HBase is modeled after Google’s “Bigtable: A distributed Storage System for Structured Data”, which can host very large tables with billions of rows, X millions of columns.<br><a id="more"></a><br>HBase is a No-SQL database, and it has very different paradigms from traditional RDBMS, which speaks SQL and enforce relationships upon data. HBase stores structured and semi-structured data with key-value style. Each row in HBase is located by<strong> &lt;Rowkey, Column Family, Column Qualifier, Version&gt;.</strong></p>
+<p>HBase stores data distributed on Hadoop HDFS shipped with random data access. HDFS is Hadoop Distributed File System, which stores big data sets with streaming style. It has high reliability, scalability and availability but the cons is that HDFS split data into blocks (64MB or 128MB), it can handle large chucks of data very well, but not very well for small piece of data and low-latency data access. In other words, HDFS isn’t fit for online real time read and write, and that’s the meaning of HBase. HBase goal is to make use of cloud distributed data storage for online real time data access.<br>The blog analyzes the architecture of HBase with the method of “4+1” views by Kruthten.</p>
+<h2 id="2-_Use_Case_View">2. Use Case View</h2><p><a href="http://tinypic.com?ref=346rmhh" target="_blank" rel="external"><img src="http://i60.tinypic.com/346rmhh.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 2.1 User Case View of HBase<br>The figure 2.1 shows the use case view of HBase. Since from the architecture view, the figure gives more details about the main features of HBase:<br>As shown on figure 2.1, the main features of HBase are as follows:<br><strong>1. For User:</strong></p>
+<ul>
+<li><strong>Read/Write big data in real time:</strong> HBase provides transparent and simple interface for user. User has no need to care about details about data transforming.</li>
+<li><strong>Manage Data Model:</strong> User Need to create and manage column-oriented data model about business logic, and HBase provide Interface for them to do management.</li>
+<li><p><strong>Manage System:</strong> User can manually configure and monitor the status of HBase<br><strong> 2. For the System</strong></p>
+</li>
+<li><p><strong>Store data distributed on HDFS:</strong> HBase has great scalability and reliability based on HDFS.</p>
+</li>
+<li><strong> Data random online, real time access:</strong> HBase provides block cache and index on files for real time queries.</li>
+<li><strong>Automatic Data Sharding:</strong> HBase partitions big data automatically on distributed node.</li>
+<li><strong>Automatic failover:</strong> Since hardware failure on clusters is inevitable, HBase can failover automatically for high reliability and availability.</li>
+</ul>
+<h2 id="3-_Logical_Architecture">3. Logical Architecture</h2><h3 id="3-1_High_Level_Architecture_and_Style">3.1 High Level Architecture and Style</h3><p><a href="http://tinypic.com?ref=2eezt6x" target="_blank" rel="external"><img src="http://i60.tinypic.com/2eezt6x.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.1 High Level Architecture for HBase<br>As shown in Figure3.1, the HBase architecture is layered overall, layered architecture style is a typical style for database.<br><strong>1. Layered Architecture Style</strong><br>➢<strong> Client Layer:</strong> The layer is for user, HBase provides easy-to-use java client API, and ships with non-java API as well, such as shell, Thrift, Avro and REST.<br>➢ <strong>HBase Layer:</strong> The layer is the core logic of HBase. Overall, HBase has two important components: HMaster and RegionServer. We will discuss them later.<br>Moreover, another important component is Zookeeper, which is a distributed coordination service modeled after Google’s Chubby. It’s another open source project under Apache.<br>➢ <strong>Hadoop HDFS Layer:</strong> HBase build on top of HDFS, which provides distributed data storage and data replication.</p>
+<p><strong>2. Master-Slave Architecture Style</strong><br>For distributed applications, how to handle data blocks is a key point. There are two typical styles: <strong>centralized and non-centralized</strong>. Centralized mode is very available for scalability and load balancer, but there is Single Pont of Failure(SPOF) problem and performance bottleneck on the master node. Non-centralized mode has no SPOF problem and performance bottleneck, but not very easy to do load balance and there is data consistent problem.<br>HBase utilizes Centralized Mode: Master-Slave Style. BTW, Hadoop is also master-slave. The architecture style in Hadoop ecosystem is kind of consistent master-slave style.<br><a href="http://tinypic.com?ref=ieff35" target="_blank" rel="external"><img src="http://i62.tinypic.com/ieff35.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.2 Master-Slave Architecture Style of HBase<br>As shown in figure 3.2:</p>
+<ul>
+<li><strong>HMaster</strong> is the master in such style, which is responsible for RegionServer monitor, region assignment, metadata operations, RegionServer Failover etc. In a distributed cluster, HMaster runs on HDFS NameNode.</li>
+<li><strong>RegionServer</strong> is the slave, which is responsible for serving and managing regions. In a distributed cluster, it runs on HDFS DataNode.</li>
+<li><strong>Zookeeper</strong> will track the status of Region Server, where the root table is hosted. Since HBase 0.90.x, it introduces an even more tighter integration with Zookeeper. The heartbeat report from Region Server to HMaster is moved to Zookeeper, that is zookeeper has the responsibility of tracking Region Server status. Moreover, Zookeeper is the entry point of client, which enable query Zookeeper about the location of the region hosting the –ROOT- table.</li>
+</ul>
+<h3 id="3-2_HBase_Data_Model">3.2 HBase Data Model</h3><p>HBase data model is Column-Family-Oriented. Some special characteristics of HBase data model is as follows:<br>➢ <strong>Key-Value store:</strong> Each cell in a table is specified by the four dimensional key: . The table will not store null values like RDBMS, it works well for large sparse table.<br>➢ <strong>Sorted by key, index only on key.</strong> Row key design is the only most important thing in HBase Schema Design.<br>➢ <strong>Each cell can store different versions,</strong> specified by Timestamp by default<br>➢ The column qualifier is<strong> schema-less,</strong> can be changed during run-time<br>➢ The column qualifier and value is treated a<strong>s arbitrary bytes</strong><br><a href="http://tinypic.com?ref=8wmlhj" target="_blank" rel="external"><img src="http://i58.tinypic.com/8wmlhj.jpg" alt="Image and video hosting by TinyPic"></a><br>Table 3.1 The logical view of data model<br>As shown in Table 3.1, is a logical view of a big table, the table is parse, each row has a unique row key, and the table has three column family: cf1, cf2, cf3. cf1 has two qualifiers: q1-1, q1-2. q1-1 on timestamp t1 has value v1.<br><a href="http://tinypic.com?ref=14smvbr" target="_blank" rel="external"><img src="http://i61.tinypic.com/14smvbr.jpg" alt="Image and video hosting by TinyPic"></a><br>Table 3.2 The physical view of data model<br>In RDBMS, a big table as shown in Table 3.1 will store a lot of null values, but for HBase is not, key-value styles make HBase store only non-empty values as shown in Table3.2. It’s the physical view, a table is partitioned by Column Family, each Column Family is stored in a HStore in a table region on a Region Server.<br>Since the main purpose of the report is architecture analysis, the table design of HBase will not discuss in detail, you can refer to the “HBase in Action”</p>
+<h3 id="3-3_HBase_Distributed_Mode">3.3 HBase Distributed Mode</h3><h4 id="3-3-1_Big_Table_Splitting">3.3.1 Big Table Splitting</h4><p>HBase can run on local file system, called “standalone mode” for development and testing. For production, HBase should run on cluster on top of HDFS. Big tables are split and stored across the cluster.<br><a href="http://tinypic.com?ref=16h0rdk" target="_blank" rel="external"><img src="http://i62.tinypic.com/16h0rdk.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.3 Region split on big table<br>A table is split into roughly equal size. Regions are assigned to Region Servers across the cluster. And Region Servers host roughly equal number of regions. As shown in Figure3.3, Table A is split into four regions, each of which is assigned to a Region Server.</p>
+<h4 id="3-3-2_Region_Server">3.3.2 Region Server</h4><p>As shown in figure3.4, the Region Server Architecture. It contains several components as follows:</p>
+<ul>
+<li><strong>One Block Cache</strong>, which is a LRU priority cache for data reading.</li>
+<li><strong>One WAL(Write Ahead Log):</strong> HBase use Log-Structured-Merge-Tree(LSM tree) to process data writing. Each data update or delete will be write to WAL first, and then write to MemStore. WAL is persisted on HDFS.</li>
+<li><strong>Multiple HRegions:</strong> each HRegion is a partition of table as we talk about in 3.3.1.</li>
+<li><strong>In a HRegion:</strong> Multiple HStore: Each HStore is correspond to a Column Family</li>
+<li><strong>In a HStore:</strong>  <strong>One MemStore:</strong> store updates or deletes before flush to disk. <strong>Multiple StoreFile</strong>, each of which is correspond to a HFile</li>
+<li><strong>A HFile</strong> is immutable, flushed from MemStore, persisted on HDFS<br><a href="http://tinypic.com?ref=c28l" target="_blank" rel="external"><img src="http://i60.tinypic.com/c28l.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure3.4 Region Server Architecture</li>
+</ul>
+<h4 id="3-3-3_-ROOT-_and_-META_table">3.3.3 -ROOT- and .META table</h4><p>Since table are partitioned and store across the cluster. How can the client find which region hosting a specific row key range? There are two special catalog tables, -ROOT- and .META. table for this.<br>➢<strong>.META. table</strong>: host the region location info for a specific row key range. The table is stored on Region Servers, which can be split into as many region as required.<br>➢<strong>-ROOT- table:</strong> host the .META. table info. There is only one Region Server store the –ROOT- table. And the Root region never split into more than one region.<br>The –ROOT- and .META. table structure logically looks as a B+ tree as shown in figure 3.5.<br>The RegionServer RS1 host the –ROOT- table, the .META. table is split into 3 regions: M1, M2, M3, hosted on RS2, RS3, RS1. Table T1 contains three regions, T2 contains four regions. For example, T1R1 is hosted on RS3, the meta info is hosted on M1.<br><a href="http://tinypic.com?ref=soa649" target="_blank" rel="external"><img src="http://i60.tinypic.com/soa649.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.5 –ROOT-, .META., and User table viewed as B+ tree</p>
+<h4 id="3-3-4_Region_Lookup">3.3.4 Region Lookup</h4><p>How can client find where the –ROOT- table is? Zookeeper does this work, and how to find the region where the target row is. Even though it belongs to process architecture, it is related to the section, hence we discuss it in advance. let’s look at an example as shown in figure3.6.<br>1. Client query Zookeeper: where is the –ROOT-? On RS1.<br>2. Client request RS1: Which meta region contains row: T10006? META1 on RS2<br>3. Client request RS2: Which region can find the row T10006? Region on RS3<br>4. Client get the from the region on RS3<br>5. Client cache the region info, and is refreshed until the region location info changed.<br><a href="http://tinypic.com?ref=30ml56q" target="_blank" rel="external"><img src="http://i60.tinypic.com/30ml56q.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.6 Region Lookup Process</p>
+<h3 id="3-4_HBase_Communication_Protocol">3.4 HBase Communication Protocol</h3><p><a href="http://tinypic.com?ref=2zggmrk" target="_blank" rel="external"><img src="http://i61.tinypic.com/2zggmrk.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.7 HBase Communication Protocol<br>In HBase 0.96 release, HBase has moved its communication protocol to<strong> Protocol Buffer.</strong> Protocol buffer is a method of serializing structured data developed by Google. Google uses it for almost all of its internal RPC protocol and file formats.<br>Protocol buffer involves an Interface Description Language for cross language service like Apache Thrift.<br>Basically, the communication between sub-systems of HBase is RPC, which is implemented in Protocol Buffer.<br>The main protocols are as follows:<br>➢ <strong>MasterMonitor Protocol:</strong> client use it to monitor the status of HMaster<br>➢ <strong>MasterAdmin Protocol:</strong> client use it to do management for HMaster, such as region manually management, table meta info management.<br>➢<strong> Admin Protocol:</strong> client use it communicate with HRegionServer, to do admin work, such as region split, store file compact, WAL management.<br>➢<strong> Client Protocol:</strong> Client use it to read/write to HRegionServer<br>➢ <strong>RegionServerStatus Protocol</strong>: HRegionServer use it to communicate with HMaster: including the request and response of server startup, server fatal error, server status report.</p>
+<h3 id="3-5_Log-Structured_Merge-Trees(LSM-trees)">3.5 Log-Structured Merge-Trees(LSM-trees)</h3><p>No-SQL database usually uses LSM-trees as data storage process architecture. HBase is no exception. As we all known, RDBMS adopts B+ tree to organize its indexes, as shown in Fugure 3.3. These B+ trees are often 3-level n-way balance trees. The nodes of a B+ tree are blocks on disk. So for a update by RDBMS, it likely needs 5 times disk operation. (3 times for B+ tree to find the block of the target row, 1 time for target block read, and 1 time for data update).<br>On RDBMS, data is written randomly as heap file on disk, but random data block decrease read performance. That’s why we need B+ tree index. B+ tree is fit well for data read, but is not efficient for data updates. Given the large distributed data, B+ tree is not the competitor for LSM-trees so far.<br><a href="http://tinypic.com?ref=7286l0" target="_blank" rel="external"><img src="http://i58.tinypic.com/7286l0.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure3.8 B+ tree</p>
+<p>LSM-trees can be viewed as n-level merge-trees. It transforms random writes into sequential writes using logfile and in-memory store. Figure3.9 shows data write process of LSM-trees.<br><a href="http://tinypic.com?ref=2mw8nky" target="_blank" rel="external"><img src="http://i59.tinypic.com/2mw8nky.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.9 LSM-trees</p>
+<p>➢ <strong>Data Write(Insert, update):</strong> Data is written to logfile sequentially first, then to in-memory store, where data is organized as sorted tree, like B+ tree. When the in-memory store is filled up, the tree in the memory will be flushed to a store file on disk. The store files on disk is arranged like B+ tree, as the C1 Tree shown in Figure 3.9 . But store files are optimized for sequential disk access.<br>➢<strong>Data Read: I</strong>n-memory store is searched first. Then search the store files on disk.<br>➢<strong>Data Delete:</strong> Give a data record a “delete marker”, system background will do housekeeping work by merging some store files into a larger one to reduce disk seeks. A data record will be deleted permanently during the housekeeping.<br>LSM-trees’ data updates are operated in memory, no disk access, it’s faster than B+ tree. When the data read is always on the data set that is written recently, LSM-trees will reduce disk seeks, and improve performance. When disk IO is the cost we must consider, LSM-trees is more suitable than B+ tree.</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="1-_Overview">1. Overview</h2><p>Apache HBase is an open source column-oriented database. <strong>It is often described as a sparse, consistent, distributed, multi-dimensional sorted map.</strong> HBase is modeled after Google’s “Bigtable: A distributed Storage System for Structured Data”, which can host very large tables with billions of rows, X millions of columns.<br>]]>
+    
+    </summary>
+    
+      <category term="Big Data" scheme="http://www.cyanny.com/tags/Big-Data/"/>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用]]></title>
+    <link href="http://www.cyanny.com/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/"/>
+    <id>http://www.cyanny.com/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/</id>
+    <published>2014-02-27T08:00:42.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>项目如果没有采用Java开发，难道就不能用HBase了么？程序猿不会善罢甘休的，有什么语言就会有什么API存在，我还觉得用Java配置时各种缺包错误很烦呢，记得《数学之美》中曾说道：“做技术有术和道两个层面”，知道HBase的架构和一些底层细节是”道”，而使用各种配置和API开发应用则是”术”，而我们就来试试非Java连接HBase。<br>HBase的第三方接口有Shell, Java, REST和Thrift，可以参考《HBase in Action》chapter 6, REST接口比较慢，使用起来并没有Thrift好。而你可能疑惑什么是Thrift:<br><a id="more"></a><br><em><br>Thrift is a “software framework, for scalable cross-language services development…with a code generation engine to build services that work efficiently and seamlessly between C++, Java, Python, PHP, Ruby, Erlang, Perl, Haskell, C#, Cocoa, JavaScript, Node.js…” Thrift allows us to create a thin API in NodeJS to communicate with HBase using a thin socket protocol. The advantages over REST are that the connection stays alive and the protocol is thinner than XML.
+</em><br>Apache Thrift是一个proxy，一个基于RPC的中间件，通过该接口，我们可以采用任何第三方语言连接HBase, 由此可见软件中间件封装底层detail的魅力。HBase提供C++, Java, Python, Node.js的Thrift文件。就Node.js来说，HBase提供了Thrift1和Thrift2， 官方的说法是Thrift2会逐步取代Thrift1， Thrift1我用了，发现命名不规范，而且CRUD并没有全部跑通，之后换用Thrift2，试验后成功了。<br>HBase Thrift API文档很少，官方只找到一个<a href="http://wiki.apache.org/hadoop/Hbase/ThriftApi" title="Python HBase API" target="_blank" rel="external">Python的老版本API</a>, 参考过的博客中采用Thrift2和Node.js的，Google一圈也没有，因此在这里把自己的一些小试验写下来，分享给朋友们，如有不对之处，还请指正。</p>
+<h3 id="一、环境配置">一、环境配置</h3><p>1. 系统要求<br>*nix系统，我是Max OX 10.9，因此在配置上也是以Mac的配置为准。</p>
+<p>2. 安装Hadoop2.2.0和HBase 0.96.1，并下载HBase 0.96.1的源码到本地，并解压到本地<br>可以参考我之前的两个配置文章：<br><a href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part1/" title="Set up Hadoop 2.2 and HBase 0.96 part1" target="_blank" rel="external">Set up Hadoop 2.2 and HBase 0.96 part1</a><br><a href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part2/" title="Set up Hadoop 2.2 and HBase 0.96 part2" target="_blank" rel="external">Set up Hadoop 2.2 and HBase 0.96 part2</a></p>
+<p>3. Mac需要安装brew, Ubuntu用apt-get就可以</p>
+<p>4. 安装thrift<br>[shell]<br>$ brew install thrift #Maybe cost a lot of time<br>$ thrift -version<br>Thrift version 0.9.1<br>[/shell]</p>
+<p>5. 下载 [Node-HBase-Thrift2]<br>这是我写的使用HBase Thrift2接口的Demo，可以使用该Demo进行测试。<br>[shell]<br>$ git clone <a href="https://github.com/lgrcyanny/Node-HBase-Thrift2" target="_blank" rel="external">https://github.com/lgrcyanny/Node-HBase-Thrift2</a><br>[/shell]</p>
+<p>6. 生成HBase Thrift的相关文件<br>[shell]<br>$ cd Node-HBase-Thrift2<br>$ thrift —gen js:node path-to-hbasesrc/hbase-0.96.1-src/hbase-hrift/src/main/resources/org/apache/hadoop/hbase/thrift2/Hbase.thrift</p>
+<h1 id="then_you_will_get_gen-nodejs_directory">then you will get gen-nodejs directory</h1><p>[/shell]<br>编译生成连接Thrift的js文件，需要使用HBase 0.96.1源码<br>BTW, 在你下载的Node-HBase-Thrift2包中，已经有生成的gen-nodejs文件夹，如果你在生成Thrift相关文件时出现任何问题，可以尝试使用这gen-nodejs文件夹下编译好的文件。</p>
+<p>8. npm安装thrift包<br>[shell]<br>$ npm install thrift<br>[/shell]</p>
+<p>9. 打开HDFS，HBase, HBase Thrift2接口<br>[shell]<br>$ start-dfs.sh<br>$ start-hbase.sh<br>$ hbase thrift2 start -f #Use framed transport， This transport is required when using a non-blocking server. It sends data in frames, where each frame is preceded by length information. Node.js is no-blocking server, we must use &quot;-f&quot; option, or connection lost.<br>$ jps<br>23835 HMaster<br>23764 HQuorumPeer<br>24109 ThriftServer<br>23556 SecondaryNameNode<br>24264 Jps<br>23384 NameNode<br>23927 HRegionServer<br>23463 DataNode<br>[/shell]</p>
+<p>10.插入测试数据<br>[shell]<br>$ hbase shell<br>&gt; put ‘users’, ‘TheRealMT’, ‘info:email’, ‘mark@gmail.com’<br>&gt; put ‘users’, ‘TheRealMT’, ‘info:passoword’, ‘abc123’<br>&gt; put ‘users’, ‘TheRealMT’, ‘info:name’, ‘Mark Twain’<br>&gt; put ‘users’, ‘wwzyhao’, ‘info:count’, 1<br>&gt; put ‘users’, ‘wwzyhao’, ‘info:passowrd’, 7818271<br>&gt; put ‘users’, ‘wwzyhao’, ‘info:email’, 7818271<br>&gt; put ‘users’, ‘wwzyhao’, ‘info:gender’, ‘male’<br>&gt; scan ‘users’<br>ROW                                      COLUMN+CELL<br> TheRealMT                               column=info:email, timestamp=1392811829718, value=mark@gmail.com<br> TheRealMT                               column=info:name, timestamp=1392811829718, value=Mark Twain<br> TheRealMT                               column=info:password, timestamp=1392814983344, value=abc123<br> wwzyhao                                 column=info:count, timestamp=1393489157537, value=male<br> wwzyhao                                 column=info:email, timestamp=1393407097540, value=sks66782@gmail.com<br> wwzyhao                                 column=info:gender, timestamp=1393489039523, value=male<br> wwzyhao                                 column=info:password, timestamp=1393416922377, value=7612111<br>2 row(s) in 0.0560 seconds<br>[/shell]</p><p></p>
+<h3 id="二、使用Thrift2">二、使用Thrift2</h3><p>为什么不是Thrift1呢？确实，HBase 0.96.1中提供了两个编译文件thrift, thrift2, 前者我们称之为thrift1，我最初使用的是Thrift1，二者最大的痛处是没有文档，官方文档寥寥无几，有一种孤军深入的感觉。不过，API们都是相似的，语义相同，语言不同罢了，这时候代码就是文档。Thrift1的代码规范不如Thrift2，Thrift2更接近Java实现的API调用方式，在使用Thrift1后觉得不好用，就弃用之，投奔Thrift2了。<br>在完成了配置后，我们开始代码了：<br>HBase提供的CRUD操作是经典的：Put, Get, Delete, Scan和Increment</p>
+<h4 id="1-_HBase_Get">1. HBase Get</h4><p>[javascript]<br>var thrift = require(‘thrift’);<br>var HBase = require(‘./gen-nodejs/THBaseService’);<br>var HBaseTypes = require(‘./gen-nodejs/hbase_types’);</p>
+<p>var connection = thrift.createConnection(‘localhost’, 9090, {<br>  transport: thrift.TFramedTransport,<br>  protocol: thrift.TBinaryProtocol<br>});</p>
+<p>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);</p>
+<p>  // row is rowid, columns is array of TColumn, please refer to hbase_types.js<br>  var tGet = new HBaseTypes.TGet({row: ‘TheRealMT’,<br>    columns: [new HBaseTypes.TColumn({family: ‘info’})]});<br>  client.get(‘users’, tGet, function (err, data) {<br>    if (err) {<br>      console.log(err);<br>    } else {<br>      console.log(data);<br>    }<br>    connection.end();<br>  });</p>
+<p>});</p>
+<p>connection.on(‘error’, function(err){<br>  console.log(‘error’, err);<br>});<br>[/javascript]</p>
+<p>我在demo中分文件展示了这5种操作，因为每个操作是以event的形式绑定到connection上，如果将所有的操作都写到：<br>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);<br>  // …<br>});<br>[/javascript]<br>运行时connection.end()后，会出现”Write after end”的Error，我觉得分文件封装是更好的方式。</p>
+<h4 id="2-_HBase_Put">2. HBase Put</h4><p>这个操作是向HBase写入数据, 包括更新和插入。<br>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);</p>
+<p>  var tPut = new HBaseTypes.TPut({row: ‘wwzyhao’,<br>    columnValues: [<br>    new HBaseTypes.TColumnValue({family: ‘info’, qualifier: ‘hobbies’, value: ‘music’}),<br>    new HBaseTypes.TColumnValue({family: ‘info’, qualifier: ‘name’, value: ‘Thomas Zhang’})<br>    ]});<br>  client.put(‘users’, tPut, function (err) {<br>    if (err) {<br>      console.log(err);<br>      return;<br>    }<br>    console.log(‘success’);<br>    connection.end();<br>  });<br>});<br>[/javascript]</p>
+<h4 id="3-_HBase_Delete">3. HBase Delete</h4><p>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);</p>
+<p>  // Please run the command in shell first: put ‘users’, ‘wwzyhao’, ‘info:gender’, ‘male’<br>  var tDelete = new HBaseTypes.TDelete({row: ‘wwzyhao’,<br>   columns: [new HBaseTypes.TColumn({family: ‘info’, qualifier: ‘gender’})]});<br>  client.deleteSingle(‘users’, tDelete, function (err) {<br>    if (err) {<br>      console.log(err);<br>      return;<br>    } else {<br>      console.log(‘delete success’);<br>    }<br>    connection.end();<br>  });<br>});<br>[/javascript]</p>
+<h4 id="4-_HBase_Scan">4. HBase Scan</h4><p>Get操作本质上是基于Scan的，Get只能获取单行的数据，Scan可以获取多行的数据。<br>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);&lt;/p&gt;</p>
+<p>  var tScanner = new HBaseTypes.TScan({startRow: ‘TheRealMT’,<br>    columns: [new HBaseTypes.TColumn({family: ‘info’})]});<br>  client.openScanner(‘users’, tScanner, function (err, scannerId) {<br>    if (err) {<br>      console.log(err);<br>      return;<br>    }<br>    console.log(‘scannerid : ‘ + scannerId);<br>    client.getScannerRows(scannerId, 10, function (serr, data) {<br>      if (serr) {<br>        console.log(serr);<br>        return;<br>      }<br>      console.log(data);<br>    });<br>    client.closeScanner(scannerId, function (err) {<br>      if (err) {<br>        console.log(err);<br>      }<br>    });<br>    connection.end();<br>  });<br>});<br>[/javascript]</p>
+<h4 id="5-_HBase_Increment">5. HBase Increment</h4><p>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);</p>
+<p>  // put ‘users’, ‘wwzyhao’, ‘info’, ‘count’, 1<br>  var tIncrement = new HBaseTypes.TIncrement({<br>    row:’wwzyhao’,<br>    columns: [new HBaseTypes.TColumn({family: ‘info’, qualifier: ‘count’})]<br>  });<br>  client.increment(‘users’, tIncrement, function (err) {<br>    if (err) {<br>      console.log(err);<br>      return;<br>    }<br>    console.log(‘increment success.’);<br>    connection.end();<br>  });<br>});<br>[/javascript]</p>
+<h3 id="References">References</h3><p>1.<a href="http://dailyjs.com/2013/07/04/hbase/" target="_blank" rel="external">Getting Started with HBase and Thrift for Node</a><br>2. HBase in Action<br>3. <a href="http://blog.evernote.com/tech/2012/12/20/building-apache-thrift-on-mac-os-x/" target="_blank" rel="external">building-apache-thrift-on-mac-os-x</a><br>4. <a href="https://wiki.apache.org/hadoop/Hbase/ThriftApi" title="Thrift API" target="_blank" rel="external">Thrift API</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>项目如果没有采用Java开发，难道就不能用HBase了么？程序猿不会善罢甘休的，有什么语言就会有什么API存在，我还觉得用Java配置时各种缺包错误很烦呢，记得《数学之美》中曾说道：“做技术有术和道两个层面”，知道HBase的架构和一些底层细节是”道”，而使用各种配置和API开发应用则是”术”，而我们就来试试非Java连接HBase。<br>HBase的第三方接口有Shell, Java, REST和Thrift，可以参考《HBase in Action》chapter 6, REST接口比较慢，使用起来并没有Thrift好。而你可能疑惑什么是Thrift:<br>]]>
+    
+    </summary>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="Learn" scheme="http://www.cyanny.com/tags/Learn/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Revolution——面向对象看黑客帝国]]></title>
+    <link href="http://www.cyanny.com/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/"/>
+    <id>http://www.cyanny.com/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/</id>
+    <published>2014-02-27T02:41:52.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>作者: Thomas Zhang</p>
+<h3 id="前言">前言</h3><p>清楚地记得，第一次看《The Matrix》这部电影是在小学六年级，在一个英语班上，同小伙伴们一起，围着一个20英寸的小电视，一知半解地看完了一部完全没有中文字幕的英文版本。虽然那时的自己，对这个繁复庞杂的世界架构必然一知半解，但纵然如此，惊喜与震撼已经随着剧终Neo手中听筒的落地，而深埋内心。我开始像Mopheus一样的问自己。What is real? How to define real? 我开始问自己，这个世界是否真的有可能是一个Matrix中的映像，周遭的生活，是否真的有可能是镜花水月，空中楼台。转眼十几年过去了。这十几年中，《The Matrix》三部曲一直珍藏在我的硬盘中，时不时翻出来重新品味，每次又都有不一样的体验。[more…]<br>十年后的今天，我已经从一个懵懂的少年，成为一个软件工程专业的学生。不得不说，直到接触了软件，接触了计算机体系结构，接触了面向对象的设计思想，对于这部电影，我才有了一个更深刻，更不一样的理解和体会。而经过这一整个学期对面向对象技术的实papapa践与深入了解，对这部经典的理解，似乎又深入了许多。<br>对于这三部曲，《The Matrix》是开创性的，如疾风骤雨办将一个残酷的真相——现实劈头盖脸的丢到你面前，只留下目瞪口呆的你独自回味着扑面而来的震撼和冲击；《The Matrix ——Reload》是颠覆性的，将你冥思苦想，以为理解了的世界一把推翻，告诉你，真相，其实远远没有那么简单；《The Matrix —— Revolution》是整个三部曲的高潮与结尾，却更是一个开端，那一夜雨战之后，一切都恢复了原装，但是一切，又都变得不同了起来。这篇文章当然不是描述对电影艺术表现抑或情节内容的感受与分析，但是我们仍然要找一个切入点，一个面向对象世界中，和那个电影中的波澜壮阔的世界能够微妙的联系在一起的点。我选择了，Revolution——革命。</p>
+<h3 id="Recolution">Recolution</h3><p>在那个雨夜大战之后，Neo和Smith这一对系统中的异常，终于被抹平，Matrix中的世界，似乎又恢复昔日的平静，一切都回到了原点。但，事实真的是这样么？Revolution，革命，究竟又指的是什么呢？<br>其实事实上，这时候的世界已经发生了本质的变化。还记得《Reload》里面的印度小姑娘Sati么？在从前，一个在系统中本应该被删除的，没有既定目标的冗余程序，现在竟然可以在Architecture眼皮底下自由地玩耍，并且可以完成一项似乎并没有“实用”功能性的代码改写——让夕阳变得美丽——来纪念逝去的人类朋友Neo。这意味着看似恢复原样的Matrix系统其实已经在不经意间完成了一次根本上变化，整个Matrix中，开始允许因为“爱”产生的冗余程序的存在。这是一个近乎根本性的有颠覆意义的改变。<br>也就是说，Revolution并不仅仅指的是在人类的角度上，Neo通过自我牺牲完成了对Zion的拯救，改变了脱离Matrix的人类宿命一样的被屠杀的命运；在另一个层面上，也指的是在Oracle的指引与Neo的协助之下，整个Matrix系统进行了一次根本性的“革命”。<br>更确切的对应到软件体系中，我们应该可以说，在电影中Matrix系统进行了一次大规模的系统热升级，在这次升级中，对整个系统的内存回收机制做出了根本上的修改，以使得系统更好的完成承载作为“电池”的人类思维的需求！<br>在影片中，从Merovingian、Architecture和Oracle的口中，直接间接的，我们可以知道，整个Matrix系统已经先后进行过六次这样的“升级”。这种开发模式，细细想来，与面向对象、敏捷开发中经常应用的迭代式的开发方式，有着异曲同工之处。<br>但是，一个系统要应用迭代开发方式，那么这个系统一定要满足特定的条件。在敏捷系统中，迭代开发需要满足<br>1、在项目开发早期需求可能有所变化<br>2、分析设计人员对应用领域很熟悉<br>3、高风险项目<br>4、用户可不同程度地参与整个项目的开发过程<br>5、使用面向对象的语言或统一建模语言<br>6、使用CASE工具<br>7、具有高素质的项目管理者和软件研发团队<br>其中，面向对象是使用迭代开发方式的必要条件之一。接下来，就来分析一下《The Matrix》世界对应到面向对象方式中的设计。</p>
+<h3 id="The_Desert_of_the_Real">The Desert of the Real</h3><p>Mopheus第一次试图向Neo介绍the Matrix的真相时候告诉他，由于历史信息的缺失，对整个世界的构成和来由并不完全清楚，通过推测，才得以窥知这个世界的秘密，他称之为，the desert of the real。可以想见，如果到了一个人工智能发展如此强大的时代，编程语言的类别或许应该一定会超越目前人类的认知和理解。但是从矩阵世界中发生的故事中，我们其实还是可以管中窥豹，发现很多面向对象的蛛丝马迹。下面，就来一一剖析。</p>
+<p><a href="http://tinypic.com?ref=t4z978" target="_blank" rel="external"><img src="http://i58.tinypic.com/t4z978.jpg" alt="Image and video hosting by TinyPic"></a></p>
+<p>在PB Kruchten经典的论文中可以知道，我们可以通过4+1视对面向对象设计的架构进行描述。部署视图显示的是系统的实际部署情况，它是为了便于理解系统在一组处理节点上的物理分布。所以，这里就先从高层次上，与物理世界关系方面，对矩阵世界的部署视图进行尝试性的描述。<br>上图就是矩阵世界中地球上各个系统的部署视图，可以看出，地表上，机器城维护者作为能源的巨大的分布式电力供应系统，而这个电力系统以人供电，每个人又通过统一的接口连接在Matrix则个虚拟现实系统之中，为系统统一管理、控制。人类反抗组织以地下的Zion为基地，通过庞大的地下管道系统进行反抗机器城的活动，从电池组合Matrix中解救出有意愿脱离Matrix的人类。通过电影中可以得知，上面各个系统之间存在着繁复的交互关系，接下来就用4+1视图中逻辑视图中的类图，来形象的展示各个系统和各个部件之间的关系。</p>
+<p><a href="http://tinypic.com?ref=2monnyf" target="_blank" rel="external"><img src="http://i57.tinypic.com/2monnyf.jpg" alt="Image and video hosting by TinyPic"></a></p>
+<p>上图可见，Matrix系统由两部分组成，接入系统的人，以及保证系统正常运行的各类程序。Architecture与Oracle均是系统程序的一部分，拥有相对于其他程序高得多的权限，并且拥有与机器城交互的能力。每隔一定时间，系统中不稳定的人群中会由Oracle指引和选择出现The One，The One多重继承了程序和人的属性，帮助Matrix完成每一次的系统更新。<br>以上就是从The Matrix电影有限的信息中——the desert of real——中推测出来的，关于Matrix面向对象层次上抽象出来的设计描述。满足了这个前提条件，接下来，让我们回归正题，来讨论Matrix中对于“迭代式开发”技术的应用。</p>
+<h3 id="宿命的迭代">宿命的迭代</h3><p>迭代开发，是面向对象以及目前流行的敏捷开发方式中最常用的一种开发方式。迭代，是快速原型与面向对象技术的结合。在迭代式开发方法中，整个开发工作被组织为一系列的短小的、固定长度的小项目，被称为一系列的迭代。每一次迭代都包括了需求分析、设计、实现与测试。采用这种方法，开发工作可以在需求被完整地确定之前启动，并在一次迭代中完成系统的一部分功能或业务逻辑的开发工作。再通过客户的反馈来细化需求，并开始新一轮的迭代。下面是迭代开发的流程示意图。</p>
+<p><a href="http://tinypic.com?ref=344fkgw" target="_blank" rel="external"><img src="http://i60.tinypic.com/344fkgw.jpg" alt="Image and video hosting by TinyPic"></a><br>暂且不做说明，同时放上the Matrix中系统升级的时间线如下图。</p>
+<p><a href="http://tinypic.com?ref=2csc64p" target="_blank" rel="external"><img src="http://i62.tinypic.com/2csc64p.jpg" alt="Image and video hosting by TinyPic"></a></p>
+<p>图中可以很明显的看出，第一个有着完美世界架构的矩阵很快失败了，正如迭代开发中第一个原型，通常都是抛弃原型，是快速搭建起来的，以获取用户需求为目的的原型。通常，在使用过后，由于修改变更的可能性极大，所以通常会被抛弃而重新设计。而接下来的五次矩阵升级，都是同一版本的提升性升级，the One选择了重建Zion，新版本的矩阵仅仅是清楚了之前的Bug数据，便继续运行。但是Neo，第六次的选择，作出了不同的选择，选择相信爱，拯救Trinity和Zion。最终Neo牺牲了自己，挽救了矩阵世界和人类世界。同时，系统终于加入了决定性的变更——类似人类的情感——爱以及全新的内存回收机制。<br>多么典型的迭代开发流程！<br>由此可以发现，不论是标准的迭代开发的图示，抑或定义，抑或矩阵的升级流程图，FeedBack都起到了极其重要的作用。而Feedback的来源，正是每一任the One，从Zion，这些排斥现有矩阵的反抗者那里获取的。所以，其实一切的一切，不论是从矩阵中的逃脱、Zion中的自由还是最终Zion的获救，其实都是Machine City，为了更好地设计Matrix系统，进行的宿命办的迭代。<br>When some see coincidence, I see consequence. When other see chance, I see cost.<br>其实每次变更，都是一次选择，一次一次机遇，也一定会付出一定的代价。<br>在迭代中，代价由于快速迭代，所以只会影响这一次迭代的原型。<br>而同样的优点，在矩阵中，则被计算机所完美的利用。正如Architecture所说的，我们能够承受每一次系统迭代升级的代价，也随时准备承受这样的代价。<br>机器的精明，确实人类宿命的悲哀。</p>
+<h3 id="接口，机遇">接口，机遇</h3><p>那么，再这样完善的系统精巧的设计中，人类是不是真的就没有机会完成复兴呢？其实人类反击的机遇也恰恰蕴含在这近乎完美的设计之中。<br>在这样一个世界中，Matrix的世界中，人类与机器其实遵循同样的定律生活在一个虚拟的空间中。也就是说，机器和人类的思维，其实共享着同样的接口。面向接口设计的完美实例！这也就意味着，如果信息隐藏做的足够好，那么，既然人无法分辨机器，那么反过来，在Matrix中，自然可以做到让机器无法分辨出人！这不正是人的机遇么~？！<br>在《The Matrix》的动画版《Animatrix》中，描述了这样一幕，人类反抗组织通过私有Matrix，成功的与机器交流，并“招安了”许多机器作为保护自己的助手。同样的枷锁，蕴含在面向对象中的精灵，原来同样可以加诸机器头上！</p>
+<h3 id="结语">结语</h3><p>Architecture：You play a dangerous game!<br>Oracle: Change is always dangerous.<br>Architecture：Just how long,  do you think this peace can last.<br>Oracle: As long as  it can.</p>
+<p>May so be the software system!</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>作者: Thomas Zhang</p>
+<h3 id="前言">前言</h3><p>清楚地记得，第一次看《The Matrix》这部电影是在小学六年级，在一个英语班上，同小伙伴们一起，围着一个20英寸的小电视，一知半解地看完了一部完全没有中文字幕的英文版本。虽然那时的自己]]>
+    </summary>
+    
+      <category term="life" scheme="http://www.cyanny.com/tags/life/"/>
+    
+      <category term="Life" scheme="http://www.cyanny.com/categories/Life/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Set up Hadoop 2.2 and HBase 0.96 part2]]></title>
+    <link href="http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part2/"/>
+    <id>http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part2/</id>
+    <published>2014-02-06T06:09:21.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>在完成<a href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part1/" title="set-hadoop-hbase-part1" target="_blank" rel="external">Hadoop配置</a>后，我们可以开始HBase的安装和配置了。<br>对于HBase，我只想说走对了路就成功了一半，选对了版本就省事好多。之前下载的是0.94版，按照官方的配置，连Standalone都跑不通，纠结了半天，放弃治疗，选用0.96版本，一切顺利。</p>
+<h3 id="配置HBase_Standalone模式">配置HBase Standalone模式</h3><p>1. 前提条件<br>MacOS 10.9<br>Java安装好<br>Standalone模式是单机的，基于Local FileSystem，不需要Hadoop，用于开发或测试。<br>[more…]<br>2. 下载HBase<br><a href="http://apache.fayea.com/apache-mirror/hbase/hbase-0.96.1/" target="_blank" rel="external">hbase-0.96.1-hadoop2-bin.tar.gz </a></p>
+<p>3. 解压安装<br>[shell]<br>$ tar xzvf hbase-0.96.1-hadoop2-bin.tar.gz<br>$ mv hbase-0.96.1-hadoop2 hbase<br>[/shell]<br>同样需要把hbase安装到Home目录下~/hbase, 对于我是/Users/lgrcyanny/hbase</p>
+<p>4. 配置环境变量<br>[shell]<br>$ vim ~/.bashrc</p>
+<h1 id="Config_HBase">Config HBase</h1><p>export HBASE_HOME=/Users/lgrcyanny/hbase<br>export PATH=$PATH:$HBASE_HOME/bin<br>[/shell]</p>
+<p>5. 编辑hbase-site.xml<br>[shell]<br>$ cd ~/hbase<br>$ mkdir -p mydata/hbase<br>$ mkdir -p mydata/zookeeper<br>$ vim conf/hbase-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.rootdir&lt;/name&gt;<br>    &lt;value&gt;file:///Users/lgrcyanny/hbase/mydata/hbase&lt;/value&gt;<br>  &lt;/property&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.dataDir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hbase/mydata/zookeeper&lt;/value&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>6. 编辑hbase-env.sh<br>[shell]<br>$ cd ~/hbase<br>$ vim conf/hbase-env.sh<br>export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/<br>export HBASE_OPTS=&quot;-Djava.security.krb5.realm= -Djava.security.krb5.kdc= -Djava.security.krb5.conf=/dev/null&quot;<br>[/shell]</p>
+<p>7. 关于/etc/hosts<br>对于Ubuntu的用户，需要修改/etc/hosts，将127.0.1.1改为127.0.0.1，因为HBase的环回地址默认是127.0.0.1，但官方的quikstart中提到0.96以后的版本不需要修改，MacOS中确实不用修改，之前用0.94的版本，因为环回地址的问题总是报错也无法修复，这是0.94的bug。如果是Ubuntu用户，可以尝试不修改hosts看能不能跑通。</p>
+<p>8. 启动并测试HBase<br>[shell]<br>$ start-hbase.sh<br>starting master, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-master-Cyanny-MacBook-Air.local.out<br>$ hbase shell<br>&gt; status<br>SLF4J: Class path contains multiple SLF4J bindings.<br>SLF4J: Found binding in [jar:file:/Users/lgrcyanny/hbase/lib/slf4j-log4j12-1.6.4.jar!/org/slf4j/impl/StaticLoggerBinder.class]<br>SLF4J: Found binding in [jar:file:/Users/lgrcyanny/hadoop/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]<br>SLF4J: See <a href="http://www.slf4j.org/codes.html#multiple_bindings" target="_blank" rel="external">http://www.slf4j.org/codes.html#multiple_bindings</a> for an explanation.<br>2014-02-06 14:27:29,472 WARN  [main] util.NativeCodeLoader: Unable to load native-hadoop library for your platform… using builtin-java classes where applicable<br>1 servers, 0 dead, 3.0000 average load<br>&gt; create ‘test’, ‘cf’<br>&gt; put ‘test’, ‘row1’, ‘cf:a’, ‘value1’<br>&gt; list<br>TABLE<br>test<br>1 row(s) in 0.1060 seconds</p>
+<p>=&gt; [&quot;test&quot;]<br>&gt; scan ‘test’<br>ROW                                      COLUMN+CELL<br> row1                                    column=cf:a, timestamp=1391653468438, value=value1<br>1 row(s) in 0.0650 seconds<br>&gt; exit<br>$ stop-hbase.sh<br>stopping hbase……………..<br>[/shell]</p>
+<p>如果上面的步骤完成，HBase的Standalone模式就安装成功。</p>
+<h3 id="配置HBase单机伪分布式">配置HBase单机伪分布式</h3><p>1. 修改hbase-site.xml<br>[shell]<br>$ cd ~/hbase<br>$ vim conf/hbase-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.rootdir&lt;/name&gt;<br>    &lt;value&gt;hdfs://localhost:9000/hbase&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;<br>    &lt;value&gt;true&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt;<br>    &lt;value&gt;localhost&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;dfs.replication&lt;/name&gt;<br>    &lt;value&gt;1&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.clientPort&lt;/name&gt;<br>    &lt;value&gt;2181&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.dataDir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hbase/mydata/zookeeper&lt;/value&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>2. 启动Hadoop和HBase<br>[shell]<br>$ start-dfs.sh<br>$ start-hbase.sh<br>localhost: starting zookeeper, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-zookeeper-Cyanny-MacBook-Air.local.out<br>starting master, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-master-Cyanny-MacBook-Air.local.out<br>localhost: starting regionserver, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-regionserver-Cyanny-MacBook-Air.local.out<br>$ jps<br>11107 HQuorumPeer<br>11427 Jps<br>11180 HMaster<br>11276 HRegionServer<br>9155 SecondaryNameNode<br>9064 DataNode<br>8990 NameNode<br>[/shell]<br>不需要启动yarn, 启动HDFS即可，我们可以看到HBase的伪分布式模式中，启动了内嵌的Zookeeper，启动了Master和RegionServer。</p>
+<p>3. 查看状态<br>查看Master Status： <a href="http://localhost:60010/master-status" target="_blank" rel="external">http://localhost:60010/master-status</a><br>查看Region Server Status： <a href="http://localhost:60030/rs-status" target="_blank" rel="external">http://localhost:60030/rs-status</a></p>
+<p>4. 测试HBase<br>可以按照Standalone模式中的第8步，打开hbase shell进行测试。</p>
+<p>到这里，如果顺利那么就一切都配置好了，可能花费了你1~2个小时，还是要恭喜，我前后花费了2天。<br>Anyway，探索的过程还是很愉快，Good Luck！</p>
+<h4 id="参考">参考</h4><p><a href="http://hbase.apache.org/book/quickstart.html" target="_blank" rel="external">HBase Quick Start</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>在完成<a href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part1/" title="set-hadoop-hbase-part1" target="_blank" rel="external">Hadoop]]>
+    </summary>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Set up Hadoop 2.2 and HBase 0.96 part1]]></title>
+    <link href="http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part1/"/>
+    <id>http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part1/</id>
+    <published>2014-02-06T03:27:54.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>过完春节，新年开始了，闲暇的时光弄了一下Hadoop和HBase，之前也配置过Hadoop，不过是1.x的版本和现在2.2的版本不一样了，HBase的官网推荐使用Hadoop2.x，配置HBase确实花费了点时间，网上的各种教程相似但各异，自己遇到的问题和方法也值得记下来，下次再配置时也可以查看一下。<br><a href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SingleCluster.html" target="_blank" rel="external">Hadoop官方Guide</a>的配置不够详细，需要参考各种博客，以下是我个人配置的方法：</p>
+<h3 id="配置Hadoop">配置Hadoop</h3><p>1. 操作系统<br>我用的是MacOS 10.9， 尽量在配置时使用Linux系统如Ubuntu，用Windows需要下载安装Cygwin，可能会麻烦些。<br>[more…]<br>2. 下载Java<br>到Oracle下载J2SE，1.6版本以上，下载最新版1.7即可。<br>在Mac下安装后，Java的Home路径是：<br>“/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/“<br>而不是很多博客中用的：<br>“/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK”<br>应该是MacOS10.8后有更新了。</p>
+<p>3. 下载Hadoop 2.X<br>我用的版本是Hadoop2.2.0<br><a href="http://apache.fayea.com/apache-mirror/hadoop/common/stable2/" title="Download Hadoop 2.2.0" target="_blank" rel="external">点击下载 hadoop-2.2.0.tar.gz</a></p>
+<p>[shell]<br>$ tar xzvf  hadoop-2.2.0.tar.gz<br>$ mv hadoop-2.2.0 hadoop<br>[/shell]<br>我安装hadoop到路径/Users/lgrcyanny/hadoop，即当前Mac用户的Home目录下，为了方便没有创建新的用户hadoop，在配置时可以自己将“lgrcyanny”替换为自己的用户名。</p>
+<p>4. 配置ssh localhost<br>Hadoop的Master和Slave的通信采用ssh，单机版的Hadoop也需要ssh。<br>Ubuntu用户可以”apt-get install ssh”， mac用户自带ssh<br>[shell]<br>$ ssh-keygen -t rsa # 如果之前配置过GitHub，rsa key是存在的，请不要覆盖即可<br>$ ssh lgrcyanny@localhost mkdir -p .ssh<br>$ cat .ssh/id_rsa.pub | ssh lgrcyanny@localhost ‘cat &gt;&gt; .ssh/authorized_keys’<br>$ ssh lgrcyanny@localhost &quot;chmod 700 .ssh; chmod 640 .ssh/authorized_keys&quot;<br>$ ssh localhost<br>Last login: Thu Feb  6 10:22:40 2014<br>[/shell]</p>
+<p>5. 配置环境变量<br>[shell]<br>$ cd ~<br>$ vim .bashrc</p>
+<h1 id="Java_properties">Java properties</h1><p>export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/<br>export JRE_HOME=$JAVA_HOME/jre<br>export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH<br>export PATH=.:$JAVA_HOME/bin:$JRE_HOME/bin:$PATH</p>
+<h1 id="Hadoop_variables">Hadoop variables</h1><p>export HADOOP_INSTALL=/Users/lgrcyanny/hadoop  # Please change to your installation path<br>export PATH=$PATH:$HADOOP_INSTALL/bin<br>export PATH=$PATH:$HADOOP_INSTALL/sbin<br>export HADOOP_MAPRED_HOME=$HADOOP_INSTALL<br>export HADOOP_COMMON_HOME=$HADOOP_INSTALL<br>export HADOOP_HDFS_HOME=$HADOOP_INSTALL<br>export HADOOP_YARN_HOME=$HADOOP_INSTALL<br>$ source .bashrc<br>[/shell]</p>
+<p>6. 编辑hadoop-env.sh<br>[shell]<br>$ cd ~/hadoop/etc/hadoop<br>$vim hadoop-env.sh</p>
+<h1 id="config_JAVA_HOME_and_HADOOP_OPTS">config JAVA_HOME and HADOOP_OPTS</h1><p>export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/</p>
+<h1 id="HADOOP_OPTS_is_to_get_rid_of_warning_message_&quot;Unable_to_load_realm_info_from_SCDynamicStore_&quot;">HADOOP_OPTS is to get rid of warning message &quot;Unable to load realm info from SCDynamicStore &quot;</h1><p>export HADOOP_OPTS=&quot;-Djava.security.krb5.realm= -Djava.security.krb5.kdc= -Djava.security.krb5.conf=/dev/null&quot;<br>[/shell]</p>
+<p>7. 查看hadoop version<br>[shell]<br>$ hadoop version<br>Hadoop 2.2.0<br>Subversion <a href="https://svn.apache.org/repos/asf/hadoop/common" target="_blank" rel="external">https://svn.apache.org/repos/asf/hadoop/common</a> -r 1529768<br>Compiled by hortonmu on 2013-10-07T06:28Z<br>Compiled with protoc 2.5.0<br>From source with checksum 79e53ce7994d1628b240f09af91e1af4<br>This command was run using /Users/lgrcyanny/hadoop/share/hadoop/common/hadoop-common-2.2.0.jar<br>[/shell]</p>
+<p>8. 编辑core-site.xml<br>[shell]<br>$ cd ~/hadoop<br>$ mkdir -p mydata/tmp<br>$ vim etc/hadoop/core-site.xml</p>
+<h1 id="config_as_following">config as following</h1><p>&lt;configuration&gt;<br>  &lt;property&gt;<br>     &lt;name&gt;fs.default.name&lt;/name&gt;<br>     &lt;value&gt;hdfs://localhost:9000&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hadoop/mydata/tmp&lt;/value&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>9. 编辑yarn-site.xml<br>Hadoop 2.x的特点就是引入了YARN框架，这是和之前Hadoop 1.x不同的方面<br>[shell]<br>$ cd ~/hadoop<br>$ vim etc/hadoop/yarn-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>     &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;<br>     &lt;value&gt;mapreduce_shuffle&lt;/value&gt;<br>  &lt;/property&gt;<br>  &lt;property&gt;<br>     &lt;name&gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&lt;/name&gt;<br>     &lt;value&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;/value&gt;<br>  &lt;/property&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;yarn.nodemanager.resource.memory-mb&lt;/name&gt;<br>    &lt;value&gt;10240&lt;/value&gt;<br>    &lt;description&gt;the amount of memory on the NodeManager in GB&lt;/description&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>10. 编辑mapred-site.xml<br>[shell]<br>$ cd ~/hadoop<br>$ mkdir -p mydata/mapred/temp<br>$ mkdir -p mydata/mapred/local<br>$ mv etc/hadoop/mapred-site.xml.template etc/hadoop/mapred-site.xml<br>$ vim etc/hadoop/mapred-site.xml<br>&lt;configuration&gt;</p>
+<p>  &lt;property&gt;<br>     &lt;name&gt;mapreduce.framework.name&lt;/name&gt;<br>     &lt;value&gt;yarn&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;mapreduce.cluster.temp.dir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hadoop/mydata/mapred/temp&lt;/value&gt;<br>    &lt;description&gt;The temp dir for map reduce&lt;/description&gt;<br>    &lt;final&gt;true&lt;/final&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;mapreduce.cluster.local.dir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hadoop/mydata/mapred/local&lt;/value&gt;<br>    &lt;description&gt;The local dir for map reduce&lt;/description&gt;<br>    &lt;final&gt;true&lt;/final&gt;<br>  &lt;/property&gt;</p>
+<p>&lt;/configuration&gt;<br>[/shell]</p>
+<p>11. 编辑hdfs-site.xml<br>[shell]<br>$ cd ~/hadoop<br>$ mkdir -p mydata/hdfs/namenode<br>$ mkdir -p mydata/hdfs/datanode<br>$ vim etc/hadoop/hdfs-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>     &lt;name&gt;dfs.replication&lt;/name&gt;<br>     &lt;value&gt;1&lt;/value&gt;<br>   &lt;/property&gt;<br>   &lt;property&gt;<br>     &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;<br>     &lt;value&gt;file:/Users/lgrcyanny/hadoop/mydata/hdfs/namenode&lt;/value&gt;<br>   &lt;/property&gt;<br>   &lt;property&gt;<br>     &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;<br>     &lt;value&gt;file:/Users/lgrcyanny/hadoop/mydata/hdfs/datanode&lt;/value&gt;<br>   &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>12. Format HDFS<br>[shell]<br>$ hadoop namenode -format<br>……<br>14/02/06 13:22:41 INFO namenode.NameNode: SHUTDOWN_MSG:<br>/<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br>SHUTDOWN_MSG: Shutting down NameNode at Cyanny-MacBook-Air.local/192.168.1.103<br><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>/<br>[/shell]</p>
+<p>13. 启动Hadoop<br>[shell]<br>$ start-dfs.sh<br>$ start-yarn.sh<br>$ jps #  Java Virtual Machine Process Status Tool<br>10377 Jps<br>10224 NodeManager<br>10146 ResourceManager<br>9155 SecondaryNameNode<br>9064 DataNode<br>8990 NameNode<br>[/shell]<br>Hadoop 1.x采用start-all.sh启动，而Hadoop2.x拆分为start-dfs.sh, start-yarn.sh，我想是因为如果使用HBase时，只需要HDFS的服务，而一般不需要YARN的服务，这样就不会占用太多的内存。</p>
+<p>14. Web查看Hadoop<br>查看HDFS的状态：<a href="http://localhost:50070" target="_blank" rel="external">http://localhost:50070</a><br>查看YARN的状态: <a href="http://localhost:8088" target="_blank" rel="external">http://localhost:8088</a></p>
+<p>15. 测试Hadoop，使用Hadoop的WordCount example<br>[shell]<br>$ cd ~/hadoop<br>$ hadoop jar ./share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar pi 2 5<br>Number of Maps  = 2<br>Samples per Map = 5<br>14/02/06 13:28:39 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform… using builtin-java classes where applicable<br>Wrote input for Map #0<br>Wrote input for Map #1<br>Starting Job<br>14/02/06 13:28:40 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032<br>14/02/06 13:28:41 INFO input.FileInputFormat: Total input paths to process : 2<br>14/02/06 13:28:41 INFO mapreduce.JobSubmitter: number of splits:2<br>………<br>[/shell]<br>你可以通过<a href="http://localhost:8088/cluster" target="_blank" rel="external">http://localhost:8088/cluster</a> 查看MapReduce的运行状态</p>
+<p>Congratulations, Hadoop 2.2.0安装完毕，接下来我们就要开始安装HBase了。</p>
+<h3 id="Trouble_Shooting">Trouble Shooting</h3><p>1. 当启动Hadoop，jps查看后没有datanode怎么办？<br>某一天我遇到这个问题，方法是将datanode和namenode, 以及tmp文件夹删除，重新format，再重启Hadoop。<br>[shell]<br>$ cd ~/hadoop<br>$ stop-dfs.sh<br>$ stop-yarn.sh<br>$ rm -r mydata/hdfs/datanode<br>$ rm -r mydata/hdfs/namenode<br>$ rm -r mydata/tmp<br>$ mkdir -p mydata/tmp<br>$ hadoop namenode -format<br>$ start-dfs.sh<br>$ start-yarn.sh<br>[/shell]</p>
+<h4 id="参考资料">参考资料</h4><p><a href="http://javatute.com/javatute/faces/post/hadoop/2014/setting-hadoop-2.2.0-on-ubuntu-12-lts.xhtml" target="_blank" rel="external">[1] setting-hadoop-2.2.0-on-ubuntu-12-lts</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>过完春节，新年开始了，闲暇的时光弄了一下Hadoop和HBase，之前也配置过Hadoop，不过是1.x的版本和现在2.2的版本不一样了，HBase的官网推荐使用Hadoop2.x，配置HBase确实花费了点时间，网上的各种教程相似但各异，自己遇到的问题和方法也值得记下来，]]>
+    </summary>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Node Express Mysql Scaffolding]]></title>
+    <link href="http://www.cyanny.com/2013/12/18/node-express-mysql-scaffolding/"/>
+    <id>http://www.cyanny.com/2013/12/18/node-express-mysql-scaffolding/</id>
+    <published>2013-12-18T15:29:11.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="Node_Express_MySQL_Scaffolding_Overview">Node Express MySQL Scaffolding Overview</h3><p>There are many node scaffoldings based on Mongoddb, but MySQL is rare. This is a simple scaffolding built on express and mysql.</p>
+<p><a href="https://github.com/lgrcyanny/node-express-mysql-scaffolding" title="node-express-mysql-scaffolding" target="_blank" rel="external">node-express-mysql-scaffolding</a><br>[more…]</p>
+<h3 id="Features">Features</h3><p>1. Register with fullname,username, email, passord, very simple<br>2. Login with <a href="https://npmjs.org/package/passport-local" target="_blank" rel="external">passport-local</a> strategy<br>3. Twitter Bootstrap Support<br>Note: I just want keep the scaffolding clean, no more complex function, and keep it flexible.</p>
+<h3 id="Install">Install</h3><p><strong>NOTE:</strong> You need to have node.js, MySQL Server installed </p>
+<p>1. Clone the project<br>[shell]<br>  $ git clone <a href="https://github.com/lgrcyanny/node-express-mysql-scaffolding.git" target="_blank" rel="external">https://github.com/lgrcyanny/node-express-mysql-scaffolding.git</a><br>  $ npm install<br>  $ cp config/config.disk.js config/config.js<br>[/shell]<br>Please config your MySQL in the <code>config.js</code>;</p>
+<p>2. Install <a href="http://dev.mysql.com/downloads/" target="_blank" rel="external">MySQL server</a></p>
+<p>3. Start MySQL service</p>
+<p>4. Build the database<br>[shell]<br>  $ mysql -u root -p<br>  &gt; create database scaffolding<br>  &gt; quit<br>  $ mysql -u root -pyourpassword scaffolding &lt; scaffolding.sql<br>[/shell]</p>
+<p>5. Start Node.js Server<br>[shell]<br>  $ npm start<br>[/shell]</p>
+<p>6. Then visit <a href="http://localhost:3000/" target="_blank" rel="external">http://localhost:3000/</a></p>
+<h3 id="Related_modules">Related modules</h3><p>Thanks to <a href="https://github.com/madhums/node-express-mongoose-demo" title="node-express-mongoose-demo" target="_blank" rel="external">node-express-mongoose-demo</a>, it’s a great scaffolding, but it still took me 2 days to migrate from MongoDB based scaffolding to MySQL scaffolding, and the node-express-mongoose-demo has too many Login Support which is too complicated.</p>
+<h3 id="Directory_structure">Directory structure</h3><p>-app/<br>  |<strong>controllers/<br>  |</strong>models/<br>  |<strong>mailer/<br>  |</strong>views/<br>-config/<br>  |<strong>routes.js<br>  |</strong>config.js<br>  |<strong>passport.js (auth config)<br>  |</strong>express.js (express.js configs)<br>  |__middlewares/ (custom middlewares)<br>-public/</p>
+<h3 id="Tests">Tests</h3><p>Tests are not shipped now, I will write tests later.<br>[shell]<br>$ npm test<br>[/shell]</p>
+<h3 id="License">License</h3><p>(The MIT License)</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="Node_Express_MySQL_Scaffolding_Overview">Node Express MySQL Scaffolding Overview</h3><p>There are many node scaffoldings based on Mo]]>
+    </summary>
+    
+      <category term="Node.js" scheme="http://www.cyanny.com/tags/Node-js/"/>
+    
+      <category term="Nodejs" scheme="http://www.cyanny.com/categories/Nodejs/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hadoop isn’t Silver Bullet]]></title>
+    <link href="http://www.cyanny.com/2013/12/05/hadoop-isnt-silver-bullet/"/>
+    <id>http://www.cyanny.com/2013/12/05/hadoop-isnt-silver-bullet/</id>
+    <published>2013-12-05T10:28:45.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>Hadoop is a great framework for distributed large data computing. But Hadoop is not the silver bullet. Hadoop fits not very well in such cases as follow:</p>
+<h4 id="1-_Low-latency_Data_Access">1. Low-latency Data Access</h4><p>Applications that require real-time query, and low-latency access to data in tens of milliseconds will not work well with Hadoop.<br>Hadoop is not a substitute for a database. Database index records that will gains low-latency and fast response.<br>But if you really want to replace the database for real time needs, try HBase, which is a column-oriented database for random and real time read/write.[more…]</p>
+<h4 id="2-_Structured_Data">2. Structured Data</h4><p>Hadoop is not fit for structured data with strong relationship. Hadoop works well for semi-structured and unstructured data. It stores data in files, doesn’t index them like RDBMS. Therefore, each ad hoc query for Hadoop is processed by MapReduce job which will bring the latency cost. </p>
+<h4 id="3-_When_data_isn’t_that_big">3. When data isn’t that big</h4><p>How big the data is big enough for Hadoop? The answer is TB or PB. When your analytics data is only tens of GB, Hadoop is heavy. Don’t follow the fashion and use Hadoop, just follow your requirements. </p>
+<h4 id="4-_Too_many_small_files">4. Too many small files</h4><p>When there are too many small files, the NameNode will hit its memory limit where the block map and the metadata are hosted. And to handle the NameNode bottleneck, Hadoop introduces HDFS Federation.</p>
+<h4 id="5-_Too_many_writers_and_too_much_file_updates">5. Too many writers and too much file updates</h4><p>HDFS is in write-once-and-read-many-times way. When there is too much files update needs, Hadoop won’t support that.</p>
+<h4 id="6-_MapReduce_may_not_the_best_choice">6. MapReduce may not the best choice</h4><p>MapReduce is a simple programming model in parallel. But for MapReduce parallelism, you need to make sure each MR job and the data where the job runs on is independent from all the others. Every MR shouldn’t have dependencies.<br>But if you want to do some data sharing during MR, you can do like this:</p>
+<ul>
+<li>Iteration: run multiple MR jobs, with the output of one being the input of the next MR.</li>
+<li>Shared state information. But don’t share information in memory, since each MR job is run on single JVM. </li>
+</ul>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Hadoop is a great framework for distributed large data computing. But Hadoop is not the silver bullet. Hadoop fits not very well in such ]]>
+    </summary>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
+    
+      <category term="Research" scheme="http://www.cyanny.com/tags/Research/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hadoop MapReduce 2 (YARN)]]></title>
+    <link href="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-2-yarn/"/>
+    <id>http://www.cyanny.com/2013/12/05/hadoop-mapreduce-2-yarn/</id>
+    <published>2013-12-05T08:57:01.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>For large clusters with more than 4000 nodes, the classic MapReduce framework hit the scalability problems.<br><strong>Therefore, a group in Yahoo began to design the next generation MapReduce in 2010, and in 2013 Hadoop 2.x releases MapReduce 2, Yet Another Resource Negotiator (YARN) to remedy the sociability shortcoming.</strong><br>The fundamental idea of YARN is to split up the two major functionalities of the JobTracker: resource management (job scheduling) and job monitoring into separate daemons. YARN has a global Resource Manager (RM) and per-application Application Master(AM).[more…]</p>
+<h3 id="YARN_High-level_Overview">YARN High-level Overview</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.1.png" alt="hd7.1">Figure1 YARN High-level Overview</a><br>As shown in Figure1, the YARN involves more entities than classic MapReduce 1 :</p>
+<ul>
+<li>Client, the same as classic MapReduce which submits the MapReduce job.</li>
+<li>Resource Manager, which has the ultimate authority that arbitrates resources among all the applications in the cluster, it coordinates the allocation of compute resources on the cluster.</li>
+<li>Node Manager, which is in charge of resource containers, monitoring resource usage (cpu, memory, disk , network) on the node , and reporting to the Resource Manager.</li>
+<li>Application Master, which is in charge of the life cycle an application, like a MapReduce Job. It will negotiates with the Resource Manager of cluster resources—-in YARN called containers. The Application Master and the MapReduce task in the containers are scheduled by the Resource Manager. And both of them are managed by the Node Manager. Application Mater is also responsible for keeping track of task progress and status. </li>
+<li>HDFS, the same as classic MapReduce, for files sharing between different entities.</li>
+</ul>
+<p>Resource Manager consists of two components: Scheduler and ApplicationsManager.</p>
+<p>Scheduler is in charge of allocating resources. The resource Container incorporates elements such as memory, cup, disk, network etc. Scheduler just has the resource allocation function, has no responsible for job status monitoring. And the scheduler is pluggable, can be replaced by other scheduler plugin-in.</p>
+<p>The ApplicationsManager is responsible for accepting job-submissions, negotiating the first container for executing the application specific Application Master, and it provides restart service when the container fails.<br>The MapReduce job is just one type of application in YARN. Different application can run on the same cluster with YARN framework. That’s the beauty of YARN.</p>
+<h3 id="YARN_MapReduce">YARN MapReduce</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.2.png" alt="hd7.2">Figure2 MapReduce with YARN</a><br>As shown in Figure2, it is the MapReduce process with YARN, there are 11 steps, and we will explain it in 6 steps the same as the MapReduce 1 framework. They are Job Submission, Job Initialization, Task Assignment, Task Execution, Progress and Status Updates, and Job Completion.</p>
+<h4 id="Job_Submission">Job Submission</h4><p>Clients can submit jobs with the same API as MapReduce 1 in YARN. YARN implements its ClientProtocol, the submission process is similar to MapReduce 1.</p>
+<ul>
+<li>The client calls the submit() method, which will initiate the JobSubmmitter object and call submitJobInternel().</li>
+<li>Resource Manager will allocate a new application ID and response it to client.</li>
+<li>The job client checks the output specification of the job</li>
+<li>The job client computes the input splits</li>
+<li>The job client copies resources, including the splits data, configuration information, the job JAR into HDFS</li>
+<li>Finally, the job client notify Resource Manager it is ready by calling submitApplication() on the Resource Manager.</li>
+</ul>
+<h4 id="Job_Initialization">Job Initialization</h4><p> When the Resource Manager(RM) receives the call submitApplication(), RM will hands off the job to its scheduler. The job initialization is as follows:</p>
+<ul>
+<li>The scheduler allocates a resource container for the job, </li>
+<li>The RM launches the Application Master under the Node Manager’s management. </li>
+<li>Application Master initialize the job. Application Master is a Java class named MRAppMaster, which initializes the job by creating a number of bookkeeping objects to keep track of the job progress. It will receive the progress and the completion reports from the tasks. </li>
+<li>Application Master retrieves the input splits from HDFS, and creates a map task object for each split. It will create a number of reduce task objects determined by the mapreduce.job.reduces configuration property.</li>
+<li>Application Master then decides how to run the job. </li>
+</ul>
+<p>For small job, called uber job, which is the one has less than 10 mappers and only one reducer, or the input split size is smaller than a HDFS block, the Application Manager will run the job on its own JVM sequentially. This policy is different from MapReduce 1 which will ignore the small jobs on a single TaskTracker.</p>
+<p>For large job, the Application Master will launches a new node with new NodeManager and new container, in which run the task. This can run job in parallel and gain more performance. </p>
+<p>Application Master calls the job setup method to create the job’s output directory. That’s different from MapReduce 1, where the setup task is called by each task’s TaskTracker.</p>
+<h4 id="Task_Assignment">Task Assignment</h4><p>When the job is very large so that it can’t be run on the same node as the Application Master. The Application Master will make request to the Resource Manager to negotiate more resource container which is in piggybacked on heartbeat calls. The task assignment is as follows:</p>
+<ul>
+<li>The Application Master make request to the Resource Manager in heartbeat call. The request includes the data locality information, like hosts and corresponding racks that the input splits resides on. </li>
+<li>The Recourse Manager hand over the request to the Scheduler. The Scheduler makes decisions based on these information. It attempts to place the task as close the data as possible. The data-local nodes is great, if this is not possible , the rack-local the preferred to nolocal node.</li>
+<li>The request also specific the memory requirements, which is between the minimum allocation (1GB by default) and the maximum allocation (10GB). The Scheduler will schedule a container with multiples of 1GB memory to the task, based on the mapreduce.map.memory.mb and mapreduce.reduce.memory.mb property set by the task.</li>
+</ul>
+<p>This way is more flexible than MapReduce 1. In MapReduce 1, the TaskTrackers have a fixed number of slots and each task runs in a slot. Each slot has fixed memory allowance which results in two problems. For small task, it will waste of memory, and for large task which need more memeory, it will lack of memory.<br>In YARN, the memory allocation is more fine-grained, which is also the beauty of YARE resides in.</p>
+<h4 id="Task_Execution">Task Execution</h4><p>After the task has been assigned the container by the Resource Manger’s scheduler, the Application Master will contact the NodeManger which will launch the task JVM.<br>The task execution is as follows:</p>
+<ul>
+<li>The Java Application whose class name is YarnChild localizes the resources that the task needs. YarnChild retrieves job resources including the job jar, configuration file, and any needed files from the HDFS and the distributed cache on the local disk.</li>
+<li>YarnChild run the map or the reduce task<br>Each YarnChild runs on a dedicated JVM, which isolates user code from the long running system daemons like NodeManager and the Application Master. Different from MapReduce 1, <strong>YARN doesn’t support JVM reuse</strong>, hence each task must run on new JVM.<br>The streaming and the pipeline processs and communication in the same as MapReduce 1.</li>
+</ul>
+<h4 id="Progress_and_Status_Updates">Progress and Status Updates</h4><p>When the job is running under YARN, the mapper or reducer will report its status and progress to its Application Master every 3 seconds over the umbilical interface. The Application Master will aggregate these status reports into a view of the task status and progress. While in MapReduce 1, the TaskTracker reports status to JobTracker which is responsible for aggregating status into a global view.<br>Moreover, the Node Manger will send heartbeats to the Resource Manager every few seconds. The Node Manager will monitoring the Application Master and the recourse container usage like cpu, memeory and network, and make reports to the Resource Manager. When the Node Manager fails and stops heartbeat the Resource Manager, the Resource Manager will remove the node from its available resource nodes pool.<br>The client pulls the status by calling getStatus() every 1 second to receive the progress updates, which are printed on the user console. User can also check the status from the web UI. The Resource Manager web UI will display all the running applications with links to the web UI where displays task status and progress in detail.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.3.png" alt="hd7.3">Figure 3  YARN Progress and Status Updates</a></p>
+<h4 id="Job_Completion">Job Completion</h4><p>Every 5 second the client will check the job completion over the HTTP ClientProtocol by calling waitForCompletion(). When the job is done, the Application Master and the task containers clean up their working state and the outputCommitter’s job cleanup method is called. And the job information is archived as history for later interrogation by user.</p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>For large clusters with more than 4000 nodes, the classic MapReduce framework hit the scalability problems.<br><strong>Therefore, a group]]>
+    </summary>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
+    
+      <category term="Research" scheme="http://www.cyanny.com/tags/Research/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hadoop MapReduce 1 Framework]]></title>
+    <link href="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-1-framework/"/>
+    <id>http://www.cyanny.com/2013/12/05/hadoop-mapreduce-1-framework/</id>
+    <published>2013-12-05T08:11:12.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>For MapReduce programming, a developer can run a MapReduce job by simply calling submit() or waitForCompletion() on a job object. This method abstracts the job processing details away from developer. But there is a great of job processing behind the scene that we will consider in this section.<br>Hadoop 2.x has released new MapReduce framework implementation called YARN or MapReduce 2, for traditional MapReduce is the classic framework which is also called MapReduce 1. YARN is compatible with MapReduce 1. [more…]</p>
+<h3 id="MapReduce_1_high_level_overview">MapReduce 1 high level overview</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.2.png" alt="hd6.2">Figure1 Classic MapReduce Framework</a><br>As shown in Figure 1, there are four independent entities in the framework:</p>
+<ul>
+<li>Client, which submits the MapReduce Job</li>
+<li>JobTracker, which coordinates and controls the job run. It is a Java class called JobTracker.</li>
+<li>TaskerTrackers, which run the task that is split job, control the specific map or reduce task, and make reports to JobTracker. They are Java class as well.</li>
+<li>HDFS, which provides distributed data storage and is used to share job files between other entities.</li>
+</ul>
+<p>As the Figure 1 show, a MapReduce processing including 10 steps, and in short, that is:</p>
+<ul>
+<li>The clients submit MapReduce jobs to the JobTracker. </li>
+<li>The JobTracker assigns Map and Reduce tasks to other nodes in the cluser</li>
+<li>These nodes each run a software daemon TaskTracker on separate JVM.</li>
+<li>Each TaskTracker actually initiates the Map or Reduce tasks and reports progress back to the JobTracker</li>
+</ul>
+<h3 id="Job_Submission">Job Submission</h3><p>When the client call submit() on job object. An internal JobSubmmitter Java Object is initiated and submitJobInternal() is called. If the clients calls the waiForCompletion(), the job progresss will begin and it will response to the client with process results to clients until the job completion.<br>JobSubmmiter do the following work:</p>
+<ul>
+<li>Ask the JobTracker for a new job ID.</li>
+<li>Checks the output specification of the job.</li>
+<li>Computes the input splits for the job.</li>
+<li>Copy the resources needed to run the job. Resources include the job jar file, the configuration file and the computed input splits. These resources will be copied to HDFS in a directory named after the job id. The job jar will be copied more than 3 times across the cluster so that TaskTrackers can access it quickly.</li>
+<li>Tell the JobTracker that the job is ready for execution by calling submitJob() on JobTracker.</li>
+</ul>
+<h3 id="Job_Initialization">Job Initialization</h3><p>When the JobTracker receives the call submitJob(), it will put the call into an internal queue from where the job scheduler will pick it up and initialize it. The initialization is done as follow:</p>
+<ul>
+<li>An job object is created to represent the job being run. It encapsulates its tasks and bookkeeping information so as to keep track the task progress and status.</li>
+<li>Retrieves the input splits from HDFS and create the list of tasks, each of which has task ID. JobTracker creates one map task for each split, and the number of reduce tasks according to configuration.</li>
+<li>JobTracker will create the setup task and cleanup task. Setup task is to create the final output directory for the job and the temporary working space for the task output. Cleanup task is to delete the temporary working space for the task ouput.</li>
+<li>JobTracker will assign tasks to free TaskTrackers</li>
+</ul>
+<h3 id="Task_Assignment">Task Assignment</h3><p>TaskTrackers send heartbeat periodically to JobTracker Node to tell it if it is alive or ready to get a new task. The JobTracker will allocate a new task to the ready TaskTracker. Task assignment is as follows:</p>
+<ul>
+<li>The JobTracker will choose a job to select the task from according to scheduling algorithm, a simple way is chosen on a priority list of job. After chose the job, the JobTracker will choose a task from the job.</li>
+<li>TaskTrackers has a fixed number of slots for map tasks and for reduces tasks which are set independently, the scheduler will fits the empty map task slots before reduce task slots.</li>
+<li>To choose a reduce task, the JobTracker simply takes next in its list of yet-to-be-run reduce task, because there is no data locality consideration. But map task chosen depends on the data locality and TaskTracker’s network location.</li>
+</ul>
+<h3 id="Task_Execution">Task Execution</h3><p>When the TaskTracker has been assigned a task. The task execution will be run as follows:</p>
+<ul>
+<li>Copy jar file from HDFS, copy needed files from the distributed cache on the local disk.</li>
+<li>Creates a local working directory for the task and ‘un-jars’ the jar file contents to the direcoty</li>
+<li>Creates a TaskRunner to run the task. The TaskRunner will lauch a new JVM to run each task.. TaskRunner fails by bugs will not affect TaskTracker. And multiple tasks on the node can reuse the JVM created by TaskRunner.</li>
+<li>Each task on the same JVM created by TaskRunner will run setup task and cleanup task.</li>
+<li>The child process created by TaskRunner will informs the parent process of the task’s progress every few seconds until the task is complete.</li>
+</ul>
+<h3 id="Progress_and_Status_Updates">Progress and Status Updates</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.3.png" alt="hd6.3">Figure 2 Classic MapReduce Framework Progress and Status Updates</a><br>After clients submit a job. The MapReduce job is a long time batching job. Hence the job progress report is important. What consists of the Hadoop task progress is as follows:</p>
+<ul>
+<li>Reading an input record in a mapper or reducer</li>
+<li>Writing an output record in a mapper or a reducer</li>
+<li>Setting the status description on a reporter, using the Reporter’s setStatus() method</li>
+<li>Incrementing a counter</li>
+<li>Calling Reporter’s progress()</li>
+</ul>
+<p><strong>As shown in Figure 2, when a task is running, the TaskTracker will notify the JobTracker its task progress by heartbeat every 5 seconds.</strong></p>
+<p>And mapper and reducer on the child JVM will report to TaskTracker with it’s progress status every few seconds. The mapper or reducers will set a flag to indicate the status change that should be sent to the TaskTracker. The flag is checked in a separated thread every 3 seconds. If the flag sets, it will notify the TaskTracker of current task status.<br>The JobTracker combines all of the updates to produce a global view, and the Client can use getStatus() to get the job progress status.</p>
+<h3 id="Job_Completion">Job Completion</h3><p>When the JobTracker receives a report that the last task for a job is complete, it will change its status to successful. Then the JobTracker will send a HTTP notification to the client which calls the waitForCompletion(). The job statistics and the counter information will be printed to the client console. Finally the JobTracker and the TaskTracker will do clean up action for the job.</p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>For MapReduce programming, a developer can run a MapReduce job by simply calling submit() or waitForCompletion() on a job object. This me]]>
+    </summary>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
+    
+      <category term="Research" scheme="http://www.cyanny.com/tags/Research/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hadoop MapReduce Overview]]></title>
+    <link href="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-overview/"/>
+    <id>http://www.cyanny.com/2013/12/05/hadoop-mapreduce-overview/</id>
+    <published>2013-12-05T07:20:25.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="MapReduce_Introduction">MapReduce Introduction</h3><p><strong>MapReduce is a parallel programming model and an associated implementation for processing and generating large data sets. The MapReduce model consists of two phrases: map and reduce.</strong> A map task is to process a key/value pair to generate a set of intermediate key/value pairs, and a reduce task is to merge all intermediate values associated with the same intermediated key.[more…]</p>
+<p>Hadoop MapReduce is based on the MapReduce paper in 2006. This processing model is automatic parallelization and distribution. It provides a clean abstraction for programmers. MapReduce programs are usually written in java, and can be written in any scripting language like Ruby, Python, PHP using Hadoop Streaming, or in C++ using Hadoop Pipes. MapReduce abstracts all the ‘housekeeping’ away from the developer. Developer can concentrate simply on writing the Map and Reduce functions.</p>
+<h3 id="MapReduce_Data_Flow">MapReduce Data Flow</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.1.png" alt="hd6.1">Figure1 MapReduce Data Flow</a><br>As shown in Figure1, A MapReduce process consists of two phrases: map phrase and the reduce phrase. Let’s consider them in detail.</p>
+<h4 id="The_Mapper">The Mapper</h4><p>A MapReduce job is a unit of work that the client wants to be run, including the input data, the MapReduce program and the configuration information. Hadoop runs the job by dividing it into tasks: map tasks and reduce tasks.<br>Hadoop divides the input data into fixed-size pieces call input splits or splits. Each map task runs on each split, which runs the user-defined map function. All of the map tasks runs in parallel. Usually, the split size is a HDFS block, 64MB or 128MB.<br><strong>If the file is less than 64MB or 128MB, it will not be split. And the file will occupy one block, results in a waste of storage.</strong><br>Map tasks usually runs on its local HDFS data, or the data near the node that runs the map task. Data Locality saves bandwidth and decreases dependencies.<br>The input value for map task is key/value pair. For example, in the WordCount example by Hadoop, the input value for map task: the key is the line offset whining the file, which we can ignore in our map function, the value is the line in the file.<br>In the map function, developers will process the value of each line, make sure the output is key/value pair, WorkCount again, the output for map function is like ‘<apple, 1="">, <pear, 1="">…’, key is the word, value is 1.<br><strong>Map tasks output is written to the local disk, not to HDFS, then the reduce task will use these intermediate output to do merge work.</strong> Because storing these intermediate data to HDFS with replication would be overkill. And if the map task fails before the reduce task consume the output, Hadoop will automatically start another map task on another node that will re-create the output. </pear,></apple,></p>
+<h4 id="The_Reducer">The Reducer</h4><p>After map tasks done, the job tracker will start the reduce task. The reducer input is the intermediate mapper output.<br>Between the map task and the reduce task is the well known shuffle and sort. Hadoop will sort the intermediate map output by key. And each reduce task will run on map output with the same key. In WordCount example, the same key means the same word, like ‘<apple, 1=""> … <apple, 1="">’, will be assigned to a reduce task, the reduce function just sum up the value and calculate the word count for ‘apple’.<br>Reduce tasks don’t have the advantage of data locality, the sorted map output have to be transferred across the network to the node where the reduce task is running.<br>Then the reduce task will merge the data with the user-defined reduce function. The reduce output is normally stored in HDFS for reliability. For each reduce output block, the first replica is stored on the local node, while the other two replicas are stored on off-rack nodes.<br><strong>We can see that no reduce task can start until every map task has finished. Will the mapper become a bottleneck? Hadoop uses the ‘Speculative execution’ to mitigate against this:</strong></apple,></apple,></p>
+<ul>
+<li>If a Mapper appears to be running significantly more slowly than the others, a new instance of the Mapper will be started on another node, operating on the same data.</li>
+<li>The results of the first Mapper to finish will be used</li>
+<li>Hadoop will kill off the Mapper which is still running</li>
+</ul>
+<h4 id="The_Combiner">The Combiner</h4><p>Often, Mappers produce large amounts of intermediate data, which have to be transferred to Reducers that will result in a lot of network traffic.<br>To minimize the data transferred between Mapper and Reducer, Hadoop introduces the combiner function to be run on the map output, and combine the Mapper output and generate the Reducer Input.<br>Combiner is like a ‘Mini-Reducer’, runs locally on a the same node as Mapper. The output from the combiner is sent to the Reducers. Combiners decrease the amount of the network traffic required during the shuffle and sort phase. </p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="MapReduce_Introduction">MapReduce Introduction</h3><p><strong>MapReduce is a parallel programming model and an associated implementa]]>
+    </summary>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hadoop HDFS High Availability(HA)]]></title>
+    <link href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/"/>
+    <id>http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/</id>
+    <published>2013-12-05T06:54:59.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>Reliability, Scalability and Availability are the most important three features for a distributed file system. In HDFS, persistent metadata, using the Secondary NameNode to create checkpoint against data loss, using block replication across the cluster against DataNode failure, all of these brings HDFS high reliability. And the master slave architecture wins HDFS great scalability. [more…]<br>However, HDFS has always had a well-known Single Point of Failure (SPOF) which impacts HDFS’s availability. HDFS fits well for ETL or batch-processing workflows, but in the past few years HDFS begin to be used for real time job, such as HBase. To recover a single NameNode, an administrator starts a new primary NameNode with FsImage and replays its EditLog, waits for Blockreport from DataNodes to leave safe mode. On large clusters with many files and blocks, it will take 30 minutes or more time to recovery. Long time recovery will impact the productivity of internal users and perhaps results in downtime visible to external users.<br>For these reasons, Hadoop community began a new feature for HDFS called High Availability Name Node (HA Name Node) in 2011. The HA makes use of an active and a standby NameNode. When the active NameNode fails, the hot standby NameNode will take over serving the role of an active NameNode without a significant interruption. </p>
+<h3 id="HA_Architecture">HA Architecture</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd5.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd5.1.png" alt="hd5.1">Figure1 HDFS High Availability Architecture</a><br>As shown in Figure 1, HA architecture has several changes</p>
+<ul>
+<li>The NameNodes must use highly available shared storage to share EditLog, such as Network File System (NFS), or BookKeeper. The active NameNode will write its EditLog on the Shared dir, and the Standby NameNode polls the shared log frequently and then applies to its in-memory so as to has the most complete and up-to-date file system state in memory.</li>
+<li>DataNodes must send Blockreports with block locations to both active and standy NameNodes. Because the block mappings are stored in a NameNode’s memory and not on a disk to increase data access performance.</li>
+<li>Clients must be configured to handle NameNode failover, using a mechanism that is transparent to users.<br>The HA guarantees if the active NameNode fails, the standby one will take over quickly in tens of seconds, since it has the latest state available in memory: the latest EditLog entries and an up-to-date block mapping.</li>
+</ul>
+<h3 id="Failover">Failover</h3><p>The transition from the active NameNode to the standby NameNode is controlled by the failover controller. Each NameNode runs a failover controller to monitor its namenode failure, which is a heartbeating mechanism. Failover is triggered when a NameNode fails.  </p>
+<p>After NameNode failover, the Client must be informed which is active NameNode now. Client Failover is handled transparently by the client library. The HDFS client supports the configuration for multiple network addresses, one for each NameNode. The NameNode is identified by a single logical URI which is mapped the two network addresses of the HA Name Nodes via client-side configuration. The client will retry the two addresses until the active NameNode is found. </p>
+<h3 id="Fencing">Fencing</h3><p>After Failover, HDFS makes use of the fencing technique to make sure that the previous died active NameNode is prevented from doing any damage and causing corruption. These mechanisms includes killing the NameNode’s process, revoking its access to the shared storage directory and disabling its network port via a remote management command. If these techniques fail, HDFS will use STONITH, that is “shoot the other node in the head”, which uses a specialized power distribution unit to forcibly power down the host machine. </p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Reliability, Scalability and Availability are the most important three features for a distributed file system. In HDFS, persistent metada]]>
+    </summary>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
+    
+      <category term="Research" scheme="http://www.cyanny.com/tags/Research/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hadoop HDFS Federation ]]></title>
+    <link href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-federation/"/>
+    <id>http://www.cyanny.com/2013/12/05/hadoop-hdfs-federation/</id>
+    <published>2013-12-05T06:48:10.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<p>In traditional HDFS architecture, there is only one NameNode in a cluster, which maintains all of the namespace and block map. Regarding that Hadoop cluster is becoming larger and larger one enterprise platform and every file and block information is in NameNode RAM, when there are more than 4000 nodes with many files, the NameNode memory will reach its limit and it becomes the limiting factor for cluster scaling. In Hadoop 2.x release series, Hadoop introduces HDFS Federation, which allows a cluster to scale by adding NameNodes, each of which manages a portion of the filesystem namespace.[more…]<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd4.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd4.1.png" alt="hd4.1">Figure1 HDFS Federation</a><br>As shown in Figure1, there are many federated NameNodes which manages its own namespace. The NameNodes are independent and don’t require coordination with each other. The DataNodes are used as common storage for blocks. Each DataNode registers with all the NameNodes in the cluster and send periodic heartbeats and block report and handles commands from the NameNodes.<br>Each NameNode is responsible for two tasks: Namespace management and Block Management. For the two tasks, mange NameNode manages its own Namespace Volume, which consists of two parts:</p>
+<ul>
+<li>Namespace: the metadata for each file and block</li>
+<li>Block Pool: it is a set of blocks that belong to a single namespace. The Block Pool is in charge of block management task, including processing block reports and maintaining location of blocks.<br>Block pool storage is not partitioned , so DataNodes register with each NameNode in the cluster and store blocks from multiple block pools. The NameNode namespace must to generate block ID for new blocks.<br>A NameSpace Volume is a self-contained uinit . Each NameNode has no need to contact other NameNode and it’s failure will not influence other NameNode.<br>To access a federated HDFS, clients use client-side mount tables to map file paths to NameNodes. A new identifier ClusterID is added to all the nodes in the cluser. Federated NameNodes is configured by ViewFileSystem and the viewfs://URIs.<br>The HDFS Federation brings several benefits:</li>
+</ul>
+<ul>
+<li>NameSpace Scalability: It will support large clusters with many files, just add more NameNode to scale namespace.</li>
+<li>Performance: Break the limitation of single node, more NameNodes means more read/write operations and the throughput is improved.</li>
+<li>Isolation: A single NameNode has no isolation in multi user environment. While multiple NameNodes can provide isolated NameSpace for both production and experiment application. </li>
+</ul>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>In traditional HDFS architecture, there is only one NameNode in a cluster, which maintains all of the namespace and block map. Regarding ]]>
+    </summary>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
+    
+      <category term="Research" scheme="http://www.cyanny.com/tags/Research/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hadoop HDFS Review]]></title>
+    <link href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-review/"/>
+    <id>http://www.cyanny.com/2013/12/05/hadoop-hdfs-review/</id>
+    <published>2013-12-05T04:00:32.000Z</published>
+    <updated>2015-06-30T15:28:30.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="HDFS_Basic_Concepts">HDFS Basic Concepts</h3><p>Hadoop Distributed File System, know as HDFS, is a distributed file system designed to store large data sets and streaming data sets on commodity hardware with high scalability, reliability and availability. </p>
+<p>HDFS is written in Java based on the Google File System (GFS). HDFS has many advantages compared with other distributed file systems:</p>
+<p><strong>1. Highly fault-tolerant</strong></p>
+<p>Fault-tolerant is the core architecture for HDFS. Since HDFS can run on low-cost and unreliable hardware, the hardware has a non-trivial probability of failures. HDFS is designed to carry on working without a noticeable interruption to the user in the face of such failure. HDFS provides redundant storage for massive amounts of data and Heartbeat for failure detection.<br>When one node fails, the master will detect it and re-assign the work to a different node. Restarting a node doesn’t need communicating with other data node. When failed node restart it will be added the system automatically. If a node appears to run slowly, the master can redundantly execute another instance of the same task, know as ‘speculative execution’.[more…]</p>
+<p><strong>2. Streaming Data Access</strong></p>
+<p>HDFS is designed with the most efficient data processing pattern: a write once, read-many times pattern. HDFS split large files into blocks, usually 64MB or 128MB. HDFS performs best with a modest number of large files. It prefers millions, rather than billions of files, and each of which is 100MB or more. No random writes to files is allowed. Also HDFS is optimized for large, steaming reads of files. No Random reads is allowed. </p>
+<p>A data set is generated and copied from source and replicated spread the HDFS system. It is efficient to load data from HDFS for big data analysis.</p>
+<p><strong>3. Large data sets</strong></p>
+<p>Large data means files that are MB, GB or TB in size. There are Hadoop clusters today that store PB data. HDFS support high aggregate data bandwidth and scale to hundreds of nodes in a single cluster. It also supports tens of millions of files processing.</p>
+<h3 id="HDFS_NameNode_and_DataNodes_Architecture">HDFS NameNode and DataNodes Architecture</h3><p>HDFS has a master/slave architecture. As shown in Figure1. </p>
+<p>The <strong>master node</strong> is the NameNode, which managers the file system namespace, file metadata and regulates the access interface for files by clients. A cluster has only one NameNode, which maintain the map of file metadata and  the location of blocks. </p>
+<p>The <strong>slave nodes</strong> are the DataNodes. A cluster has many DataNodes, which holds the actual data blocks.</p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.1.png" alt="hd3.1">Figure1 HDFS Architecture</a></p>
+<h3 id="NameNode">NameNode</h3><p>NameNode maintains the namespace tree, which is logical location and the mapping of file blocks to DataNodes, which is the physical location.</p>
+<p>The NameNode executes file system namespace operations like opening, closing, and renaming files and directories. It provides POSIX interface for client, so that user can access HDFS data with Unix like commands and no need to know about the function of NameNode and DataNodes. It is kind of abstraction which decrease the complexity for data access. </p>
+<p>The NameNode is the pivot in a cluster. A single NameNode greatly simplifies the architecture of HDFS. NameNode holds all of its metadata in RAM for fast access. It keeps a record of change on disk for crash recovery.</p>
+<p>However, once the NameNode fails, the cluster fails. The Single Point of Failure, known as SPOF is really a bottleneck for NameNode. Hadoop 2.0 introduces NameNode Federation and High Availability to solve the problem. We will discuss these in later section.</p>
+<h3 id="NameNode_Data_Persistent">NameNode Data Persistent</h3><p>In case of NameNode crash, the namespace information and metadata updates are stored persistently on the local disk in the form of two files: the namespace image called <strong>FsImage</strong> and the <strong>EditLog</strong>.</p>
+<p>FsImage is an image file persistently stores the file system namespace, including the file system tree and the metadata for all the files and the directories in the tree, the mapping of blocks to files and file system properties.</p>
+<p>EditLog is a transaction log to persistently record every change that occurs to file system metadata.</p>
+<p>However, we have to know there is one thing that is not persistent. The block locations we can call it Blockmap, which is stored in NameNode in-memory, not persistent on the local disk. Blockmap is reconstructed from DataNodes when the system starts by the Blockreport of DataNodes.</p>
+<p>When the system starts up, NameNode will load FsImage and EditLog from the local disk, applies the transactions from the EditLog to the in-memory representation of the FsImage, and flushes out the new version of FsImage on disk. Then it truncates the old EditLog since its transactions has been applied to the FsImage. This process is called a <strong>checkpoint</strong>.</p>
+<h3 id="Secondary_NameNode">Secondary NameNode</h3><p>To increase the reliability and availability of the NameNode, a separate daemon known as the Secondary NameNode takes care of some <strong>housekeeping</strong> tasks for the NameNode. Be careful that the Secondary NameNode is not a backup or a hot standby NameNode.</p>
+<p>The housekeeping wok is to periodically merge the namespace image FsImage with the EditLog to prevent the EditLog becoming to large. The Secondary NameNode runs on a single Node, which is a separate physical machine with as much memory and CPU requirements as the NameNode.</p>
+<p>The Secondary NameNode keeps a copy of the merged namespace image in case of the NameNode fails. But the time lags will result in data loss certainly. And during the NameNode recovery, the reconstruction of the Blockmap will cost too much time. So Hadoop works out the problem with Hadoop High Availability solution.</p>
+<h3 id="DataNodes">DataNodes</h3><p>The DataNodes holds all the actual data blocks. In sum up, it has three functions: </p>
+<ul>
+<li>Serves read and requests from the file system clients.</li>
+<li>Provides block operations, like creation, deletion and replication upon instruction from the NameNode.</li>
+<li>Make data Blockreport to NameNode periodically with lists of blocks that they are storing.</li>
+</ul>
+<p>In enterprise Hadoop deployment, each DataNode is a java program run on a separate JVM, and one instance of DataNode on one machine. </p>
+<p>In addition, NameNode is a java program run on a single machine. Written in java provides Hadoop good portability.</p>
+<h3 id="The_Communication_Protocols">The Communication Protocols</h3><p>HDFS client, NameNode and DataNodes communication protocols are TCP/IP. Client Protocol is TCP connection between a client and NameNode. The DataNode Protocol is the connection between the NameNode and the DataNodes. HDFS makes an abstraction wraps for the Client Protocol and the DataNode Protocol, which called Remote Procedure Call (RPC). NameNode never initiates any RPCs, only responds to RPC requests from clients or DataNodes.</p>
+<h3 id="HDFS_Files_Organization">HDFS Files Organization</h3><p>In traditional concepts, a disk has a block size, which is the minimum amount of data that it can read or write. Disk blocks are normally 512 bytes. While HDFS has the concept of block as well, which is a much larger unit – 64MB by default.</p>
+<p>HDFS large files are chopped up into 64MB or 128MB blocks. This brings several benefits:</p>
+<ul>
+<li>It can take advantage of any of the disks in the cluster, when the file is larger than any single disk.</li>
+<li>Making the unit of abstraction of a block simplifies the storage subsystem. HDFS will deal with blocks, rather than a file. Since blocks are a fixed size, it’s easy to calculate how many can be stored on a give disk and eliminate metadata concerns.</li>
+<li>Normally, a map task will operate on one local block at a time. Bocks spare the complexity of dealing with files.</li>
+<li>It’s easy to do data replication with blocks for providing fault tolerance and availability. Each block is replicated multiple times. Default is to replicate each block 3 times. Replicas are stored on different nodes.</li>
+<li>Block data fits well for streaming data. Files are written once and read many times. Blocks minimize the cost of seeking files.</li>
+</ul>
+<p>Although files are split into 64MB or 128MB blocks ， if a file is smaller than this full 64MB/128MB will not be split.</p>
+<h3 id="HDFS_Data_Replication">HDFS Data Replication</h3><p>HDFS each data block has a replica factor, which indicates how many times it should be replicated. Normally, the replica factor is three. Each block is replicated three times and spread on three different machines across the cluster. This provides efficient MapReduce processing because of good data locality.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.2.png" alt="hd3.2">Figure2 Block Replication</a><br>As shown in Figure2, the NameNode holds the metadata for each map of file and blocks, including filename, replica factor and block-id etc. Block data are spread on different DataNodes.</p>
+<h3 id="Data_Replica_Placement">Data Replica Placement</h3><p>Block replica placement is not random. Regarding of the reliability and the performance, HDFS policy is to put one replica on one node in the local rack, the second one on a node in a different remote rack and the third one on a different node in the same remote rack.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.3.png" alt="hd3.3">Figure 3 HDFS Racks</a><br>As shown in Figure 3, different DataNodes on different racks, Rack 0 and Rack1. Large HDFS instance run on a cluster of machines that commonly spread across many racks. Network bandwidth for intra-racks is greater than inter-racks. So the HDFS replica policy cuts the inter-rack write traffic and improves write performance. One third of replicas are on one node, two third of replicas are on one rack, the other third are distributed across the remaining racks. This policy guarantees the reliability.</p>
+<h3 id="Data_Replication_Pipeline">Data Replication Pipeline</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.4.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.4.png" alt="hd3.4">Figure 4 Data Replication Pipeline</a><br>As shown in Figure 4, it is the data flow of writing data to HDFS. A client request to request a file does not reach the NameNode immediately. It will follow the steps:<br>Step 1, the HDFS client caches the file data into a temporary local file until the local file accumulates data worth over one HDFS block size.<br>Step 2, the client contacts the NameNode, requests add a File.<br>Step 3, the NameNode inserts the file name into the file system tree and allocates a data block for it. Then responds to the client request with the identity of the DataNodes and the destination data block.<br>Step 4, suppose the HDFS file has a replication factor of three. The client retrieves a list of DataNodes, which contains that will host a replica of that block. The clients flushes the block of data from the local temporary file to the first DataNode.<br>Step 5,.the first DataNode starts receiving the data in small portions like 4KB, writes each portion to its local repository and transfers that portion to the second DataNode. Then the second DataNode retrieves the data portion, stores it and transfers to the third DataNode. Data is pipelined from the first DataNode to the third one.<br>Step 6, when a file is closed, the remaining un-flushed data in temporary local file is transferred to the DataNode. Then the client tells the NameNode that the file is closed.<br>Step 7, the NameNode commits the file creation operation into a persistent one. Be careful if the NameNode dies before the file is closed, the file is lost.<br>So far, we can see that file caching policy improves the writing performance. HDFS is write-once-read-many-times. When a client wants to read a file: It should contacts the NameNode to retrieves the file block map, including block id, block physical location. Then it communicates directly with the DataNodes to read data. The NameNode will not be a bottleneck for data transfer.</p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="HDFS_Basic_Concepts">HDFS Basic Concepts</h3><p>Hadoop Distributed File System, know as HDFS, is a distributed file system designed ]]>
+    </summary>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+    
+      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
+    
+      <category term="Research" scheme="http://www.cyanny.com/tags/Research/"/>
+    
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+    
+  </entry>
+  
+</feed>
