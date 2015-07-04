@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Make every step meaningful">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CyannyLive">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="Make every step meaningful">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CyannyLive">
+<meta name="twitter:description" content="Make every step meaningful">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main">
+      <article id="post-hadoop-overview" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/05/hadoop-overview/">Hadoop Overview</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/05/hadoop-overview/">
+    <time datetime="2013-12-05T03:36:08.000Z" itemprop="datePublished">2013-12-05</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="The_motivation_for_Hadoop">The motivation for Hadoop</h3><p>Apache Hadoop is an open source distributed computing framework for large-scale data sets processing. Doug Cutting, who is the creator of Apache Lucene Project, creates it. </p>
+<p>The name of Hadoop is a made-up name, which is the nickname of a stuffed yellow elephant of the kid of Doug. Hadoop has its origins in Apache Nutch, an open source web search engine, and it is built based on work done by Google in early 2000s, specifically on Google papers describing the Google File System (GFS) published in 2003, and MapReduce published in 2004. </p>
+<p>Hadoop moved out of Nutch to form an independent in Feb. 2006. Up to now, Hadoop has been powered by many companies, such as Yahoo who claims it has the biggest Hadoop cluster in the world with more than 42000 nodes, LinkedIn who has 4100 nodes, Facebook who has 1400 nodes, Taobao who has the biggest cluster in China with more than 2000 nodes. [more…]</p>
+<h3 id="The_problems_for_traditional_big_data_processing">The problems for traditional big data processing</h3><p>Why these companies adopt Hadoop? The reason is simple, that we live in a big data age. We are flooded with big data every day on the Internet. Consider that: Facebook hosts approximately 10 billion photos, taken up on PB storage. Every second on eBay, a total merchandise value of 1400 dollars is traded and 10 million new items are listed on eBay every day. Ancestry.com, the genealogy site, store around 2.5 PB of Data.</p>
+<p>How to make use of these big data to make analysis? For traditional methods, use only one machine to process computation, which needs faster processor and RAM. Even though the CPU power doubles every 18 months according to Moores’s Law, it hasn’t meet the big data analysis needs. Yet distributed system evolved to allow developers to use multiple machines for a single job, like MPI, PVM and Condor. However, programing for these traditional distributed systems is complex, you have to deal with these problems:</p>
+<ul>
+<li>It’s difficult to deal with partial failures of the system. Developers spend more time designing for failure than they do actually working on the problem itself.</li>
+<li>Finite and precious bandwidth must be available to combine data from different disks and transfer time is very slow for big data volume.</li>
+<li>Data exchange requires synchronization.</li>
+<li>Temporal dependencies are complicated.</li>
+</ul>
+<h3 id="How_can_Hadoop_save_big_data_analysis">How can Hadoop save big data analysis</h3><p>What really counts is big data. Traditional distributed computing can’t handle big data in a decent way, but Hadoop can. Lets see what Hadoop brings to us: </p>
+<ul>
+<li>Hadoop provide partial failure support. Hadoop Distributed File System (HDFS) can store large data sets with high reliability and scalability.</li>
+<li>HDFS provide great fault tolerance. Partial Failure will not result in the failure of the entire system. And HDFS provide data recoverability for partial failure.</li>
+<li>Hadoop introduce MapReduce, which spares programmers from low-level details, like partial failure. The MapReduce framework will detect failed tasks and reschedule them automatically.</li>
+<li>Hadoop provide data locality. The MapReduce framework tries to collocate data with the compute nodes. Data is local, and tasks are separated with no dependence on each other. So the shared-nothing and data locality architecture can save more bandwidth and solve the complicated dependence problem</li>
+</ul>
+<p>In summary, Hadoop is a great big data processing tool.</p>
+<h3 id="Hadoop_Basic_Concepts_and_Core_Concepts">Hadoop Basic Concepts and Core Concepts</h3><p>The core concepts for Hadoop are to distribute the data as it is initially stored in the system. That is data locality, individual nodes can work on data local to these nodes, and no data transfer over the network is required for initial processing.<br>Here are the basic concepts for Hadoop:</p>
+<ul>
+<li>Applications are written in high-level code. Developers don’t worry about network programming, temporal dependencies etc.</li>
+<li>Nodes talk to each other as little as possible. Developers should not write code which communicates between nodes, that is ‘Shared-Nothing’ architecture.</li>
+<li>Data is spread among machines in advance. Computation happens where the data is stored, wherever possible, just as near the node as possible. Data is replicated multiple times on the system for increased availability and reliability.</li>
+</ul>
+<h3 id="Hadoop_High-Level_Overview">Hadoop High-Level Overview</h3><p>Hadoop consists of two important components: HDFS and MapReduce.<br>HDFS is Hadoop Distributed File System, which is a distributed file system designed to store large data sets and streaming data sets on commodity hardware with high scalability, reliability and availability.</p>
+<p>MapReduce is a distributed processing framework designed to operate on large data stored on HDFS, which provides a clean interface for developers.</p>
+<p>A set of machines running HDFS and MapReduce is known as a Hadoop Cluster. An individual machine in a cluster is known as nodes. The nodes play different roles. There are two kind important nodes: Master Nodes and Slave Nodes.</p>
+<p>There are 5 important daemons on these nodes. </p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png" alt="hd2.1">Figure1 Hadoop High-Level Architecture</a></p>
+<p>As shown in Figure, Hadoop is comprised of 5 separate daemons:</p>
+<ul>
+<li>NameNode, which holds the metadata for HDFS.</li>
+<li>Secondary NameNode, which performs housekeeping functions for NameNode, and isn’t a backup or hot standby for the NameNode.</li>
+<li>DataNode, which stores actual HDFS data blocks. In Hadoop, a large file is split into 64M or 128M blocks.</li>
+<li>JobTracker, which manages MapReduce jobs, distributes individual tasks to machines running.</li>
+<li>TaskTracker, which initiates and monitors each individual Map and Reduce tasks.</li>
+</ul>
+<p>Each daemon runs on its own Java Virtual Machine (JVM), no Nodes can run 5 daemons at the same time.  </p>
+<p>Master Nodes runs the NameNode, Secondary NameNode, JobTracker daemons. And only one of each of these daemons runs on the cluster.<br>Slave Nodes run the DataNode and TaskTracker daemons. A slave node will run both of these daemons. All of these Slave Nodes run in parallel, each on their own part of the overall dataset locally.</p>
+<p>Just for very small clusters, the NameNode, JobTracker and the Secondary NameNode run on a single machine. However, when there are beyond 20-30 nodes. It’s better to run each of them on individual nodes. </p>
+<h3 id="Hadoop_Ecosystem">Hadoop Ecosystem</h3><p>Hadoop has a family of related projects based on the infrastructure for distributed computing and large-scale data processing. The core projects are apache open source projects. Except for HDFS and MapReduce, some hadoop related projects are:</p>
+<ul>
+<li>Ambari, a Hadoop management and cluster monitoring system.</li>
+<li>Avro, a serialization system for efficient, cross-language RPC and persistent data storage.</li>
+<li>Pig, a data flow language and execution environment for exploring very large datasets, which runs on HDFS and MapReduce clusters.</li>
+<li>HBase, provide random, realtime read/write access to BigData. The project built a column-oriented database, host very large tables —— billions of rows X millions of columns. The project is based on Google’s paper BigTable: A Distributed Storage System for Structured Data.</li>
+<li>Hive, which is distributed data warehouse. Hive manages data stored in HDFS and provides a query language based on SQL, which is translated by runtime engine to MapReduce Job.</li>
+<li>Zookeeper, a distributed, highly available coordination service. It provides centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services, which make build distributed applications more efficient.</li>
+<li>Oozie, a service for running and scheduling workflows of Hadoop jobs, which includes MapReduce, Pig, Hive and sqoop jobs.</li>
+<li>Mahout, a scalable machine learning libraries based on Hadoop HDFS and MapReduce.</li>
+</ul>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/12/05/hadoop-overview/" data-id="cibns1a0k0046v4rt5eh678j0" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Research/">Research</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-graph-dfs-bfs" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/02/graph-dfs-bfs/">Graph DFS and BFS</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/02/graph-dfs-bfs/">
+    <time datetime="2013-12-02T14:26:47.000Z" itemprop="datePublished">2013-12-02</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>图论是一个重要的部分，以前数据结构课上过，没有作为考试要求，所以很不太熟悉，尤其是没有实现。考完试，无聊中重新看了看，想起以前在eBay，某帅哥突然开玩笑说DFS和BFS嘛，当然要会呀，Cyanny你会的吧，我说忘了，其实细细想起来，还真没有写过代码。In my view，没有实现过，就等于不会，今天实现了BFS和DFS，深深赞一个算导，说得明白和透彻，现在的算法书太多，这算是一本很不错的经典，厚了点，但要是能厚着脸皮看完确实受益匪浅。</p>
+<h3 id="广度优先搜索BFS">广度优先搜索BFS</h3><p>其算法思想简介：<br>1. 利用队列<br>2. 每一个Vertex引入三个变量<br>color：WHITE 表示没有访问过，GREY 表示发现，BLACK 表示完成访问<br>parent: 父亲<br>d: 表示从root到该顶点的长度<br>3. 为了实现方便，我采用int来标识每一个顶点，采用邻接表来表示graph<br>深度优先搜索可以生成深度优先树，生成单源最短路径，即从root到每一个顶点的长度是最短路径。[more…]<br>BFS可以采用邻接矩阵表示，其复杂度较高为O(n^2)<br>如果采用邻接表表示，其复杂度为O(E+V),即顶点个数+边的个数<br>[java]<br>public void BFS(int root) {<br>    vertexes = new Vertex[n];<br>    // Initialize each vertex,<br>    // Each vertex has three segment: parent, d, color<br>    for (int i = 0; i &lt; n; i++) {<br>        vertexes[i] = new Vertex(i);<br>    }</p>
+<pre><code>Vertex rootv = vertexes[root];
+rootv.<span class="keyword">d</span> = 0;
+rootv.color = Color.GREY;
+queue.add(rootv);
+
+<span class="keyword">while</span> (!queue.isEmpty()) {
+    Vertex <span class="keyword">u</span> = queue.remove(0);
+    ArrayList&amp;lt;Integer&amp;gt; <span class="keyword">list</span> = <span class="keyword">graph</span>.<span class="literal">get</span>(<span class="keyword">u</span>.vertex);
+    <span class="keyword">for</span> (int i = 0; i &amp;lt; <span class="keyword">list</span>.size(); i++) {
+        Vertex temp = vertexes[<span class="keyword">list</span>.<span class="literal">get</span>(i)];
+        <span class="comment">// Make sure each vertex enqueue only once</span>
+        <span class="keyword">if</span> (temp.color == Color.WHITE) {
+            temp.parent = <span class="keyword">u</span>;
+            temp.<span class="keyword">d</span> = <span class="keyword">u</span>.<span class="keyword">d</span> + 1;
+            temp.color = Color.GREY;
+            queue.add(temp);
+        }                
+    }
+        <span class="keyword">u</span>.color = Color.BLACK;
+    res.add(<span class="keyword">u</span>);
+}
+</code></pre><p>}<br>[/java]<br><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/graph/GraphBFS.java" title="BFS Source" target="_blank" rel="external">BFS Source Code</a></p>
+<h3 id="深度优先搜索DFS">深度优先搜索DFS</h3><p>广度优先搜索DFS，基本算法思想<br>1. 采用递归，或stack来实现<br>2. 每一个Vertex引入四个变量<br>color：WHITE 表示没有访问过，GREY 表示发现，BLACK 表示完成访问<br>parent: 父亲<br>timestamp1: 表示第一次访问该顶点的时间戳<br>timestamp2:表示访问结束时的时间戳<br>3. 为了实现方便，我采用int来标识每一个顶点，采用邻接表来表示graph</p>
+<p>DFS采用邻接表表示Graph来实现，复杂度O(V+E), 矩阵复杂度依然不好，为O（n^2）<br>DFS是从多个源开始，最终会生成由多个源作为root的森林，即深度优先树（深度优先森林）。<br>同时引入时间戳，是为了获得DFS的进展情况，如果不需要时间戳，只是想简单地打印每一个顶点，可以不用。</p>
+<p>以下是递归的实现方法：<br>[java]<br>    public void DFS() {<br>        int i = 0;<br>        for (i = 0; i &lt; n; i++) {<br>            vertexes[i] = new Vertex(i);<br>        }<br>        for (i = 0; i &lt; n; i++) {<br>            Vertex u = vertexes[i];<br>            if (u.color == Color.WHITE) {<br>                visitDFS(u);<br>            }<br>        }<br>    }</p>
+<pre><code>private void visitDFS(Vertex <span class="keyword">u</span>) {
+    res.add(<span class="keyword">u</span>);
+    <span class="keyword">u</span>.color = Color.GREY;
+    <span class="keyword">timer</span>++;
+    <span class="keyword">u</span>.timestamp1 = <span class="keyword">timer</span>;
+    ArrayList&amp;lt;Integer&amp;gt; adjList = <span class="keyword">graph</span>.<span class="literal">get</span>(<span class="keyword">u</span>.vertex);
+    <span class="keyword">for</span> (int i = 0; i &amp;lt; adjList.size(); i++) {
+        Vertex v = vertexes[adjList.<span class="literal">get</span>(i)];
+        <span class="keyword">if</span> (v.color == Color.WHITE) {
+            v.parent = <span class="keyword">u</span>;
+            visitDFS(v);
+        }
+    }
+    <span class="keyword">u</span>.color = Color.BLACK;
+    <span class="keyword">timer</span>++;
+    <span class="keyword">u</span>.timestamp2 = <span class="keyword">timer</span>;
+}
+</code></pre><p>[/java]</p>
+<p>以下是采用栈的实现方法改写 “visitDFS”：<br>[java]<br>    /**</p>
+<pre><code><span class="comment"> * DFS with iterative method </span>
+<span class="comment"> * Make use of stack</span>
+<span class="comment"> * @param u</span>
+<span class="comment"> */</span>
+private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
+    res.add(<span class="keyword">u</span>);
+    <span class="keyword">u</span>.color = Color.GREY;
+    <span class="keyword">timer</span>++;
+    <span class="keyword">u</span>.timestamp1 = <span class="keyword">timer</span>;
+    <span class="keyword">stack</span>.add(<span class="keyword">u</span>);
+    <span class="keyword">while</span>(!<span class="keyword">stack</span>.isEmpty()) {
+        Vertex v = <span class="keyword">stack</span>.remove(<span class="keyword">stack</span>.size() - 1);
+        ArrayList&amp;lt;Integer&amp;gt; adjList = <span class="keyword">graph</span>.<span class="literal">get</span>(v.vertex);
+        <span class="keyword">for</span> (int i = 0; i &amp;lt; adjList.size(); i++) {
+            Vertex temp = vertexes[adjList.<span class="literal">get</span>(i)];
+            <span class="keyword">if</span> (temp.color == Color.WHITE) {
+                temp.parent = v;
+                temp.color = Color.GREY;
+                <span class="keyword">timer</span>++;
+                temp.timestamp1 = <span class="keyword">timer</span>;
+                res.add(temp);
+                <span class="keyword">stack</span>.add(temp);
+            }
+        }
+        v.color = Color.BLACK;
+        <span class="keyword">timer</span>++;
+        v.timestamp2 = <span class="keyword">timer</span>;
+    }
+    <span class="keyword">u</span>.color = Color.BLACK;
+    <span class="keyword">timer</span>++;
+    <span class="keyword">u</span>.timestamp2 = <span class="keyword">timer</span>;
+}
+</code></pre><p>[/java]</p>
+<p><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/graph/GraphDFS.java" title="DFS Source" target="_blank" rel="external">DFS Source Code</a></p>
+<p>最终发现，起始实现起来代码不多，重在想法。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/12/02/graph-dfs-bfs/" data-id="cibns1a1k0057v4rtzk5fe26n" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-system-analysis-design-kenneth-kendall-review-part4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/">System Analysis and Design (Kenneth Kendall) Review Part4</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/">
+    <time datetime="2013-11-27T09:45:25.000Z" itemprop="datePublished">2013-11-27</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/System-Analysis-and-Design/">System Analysis and Design</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="9-_数据库设计">9. 数据库设计</h2><h3 id="9-1-基本概念">9.1.基本概念</h3><p>1.数据库与文件系统的区别<br>传统的文件系统：是扁平文件，无结构的文件，存储简单地数据，读取速度快，存储形式单一；存在数据冗余，更新时间长，不一致性，安全性的问题，冗余会带来插入、更新、删除异常。<br>数据库系统：是堆文件，采用数据表存储，数据存放随机且没有特定的顺序，每一个表需要提供主键；数据库提供索引功能；可以通过范式来保证数据的一致性；有事务处理功能,ACID；可以避免插入、更新、和删除异常；提供安全功能。[more…]</p>
+<p>2.数据库设计的目标：<br>a)能向用户提供数据<br>b)准确性，一致性，完整性<br>c)有效的存储数据以及有效的更新和检索<br>d)有目的的检索数据，获取的数据要有利于管理和决策。</p>
+<p>3.有效性目标<br>a)保证数据能被各种应用程序的用户共享。<br>b)维护数据的准确性，一致性，完整性<br>c)确保当前的和未来的应用程序所需的所有数据能立即可用<br>d)允许数据库随用户需求的增加而不断演进。<br>e)允许用户建立自己的数据视图，而不用关心数据的实际存储方式。</p>
+<p>4.ERD图,要会画，可以看书中的例子<br>实体：任何由某人为手机数据而选择的对象或事件叫做实体。包括：一般实体，关联实体，属性实体。<br>关系：1对1，1对多，多对多<br>属性：实体的特征<br><img src="http://i40.tinypic.com/bf2o8n.jpg" alt="" title="ERD图"></p>
+<p>5.键的类型：基于模式而不基于实例<br>a)主键：唯一标识一条记录<br>b)候选键：一个或一组可当作主键使用的键<br>c)辅助键：不能唯一标识一条记录，可以唯一，也可以标识多重记录<br>d)链接键(组合键)：可以选择两个或多个数据组成一个键<br>e)外键：一个属性，它是另外一个表的键</p>
+<h3 id="9-2-规范化">9.2.规范化</h3><p>合理规范化的模型可应对需求变更，规范化数据重复降至最少.<br>1.第一范式1NF：数据原子性，每一列只有单值属性</p>
+<p>2.第二范式2NF：没有部分依赖，每一个属性不能依赖主键的部分<br>如  (学号, 课程名称) → (姓名, 年龄, 成绩, 学分) ，不符合2NF<br>因为 (课程名称) –&gt; (学分)，(学号)-&gt;(姓名，年龄)，存在部分依赖<br>此时存在数据冗余，插入异常，删除异常，更新异常</p>
+<p>分解为：学生：Student(学号, 姓名, 年龄)；<br>Course(课程名称, 学分)<br>SelectCourse(学号, 课程名称, 成绩)</p>
+<p>3.第三范式3NF：没有传递依赖，不存在非主属性依赖于非主属性<br>例如： (学号) → (姓名, 年龄, 所在学院, 学院地点, 学院电话),符合2NF， 但不符合3NF，因为 (所在学院) -&gt; (学院地点, 学院电话)是传递依赖，分解为：<br>(学号) → (姓名, 年龄, 所在学院)<br>(所在学院) -&gt; (学院地点, 学院电话)</p>
+<p>4.BCNF(Boyce-Codd Normaml Form): nothing but the key, 首先要满足3NF，在此基础上在候选键之间不能有传递依赖。<br>如：(仓库ID, 存储物品ID) →(管理员ID, 数量)<br>　　 (管理员ID, 存储物品ID) → (仓库ID, 数量)<br>(仓库ID, 存储物品ID)和(管理员ID, 存储物品ID)都是候选关键字，表中的唯一非关键字段为数量，符合3NF。但是，由于存在如下决定关系：<br>　　 (仓库ID) → (管理员ID) 　 (管理员ID) → (仓库ID)<br>候选键之间有依赖，不符合BCNF。</p>
+<p>分解为：<br>(仓库ID) –&gt; (存储物品ID，数量)<br>(仓库ID) -&gt; (管理员ID)<br>BCNF分解过细，导致查询连接性能低，所以一般3NF就可以了。</p>
+<p><a href="http://www.cnblogs.com/zxsoft/archive/2007/08/03/840826.html" title="数据库范式解析" target="_blank" rel="external">数据库范式详解</a></p>
+<h3 id="9-3-3NF无损连接分解方法">9.3.3NF无损连接分解方法</h3><p>分解要做到无损连接，依赖保持。<br>考虑 关系  R= {ABCDEFGHI}<br>H -&gt; GD  E-&gt;D  HD-&gt;CE  BD -&gt; A<br>1. Right reduced<br>H -&gt; G<br>H-&gt;D<br>E-&gt;D<br>HD-&gt;C<br>HD-&gt;E<br>BD-&gt;A</p>
+<p>2. Left reduced<br>H-&gt;G<br>H-&gt;D<br>E-&gt;D<br>H-&gt;C<br>H-&gt;E<br>BD-&gt;A</p>
+<p>3. Find minimal cover<br>尝试删除一个依赖，然后验证是否无损和依赖保持，直到不能再删除<br>可以删除H-&gt;D,就不能再删了<br>H-&gt;G<br>E-&gt;D<br>H-&gt;C<br>H-&gt;E<br>BD-&gt;A<br>Minimal cover R’={H-&gt;GCE, E-D, BD-&gt;A}</p>
+<p>4. 补充没有的依赖<br>我们发现I还没有在R’中，因此，提取出R’中的键HB构造关系HB-&gt;I</p>
+<p>5. 最终结果<br>R = { H-&gt;GCE, E-D, BD-&gt;A , HB-&gt;I}</p>
+<h3 id="9-4-主文件/数据库关系设计指导原则">9.4.主文件/数据库关系设计指导原则</h3><p>1. 指导原则<br>每个单独的数据实体应创建一个主数据表。<br>一个特定的数据字段只应出现在一个主文件中。<br>每个数据表支持CRUD操作</p>
+<p>2. 完整性约束<br>实体完整性：主键不能有空值，唯一键可以有空值<br>引用完整性：一对多关系中，“一端”是父表，“多端”是子表，子表的外键必须在父表中有匹配记录；父表记录只在没有子表记录关联时才能删除；父表主键更新，要进行级联更新，即对应的子表外键要更新。<br>域完整性：对数据进行有效性检验，如数据必须大于0</p>
+<p>3. 异常<br>数据冗余：可以通过3NF解决<br>插入异常：如果主键重复，或未知，导致插入异常，因为违反实体完整性。<br>删除异常：删除导致相关数据丢失导致<br>更新异常：更新导致不一致性。</p>
+<p>4. 检索和显示数据的步骤<br>1)从数据库中选择一个关系</p>
+<p>2)连接两个关系: join(inner join, outer join, left join, right join)<br>a)inner join： A join B 只有交集会出现在结果中<br>b)left (outer) join:  A 中与B没有匹配的记录会保留<br>c)right(outer) join: B中与A没有匹配的会保留<br>d)outer join, 又叫full outer join = left join 与right join的并集，所有匹配和未匹配的记录都有 </p>
+<p>3)从关系中投影出列<br>4)从关系中选择所需的行<br>5)导出新的属性<br>6)行索引或排序<br>7)计算总计值和进行性能测量<br>8)显示数据</p>
+<h3 id="9-5-反规范化">9.5.反规范化</h3><p>1. 原因<br>规范化的方式可以减少数据冗余，但查询速度会下降，一定的冗余，可以提升查询响应速度，避免重复引用检查表。<br>2. 反规范化的6种方法<br>1)合并1：1关系<br>2)部分合并1：<em>关系，不复制外关键字而复制非key的常用的字段<br>3)在1：</em>关系中复制FK（外关键字），减少join的表数量，将另一个表的主键复制变成外键。<br>4)在<em>：</em>关系中复制属性，避免3表join<br>5)引入重复组，将多值属性写在主表里：例如user表中多个电话号码的列，常用地址和常用电话<br>6)为了避免查询和更新这两个不可调和的矛盾，可以将更新和查询放在两张表中，从工作表提取出查询表，专门用于查询。这个方法演化成了数据仓库。这个方法只适用于查询的实时性要求不高的情况</p>
+<h2 id="10-_设计准确的数据输入规程">10.    设计准确的数据输入规程</h2><p>数据输入准确性的目标：<br>•为数据创建有意义的代码<br>•设计有效的数据获取方法<br>•保证数据的完整性和有效性<br>•通过有效性检查确保数据的质量</p>
+<h3 id="10-1_有效的编码">10.1 有效的编码</h3><h4 id="10-1-1-基本概念">10.1.1.基本概念</h4><p>1.优点：<br>a)提高数据处理效率<br>b)有助于数据的排序<br>c)节约内存和存储空间<br>d)提高数据输入的准确性和效率<br>e)特定类型的编码允许我们按特定的方式处理数据</p>
+<p>2.目的<br>a)记录某些事物<br>b)分类信息<br>c)隐蔽信息<br>d)展示信息<br>e)请求相应地处理</p>
+<p>3.编码的一般指导原则<br>a)保持代码简洁，短代码比长代码更容易输入和记忆<br>b)保持代码稳定，不应虽每次接收新数据而变化<br>c)代码要独一无二<br>d)允许排序代码<br>e)避免使人迷惑的代码<br>f)保持代码统一<br>g)允许修改代码<br>h)代码要有意义</p>
+<h3 id="10-1-2-编码的类型">10.1.2.编码的类型</h3><p>1.记录某些事物<br>a)简单地顺序码<br>•优点：减少指派重复数字的可能性；让使用者估计出订单合适收到<br>•适用于：作业按顺序处理，需要知道数据项输入系统的顺序，需要知道事件的发生顺序。<br>•缺点：容易泄露商业信息，泄露当前已经指派了多少编码</p>
+<p>b)字母衍生码<br>•例如：名字的编码： 取前2个辅音字母+名字长度+一个随机数<br>•例如编码女装：考虑品牌，类别，产地，生产日期，款号，尺码，颜色，价格<br>•常用于标识一个账号，邮寄地址标签<br>•注意：避免重复，分布要均匀<br>•缺点：如果采用名字的前三个辅音字母，当辅音字母少于3个，就会生成“RXX”这样的类型； 如果一些数据发生变化，如名字或地址变化，就会改变字母衍生码，而改变文件中的主键</p>
+<p>2.分类信息<br>a)分类码<br>•目的：将一组具有特殊信息的数据从其他数据中区分出来，可以由单个字母或数字组成。是描述人物、位置、事物或事件的一种简写形式<br>•例如：计算所得税，分类有支付利息，医药费，税，捐款，应付款，生活用品支出，给每一个分类指派一个字母；<br>•使用单个字母标识分类可能会存在扩展瓶颈，可使用两个以上的字母，如计算机中的快捷键。</p>
+<p>b)块顺序码<br>•是顺序码的扩展，对数据分类，对每一个分类分配一个编码范围，在该类别的项目按顺序编码<br>•例如浏览器分配100~999， 数据库 200~299<br>•优点：根据普通的特征对数据分类，还能简单地为下一个需要标识的项目（在同一块）指派一个可用的数字代码</p>
+<p>3.隐藏信息<br>密码，隐藏信息，如医药处方，凯撒密码对称加密，Hash密码单向加密</p>
+<p>4.展示信息：为用户展示信息，使数据输入更有意义<br>a)有效数字集编码<br>•例如衣服采用有效数字集描述产品信息，“414-219-19-12:表示浅褐色冬季外套，款式219，尺码12”<br>•优点：让员工方便的定位产品类别；查询效率高；有助于销售</p>
+<p>b)助记码<br>•帮助记忆，结合字母和符号，醒目而又清晰的编码产品，例如国家简称<br>c)Unicode：显示我们不能输入和看到的字符， 国际标准组织ISO定义Unicode字符集，包括所有标准语言字符，还有65535个空位</p>
+<p>5.请求相应的处理<br>a)功能码：用简短的数字或字母来标识一个计算机对数据执行的功能，通常采用顺序码或助记码的形式<br>优点：执行功能只需输入功能码，提高输入效率</p>
+<h3 id="10-2-快速而高效的数据获取">10.2.快速而高效的数据获取</h3><p>1.决定要获取什么样的数据<br>如果输入无用，输出也会无用<br>输入的数据分类：随每个事务而改变的数据；能简明的将正在处理的项目与所有其他项目区分出来的数据</p>
+<p>2.让计算机完成数据处理：处理重复的任务，如记录事务时间，根据输入计算新值，随时保存和检索数据</p>
+<p>3.减少瓶颈和减少额外输入步骤：步骤越少，引入错误的机会就越少</p>
+<p>4.选择有效的数据输入方法<br>a)键盘<br>b)扫描仪<br>c)视频，音频<br>d)磁性墨水<br>e)标记识别表单：如答题纸，但缺点是用户可能会一时大意填图出错<br>f)条形码：准确度高<br>g)RFID：射频识别技术</p>
+<div style="color: #EF4808"><br>两个好用的Chrome插件，小伙伴们看完复习资料支持一下吧：<br><a href="https://chrome.google.com/webstore/detail/剪影截图/gkloklemhahnoipikedmafefilidffko" title="剪影截图" target="_blank" rel="external">剪影截图：好用的网页截图，一键人人分享工具，快捷键ctrl+shift+z, 双击确定!</a><br><a href="https://chrome.google.com/webstore/detail/tss下载助手/odhkpoplnhfnhhhkgphckabboemiifle" title="TSS下载助手" target="_blank" rel="external">TSS下载助手：让你方便一键批量下载</a><br></div>
+
+<p>资源：<br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" title="System Analysis and Design (Kenneth Kendall) Review Part1" target="_blank" rel="external">系统分析与设计part1</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" title="System Analysis and Design (Kenneth Kendall) Review Part2" target="_blank" rel="external">系统分析与设计part2</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" title="System Analysis and Design (Kenneth Kendall) Review Part3" target="_blank" rel="external">系统分析与设计part3</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" title="System Analysis and Design (Kenneth Kendall) Review Part4" target="_blank" rel="external">系统分析与设计part4</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" data-id="cibns19y2000uv4rtm2yzqv5m" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Design/">Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SystemAnalysis/">SystemAnalysis</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-system-analysis-design-kenneth-kendall-review-part3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/">System Analysis and Design (Kenneth Kendall) Review Part3</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/">
+    <time datetime="2013-11-27T09:20:43.000Z" itemprop="datePublished">2013-11-27</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/System-Analysis-and-Design/">System Analysis and Design</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="6-_设计有效的输出">6. 设计有效的输出</h2><h3 id="6-1-输出设计目标">6.1.输出设计目标</h3><p>1.设计满足特定用途或组织目标的输出<br>输出要面向用户，考虑用户的年龄、收入和文化层次。</p>
+<p>2.制作对用户有意义的输出<br>设计要满足特定用户的需求，决定什么是内容，什么是途径。<br>考虑输出的时间和地点 [more…]</p>
+<p>3.交付合适数量的输出<br>决定要给用户多少信息，根据对用户的调查来决定，根据对象的重要性，数量和个数来决定<br>如：搜索后的结果</p>
+<p>4.合理分配输出，确保重要信息是必不可少的<br>如商店的门户网站，分类信息要展示<br>对必不可少的信息进行版本化，如计算器的科学性和普通型</p>
+<p>5.按时提供输出<br>In-Time 按时，及时的展现，考虑输出的时效性<br>如每年南大的主页在高考时很重要<br>如滴滴打车，采用语音输出</p>
+<p>6.选择最有效的输出方式：报表，屏幕输出，音频或视频输出。</p>
+<h3 id="6-2-选择输出技术时需要考虑">6.2.选择输出技术时需要考虑</h3><p>1)谁将使用，看到输出。<br>2)多少人需要输出<br>3)哪里需要输出，如配送部门和后勤部门<br>4)输出的目的<br>5)输出的速度是多少<br>6)访问输出的频率如何<br>7)输出将必须存储多长时间<br>8)产生、存储和分发输出必须遵循的特殊规则是什么<br>9)维护和供应的最初与后续的成本是什么<br>10)输出技术的环境需求是什么：易接近性、噪声吸收、温度控制、设备空间、电缆架设以及WiFi发射机的接近程度。 例如：打印输出噪声很大。</p>
+<h3 id="6-3-常见的输出技术">6.3.常见的输出技术</h3><p><img src="http://i44.tinypic.com/2q9cthc.jpg" alt=""><br>补充如下：<br>1. 打印机输出：如报表行程单、化验单、信用卡账单、财务单，具有持久性，需要考虑浪费纸张的成本，噪声，采用合适的表格形式<br>2. 视频输出：<br>补充静态的打印输出。<br>远程协作，将那些不能经常见面的人联系在一起<br>教学，帮助，培训视频<br>记录当前事件，方便以后的输出<br>保存一个重要情节，收藏，存档</p>
+<p>3. 动画输出：增强web站点的演示效果；比抽象的图像带来更好地决策支持。<br>4.电子邮件输出：可以用于私密信息。<br>5. 输出技术两种分类：<br>推技术：向用户推送信息，如推送流量统计，可以采用短信或电子邮件的方式。<br>拉技术：用户主动发起请求数据，如web上点击链接</p>
+<h3 id="6-4-避免输出的偏差">6.4.避免输出的偏差</h3><p>1.偏差的来源<br>a)信息排序的方式<br>b)可接受的边界值引入的偏差<br>c)使用图形引入的偏差</p>
+<p>2.如何避免偏差<br>a)明确偏差来源<br>b)在测试Web文档的外观过程中，设计交互式输出，让各种用户参与测试，并使用各种不同的系统配置测试输出。<br>c)让用户参与输出设计，使它们认识到输出信息中可能存在的偏差<br>d)创建灵活的输出，使得用户能修改边界值和范围。<br>e)训练用户依靠多种输出对系统输出执行“逼真测试”</p>
+<h3 id="6-5-印制报表的设计原则">6.5.印制报表的设计原则</h3><p>1.确定报表设计约定<br>设计表单时要遵循的约定包括：每个位置上出现的数据类型，表单大小，以及表明连续表上数据延续部分的方式。<br>2.纸张质量、类型和大小<br>3.功能、风格和美观程度<br>4.报表的功能属性：标题、页码、准备日期、列标题、相关数据项的集合、控制分割行的使用</p>
+<h3 id="6-6-设计屏幕输出">6.6.设计屏幕输出</h3><p>1.原则<br>a)保持屏幕简单<br>b)保持屏幕显示的一致性<br>c)方便用户在屏幕间移动<br>d)创建吸引人的屏幕</p>
+<p>2.在屏幕输出时使用图形要考虑<br>a)图形的用途<br>b)需要显示什么样的数据<br>c)读者对象<br>d)不同图形输出对读者的影响</p>
+<p>3.选择仪表盘输出时考虑：<br>a)确保数据有上下文<br>b)显示合理的汇总的精度<br>c)选择合适的工作指标进行显示<br>d)公正地表现数据<br>e)选择正确的图表样式进行显示<br>f)使用精心设计的显示媒体：大小、图片、颜色、标签<br>g)限制项目类型的多样性<br>h)突出显示重要数据<br>i)将数据按有意义的小组进行编排<br>j)保持屏幕简洁<br>k)使整个仪表板保持在一个单独的屏幕上</p>
+<p>4.Wedget和Gadeget输出<br>a)窗口小部件，可以个性化桌面<br>b)证券报价机、天气预报、RSS反馈可以采用widget<br>c)但widget会分散用户对系统支持的任务的注意力。</p>
+<h2 id="7-设计有效的输入">7.设计有效的输入</h2><h3 id="7-1-对输入的质量要求">7.1.对输入的质量要求</h3><p>1.输入的质量<br>1)有效性：输入表单、输入屏幕和Web上的输入窗体在信息系统中服务于具体的目的。<br>2)准确性：所作出的设计能保证用户准确输入数据。<br>3)易用性：表单和屏幕简单易懂<br>4)一致性：所有输入窗体，在不同的程序中按类似的方式组织数据。<br>5)简单性：设计简洁，让用户集中注意力输入数据。<br>6)有吸引力：精心设计表单，让用户喜欢</p>
+<p>2.输入还需要保证<br>完整性<br>输入顺序要合理：从主体到客体，重要到次要<br>如简历：先基本信息，再个人获奖，个人工作经历</p>
+<h3 id="7-2-良好的表单设计(纸质表单)">7.2.良好的表单设计(纸质表单)</h3><p>1.设计原则<br>a)使表单容易填写<br>b)满足用户的需求<br>c)保证输入的完整性，准确性<br>d)有吸引力</p>
+<p>2.使表单容易填写<br>a)表单流：从左到右，从上到下<br>b)表单的7个部分<br>i.标题<br>ii.标识和访问控制<br>iii.用法说明<br>iv.主体<br>v.签名和确认<br>vi.总结<br>vii.评论</p>
+<p>c)加标题：行标题，行下标题，加框标题，垂直选择标记，水平选择标记。<br>标题要有相关注释。<br>标题风格保持一致。</p>
+<p>3.满足用户的需求<br>创建表单目的：记录、处理、保存和获取商业所需信息。</p>
+<p>4.确保完整性和输入的准确性<br>这样可以让与收集数据相关的错误率大幅度降低。</p>
+<p>5.表单设计要有吸引力<br>按预期顺序组织信息：姓名、街道地址、城市、州(省)、邮政编码<br>吸引力来自于正确的表单布局和流向。<br>字体样式和线条粗细也是有用的设计元素。</p>
+<p>6.表单设计软件：如scansoft</p>
+<p>7.业务表单控制：<br>a)确保表单的输入是为了达到特定的需求，并且该需求是组织功能不可分割的。<br>b)避免重复信息，避免使用重复表单。<br>c)设计高效的表单。<br>d)以尽可能低的成本制作表单</p>
+<h3 id="7-3_良好的Web屏幕和Web窗体设计">7.3 良好的Web屏幕和Web窗体设计</h3><h4 id="7-3-1-屏幕设计原则">7.3.1.屏幕设计原则</h4><p>1.电子、web表单与静态表单的区别：<br>有光标，指示当前的数据输入位置<br>可以在上下文加入相关帮助</p>
+<p>2.设计原则<br>a)保持简洁<br>b)一致性<br>c)易于用户在屏幕间移动<br>d)创建有吸引力和满意的屏幕</p>
+<p>3.保持屏幕的简洁<br>屏幕输出的三个部分：<br>•标题：文件名称、下拉菜单和执行某些任务的图标<br>•主体：输入数据，从左到右，从上到下<br>•评论和用法说明<br>另一种保持简洁的方法是：使用上下文相关帮助和其他弹出窗口，利用超链接</p>
+<p>4.保持屏幕一致性：<br>a)与相关的纸质表单保持一致性<br>b)每次访问新屏幕时信息出现在同一个区域<br>c)逻辑上不可分割的信息始终组织在一起</p>
+<p>5.易于用户在屏幕间移动<br>a)易于用户从在不用web页之间移动<br>b)“三次单击”规则：用户应能在三次单击鼠标或按键之内，转到他们所需的屏幕。<br>c)使用向下箭头滚动屏幕<br>d)上下文相关的弹出窗口<br>e)屏幕对话</p>
+<p>6.设计有吸引力的屏幕<br>a)足够的留白，让用户集中注意力到数据上<br>b)使用逻辑流计划屏幕信息，按用户处理问题的方式组织屏幕信息，让他们容易找到所需信息<br>c)将信息划分为3个部分，参见简洁性，划分遵循一致性原则<br>d)采用粗细不同的线条划分不同的类目<br>e)反转影像，闪烁光标，但要慎用。<br>f)使用不同的字体</p>
+<p>7.屏幕设计中使用图标<br>a)每个应用程序使用的图标控制在20个之内<br>b)相关图标要一起出现，保持连续性和易懂性<br>c)图标含义越丰富，越有用。</p>
+<h4 id="7-3-2-GUI元素的设计">7.3.2.GUI元素的设计</h4><p>1.文本框：大小要能容纳所有的字符。要有标题。<br>2.复选框：标签放在复选框的右边；如果超过10个，要将他们组成一个组，并框起来。<br>3.单选按钮：选项文本放在右边；如果选项按钮超过6个，考虑下拉菜单。<br>4.下拉菜单和列表框<br>5.滑动块按钮和旋转按钮<br>6.图像映射<br>7.文本区<br>8.消息框<br>9.命令按钮</p>
+<p>10.表单控件和数值：GUI界面包括的每个控件必须有某种方法来存储与控件相关的数据。 Web页面上，可以采用名称和值对来实现。 每个Web表单控件获取数值的方法是不同的。<br>11.隐藏字段：表单中，对用户不可见，但需发送到服务器的数值<br>12.事件响应图：当GUI交互很复杂时，可以采用事件响应图列出各种可能发生的事件，概要的建立商业事件和响应的模型。<br>13.动态web网页：根据用户操作改变网页内容，基于JavaScript，可以用来显示临时的信息。但对需要加密，提供安全保护的数据，不要采用动态web的形式。而缺点是用户禁用JavaScript后，网页不可用。<br>14.Ajax，异步更新，web运行更快，更流畅。缺点是JavaScript必须启用，安全性问题。</p>
+<p>15.选项卡控件对话框设计原则：<br>a)为每个独特的特性创建一个分离的选项卡<br>b)将最常用的选项卡放在前面，并首先显示<br>c)可以考虑在设计的选项卡控件对话框中包含三个基本按钮：OK，Cancel，Help</p>
+<p>16.Web中使用色彩<br>a)色彩搭配要协调：对比前景和背景，突出表单上重要字段，显示错误。</p>
+<p>b)容易辨认的搭配：前景明亮，背景用不太明亮的。<br>i.黑底文字在黄色背景上<br>ii.绿色文字在白色背景上<br>iii.蓝色文字在白色背景上<br>iv.白色的文字在蓝色的背景上<br>v.黄色的文字在黑色的背景上</p>
+<p>c)色彩不宜超过4种，对于有经验的用户，不要超过7种。</p>
+<h3 id="7-4-内联网和互联网页设计">7.4.内联网和互联网页设计</h3><p>指导原则<br>1)提供清楚的用法说明<br>2)演示窗体的逻辑填写顺序，特别是因为用户滚动而看不到的部分<br>3)为特殊功能增加窗体的吸引力，使用各种文本框，按钮，下拉菜单、复选框和单选按钮<br>4)如果我们不能确定用户响应某个问题时将在字段中输入多少个字符，或者不能确定用户使用什么语言、结构或窗体输入数据，提供一个可滚动的文本框<br>5)为每个Web输入窗体准备两个基本按钮：Submit 和 Clear Form<br>6)如果窗体很长，且用户进行滚动之外别无它法，那么最好将窗体分成几个简单地窗体，放在不同的网页上<br>7)创建一个错误反馈屏幕<br>对于电子商务应用程序还需要达到目标：阐明有关信任、隐私和退货方面公司的任务和价值；建立高效的事务处理过程；建立良好的客户关系。</p>
+<h2 id="8-_HCI人机交互">8. HCI人机交互</h2><h3 id="8-1-基本概念">8.1.基本概念</h3><p>1.HCI是指确保系统的功能和可用性，提供有效的用户交互与支持，以及增强用户快乐体验。总体目标是实现组织和个人用户的效率和有效性。<br>2.主要策略：不断引出用户对原型设计（屏幕、表单、界面等）的使用经验反馈，根据修改建议提炼设计，然后再让用户试用，直到用户满意，最后由分析员固定下来。面谈就是一种获得HCI反馈的重要方式。<br>3.技术接受模型：感知有用性和感知易用性<br>4.可用性：包括产品使用的有效性、效率和在特定环境下使用的满意度、用户界面交互，开发产品的过程，组织应用以用户为中心的设计的能力<br>5.HCI设计中考虑用户的身体因素：视觉，听觉，触觉，考虑人的缺陷、残障和意图。</p>
+<p>6.良好的HCI进行系统设计的指导原则<br>1)界面与任务相匹配<br>2)提高界面效率<br>3)提供适当的反馈<br>4)生成有用的查询<br>5)提高工作者的效率</p>
+<p>7.评价UI的原则<br>1)较短的学习时间<br>2)用户不用多加考虑或者不用查阅手册和帮助菜单，就可以输入指令<br>3)界面应该与实际功能“无缝”连接，确保出出错概率小<br>4)用户和系统出错后恢复时间尽可能短<br>5)偶尔使用的用户重新学习系统时要尽可能快<br>6)界面提供信息准确，界面友好</p>
+<h3 id="8-2-对话设计的指导原则">8.2.对话设计的指导原则</h3><p>1.交流要让用户和计算机都能理解，意义明确</p>
+<p>2.最小化用户的行为，减少不必要的操作，可以采用以下方式：<br>1)输入时用代码代替词组<br>2)只输入系统中没有存储的数据<br>3)提供缺省信息<br>4)提供help信息，不要让用户乱操作<br>5)提供符合常规的快捷键</p>
+<p>3.操作的规范化和一致性<br>1)界面的标题、日期、时间、操作提示和反馈信息固定在相同位置<br>2)使用相同的键位或者菜单退出程序<br>3)采用一致的方法取消事务<br>4)用标准化的方法获得帮助，如F1<br>5)屏幕采用标准化的色彩<br>6)GUI中使用标准化的图标<br>7)网站中术语要一致<br>8)提供一致的方法实现对话导航<br>9)文字大小、颜色和对齐方式保持一致</p>
+<h3 id="8-3-用户界面类型">8.3.用户界面类型</h3><p>1.自然语言界面：实现复杂，如ask.com自然语言查询，对资源有特殊要求<br>2.问答式界面，对话框，适用于不熟悉特定应用或不了解某个主体的用户</p>
+<p>3.菜单：<br>优点：分类显示，不杂乱；减少界面无关信息；嵌套菜单可以提高用户的操作速度。<br>指导原则：<br>•层次和分类要清晰，不能混淆，<br>•主菜总是单停留在导航栏<br>•子菜单的层数不要超过3层<br>•下拉菜单按功能特征分区或者分组<br>•元素不要太拥挤，不重复，不遗漏，先主后次。<br>•选中主菜单的词后，弹出下拉菜单。<br>•不可用的选项灰色表示</p>
+<p>4.Form表单<br>用于输入和输出<br>•原则：<br>屏幕窗体要说明应该输入什么信息，以及在哪里输出。<br>在空白字段中输入数据时，输入内容应该反白或闪烁显示。<br>为简化窗体数据的输入，可预先给出默认值。<br>•优点：打印出的表单内容是极好的文档<br>•缺点：让有经验的用户厌烦，总希望找到一种更有效的数据输入方法。</p>
+<p>5.命令行:专业、学习难</p>
+<p>6.对话框<br>采用标准的操作，保证一致性，交流要有意义，提供最少的操作交互和行为。</p>
+<p>7.其他类型的用户界面<br>指示笔、触摸屏、语音识别与合成、触摸屏<br>语音交互的优点：让用户能腾出手来完成其他事项的同时，如驾驶，可以极大的提高数据输入速度。为有视觉或行为障碍的用户提供方便。</p>
+<h3 id="8-4-为用户提供反馈">8.4.为用户提供反馈</h3><p>1.反馈类型<br>a)确认接受了输入数据<br>b)确认输入格式正确</p>
+<p>c)提示输入格式不正确<br>反馈可以是新的界面、消息框、音频反馈<br>反馈要保证效率和准确性</p>
+<p>d)解释系统运行中的延迟<br>e)确认请求完成<br>f)提示用户请求无法完成<br>g)为用户提供更详细的反馈</p>
+<p>2.在系统设计中包含反馈<br>a)提供各种帮助选项，F1，<br>b)下拉菜单帮助<br>c)鼠标悬停的提示文本<br>d)帮助向导<br>e)帮助热线</p>
+<h3 id="8-5-电子商务网站的设计原则">8.5.电子商务网站的设计原则</h3><p>1.在网站上采用各种方法从客户处获得反馈<br>在用户启动电子邮件程序的同时，自动把公司的邮件地址放在“收件人”处<br>添加反馈按钮，点击后打开信息模板</p>
+<p>2.采用4种方法提供一次点击的导航，以确保用户容易地在网站中导航，并易于返回原来的网页。<br>1)建立卷滚菜单<br>2)在主页上按分层关系建立网站链接集，显示关键主题框架。<br>3)把网站地图放在主页上，并突出到该地图的链接，提高导航效率。<br>4)在网站内每一个页面上设置导航条，重复首页上的条目。</p>
+<div style="color: #EF4808"><br>两个好用的Chrome插件，小伙伴们看完复习资料支持一下吧：<br><a href="https://chrome.google.com/webstore/detail/剪影截图/gkloklemhahnoipikedmafefilidffko" title="剪影截图" target="_blank" rel="external">剪影截图：好用的网页截图，一键人人分享工具，快捷键ctrl+shift+z, 双击确定!</a><br><a href="https://chrome.google.com/webstore/detail/tss下载助手/odhkpoplnhfnhhhkgphckabboemiifle" title="TSS下载助手" target="_blank" rel="external">TSS下载助手：让你方便一键批量下载</a><br></div>
+
+<p>资源：<br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" title="System Analysis and Design (Kenneth Kendall) Review Part1" target="_blank" rel="external">系统分析与设计part1</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" title="System Analysis and Design (Kenneth Kendall) Review Part2" target="_blank" rel="external">系统分析与设计part2</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" title="System Analysis and Design (Kenneth Kendall) Review Part3" target="_blank" rel="external">系统分析与设计part3</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" title="System Analysis and Design (Kenneth Kendall) Review Part4" target="_blank" rel="external">系统分析与设计part4</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" data-id="cibns19ya0012v4rt3ifol9j8" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Design/">Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SystemAnalysis/">SystemAnalysis</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-system-analysis-design-kenneth-kendall-review-part2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/">System Analysis and Design (Kenneth Kendall) Review Part2</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/">
+    <time datetime="2013-11-27T03:07:46.000Z" itemprop="datePublished">2013-11-27</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/System-Analysis-and-Design/">System Analysis and Design</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="4-_分析：使用数据流图">4. 分析：使用数据流图</h2><h3 id="4-1-数据流图功能和优点">4.1.数据流图功能和优点</h3><p>概念化数据在整个组织是如何流动的，数据经历的过程和变换，以及输出。<br>优点：<br>(1) 不必过早着手系统和技术的实现。<br>(2) 进一步了解系统和子系统的相互关系。<br>(3) 通过数据流图与用户交流当前系统的知识。<br>(4) 更好地了解业务，分析建议的系统以确定是否定义了必要的数据和过程。[more…]</p>
+<h3 id="4-2-数据流图的图例规范">4.2.数据流图的图例规范</h3><p><img src="http://i42.tinypic.com/105a914.jpg" alt=""><br>1. 实体的命名：名词<br>2. 数据流命名：名词<br>3. 过程命名<br>在上下文图中，赋予整个系统的名称， 如“选课系统”<br>命名子系统时，使用诸如“预定子系统”， “Web用户执行系统”<br>具体过程命名：动词+形容词+名词 “计算净工资”，每一个过程要有一个唯一编号，指出它在图中的层次。</p>
+<h3 id="4-3-开发数据流图步骤">4.3.开发数据流图步骤</h3><p>1. 步骤<br>1)制定一个业务活动列表：实体，数据流，过程，数据存储<br>2)创建上下文图，外部实体+输入+输出+系统，没有过程和数据存储<br>3)0层图：分解系统，展示高层的过程和数据存储，过程一般不超过9个，为避免数据流线交叉，同一个实体和数据存储可以出现多次。<br>4)画0层图中每个过程的子图<br>注意编号与父过程相同<br>纵向平衡——不能有父过程没有的输入和输出。<br>子图中通常不显示实体，显示接口数据流。<br>可以有父过程中没有显示的数据存储。<br>5)检查错误：编号正确，命名正确，输入输出清晰，没有back hole, 没有miracle<br>6)根据逻辑数据流图，开发物理数据流图：通过名字描述真实地文件和报表的物理存储，增加控制以指出合适过程完成或发生错误。<br>7)分割物理数据流图。</p>
+<p>2. 注意点<br>1) 图例和标识的准确性<br>2) 数据流：不能从实体到实体，不能存储到存储，可以从实体到过程，过程到过程，过程到存储<br>3) 数据流图的层次性<br>4) 尽量不要有线性流，即一个输入和输出的过程，出现通常是遗漏了数据流，一个过程输入和输出总数在&gt;=4个以上最好。<br>5) 用户要能理解</p>
+<h3 id="4-4_如何向用户解释数据流图">4.4 如何向用户解释数据流图</h3><p>1. 数据流图的标记要具体而有意义、<br>2.可以通过举例，类比和问询，让用户了解DFD的原理<br>3.每个DFD的过程控制在9个以内，太大的图，则要分解，保证在一页纸内<br>4.结合表格和图表向用户解释</p>
+<h3 id="4-5-逻辑数据流图_vs_物理数据流图">4.5.逻辑数据流图 vs 物理数据流图</h3><p>1) 二者的区别<br><img src="http://i44.tinypic.com/11r86lx.jpg" alt=""></p>
+<p>2)逻辑数据流图优势<br>a)更好地与用户交流<br>b)系统更稳定<br>c)更好地了解业务<br>d)灵活、更易维护<br>e)消除冗余，更容易创建物理模型</p>
+<p>3)物理数据流图优势<br>a)澄清哪些过程是手工的，哪些是自动的<br>b)更详细的描述过程<br>c)标识临时数据存储<br>d)指定真实地文件名和打印输出名<br>e)增加确保正确地完成过程的控制。<br>物理数据流图创建方法：事件建模法，用例法.</p>
+<p><img src="http://i44.tinypic.com/xnyzbo.jpg" alt=""></p>
+<h2 id="5-_使用数据字典分析系统">5. 使用数据字典分析系统</h2><h3 id="5-1-数据字典的基本概念">5.1.数据字典的基本概念</h3><p>1.数据字典定义<br>是一种关于数据的数据参考书，指导系统的分析与设计，包括数据流，数据结构，数据元素和数据存储。</p>
+<p>2.数据字典的必要性<br>a)作为数据的记录文档<br>b)消除冗余，保证数据的一致性<br>c)验证DFD的完备性和准确性<br>d)为开发界面和报表提供切入点<br>e)找出数据流图中过程的逻辑<br>f)创建XML</p>
+<p>3.DFD与数据字典的关系<br><img src="http://i42.tinypic.com/28k6bud.jpg" alt=""></p>
+<h3 id="5-2_数据流的描述">5.2 数据流的描述</h3><p>通过DFD确定系统的输入和输出，对每个数据流描述如下，具体实例可以看书。<br>1)ID：可选标识符<br>2)数据流名称<br>3)数据流描述<br>4)数据流来源<br>5)数据流目标<br>6)数据流类型：文件、界面、报表、表格或内部数据(中间的临时数据)<br>7)包含的数据结构<br>8)单位时间的流量<br>9)备注</p>
+<h3 id="5-3-数据结构描述">5.3.数据结构描述</h3><p>1.描述<br>1)= 表示组成<br>2)+ 表示“和”<br>3){} 表示重复元素，一定有至少一个 1~n，可以包含固定重复次数，或上限与下限<br>4)[] “非此即彼”，互斥的选择<br>5)() 表示可选元素 0~1<br><img src="http://i42.tinypic.com/256fnuc.jpg" alt=""></p>
+<p>2.逻辑数据结构和物理数据结构<br>逻辑数据结构是业务上，用户看到的数据。物理数据结构是软件实现所需要的数据。<br>物理数据结构需要增加：<br>1)键字段，唯一标识一条记录<br>2)标识主记录的状态代码，诸如一个雇员当前被雇佣或否。<br>3)如果一个文件包含不同的记录类型，则可以用交易码标识记录的类型。例如，包含返还项的记录和支付记录的信用文件。<br>4)重复组数据项，包含该组中有多少个数据项的计数。<br>5)重复组中数据项多少的限制<br>6)客户访问一个安全Web站点的密码。</p>
+<h3 id="5-4_数据元素描述">5.4 数据元素描述</h3><p>1)ID, 可选的<br>2)元素名称<br>3)别名<br>4)简短描述<br>5)是基本元素还是派生元素</p>
+<p>6)元素长度：<br>对于数值金额的长度，给出最大数额。<br>名称和地址，给出合适的长度<br>对于其他字段，参照历史数据</p>
+<p>7)数据类型：数值，日志，字母，varchar，字符<br>8)如果用特殊编码符号表明应当如何表示数据，则应包含输入和输出的格式。</p>
+<p>9)验证标准，保证数据的精确性，对于离散或连续的数据有以下标准<br>a)某个值范围适合包含连续数据，如GPA 0.00~4.00<br>b)如果数据式离散的，则指出一组值<br>c)如果值的列表是泛指的，则可以采用一个代码表<br>d)对于键或者索引元素，通常包含一个校验位</p>
+<p>10)提供某些元素的默认值<br>11)备注区域</p>
+<h3 id="5-5-数据存储描述">5.5.数据存储描述</h3><p>1)ID，必须有<br>2)数据存储名<br>3)文件的别名<br>4)简短描述<br>5)文件类型：人工文件或计算机文件<br>6)如果是计算机文件，则文件格式指明是数据库文件，还是传统的平面文件<br>7)文件上记录的最大记录数和平均记录数<br>8)文件或数据名指定的文件名(如果已知)<br>9)数据结构应使用数据字典中的名字，提供与此数据存储的元素的连接</p>
+<h3 id="5-6-创建数据字典">5.6.创建数据字典</h3><p>1.先创建DFD，自顶向下开发数据字典和数据流图。可以为每一个层次的DFD创建数据字典。<br><img src="http://i42.tinypic.com/ddp0mh.jpg" alt=""><br>子数据流图上的数据流名称，包含在父过程上的数据流的元素或结构化记录中</p>
+<p>2.分析输入输出<br>输入输出分析表包括：<br>1)输入或输出的描述名<br>2)负责进一步澄清细节、设计反馈和最后核准的用户联系信息<br>3)输入数据还是输出数据<br>4)数据流的格式。逻辑DFD，可以处于未确定<br>5)表明报表上或者界面上的数据顺序的元素<br>6)一个元素列表，包括元素的名称、长度，是基本元素还是派生元素，编辑标准。</p>
+<p>3.开发数据存储<br>确定永久信息或临时信息。</p>
+<h3 id="5-7-使用数据字典">5.7.使用数据字典</h3><p>数据字典可以用来创建界面、报表和表单<br>1.使用数据字典产生计算机语言时要考虑<br>1)输出数据流中的基本元素必须出现在产生该输出数据流过程的输入数据流中。基本元素由键盘输入，而不由某一个过程创建<br>2)派生元素必须由过程创建，并且至少应当由一个不是该元素自身为输入的过程输出<br>3)输入或者输出某个数据存储的数据流中的元素，必须包含在该数据存储中</p>
+<p>2.使用数据字典可以创建XML文档<br>XML是一种可用来在企业中交换数据的语言，是一种对数据进行定义、排序、过滤并把它转换成一种每个人都可以使用的统一数据语言的方法。</p>
+<div style="color: #EF4808"><br>两个好用的Chrome插件，小伙伴们看完复习资料支持一下吧：<br><a href="https://chrome.google.com/webstore/detail/剪影截图/gkloklemhahnoipikedmafefilidffko" title="剪影截图" target="_blank" rel="external">剪影截图：好用的网页截图，一键人人分享工具，快捷键ctrl+shift+z, 双击确定!</a><br><a href="https://chrome.google.com/webstore/detail/tss下载助手/odhkpoplnhfnhhhkgphckabboemiifle" title="TSS下载助手" target="_blank" rel="external">TSS下载助手：让你方便一键批量下载</a><br></div>
+
+<p>资源：<br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" title="System Analysis and Design (Kenneth Kendall) Review Part1" target="_blank" rel="external">系统分析与设计part1</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" title="System Analysis and Design (Kenneth Kendall) Review Part2" target="_blank" rel="external">系统分析与设计part2</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" title="System Analysis and Design (Kenneth Kendall) Review Part3" target="_blank" rel="external">系统分析与设计part3</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" title="System Analysis and Design (Kenneth Kendall) Review Part4" target="_blank" rel="external">系统分析与设计part4</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" data-id="cibns19yg0017v4rttgdtvdnp" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Design/">Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SystemAnalysis/">SystemAnalysis</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-system-analysis-design-kenneth-kendall-review-part1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/">System Analysis and Design (Kenneth Kendall) Review Part1</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/">
+    <time datetime="2013-11-27T02:23:37.000Z" itemprop="datePublished">2013-11-27</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/System-Analysis-and-Design/">System Analysis and Design</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>系统分析与设计，感觉上是一个需求和软工的大汇总，不温不火，方面很多，只能算是对软件工程的overview。</p>
+<h2 id="1-信息收集交互式方法">1.信息收集交互式方法</h2><p>交互式信息收集有：面谈、联合应用程序设计JAD和调查问卷.</p>
+<h3 id="1-1_面谈">1.1 面谈</h3><p><strong>1. 面谈的概念</strong><br>面谈是一种面对面的会谈，目的明确，一般采用问答形式。面谈时，需要获取面谈对象的观点，他们对系统当前状态、组织和个人目标、以及非正规过程的感受。[more…]</p>
+<ul>
+<li>调查面谈对象的观点。</li>
+<li>尽力获取面谈对象的感受。</li>
+<li>目标是尽力收集重要信息，组织的目标。</li>
+<li>面谈也是考察HCI问题的宝贵时机。<br><strong>2.面谈的5各步骤</strong><br>1)阅读背景材料：与面谈对象建立共同词汇<br>2)确定面谈目标：问题中应该有4-6个与HCI、信息处理和决策行为有关。<br>3)决定面谈对象：按层次和影响力选择谈话对象。<br>4)准备面谈对象：打电话或者邮件提前预约<br>5)决定问题的类型和结构：金字塔结构、漏斗结构或者菱形的结构</li>
+</ul>
+<p><strong>3.问题类型</strong><br><strong>1)开放式问题</strong><br><strong>优点：</strong><br>•让用户谈话自在<br>•可以收集面谈对象使用的词汇，这能反映其教育背景、价值标准、态度和信念<br>•提供丰富的细节，广度<br>•对尚未的进一步的提问方法有启迪作用。<br>•让面谈对象更感兴趣<br>•允许更多的自发性<br>•会见者更容易措辞<br>•在会见者没有准备的紧要关头采用这种类型<br><strong>缺点：</strong><br>•容易不切题，产生太多不相干的细节<br>•时间冗长，花费大量时间才能获得有用的信息<br>•可能会让用户觉得你没有准备，不够专业<br>•留下不好的印象，用户会觉得你在做没有实际意义的调查<br>•后期数据分析较难</p>
+<p><strong>2)封闭式问题</strong><br><strong>优点</strong><br>•有针对性，切中要点<br>•能获得准确、贴切的数据<br>•时间上可控，节省时间，可以快速探讨大范围问题。<br>•保持对面谈的控制权<br>•数据分析容易<br><strong>缺点：</strong><br>•让用户厌烦<br>•得不到丰富的细节，失去主要思想<br>•不能建立和面谈对象友好的关系</p>
+<p><strong>4.问题结构</strong><br>1)金字塔：先封闭后开放，先具体后一般化，用于用户需要预热，开始拘谨的情况<br>2)漏斗：先一般后具体，适用用户一开始就有激情的情况<br>3)菱形：具体——一般——具体，缺点是费时，优点是：具体的问题开始为面谈做好铺垫，再问一般化问题可以收集丰富的信息，再用具体的问题收尾，为面谈提供了结束的时机。</p>
+<h3 id="1-2_JAD联合应用程序设计">1.2 JAD联合应用程序设计</h3><p>由IBM开发，一种一对多的面谈方法，目的是节省个人面谈所需的时间，减少成本；改善信息需求评估结果的质量；通过多方一起参加的过程，获得用户对新信息系统的更多的认可。<br><strong>1.条件</strong><br>•用户时间有限，一对一面谈不行<br>•公司文化允许不同层次的职员间联合问题求解<br>•用户想有点新东西，创新意愿强，而一对一面谈难以得到统一的意见<br>•组织允许关键职员离职2~4天<br><strong>2.涉众：</strong><br>分析员、用户、主管等，<br>一个沟通能力好的主持人<br>8~12位不同阶层的用户<br>需要有两名置身事外的观察员，保证JAD的进行。<br><strong>3.召开会议地点：</strong>一般式2~4天的脱产会议，在远离单位的舒服环境下<br><strong>4.优点</strong><br>•比面谈节省时间<br>•联合协作，可以实现快速软件开发。<br>•改善信息系统所有权的可能性。让用户早日参与系统，获得用户反馈<br>•创造性的开发设计，类似头脑风暴<br><strong>5.缺点</strong><br>•要求所有参与者抽出大块时间，2~4天<br>•任何一方准备不充分，或者后续报告和规范文档没有完成，最终得到的设计会不尽人意<br>•可能还没有充分发展必须得组织技能和组织文化，组织可能还不支持JAD</p>
+<h3 id="1-3_问卷调查">1.3 问卷调查</h3><p>问卷调查是一种信息收集技术，它允许系统分析员研究组织中若干关键人物的态度、信念、行为和特征，而这些关键人物可能会受到当前建议系统的影响。<br><strong>1.使用条件</strong><br>•组织成员分布广泛<br>•系统项目涉及许多人<br>•推荐方案之前必须做探索性工作，希望在确定系统项目具体方向之前评估总体意见。<br>•希望在后续的面谈中标识并解决当前系统的所有问题。</p>
+<p><strong>2.问题类型</strong><br><strong>1)开放式问题：</strong><br>要估计开发式问题答复的种类，不能太宽泛<br>开放式问题适合想了解公司成员对系统的产品方面，或对系统的过程方面的看法的情况，如果不能有效的列出所有可能的答复，考虑开发式问题。<br>优点：探索性好，广度和深度广，准备问题容易<br>缺点：完成速度慢，分析数据难<br><strong>2)封闭式问题</strong><br>如果要调查大量人员的样本，采用封闭式，数据好统计。<br>如果能有效的列出问题可能的相互排斥的所有答复，采用封闭式问题。<br>优点：完成速度快，分析数据容易<br>缺点：广度和深度窄，准备问题不容易，探索性低</p>
+<p><strong>3.措辞的选择</strong><br>使用一致的和企业业务相关的术语<br>•保持措辞简练<br>•使用明确字眼，但避免过度明确问题，如收入等敏感信息<br>•保持问题简短<br>•不要选择低水平的语言，不要用高人一等的口气<br>•避免措辞的偏差<br>•向合适的人发放问卷，不要采用太多专业知识<br>•确保问题中涉及的技术的准确<br>•使用软件检验阅读水平是否合适回答者</p>
+<p><strong>4.在问题中的标度的使用</strong><br>定标：为了度量属性或者特征而为他们分配编号或其他符号的过程。<br>1)度量：类别标度，区间标度<br>2)构造定标时要考虑：<br>有效性：度量的内容的程度<br>可靠性：度量的一致性，如果相同条件下两次调查一致，就是外部一致性<br>3)避免的问题<br>不严格的标度：可以把平均水平移到中心的左边或右边来避免<br>集中趋势：回答者都回答中间值，可以通过减少两个端点的差异，调整描述符的强度，创建一个更多结点的尺度来改善<br>光圈效应：避免在一个问题中印象带入下一个问题</p>
+<p><strong>5.问卷调查表的设计准则：</strong><br>•留出充足的空白空间<br>•留出充足的空间来填写或输入答复<br>•使回答者能够清楚地标出他们的答复<br>•保持风格的一致<br>•提问顺序的选择：<br>（i）把重要问题放在前面，问题要先人后己，先问用户最关心的问题，再问系统或者调查目的需要的问题<br>（ii）把相似内容的问题放在一起<br>（iii）首先提出非敏感和非争议的问题</p>
+<p><strong>6.管理问卷调查表</strong><br>1)回答者：按照调查对象的级别，在公司服务的年限，工作职责和对建议系统的兴趣来选择代表，要选择足够多的代表<br>2)管理调查问卷的方法：<br>a)同时召集所有有关回答者<br>b)亲自发放问卷，并回收<br>c)允许回答者自我处理，并放入中央的箱子里，如web问卷和email问卷，常用的方法，但是回收率可能低<br>d)邮寄给职员，并提供截止日期，填写说明和寄回邮资<br>e)email和web的方式管理</p>
+<h2 id="2-_信息收集非干扰性方法">2. 信息收集非干扰性方法</h2><p>包括：采样、调查、观察决策者行为和物理环境</p>
+<h3 id="2-1-采样">2.1.采样</h3><p>1. 定义：从某一种群的系统中选择有代表性的个体<br>2. 必要性：节约成本、加快数据搜集过程、提高效率、减少偏差<br>3. 四个步骤</p>
+<ul>
+<li>确定要收集或要描述的数据：考虑数据收集方法（调查、面谈、调查问卷和观察等），考虑研究目标</li>
+<li>确定采样种群：硬数据（两个月或全年的报表），采样的客户</li>
+<li>选择采样类型</li>
+<li><p>决定采样规模<br>4. 采样类型：<br>1) 便利采样：容易安排，五约束的非概率型采样，最不可靠<br>2) 目的采样：选择对系统了解，感兴趣的人，这是非概率型采样，只有适度的可信度<br>3) 简单随机采用：每个个体的机会相同，产生一个随机编号表，在文档和报表采用中不切实际。<br>4) 复杂采样是最好的</p>
+</li>
+<li><p>系统采样：在名单中每个K个人选择一个，缺点是存在周期问题，引入偏差，采样大量不成比例的职员</p>
+</li>
+<li>分层采样：最重要的方式，在不同的层次，如管理层，社会阶层，在不同层次中按比例选择。当想对不同层次用户采用不同数据收集方法时采用分层采样。</li>
+<li>聚类采样：选择一组人或文档进行研究</li>
+</ul>
+<p>5.  采样规模<br>1)  确定采样属性<br>2)  定位能查找到的属性的数据库或报表<br>3)  分析属性，估计p，一般取0.1或0.5<br>4)  主观是定一个值，i 作为区间估计<br>5)  选择置信度 z，如 95%时 z=1.96<br>6)  计算种群比例的标准差  σ=i/z<br>7)  计算采样规模：n=(p(1-p))/σ^2  + 1<br>置信度越高采样规模越大<br>确定面谈时的采样规模： 至少与组织中每个阶层的3个人进行面谈，3个人种至少有一个来自组织中的不同部门。</p>
+<h3 id="2-2_调查">2.2 调查</h3><p>调查法：发现数据并对数据进行分析的行为。需要研究不同的硬数据。</p>
+<h4 id="2-2-1_分析定量文档">2.2.1 分析定量文档</h4><p>1.用于决策的报表<br>通常是与库存状态、销售量和生产有关的纸质报表<br>生产报表：包括最近价格、当前库存、最近劳动力和设备等信息<br>总结报表：提供公司的背景和战略信息</p>
+<p>2.业绩报表： 估计实际业绩和预期业绩的差距</p>
+<p>3.记录<br>a)检查数量和总数的错误。<br>b)寻找改善记录表格设计的机会<br>c)观察交易的数目的类型<br>d)寻求能用计算机简化工作的实例（即，计算和其他数据处理）</p>
+<p>4.数据收集表格：有助于理解企业的信息流<br>a)收集所有正在使用的表格样品<br>b)标出表格类型：内部，手写，web表等<br>c)记录打算采用的分发方式<br>d)将打算采用的分发方式和实际收到表格的人做比较<br>数据收集表格的分析耗时，还可以对已经填好的数据表格进行采样，需要记住5个问题：<br>•表格填写完整了么？缺了什么<br>•有从未使用过的表格么？为什么？<br>•所有表格都向相应地人做了详细说明么？没有，为什么？<br>•如果有纸质的表格，和web表格，比较填写速度<br>•经常使用非官方的表格么？</p>
+<h4 id="2-2-2_分析定性文档">2.2.2 分析定性文档</h4><p>电子邮件、备忘录，留言板、工作区的签名、web页面、程序指南和战略手册<br><strong>5个指导原则：</strong><br>•检查文档中的关键比喻或主导比喻<br>•在文档中寻找局内人与局外人或“我们反对他们”的思想状况<br>•列出褒义或贬义的术语，文档中重复出现的术语<br>•查找在公共区域Web页面上公布的有意义的图形、标识语和图标的用法。<br>•识别出幽默感。</p>
+<p>1.备忘录： 了解组织成员对价值、态度和信念的看法<br>2. 公告板或者工作区的标语与海报：体会公司的主流文化<br>3. 公司中的Web站点：分析网站内容的比喻、幽默和使用的特性（颜色、图形、动画和超级链接），从技术、美学和管理方面调查。 调查web站点和站点间的交互性、消息的可访问性和明显的安全性<br>4. 指南：程序指南和在线指南，指南很少会保持更新<br>5. 政策手册：价值观、态度和信念。<br>老师说不考但是上课说道物理环境，也是调查的一部分：办公设备、布置、公司文化，楼层安排，布告栏，email 论坛，公司色调。</p>
+<h2 id="3-_原型化方法">3. 原型化方法</h2><h3 id="3-1_原型化方法">3.1 原型化方法</h3><p>1. 原型：是实际运行的有产品的主要特征，基于软件最初版本的演习。不需要反映所有的功能，只需有软件功能的子集。<br>原型化方法是通过原型来获取有关建议系统和系统如何迅速满足用户信息需求的反馈的极好办法。<br>2. 原型分类一：<br>水平原型：多种功能的展示<br>垂直原型：对某一个功能进行详细展示</p>
+<p>3.原型分类二(书中的分类)<br>•拼凑原型：构件一个可以运行，但又是经过修补或者拼凑而得到的系统。<br>•非操作原型：为了试验设计方案的某些方面而建立的一个非工作比例模型。如汽车实物模型。当编码成本高时采用<br>•系列首发原型：创建系统的第一个实物工作模型，即试验模型，是可以工作的原型。<br>•精选特征原型：建立一个包含最终系统部分特性而不是全部特性的可工作模型。</p>
+<p>4.原型分类三<br>•抛弃式原型：尽可能快速开发<br>•试用型原型：最终的开发平台和原型相同<br>•试验型原型：最终开发平台与原型不同。</p>
+<p>5.原型化方法的优点<br>•根据用户反馈，不断调整修改<br>•开发周期短，成本低<br>•缩短产品和需求的差别，开发出更贴近用户需求和期望的系统<br>•界面原型在获取用户反馈时有很大优势<br>•可以在系统开发早期改变系统<br>•可以中止一个不能工作的系统开发</p>
+<p>6.原型化方法的缺点：<br>•需求不充足，开发者对用户需求不清楚，误解，过早的形成一个系统<br>•原型和最终系统之间存在差别，用户会误以为是最终系统<br>•开发者容易依赖原型，不愿意放弃原型<br>•原型开发成本高时会过度占用开发周期宝贵的时间，最初原型不能超过20%的时间<br>•经济损耗</p>
+<p>7.原型化方法不适用的地方：<br>嵌入式系统：界面简单，与硬件太接近，需求明确<br>实时控制软件：搜索引擎，<br>科学计算：matlab，因需求明确，精度，效率，时间要求明确，模块太多，重要性均等，无法明确判定哪些是重要的需要原型化的。<br>但是很多应用，如游戏是适用于原型开发的。</p>
+<h3 id="3-2_原型开发">3.2 原型开发</h3><p>1. 原型化方法的要求：<br>用户是熟练的专家，可以给出反馈<br>重视界面，如手持设备<br>成本低，不会占用太长的开发周期</p>
+<p>2.开发准则<br>•引进便于管理的模块：但不用建立完整的工作准则<br>•快速建立原型<br>•用连续迭代来修改原型<br>•强调用户界面：用户可以和原型轻松交互</p>
+<p>3.原型开发流程<br>听取用户意见，修改原型，用户测试，不断循环迭代。</p>
+<h3 id="3-3_RAD快速应用程序开发">3.3 RAD快速应用程序开发</h3><p>1. 定义：是一种面向对象的系统开发方法，包括开发方法和开发工具。目标是缩短传统SDLC方法中信息系统的设计和实践之间漫长的时间，反映需求的变更，是原型化方法的一种特殊实现。</p>
+<p>2. RAD的阶段<br><img src="http://i39.tinypic.com/zjv0nb.jpg" alt=""><br>1)需求规划阶段：确定系统的业务目标和信息需求<br>2)RAD设计研讨会：RAD的核心，与用户共同合作设计系统，讨论设计的非技术方面，并对构建的工作原型给出反馈<br>3)实现阶段：根据设计，建立、优化、测试新系统</p>
+<p>3. Jame Martin RAD 四个阶段<br><img src="http://i40.tinypic.com/292bkaq.jpg" alt=""><br>1)需求规划：高级用户决定系统的功能<br>2)用户设计：与用户交互讨论系统的非技术方面<br>3)构建阶段：根据设计，用RAD工具构建，并向用户展示新系统，让他们交互、评论和检查。<br>4)转换阶段：新系统取代旧系统，测试新系统，培训用户</p>
+<p>4.优势<br>•传统SDLC采用的是有序的、系统的开发方法，保证系统的完整性和精确性，<br>但抵制变更，不能很好地处理需求的变更。<br>•RAD缩短SDLC，更欢迎变更。</p>
+<p>5.使用条件<br>•团队中有用过RAD的程序员和分析员<br>•由于商业压力，要求加快应用程序某部分的开发<br>•从事一项全新的电子商务应用程序，并且开发团队相信，如果应用程序是第一个或第一批出现在web上，则企业作为一个创新者取得竞争优势。<br>•用户经验丰富，对公司的组织目标高度负责。</p>
+<p>6.缺点：缺乏文档</p>
+<div style="color: #EF4808"><br>两个好用的Chrome插件，小伙伴们看完复习资料支持一下吧：<br><a href="https://chrome.google.com/webstore/detail/剪影截图/gkloklemhahnoipikedmafefilidffko" title="剪影截图" target="_blank" rel="external">剪影截图：好用的网页截图，一键人人分享工具，快捷键ctrl+shift+z, 双击确定!</a><br><a href="https://chrome.google.com/webstore/detail/tss下载助手/odhkpoplnhfnhhhkgphckabboemiifle" title="TSS下载助手" target="_blank" rel="external">TSS下载助手：让你方便一键批量下载</a><br></div>
+
+<p>资源：<br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" title="System Analysis and Design (Kenneth Kendall) Review Part1" target="_blank" rel="external">系统分析与设计part1</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" title="System Analysis and Design (Kenneth Kendall) Review Part2" target="_blank" rel="external">系统分析与设计part2</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" title="System Analysis and Design (Kenneth Kendall) Review Part3" target="_blank" rel="external">系统分析与设计part3</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" title="System Analysis and Design (Kenneth Kendall) Review Part4" target="_blank" rel="external">系统分析与设计part4</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" data-id="cibns19yj001cv4rt7dsteidv" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Design/">Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SystemAnalysis/">SystemAnalysis</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-distributed-system-review-part4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/24/distributed-system-review-part4/">分布式系统总结part4</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/24/distributed-system-review-part4/">
+    <time datetime="2013-11-24T07:04:39.000Z" itemprop="datePublished">2013-11-24</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Distributed-System/">Distributed System</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Distributed-System/Life/">Life</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Petri网">Petri网</h3><h4 id="1-_以生产者消费者为例子">1. 以生产者消费者为例子</h4><p>Petri三元组PN=(P,T,F)即，库所，变迁，转换弧</p>
+<p>Preset表示前集,如果x是变迁，那么preset表示某个变迁的输入库所集合，如果x是某个库所那么preset表示某个库所的输入变迁。</p>
+<p>Postset表示后集，如果x是变迁，那么postset表示某个变迁的输出库所集合，如果x是库所，那么postset表示某个库所的输出变迁集合。[more…]<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System14.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System14-580x398.png" alt="Distributed System14"></a></p>
+<h4 id="2-_Marking，_Enable，_Firing">2. Marking， Enable， Firing</h4><p>M(p)表示当前所有库所的Token数量, 是一个快照.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System16.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System16-580x290.png" alt="Distributed System16"></a><br>通过这个图，可以很简单地看出 M(p)的计算等式.<br>当库所的token都到位后，变迁就enable了，如上图左边t2是enable的, t1没有enable， 如果Firing点火，就会转到另一个Marking下，如图中右边的图是点火后的Marking。</p>
+<h3 id="3-Handle">3.Handle</h3><p>PP—handled : 某一个Place到另一个Place有两条不相交的路径</p>
+<p>TT handled：某一个Transition和另一个Transition有两条不相交的路径</p>
+<p>PT—handled：某一个Place到另一个Transition有两条不相交的路径</p>
+<p>TP—handled：某一个Transition到另一个Place有两条不相交的路径</p>
+<p>Well-handled：只有TT和PP，没有PT，TP。 因为PT会有死锁的风险， TP会造出某一个Place内部的Token无限增长</p>
+<h3 id="4-State_Machine和Marked_Graph">4.State Machine和Marked Graph</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System17.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System17-580x349.png" alt="Distributed System17"></a></p>
+<ul>
+<li>Marked Graph：库所只有单个输入和单个输出</li>
+<li>State Machine: 每个变迁只有单个输入和单个输出，这是一个有限状态机</li>
+<li>T-component：如果一个大的Petri可以找到一个子网符合marked graph的要求，就是 T-component, 如果所有的T-component的集合可以覆盖整个Petri网，就是T-coverability。</li>
+<li>P-component：是一个大的网络中的一个Petri子网，满足state machine的，如所有的P-component可以覆盖整个Petri网，则称Petri网P-coverability</li>
+</ul>
+<h3 id="5-_活性和有界性">5. 活性和有界性</h3><ul>
+<li>活性：从M0状态出发，对于任何一个M和t转换后的M’，可以让任何变迁T有可能点火enable.什么是不活呢，就是死锁，但是不死锁，不等价于活性</li>
+<li>有界性：不论状态如何变化，token数量都不会无限增长，保持在一定数量</li>
+<li>Petri是well-formed的：存在M0使这个Petri网有活性并且有界</li>
+</ul>
+<h3 id="6-_Free-choice_structure">6. Free-choice structure</h3><p>自由选择结构：如果两个输入库所交集不为空，蕴含两个输入库所相等</p>
+<p>t1和t2是对等的选择关系.</p>
+<p>自由选择结构可以表达并发关系和同步关系</p>
+<p>给定一个自由选择结构，可以很好地决定它的活性和有界性。</p>
+<h3 id="7-_哲学家吃通心粉">7. 哲学家吃通心粉</h3><p>有五个哲学家围坐在一圆桌旁，桌子中央有一盘通心面，每人面前有一只空盘子，每两人之间放一把叉子。每个哲学家思考、饥饿、然后，欲吃通心面。为了吃面，每个哲学家必须获得两把叉子，且每人只能直接从自己左边或右边去取叉子。</p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System15.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System15-580x355.png" alt="Distributed System15"></a></p>
+<h3 id="资源">资源</h3><p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part1/" title="分布式系统总结part1" target="_blank" rel="external">分布式系统总结part1 中间件，进程迁移，移动通信失效，名称解析，移动实体定位</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part2/" title="分布式系统总结part2" target="_blank" rel="external">分布式系统总结part2 Lamport同步与向量时间戳，两大选举算法，三大互斥算法</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part3/" title="分布式系统总结part3" target="_blank" rel="external">分布式系统总结part3 复制和一致性(以数据和以客户为中心的一致性)，容错（拜占庭将军问题，两阶段与三阶段提交）</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part4/" title="分布式系统总结part4" target="_blank" rel="external">分布式系统总结part4 Petri网解决哲学家问题和生产者、消费者问题</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/11/24/distributed-system-review-part4/" data-id="cibns1a2s005qv4rtene789m2" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-distributed-system-review-part3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/24/distributed-system-review-part3/">分布式系统总结part3</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/24/distributed-system-review-part3/">
+    <time datetime="2013-11-24T06:26:20.000Z" itemprop="datePublished">2013-11-24</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Distributed-System/">Distributed System</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Distributed-System/Life/">Life</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="复制和一致性">复制和一致性</h2><p>数据的复制是为了提高性能和可靠性，但是我们需要保持各个副本的一致性：</p>
+<p>问题一： 数据更新的实际分发问题，它需要关心副本的位置，以及如何在副本之间传播更新。</p>
+<p>问题二：如何保持多个副本的一致性[more…]</p>
+<h3 id="以数据为中心的一致性">以数据为中心的一致性</h3><h4 id="1-_严格的一致性">1. 严格的一致性</h4><p>(1)条件：所有访问按绝对时间排序，数据项x的任何读操作将返回最近一次对x的写操作的结果所对应的值。</p>
+<p>(2)要求：所有写操作是瞬间可见的，系统维持一个绝对的全局时间顺序，如果发生写操作，后续的读操作都会得到最新的写入的值。</p>
+<p>(3)缺点：依赖于绝对的全局时间，分布式系统中为每个操作分配准确的全局时间是不可能的，一般是将时间分割成一系列连续的、不重叠的时间间隔，保证没个时间间隔内最多只发生一个单一操作。<br>精确的定义最后一次写操作是困难的，如图可以看到严格一致性<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System02.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System02.png" alt="Distributed System02"></a></p>
+<h4 id="2-线性化和顺序的一致性">2.线性化和顺序的一致性</h4><p>(1)顺序一致性</p>
+<p>条件：所有进程以相同顺序看到所有的共享访问，访问不按时间排序。任何执行结果都是相同的，就好像所有进程对数据存储的读、写操作按照某种序列顺序执行的，并且每个进程的操作按照程序所定制的顺序出现在这个序列中。</p>
+<p>缺点：严重的性能问题，对于任何的顺序一致性存储，改变协议以提高读操作的性能必将降低写操作的性能，反之亦然。<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System03.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System03-580x350.png" alt="Distributed System03"></a><br>(2)线性化一致性</p>
+<p>条件：所有进程以相同顺序看到所有的共享访问，访问根据(并非唯一的)全局时间戳排序。</p>
+<p>在实际应用中，线性化主要用于开发算法的形式验证。关于根据时间戳维护顺序的附加限制使得线性化的实现比顺序一致性的实现开销更大。 </p>
+<h4 id="3-因果一致性">3.因果一致性</h4><p>条件：是一种弱化的顺序一致性模型，所有进程必须以相同的顺序看到具有潜在因果关系的写操作。不同机器上的进程可以以不同的顺序被看到并发的写操作.</p>
+<p>当一个读操作后面跟着一个写操作时，这两个事件就具有潜在的因果关系。</p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System04.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System04-580x394.png" alt="Distributed System04"></a></p>
+<h4 id="4-FIFO一致性">4.FIFO一致性</h4><p>条件：所有进程以某个单一进程(有两个以上的写操作)提出写操作的顺序看到这些写操作，但是不同进程可以以不同的顺序看到不同的进程提出的写操作。</p>
+<p>优点：容易实现，不需要保证不同进程看到相同的写操作顺序，除非两个以上的写操作是同一个进程提出的。这种情况下，写操作必须按顺序达到。</p>
+<p>缺点：仍然对许多应用存在不必要的限制，因为这些应用需要从任何位置都可以看到按顺序看到某个单一进程所产生的写操作。同时并不是所有的应用程序都要求看到所有的写操作。这就引入了弱一致性。</p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System05.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System05.png" alt="Distributed System05"></a></p>
+<h4 id="5-弱一致性">5.弱一致性</h4><p>条件：引入同步变量，只有执行一次同步，共享数据才能保持一致。  </p>
+<p>a)对数据存储所关联的同步变量的访问是顺序一致的；b)每个拷贝完成所有先前执行的写操作之前，不允许对同步变量进行任何操作；c)所有先前对同步变量执行的操作都执行完毕之前，不允许对数据项进行任何读或者写操作。</p>
+<p>特点：弱一致性是在一组操作，而非单个操作上强迫执行顺序一致性。同步变量用于划分操作的组。</p>
+<p>缺点：即当同步变量被访问时，数据存储不知道此次访问是因为进程已经结束对数据存储的写操作还是因为进程将开始读数据而进行的。我们需要区分进程进入临界区和离开临界区的区别，引入了释放一致性。 </p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System06.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System06-580x347.png" alt="Distributed System06"></a></p>
+<h4 id="6-释放一致性">6.释放一致性</h4><p>条件：退出临界区时，让共享数据保持一致，提供两种类型的同步变量。获取(acquire) 操作是用于通知数据存储进程进入临界区的操作，而释放(release)操作是表明进程刚刚离开临界区的操作。</p>
+<ul>
+<li>对共享数据执行读操作或写操作之前，所有进程先前执行的获取操作都必须已经成功完成；</li>
+<li>在释放操作被允许执行前，所有进程先前执行的读操作和写操作都必须已经完成；</li>
+<li>对同步变量的访问是FIFO一致的(不需要顺序一致)</li>
+</ul>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System07.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System07.png" alt="Distributed System07"></a></p>
+<h4 id="7-入口一致性">7.入口一致性</h4><p>条件：它需要程序员(或编译器)在每个临界区的开始和结束处分别使用获取和释放操作，入口一致性要求每个普通的共享数据项都要与某种同步变量(如锁或障碍)关联。即让进程在进入临界区时，让属于同一临界区的共享数据保持一致。</p>
+<p>优点：第一，将一系列共享数据项与各自的同步变量关联起来可以减少获取和释放一个同步变量所带来的额外开销。因为只有少数的数据项需要同步。第二，增加了并行度：这也使得多个包含不同共享数据的临界区可以同时执行</p>
+<p>缺点：第一，同步变量和共享数据的关联带来了额外的复杂性和负载，程序设计可能更加复杂，容易出错。第二，关于入口一致性的一个程序设计问题是如何正确地将数据与同步变量关联起来。解决这个问题的一种方法是使用分布式的共享对象，向用户屏蔽低层的同步细节。</p>
+<h4 id="以数据为中心的一致性的比较">以数据为中心的一致性的比较</h4><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System18.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System18-580x276.png" alt="Distributed System18"></a><br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System19.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System19-580x222.png" alt="Distributed System19"></a></p>
+<h3 id="以客户为中心的一致性模型">以客户为中心的一致性模型</h3><h4 id="1-_最终一致性">1. 最终一致性</h4><p>条件： 没有更新操作时，所有副本逐渐成为相互完全相同的拷贝。最终一致性实际上只要求更新操作被保证传播到所有副本</p>
+<p>优点：开销小</p>
+<p>缺点：移动用户访问分布式数据库的不同副本时，如果副本没有更新，会出现不一致。</p>
+<h4 id="2-_单调读">2. 单调读</h4><p>条件：总是读最新值，如果一个进程读取数据x的值，那么该进程对执行任何后续读操作将总是得到第一次读取的那个值或更新的值。<br>如果一个进程已经在t时刻看到x的值，那么以后他不再会看到较老的版本的x的值。</p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System08.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System08-580x359.png" alt="Distributed System08"></a></p>
+<h4 id="3-_单调写">3. 单调写</h4><p>条件：总是在最新的拷贝上写，一个进程对数据项x执行的写操作必须在该进程对x执行任何后续写操作之前完成，保证写操作以正确的顺序传播到数据存储的所有拷贝。<br>在单调写一致性的定义中，同一进程的写操作的执行顺序与这些操作的启动顺序相同。</p>
+<p>比较：注意，单调写一致性与数据为中心的FIFO一致性相似。FIFO一致性的本质是，同一进程执行的写操作必须在任何地方以正确的顺序执行。</p>
+<p>这一顺序限制也适用于单调写一致性，只是我们这里考虑的是仅为单一进程维持的一致性，而不是为许多并发进程维持的一致性。</p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System09.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System09-580x382.png" alt="Distributed System09"></a></p>
+<h3 id="4-写后读">4.写后读</h3><p>条件：一个进程对数据项x执行一次写操作的结果总是会被该进程对x执行的后续读操作看见。 一个写操作总是在同一进程执行的后续读操作之前完成，而不管这个后续的读操作发生在什么位置。 </p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System10.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System10-580x344.png" alt="Distributed System10"></a></p>
+<h3 id="5-读后写">5.读后写</h3><p>条件：同一个进程对数据项x执行的读操作之后的写操作，保证发生在与x读取值相同或比之更新的值上。进程对数据项上x所执行的任何后续的写操作都会在x的拷贝上执行，而该拷贝是用该进程最近读取的值更新的。</p>
+<p>在读取的最新值上进行写操作。<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System11.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System11-580x340.png" alt="Distributed System11"></a></p>
+<h2 id="容错">容错</h2><h3 id="1-_两军问题">1. 两军问题</h3><p>两军的通信信道不稳定，需要达成一致才能发动攻击，无论双方发了多少次确认，都不能确定通信兵是否把自己的消息带给对方，永远不会达成协议。<br>在不可靠传输的条件下，即使是无错误的进程，在两个进程之间达成协议也是不可能的。</p>
+<h3 id="2-_拜占庭将军问题">2. 拜占庭将军问题</h3><p>通信良好，进程确不好，正如拜占庭的将军有叛徒的情况。</p>
+<p>在这个问题中，红军还是在山谷中扎营，但是在附近的山上有n个带领部队的蓝军将领。通信是通过电话双向进行的，及时而且质量很好。但是有n个将军是叛徒(故障)，他们通过给忠诚的将军发送错误的和矛盾的信息(模拟故障进程)来阻止他们达成协议。现在问题在于忠诚的将军是否还能达成协议。 </p>
+<p>Lamport采用递归算法来让无故障的进程达成协议。</p>
+<p>N个进程，其中M个故障进程：只有当<strong>N&gt;=3m+1</strong>时，才能达成一致，即有三分之二的进程是正常的。</p>
+<h3 id="3-_两阶段提交">3. 两阶段提交</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System12.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System12-580x293.png" alt="Distributed System12"></a><br>状态机很能说明问题。</p>
+<p>两个阶段：vote_commit and global_commit, 3(n-1)条消息</p>
+<p>缺点：两阶段提交的一个问题在于当协调者崩溃时，参与者不能做出最后的决定。因此参与者可能在协调者恢复之前保持阻塞。</p>
+<p>因此引入3PC，三阶段提交，但3PC实际中用的少，因为2PC阻塞情况很少出现。</p>
+<h3 id="4-_三阶段提交">4. 三阶段提交</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System13.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System13-580x302.png" alt="Distributed System13"></a><br>没有一个可以直接转换到Commit或者Abort状态的单独状态。</p>
+<p>没有一个这样的状态：它不能做出最后决定，而且可以从它直接转换到Commit状态。 Commit之前需要经过PRCOMMIT状态。</p>
+<p>三阶段：vote-commit, prepare-commit, global-commit</p>
+<p>引入了PRECOMMIT状态。</p>
+<ul>
+<li>2PC：崩溃的参与者可能恢复到了Commit状态而所有参与者还处于Ready状态。在这种情况下，其余的可能操作进程不能做出最后的决定，不得不在崩溃的进程恢复之前阻塞。</li>
+<li>在3PC中，只要有可操作的进程处于Ready状态，就没有崩溃的进程可以恢复到Init、Abort或Precommit之外的状态。因此存活进程总是可以做出的最后决定。当协调者崩溃，达到了预备提交阶段，在2PC中其他进程就会阻塞，但在3PC中，在预备提交阶段，即使没有协调者，也可以做出决定。</li>
+</ul>
+<h3 id="资源">资源</h3><p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part1/" title="分布式系统总结part1" target="_blank" rel="external">分布式系统总结part1 中间件，进程迁移，移动通信失效，名称解析，移动实体定位</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part2/" title="分布式系统总结part2" target="_blank" rel="external">分布式系统总结part2 Lamport同步与向量时间戳，两大选举算法，三大互斥算法</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part3/" title="分布式系统总结part3" target="_blank" rel="external">分布式系统总结part3 复制和一致性(以数据和以客户为中心的一致性)，容错（拜占庭将军问题，两阶段与三阶段提交）</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part4/" title="分布式系统总结part4" target="_blank" rel="external">分布式系统总结part4 Petri网解决哲学家问题和生产者、消费者问题</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/11/24/distributed-system-review-part3/" data-id="cibns1a2x005wv4rtb5p7zm41" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-distributed-system-review-part2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/24/distributed-system-review-part2/">分布式系统总结part2</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/24/distributed-system-review-part2/">
+    <time datetime="2013-11-24T05:19:34.000Z" itemprop="datePublished">2013-11-24</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Distributed-System/">Distributed System</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Distributed-System/Life/">Life</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Lamport逻辑和向量时间戳">Lamport逻辑和向量时间戳</h3><p><strong>1.Lamport逻辑时钟</strong></p>
+<p>Lamport认为，重要的不是所有进程在时间上完全一致，而是它们在事件的发生顺序上要达成一致。</p>
+<p>先发生的定义： a → b 表示a在b之前发生，此时 C(a) &lt; C(b), a b可以是同一个进程中的两个事件或进程间的消息发送事件。并发事件没有先后关系。</p>
+<p>Lamport算法：[more…]</p>
+<ul>
+<li>遵循事件的先发生关系，每个消息都应携带根据发送者时钟的发送时间，当消息到达并接收时，接收者时钟显示的时间比消息发送者时间早时，接收者就将时钟调到比发送者者的时间大1的值。</li>
+<li>为了满足全局时间的需要：在每两个事件之间，时钟必须至少滴答一次，如果一个进程以相当快的速度发送或者接收两个消息，那么他得时钟必须在这之间至少滴答一次。</li>
+<li>两个事件不会精确地同时发生</li>
+</ul>
+<p><strong>2.Lamport逻辑时钟的缺陷</strong></p>
+<p>不能捕捉因果关系，而向量时间戳可以。</p>
+<ul>
+<li>Lamport时间戳导致分布式系统中所有事件都要经过排序以具有这样的关系：如果a发生在b之前， 那么C(a) &lt; C(b)</li>
+<li>Lamport时间戳只能捕捉事件发生的先后关系，而不能捕捉因果关系。C(a) &lt; C(b)不能说明a事件发生在b事件之前。 因果关系需要通过向量时间戳来捕获。</li>
+</ul>
+<p><strong>3.向量时间戳</strong></p>
+<p>因果关系：如果VT(a) &lt; VT(b) 则a在因果上处于事件b之前。向量时间戳是让每个进程P都维护一个向量V来完成，该向量的性质如下：</p>
+<p>a)Vi[i]是到目前为止进程Pi发生的事件的数量。 </p>
+<p>b)如果Vi[j]=k，那么进程Pi知道进程Pj中已经发生了k个事件</p>
+<p>接收者可以通过消息m的时间戳知道其他进程中有多少事件发生在它之前，消息m在因果上可能依赖于这些事件。</p>
+<p>当Pj收到消息m，调整自己的向量，将每项Vj[k]设置为<strong>max{Vj[k], vt[k]}</strong>, 然后  <strong>Vj[i]增加1</strong>。</p>
+<p>需要会看图计算向量时间戳：<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System01.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System01-580x308.png" alt="Distributed System01"></a><br>向量时间戳中只有各个分量都是小于关系时存在因果关系，而平行关系是并发关系。</p>
+<h3 id="选举算法">选举算法</h3><p><strong>1. 欺负算法(Bully Algorithm)</strong></p>
+<p>算法：当一个进程发现协调者不再响应请求时，它就发起一个选举：</p>
+<p>P向所有编号比它大的进程发送一个election消息； </p>
+<p>如果无人响应，P获胜成为协调者； </p>
+<p>如果有编号比它大的进程响应，则响应者接管选举工作。P的工作完成。</p>
+<p>当以前崩溃的进程恢复时，它将主持一次选举，如果该进程是当前正在运行的进程中进程号最大的，就成为协调者。</p>
+<p>总之进程号最大的总是取胜。</p>
+<p><strong>2.环算法——不使用令牌环</strong></p>
+<p>假设进程按照物理和逻辑顺序进行了排序，那么每个进程就知道它的后继者是谁了。</p>
+<p>当任何一个进程注意到协调者不工作时，它就构造一个带有它自己的进程号的election消息，并将该消息发送给它的后继者。</p>
+<p>如果后继者崩溃了，发送者沿着此环跳过它的后继者发送给下一个进程，或者再下一个，直到找到一个正在运行进程。</p>
+<p>在每一步中，发送者都将自己的进程号加到该消息列表中，以使自己成为协调者的候选人之一。 </p>
+<p>最终，消息返回到发起此次选举的进程。当发起者进程接收到一个包含自己进程号的消息时，它识别出这个事件。此时，消息类型变成coordinator消息，并再一次绕环运行，向所有进程通知谁是协调者(成员列表中进程号最大的那个)以及新环中的成员都有谁。这个消息再循环一周后被删除，随后每个进程都恢复原来的工作。</p>
+<h3 id="互斥算法">互斥算法</h3><h4 id="1-_集中式算法">1. 集中式算法</h4><p>(1).算法</p>
+<p>选举一个进程作为协调者，如最大网络地址号的机器上的进程。</p>
+<p>无论何时一个进程要进入临界区，它都要向协调者发送一个请求消息，说明它想要进入哪个临界区并请求允许。</p>
+<p>如果没有进程在临界区就发送“允许”应答，该进程进入临界区，如果有进程在临界区，就把该消息放入请求队列，发送“拒绝请求”的应答。</p>
+<p>当临界区中的进程退出临界区，向协调者发送“释放”消息，协调者会从请求队列中取出第一个进程，发送“允许”进入的消息。</p>
+<p>(2)优点</p>
+<p>实现了互斥，每个时刻，协调者只让一个进程进入临界区。</p>
+<p>很公平，没有进程会永远阻塞，不会饥饿，不会死锁</p>
+<p>容易实现，每使用一次临界区，只需要三条消息（请求，允许，释放）</p>
+<p>可以管理临界区或更一般的资源<br>(3).缺点</p>
+<p>协调者是单点故障，在规模较大的系统中，单个协调者会成为性能瓶颈.</p>
+<p>如果进程在发出请求之后阻塞，那么请求者就不能区分“拒绝进入”和协调者已经崩溃的两种情况。</p>
+<h4 id="2-分布式算法">2.分布式算法</h4><p>1)Lamport算法</p>
+<ul>
+<li>当进程Si想进入临界区，向其他n-1个进程广播请求REQUEST(tsi, i), 并把请求放入自己请求队列request_queuei。</li>
+<li>其他n-1个进程受到请求REQUEST(tsi, i)后，把该请求放入各自的请求队列request_queuej， 并向进程Si响应一个带时间戳的REPLY消息。</li>
+<li><p>进程Si进入临界区，当且仅当满足以下两个条件：</p>
+<pre><code>*   Si从其他进程收到的消息的时间戳都大于自己的请求时间戳<span class="comment">(tsi, i)</span>
+</code></pre><ul>
+<li>Si的请求是请求队列request_queuei的第一个请求</li>
+</ul>
+</li>
+<li><p>当进程Si退出临界区：从请求队列request_queuei中删除该请求，并向其他n-1个进程广播一个带时间戳的释放临界区的消息。其他n-1个进程收到该消息后，从请求队列request_queuej中删除该请求</p>
+</li>
+</ul>
+<p>在Lamport算法中，进程Request, REPLY, RELEASE一共发送了3(n-1)条消息，其实在一个接收者收到消息后，如果不同意Si进入临界区，没有必要再发送确认。<br>可以改进算法在2(n-1)到3(n-1)之间</p>
+<p>2)Ricart和Agrwala算法，改进Lamport算法</p>
+<ul>
+<li>当一个进程想进入一个临界区时，它构造一个消息，其中包含它要进入的临界区的名字、它的进程号和当前时间。然后它将消息发送给所有其他的进程，理论上讲也包括它自己。</li>
+<li>当一个进程接收到来自另一个进程的请求消息时，它根据自己与消息中的临界区相关的状态来决定它要采取的动作。可以分为三种情况：第一，若接收者不在临界区也不想进入临界区，它就向发送者发送一个OK消息。第二，若接收者已经在临界区，它不进行应答，而是将该请求放入队列中。第三，如果接收者想进入临界区但尚未进入时，它将对收到的消息的时间戳和包含在它发送给其余进程的消息中的时间戳进行比较。时间戳最早的那个进程获胜。如果收到的消息的时间戳比较早，那么接收者向发送者发回一个OK消息。如果它自己的消息的时间戳比较早，那么接收者将接收到的请求放入队列中，并且不发送任何消息。</li>
+<li>在发送了请求进入临界区的请求消息后，进程进行等待，直到其他所有进程都发回OK消息为止。一旦得到所有进程的允许，它就可以进入临界区了。当它退出临界区时，它向其他队列中的所有进程发送OK消息，并将请求从队列中删除。（也就是说一个进程进入临界区的条件是收到了n-1个OK消息）</li>
+</ul>
+<p>算法优点：不会饥饿，死锁；每次进入临界区仅需要2(n-1)条消息；没有单点故障</p>
+<p>算法缺点：第一，单点故障变成了n点故障，如果任何一个进程崩溃，不能应答OK，这种不应答被错误的解释为拒绝请求，阻塞了所有进程进入任何一个临界区。第二，网络通信开销多于集中式算法；第三，要么必须使用组通信原语，要么每个进程必须维护组成员清单；第四，要求所有进程参与做出与进入临界区有关的所有决定，强迫每个进程都承担这样的负载是不可能的，可以在得到大多数进程OK的情况下进入临界区，但实现复杂。</p>
+<h4 id="3-令牌环算法">3.令牌环算法</h4><p>(1)算法</p>
+<ul>
+<li>假设：总线式的网络中，进程没有固定的顺序，环中为每个进程分配了一个位置，每个进程都直到谁在它的下一个位置。</li>
+<li>当环初始化时，进程0得到一个令牌token。该令牌绕着环运行，用点对点发送消息的方式把它从进程k传递到进程k+1(以环大小为模)。进程从它邻近的进程得到令牌后，检查自己是否要进入临界区。如果自己要进入临界区，那么它就进入临界区，做它要做的工作，然后离开临界区。在该进程退出临界区后，它沿着环继续传递令牌。不允许使用同一个令牌进入另一个临界区。</li>
+<li>如果一个进程得到了邻近进程传来的令牌，但是它并不想进入临界区，那么它只是将令牌沿环往下传递。因而，当没有进程想进入临界区时，令牌就绕环高速传递。</li>
+</ul>
+<p>(2)优点</p>
+<p>没有饥饿现象：任何时候都只有一个进程有令牌，并且令牌以固定的顺序循环传递。</p>
+<p>(3)缺点</p>
+<p>如果令牌丢失，必须重新生成令牌.</p>
+<p>检测令牌丢失很困难，网络中令牌出现两次的时间间隔不确定，没有发现令牌可能是丢失，也可能是某个进程在占用。</p>
+<p>如果有进程崩溃，该算法会有问题。(恢复方法： 要求每个进程维护进程环的配置信息， 每个进程收到令牌后发出确认信息，当它尝试把令牌传递给它的邻近进程时，如果没有收到确认，该进程就崩溃了，从组中删除该进程，继续传递令牌。)</p>
+<h4 id="三种互斥算法的比较">三种互斥算法的比较</h4><p>（1）程进入临界区，需要发送的消息数目不同</p>
+<p>集中式算法: 3条消息，请求，允许，释放，简单而有效.</p>
+<p>分布式算法：2(n-1)条</p>
+<p>令牌环算法: 1~(n-1)条</p>
+<p>（2）进入临界区之前的消息延迟不同<br>集中式算法: 2条消息，请求，允许。</p>
+<p>分布式算法：2(n-1)条</p>
+<p>令牌环算法: 0~(n-1)条</p>
+<p>（3）三种算法在这三种算法在进程崩溃的情况下都损失惨重。为了避免进程崩溃造成的系统瘫痪，必须引入专门的措施和额外的复杂性。</p>
+<h3 id="资源">资源</h3><p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part1/" title="分布式系统总结part1" target="_blank" rel="external">分布式系统总结part1 中间件，进程迁移，移动通信失效，名称解析，移动实体定位</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part2/" title="分布式系统总结part2" target="_blank" rel="external">分布式系统总结part2 Lamport同步与向量时间戳，两大选举算法，三大互斥算法</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part3/" title="分布式系统总结part3" target="_blank" rel="external">分布式系统总结part3 复制和一致性(以数据和以客户为中心的一致性)，容错（拜占庭将军问题，两阶段与三阶段提交）</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part4/" title="分布式系统总结part4" target="_blank" rel="external">分布式系统总结part4 Petri网解决哲学家问题和生产者、消费者问题</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/11/24/distributed-system-review-part2/" data-id="cibns1a300060v4rtd6zz709y" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-distributed-system-review-part1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/24/distributed-system-review-part1/">分布式系统总结part1</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/24/distributed-system-review-part1/">
+    <time datetime="2013-11-24T03:12:15.000Z" itemprop="datePublished">2013-11-24</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Distributed-System/">Distributed System</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Distributed-System/Life/">Life</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>激动哥给了一些点，总结如下吧，算是对分布式的一些理解，希望对朋友们有帮助。</p>
+<h3 id="分布式系统系统基本概念">分布式系统系统基本概念</h3><p>分布式系统是若干独立计算机的集合，这些计算机对于用户来说就像单个相关系统。透明性, 故障透明性。</p>
+<p>本质： 硬件上——机器是物理上独立的。软件上——对用户来说它们就像载和单个系统打交道。分布式系统位于用户的应用层和底层操作系统之间，有时也叫做中间件.</p>
+<p>分布式系统的目标：资源链接和共享，透明性，开放性，可伸缩性。[more…]</p>
+<h3 id="分布式系统作为中间件技术">分布式系统作为中间件技术</h3><ol>
+<li><p>中间件在分布式系统中的位置</p>
+<p>中间件：在应用系统和网络系统之间的附加的软件层，隐藏网络操作系统中低层平台集合的异构性，提供一组完整程度不同的服务集，提高分布的透明性。</p>
+<p>中间件的最高目标是透明性。同时也具有开放性、可扩展性和易用性</p>
+</li>
+<li><p>中间件模型</p>
+</li>
+</ol>
+<ul>
+<li>基于分布式文件系统：任何东西都是作为文件来处理，只对传统文件支持分布的透明性，比网络操作系统前进了一小步，仍然要求进程显式启动分布式机器，有一定的扩展。</li>
+<li>基于RPC：允许进程调用位于远程机器上的过程实现来隐藏网络通信。调用参数透明的传递到远程机器上，看起来就像在调用本地的进程一样，不知道网络通信的发生。</li>
+<li>基于分布式对象: 调用分布在远程机器上的对象的接口，通过消息传递调用</li>
+</ul>
+<p>3.中间件通信技术</p>
+<p>(1) RPC</p>
+<p>使用客户端存根和服务器端存根，实现访问的透明性，按值传递，对引用传递的支持比较弱， 基于响应的暂时同步通信。</p>
+<p>(2) RMI——远程对象调用</p>
+<p>不使用用客户端存根和服务器端存根，使用针对对象的存根。本质上是RPC，但针对远程对象。</p>
+<p>(3) MPI:面向消息的通信</p>
+<p>RPC和RMI的不足：要求远程机器正在执行; 并且对同步要求高，客户在发出请求后阻塞</p>
+<p>通信类型：持久通信，暂时通信；异步通信，同步通信； 两两正交共四种。</p>
+<p>•持久异步通信：如邮件系统，消息队列</p>
+<p>•持久同步通信</p>
+<p>•暂时异步通信：如异步RPC，UDP</p>
+<p>•暂时同步通信：基于接收的暂时同步通信：最弱的基于消息接收机制; 基于交付的暂时同步通信;基于响应的暂时同步通信： RMI， RPC。</p>
+<p>MPI比套接字提供更多的抽象的消息传递原语，提供持久异步通信，用在RPC和RMI不适用的场合，它们主要用来协助将高度分散的数据库集成进大规模信息系统中。其他的应用还包括电子邮件和工作流。</p>
+<p>(4)面向流的通信：</p>
+<p>流是一种完全不同的通信方式，它的主要问题是两个连续的消息是否有时间上的联系。如音频流和视频流，同步很关键。</p>
+<p>在连续数据流中，每个消息都规定了端到端的最大延迟时间。另外，发送的消息还要受端到端最小延迟时间的约束。</p>
+<p>三种传输模式</p>
+<p>异步传输模式：数据项是逐个传输的，但是对某一项在何时进行传输并没有进一步的限制。</p>
+<p>同步传输模式：数据流中每一个单元都定义了一个端到端最大延迟时间。</p>
+<p>等待传输模式：模式中数据单元必须按时传输，也就是数据传输的端到端延迟时间必须同时受到上限和下限的约束，实时系统。</p>
+<h3 id="进程迁移">进程迁移</h3><ol>
+<li><p>弱迁移 vs 弱迁移</p>
+<p>弱迁移：即代码的可移植性，只传输代码段以及某些初始化数据，传输过来的程序总是以初始状态重新开始执行，弱可迁移性只要求在目标机器上能执行该代码段，例如Java Applet小程序，这种方法的好处在于简单性。</p>
+<p>强迁移：迁移执行中的进程，先停止运行中的进程，捕捉运行现场，迁移到另一台机器上，从中断处继续运行，强迁移比弱迁移实现难度大，例如D’Agent是支持强可移动性的一个例子(Dartmouth College)</p>
+</li>
+<li><p>发送者启动迁移 vs 接收者启动迁移</p>
+<p>发送者启动迁移，代码或正在执行的进程在哪台机器上，就由该机器来启动迁移，例如向Web服务器发送搜索程序运行查询。这种迁移容易实现.</p>
+<p>接收者启动迁移，代码迁移的主动权在目标机器手中，例如Java Applet</p>
+<p>区别：接收者下载代码到客户端，性能好，安全性好，客户端只有少数的资源需要保护，如内存和网络连接等；</p>
+<p>发送者启动迁移，上传代码到服务器端，需要认证用户，需要对服务器资源提供强保护。</p>
+</li>
+<li><p>在目标进程内执行迁移代码 vs 在派生进程内执行迁移代码</p>
+</li>
+</ol>
+<p>三种方法相互正交，形成了8中进程迁移方法，如图：</p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System20.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System20-580x300.png" alt="Distributed System20"></a></p>
+<h3 id="移动Agent的基本概念">移动Agent的基本概念</h3><ol>
+<li><p>定义：是一种分布式的应用，移动Agent是一个运行于开放、动态网络环境中的，封装良好的计算实体，可自主地在异构的网络上寻找合适的计算资源，然后移动到资源所在机器上使用这些资源，它代表用户自主地在网络上移动，完成指定的任务。移动Agent由数据、操作、行为规则 封装而成。</p>
+</li>
+<li><p>基本特点：</p>
+</li>
+</ol>
+<ul>
+<li>自主移动性：不拘泥于初始执行结点，可再网络各主机间自主移动。移动Agent可以将自身的状态和代码从一个环境迁移到另一个环境，并恢复执行。</li>
+<li>协作性：移动Agent可以和其他Agent进行自主通信，协作完成任务。</li>
+<li>安全性</li>
+<li>移动功能而不移动数据，减少网络负担和延迟</li>
+</ul>
+<h3 id="Mogent解决移动通信失效">Mogent解决移动通信失效</h3><p>1.移动通信失效定义</p>
+<p>移动Agent最大的特性是移动性，其通信机制要求位置透明性，可靠性，高效性，异步性，自适应性。但在Agent自主移动过程中，常会导致消息发送到某一网络节点但接收者已经离开无法收到消息的情况，这种因为目标Agent的物理位置变化造成通信不正常的现象称为移动Agent通信失效。通信失效与网络和节点故障无关，完全是由Agent的移动性造成的，这是移动Agent协作的致命缺陷。</p>
+<p>2. Mogent系统架构</p>
+<p>一个完整的移动Agent通信协议至少包括Agent寻址和消息传送两大部分。Mogent系统采用结构化旅行计划模型。</p>
+<p>Mogent的架构中有两个重要实体：</p>
+<ul>
+<li>Mogent： 即移动Agent，可以协同工作。</li>
+<li>Host：一个物理节点的抽象，由IP地址或域名来标识，每一个Host安装MogentServer，维护管理本地的Mogent，主要由迁移子系统、通信子系统、安全子系统和开发监控子系统构成。</li>
+</ul>
+<p>3.Mogent系统的寻址</p>
+<p>Mogent-Server中有两个部件Home和Communicator完成Agent的透明寻址。</p>
+<p>Home：记录Host上“出生的”Agent的动态信息，Agent每次迁移到另一台Host必须向出生地登记当前的地址和物理名，基于起始位置的定位。</p>
+<p>Communicator：记录当前Host上所有agent的信息，Agent迁移时要向Communicator register 和 unregister, 负责agent之间通信的目标寻址、信件转发和通信失效排除等通信细节。</p>
+<p>4.通信失效的解决：消息传送</p>
+<p><strong>通信失效问题本质上是通信和移动所共享的“位置”信息未同步造成的。</strong><br>Mogent系统中引入了“状态”的概念，每个Agent的状态分为迁移态和静止态。</p>
+<p>同时引入两个信号量进行集中式同步控制策略，通过Home-Communicator集中管理对目标Mogent的地址信息的互斥访问，从根本上避免通信失效的发生，保证通信的可靠性。</p>
+<ul>
+<li>迁移状态：由Home构件记录Agent的状态，当Mogent在一个Host上时状态为静止态，当按旅行计划准备迁移时Mogent要通知Home更新状态为迁移态。</li>
+<li>在途信件数：保存在Host上，记录当前时刻以该Mogent为通信对象的在途信件数，发出信件，在途信件数增加，信件到达，在途信件数减一</li>
+</ul>
+<p>消息发送机制：Mogent通过控制“在途信件数”和“迁移状态”这两个信号量，确保消息发送者仅向处于静止状态的Agent发送消息</p>
+<p>Mogent迁移机制：Agent只有在没有消息发送给他的情况下才能移动。</p>
+<p>5.Mogent局限性</p>
+<ul>
+<li>频繁迁移，Home的地址注册开销大，会拥挤</li>
+<li>Agent迁移受到信号量的限制,影响Agent的自主性和移动性</li>
+</ul>
+<h3 id="两种名称解析方法:递归和迭代">两种名称解析方法:递归和迭代</h3><p>分布式系统中名称用来标识一个实体，有三种类型——名称、标识符、地址，名称解析就是查询名称的过程。</p>
+<p>1.迭代名称解析</p>
+<p>客户端把需要解析的名称路径发给根服务器root，根服务器解析出下一个服务器server1的地址返回给客户端，客户端再查询server1，server1再解析出server2的地址…</p>
+<p>如此迭代直到能解析出所需实体的地址。例如：考虑绝对路径名：root:&lt;nl, vu, cs, ftp, pub, globe, index.txt&gt;的解析，第四章PPT上有详细的说明</p>
+<p>总之迭代名称解析是客户端发起迭代查询。</p>
+<p>2.递归名称解析</p>
+<p>客户端把需要解析的名称路径发给根服务器root，根服务器解析出server1的地址后，不把结果返回给客户端，直接把名称传给server1，由server1解析后，再传给server2…不断递归，最后将解析出的实体地址返回给根服务器，根服务器再将实体地址返回给客户端。</p>
+<p>3.两种解析的比较<br>递归名称解析的缺陷：要求每台服务器具有较高的性能，根服务器要完成完整的名称解析，开销较大，一般在名称空间的全局层中，采用迭代名称解析。</p>
+<p>优点：与迭代名称解析相比，递归解析可以有效的使用缓存提高性能；减少了通信开销，通信开销取决于客户主机和服务器之间的信息交换。</p>
+<p>而在DNS解析中：从客户机到本地DNS的查询是递归查询，从本地DNS到到其他DNS服务器之间的查询是迭代查询</p>
+<h3 id="移动实体的定位">移动实体的定位</h3><p>移动实体的定位方法：使用与位置无关的标识符有效地实现定位。</p>
+<p><strong>1.广播和多播</strong></p>
+<p><strong>原理：</strong>包含该实体所用标识符的消息会广播到每台机器上，并且请求每台机器查看它是否拥有该实体。只有能够为实体提供访问点的机器才会发送回复消息，回复消息中包含访问点的地址。类比ARP</p>
+<p><strong>缺点：</strong>扩展性不好，随着网络的膨胀，广播变得更加低效。</p>
+<p>可以采用多播向特定的一组主机发送标识符，使用多播查找最近的复制实体，但实践证明，选择最近的复制实体没有那么容易。</p>
+<p><strong>2.转发指针</strong></p>
+<p><strong>原理：</strong>每当一个实体转移到另一个位置时，他就会留下一个指针，说明它下一步所在的位置。 例如：当实体从A移动到B时，它将在A中留下一个指针，这个指针指向它在B中的新位置。</p>
+<p>定位实体需要遍历转发指针形成的路线。为了避免形成太长的指针链，定期缩短指针链很重要。</p>
+<p><strong>优点：</strong>简便，一旦找到一个实体，就可以顺着转发指针链查找到实体当前的地址。</p>
+<p><strong>缺点：</strong>链可能特别长，定位实体的开销较大。链很脆弱，容易断开，只要一个转发指针丢失，就无法定位实体。一个解决办法是让指针链相对短一些，确保转发指针链的健壮性。<br>链中所有中间位置就必须维护它们的那一部分指针链。</p>
+<p><strong>3.基于起始位置的方法</strong></p>
+<p><strong>原理：</strong>每当实体转移到一个地方时，他会通知起始位置，告诉起始位置自己当前的位置，在定位实体时，首先询问起始位置，以便了解实体的当前位置。起始位置就是创建实体的位置。</p>
+<p><strong>优点：</strong>大型网络中进行实体定位,如Mogent</p>
+<p><strong>缺点：</strong>为了与移动实体通信，需要先和起始位置通信，而起始位置和实体本身的位置处于完全不同的位置，增加了通信延迟。    使用起始位置，必须保证起始位置始终存在，否则将无法定位实体。起始位置如果转移到另一个网络，将会无法定位实体。一种解决的办法是：注册起始位置，客户先查找起始位置所在的位置，起始位置相对稳定，可以缓存它。</p>
+<p><strong>4.分层方法——创建一颗搜索树</strong></p>
+<p><strong>原理：</strong> 网络划分成不重叠的分层域。只有一个顶级域，它覆盖了整个网络，每个域又可以划分为更多的子域。最低层的域叫做叶域，与网络中的局域网向对应。</p>
+<p>每个层次的每个域都有关联的目录节点，目录节点会持续跟踪实体，形成目录节点树。</p>
+<p>顶级域拥有每个实体的位置记录(指针)，其中每条位置记录都存储一个指向更低层子域目录节点的指针 </p>
+<p><strong>优点：</strong>查询操作是在局部进行，最差情况下，搜索会从叶域一直查到根域，再从根域到达包括该实体地址的子域。更新，插入和删除操作是局部进行：从叶节点到根节点。</p>
+<p><strong>缺点：</strong>第一， 定位实体的开销较大，从叶节点到根节点，再到叶节点。一种解决方法是采用指针缓存。第二，扩展性问题： 根节点需要存储所有实体的位置记录, 并为每个实体处理请求， 太多的查询和更新请求会成为瓶颈。解决办法是把根节点和其他高层目录节点划分成多个子节点，每个子节点处理实体的定位请求。<br>这些子节点最好均匀的扩散到网络中</p>
+<h3 id="资源">资源</h3><p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part1/" title="分布式系统总结part1" target="_blank" rel="external">分布式系统总结part1 中间件，进程迁移，移动通信失效，名称解析，移动实体定位</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part2/" title="分布式系统总结part2" target="_blank" rel="external">分布式系统总结part2 Lamport同步与向量时间戳，两大选举算法，三大互斥算法</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part3/" title="分布式系统总结part3" target="_blank" rel="external">分布式系统总结part3 复制和一致性(以数据和以客户为中心的一致性)，容错（拜占庭将军问题，两阶段与三阶段提交）</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part4/" title="分布式系统总结part4" target="_blank" rel="external">分布式系统总结part4 Petri网解决哲学家问题和生产者、消费者问题</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/11/24/distributed-system-review-part1/" data-id="cibns1a340064v4rt3146cnf9" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">下一页 &raquo;</a>
+      </nav>
+    </section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hadoop isn’t Silver Bullet | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Hadoop is a great framework for distributed large data computing. But Hadoop is not the silver bullet. Hadoop fits not very well in such cases as follow:
+1. Low-latency Data AccessApplications that re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop isn’t Silver Bullet">
+<meta property="og:url" content="http://yoursite.com/2013/12/05/hadoop-isnt-silver-bullet/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="Hadoop is a great framework for distributed large data computing. But Hadoop is not the silver bullet. Hadoop fits not very well in such cases as follow:
+1. Low-latency Data AccessApplications that re">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop isn’t Silver Bullet">
+<meta name="twitter:description" content="Hadoop is a great framework for distributed large data computing. But Hadoop is not the silver bullet. Hadoop fits not very well in such cases as follow:
+1. Low-latency Data AccessApplications that re">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-hadoop-isnt-silver-bullet" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hadoop isn’t Silver Bullet
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/05/hadoop-isnt-silver-bullet/">
+    <time datetime="2013-12-05T10:28:45.000Z" itemprop="datePublished">2013-12-05</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Hadoop is a great framework for distributed large data computing. But Hadoop is not the silver bullet. Hadoop fits not very well in such cases as follow:</p>
+<h4 id="1-_Low-latency_Data_Access">1. Low-latency Data Access</h4><p>Applications that require real-time query, and low-latency access to data in tens of milliseconds will not work well with Hadoop.<br>Hadoop is not a substitute for a database. Database index records that will gains low-latency and fast response.<br>But if you really want to replace the database for real time needs, try HBase, which is a column-oriented database for random and real time read/write.[more…]</p>
+<h4 id="2-_Structured_Data">2. Structured Data</h4><p>Hadoop is not fit for structured data with strong relationship. Hadoop works well for semi-structured and unstructured data. It stores data in files, doesn’t index them like RDBMS. Therefore, each ad hoc query for Hadoop is processed by MapReduce job which will bring the latency cost. </p>
+<h4 id="3-_When_data_isn’t_that_big">3. When data isn’t that big</h4><p>How big the data is big enough for Hadoop? The answer is TB or PB. When your analytics data is only tens of GB, Hadoop is heavy. Don’t follow the fashion and use Hadoop, just follow your requirements. </p>
+<h4 id="4-_Too_many_small_files">4. Too many small files</h4><p>When there are too many small files, the NameNode will hit its memory limit where the block map and the metadata are hosted. And to handle the NameNode bottleneck, Hadoop introduces HDFS Federation.</p>
+<h4 id="5-_Too_many_writers_and_too_much_file_updates">5. Too many writers and too much file updates</h4><p>HDFS is in write-once-and-read-many-times way. When there is too much files update needs, Hadoop won’t support that.</p>
+<h4 id="6-_MapReduce_may_not_the_best_choice">6. MapReduce may not the best choice</h4><p>MapReduce is a simple programming model in parallel. But for MapReduce parallelism, you need to make sure each MR job and the data where the job runs on is independent from all the others. Every MR shouldn’t have dependencies.<br>But if you want to do some data sharing during MR, you can do like this:</p>
+<ul>
+<li>Iteration: run multiple MR jobs, with the output of one being the input of the next MR.</li>
+<li>Shared state information. But don’t share information in memory, since each MR job is run on single JVM. </li>
+</ul>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/12/05/hadoop-isnt-silver-bullet/" data-id="cibns1a0x004nv4rtr8v0tryb" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Research/">Research</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/12/18/node-express-mysql-scaffolding/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Node Express Mysql Scaffolding
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/12/05/hadoop-mapreduce-2-yarn/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hadoop MapReduce 2 (YARN)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

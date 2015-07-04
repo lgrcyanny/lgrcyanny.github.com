@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>HBase Architecture Analysis Part2(Process Architecture) | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="4. Process Architecture4.1 HBase Write PathThe client doesn’t write data directly into HFile on HDFS. Firstly it writes data to WAL(Write Ahead Log), and Secondly, writes to MemStore shared by a HStor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HBase Architecture Analysis Part2(Process Architecture)">
+<meta property="og:url" content="http://yoursite.com/2014/03/13/hbase-architecture-analysis-part2-process-architecture/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="4. Process Architecture4.1 HBase Write PathThe client doesn’t write data directly into HFile on HDFS. Firstly it writes data to WAL(Write Ahead Log), and Secondly, writes to MemStore shared by a HStor">
+<meta property="og:image" content="http://i58.tinypic.com/20i77l0.jpg">
+<meta property="og:image" content="http://i61.tinypic.com/290x9qt.jpg">
+<meta property="og:image" content="http://i62.tinypic.com/2nk85xj.jpg">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HBase Architecture Analysis Part2(Process Architecture)">
+<meta name="twitter:description" content="4. Process Architecture4.1 HBase Write PathThe client doesn’t write data directly into HFile on HDFS. Firstly it writes data to WAL(Write Ahead Log), and Secondly, writes to MemStore shared by a HStor">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-hbase-architecture-analysis-part2-process-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HBase Architecture Analysis Part2(Process Architecture)
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/">
+    <time datetime="2014-03-13T14:00:11.000Z" itemprop="datePublished">2014-03-13</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Hadoop/HBase/">HBase</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="4-_Process_Architecture">4. Process Architecture</h2><h3 id="4-1_HBase_Write_Path">4.1 HBase Write Path</h3><p>The client doesn’t write data directly into HFile on HDFS. Firstly it writes data to WAL(Write Ahead Log), and Secondly, writes to MemStore shared by a HStore in memory.<br><a id="more"></a><br><a href="http://tinypic.com?ref=20i77l0" target="_blank" rel="external"><img src="http://i58.tinypic.com/20i77l0.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure4.1 HBase Write Path</p>
+<p><strong>MemStore</strong> is a write buffer(64MB by default). When the data in MemStore accumulates its threshold, data will be flush to a new HFile on HDFS persistently. Each Column Family can have many HFiles, but each HFile only belongs to one Column Family.<br><strong>WAL</strong> is for data reliability, WAL is persistent on HDFS and each Region Server has only on WAL. When the Region Server is down before MemStore flush, HBase can replay WAL to restore data on a new Region Server.<br>A data write completes successfully only after the data is written to WAL and MemStore.</p>
+<h3 id="4-2_HBase_Read_Path">4.2 HBase Read Path</h3><p>As shown in Figure 4.2, it’s the read path of HBase.<br>1. Client will query the MemStore in memory, if it has the target row.<br>2. When MemStore query failed, client will hit the BlockCache.<br>3. After the MemStore and BlockCache query failed, HBase will load HFiles into memory which may contain the target row info.<br>The MemStore and BlockCache is the mechanism for real time data access for distributed large data.<br><strong>BlockCache is a LRU(Lease Recently Used) priority cache.</strong> Each RegionServer has a single BlockCache. It keeps frequently accessed data from HFile in memory to reduce disk data reads. The “Block”(64KB by default) is the smallest index unit of data or the smallest unit of data that can be read from disk by one pass.<br>For random data access, small block size is preferred, but block index consumes more memory. And for sequential data access, large block size is better, fewer index save more memory.</p>
+<p><a href="http://tinypic.com?ref=290x9qt" target="_blank" rel="external"><img src="http://i61.tinypic.com/290x9qt.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 4.2 HBase Read Path</p>
+<h3 id="4-3-HBase_Housekeeping:_HFile_Compaction">4.3.HBase Housekeeping: HFile Compaction</h3><p>The data of each column family is flush into multiple HFiles. Too many HFiles means many disk data reads and lower the read performance. Therefore, HBase do HFile compaction periodically.<br><a href="http://tinypic.com?ref=2nk85xj" target="_blank" rel="external"><img src="http://i62.tinypic.com/2nk85xj.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure4.3 HFile Compaction</p>
+<p><strong>➢Minor Compaction</strong><br>It happens on multiple HFiles in one HStore. Minor compaction will pick up a couple of adjacent small HFiles and rewrite them into a larger one.<br>The process will keep the deleted or expired cells. The HFile selection standard is configurable. Since minor compaction will affect HBase performace, there is an upper limit on the number of HFiles involved (10 by default).<br><strong>➢Major Compaction</strong><br>Major Compaction compact all HFiles in a HStore(Column Family) into one HFile. It is the only chance to delete records permanently. Major Compaction will usually have to be triggered manually for large clusters.<br>Major Compaction is not region merge, it happens to HStore which will not result in region merge.</p>
+<h3 id="4-4_HBase_Delete">4.4 HBase Delete</h3><p>When HBase client send delete request, the record will be marked “tombstone”, it is a “predicate deletion”, which is supported by LSM-tree. Since HFile is immutable, deletion isn’t available for HFile on HDFS. Therefore, HBase adopts major compaction(Section 4.3) to clean up deleted or expired records.</p>
+<h3 id="4-5_Region_Assignment">4.5 Region Assignment</h3><p>It is a main task of HMaster:<br>1. HMaster invoke the AssignmentManager to do region assignment.<br>2. AssignmentManager checks the existing region assignments in .META.<br>3. If region assignment is valid, then keep the region.<br>4. If region assignment is invalid, then the LoadBalancerFactory will create a DefaultLoadBalancer<br>5. DefaultLoadBalancer will assign the new region randomly to a RegionServer<br>6. Update the assignment to .META.<br>7. The RegionServer open the new region</p>
+<h3 id="4-6_Region_Split">4.6 Region Split</h3><p>Region split is the work of RegionServer, not participated by HMaster. When a region in a RegionServer accumulates over size threshold, RegionServer will split the region into half.<br>1. RegionServer offline the region to be split.<br>2. RegionServer split the region into two half<br>3. Update new daughter regions info to .META.<br>4. Open the new daughter regions.<br>5. Report the split info to HMaster.</p>
+<h3 id="4-7_Region_Merge">4.7 Region Merge</h3><p>A RegionServer can’t have too many regions, because too many regions bring large cost of memory and lower the performance of RegionServer. Meanwhile, HMaster can’t handle load balance with too many regions.<br>Therefore, when the number of regions is over a threshold, region merge is trigged. Region Merge is joined by RegionServer and HMaster.<br>1. Client send RPC region merge request to HMaster<br>2. HMaster moves regions together to the same RegionServer where the more heavily loaded region resided.<br>3. HMaster send request to the RegionServer to run region merge.<br>4. The RegionServer offline the regions to be merged.<br>5. The RegionServer Merge the regions on the local file system.<br>6. Delete the meta info of the merging regions on .META. table, add new meta info to .META. table.<br>7. Open the new merged region<br>8. Report the merge to HMaster</p>
+<h3 id="4-8_Auto_Failover">4.8 Auto Failover</h3><h4 id="4-8-1_RegionServer_Failover">4.8.1 RegionServer Failover</h4><p>When a region server fails, HMaster will do failover automatically.<br>1. RegionServer is down<br>2. HMaster will detect the unavailable RegionServer when there is no heartbeat report.<br>3. HMaster start region reassignment, detect that the region assignment is invalid, then re-assign the regions like the region assignment sequence.</p>
+<h4 id="4-8-2_Master_Failover">4.8.2 Master Failover</h4><p>In centralized architecture style, the SPOF is a problem, you may ask How does HBase will do when HMaster failed? There two safeguards for SPOF:<br><strong>1. Multi-Master environment</strong><br>HBase can run in multi-master cluster. There is only one active master, when the master is down, the remaining master will take over the master role.<br>It looks like Hadoop HDFS new feature high availability, a standby NameNode will take over the NameNode role when the active one failed.<br><strong>2. Catalog tables are on RegionServers</strong><br>When client send read/write request to HBase, it talks directly to RegionServer, not HMaster. Hence, the cluster can be steady for a time without HMaster. But it requires that the HMaster failover as soon as possible, HMaster is the vital of the cluster.</p>
+<h4 id="4-9_Data_Replication">4.9 Data Replication</h4><p>For data reliability, HBase replicates data blocks across the cluster. This is achieved by Hadoop HDFS.<br>By default, there 3 replicas:<br>1. The First replica is written to local node.<br>2. The second replica is written to a random node on a different rack.<br>3. The third replica is on a random node on the same rack<br>HBase stores HFiles and WAL on HDFS. When RegionServer is down, new region assignment can be done by read replicas of HFile and replay the replicas the WAL. In short, HBase has high reliability.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/03/13/hbase-architecture-analysis-part2-process-architecture/" data-id="cibns1a08003nv4rtff9ixrqg" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Big-Data/">Big Data</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HBase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          HBase Architecture Analysis Part 3 Pros and Cons
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">HBase Architecture Analysis Part1(Logical Architecture)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

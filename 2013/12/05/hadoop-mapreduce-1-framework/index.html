@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hadoop MapReduce 1 Framework | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="For MapReduce programming, a developer can run a MapReduce job by simply calling submit() or waitForCompletion() on a job object. This method abstracts the job processing details away from developer.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop MapReduce 1 Framework">
+<meta property="og:url" content="http://yoursite.com/2013/12/05/hadoop-mapreduce-1-framework/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="For MapReduce programming, a developer can run a MapReduce job by simply calling submit() or waitForCompletion() on a job object. This method abstracts the job processing details away from developer.">
+<meta property="og:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.2.png">
+<meta property="og:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.3.png">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop MapReduce 1 Framework">
+<meta name="twitter:description" content="For MapReduce programming, a developer can run a MapReduce job by simply calling submit() or waitForCompletion() on a job object. This method abstracts the job processing details away from developer.">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-hadoop-mapreduce-1-framework" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hadoop MapReduce 1 Framework
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/05/hadoop-mapreduce-1-framework/">
+    <time datetime="2013-12-05T08:11:12.000Z" itemprop="datePublished">2013-12-05</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>For MapReduce programming, a developer can run a MapReduce job by simply calling submit() or waitForCompletion() on a job object. This method abstracts the job processing details away from developer. But there is a great of job processing behind the scene that we will consider in this section.<br>Hadoop 2.x has released new MapReduce framework implementation called YARN or MapReduce 2, for traditional MapReduce is the classic framework which is also called MapReduce 1. YARN is compatible with MapReduce 1. [more…]</p>
+<h3 id="MapReduce_1_high_level_overview">MapReduce 1 high level overview</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.2.png" alt="hd6.2">Figure1 Classic MapReduce Framework</a><br>As shown in Figure 1, there are four independent entities in the framework:</p>
+<ul>
+<li>Client, which submits the MapReduce Job</li>
+<li>JobTracker, which coordinates and controls the job run. It is a Java class called JobTracker.</li>
+<li>TaskerTrackers, which run the task that is split job, control the specific map or reduce task, and make reports to JobTracker. They are Java class as well.</li>
+<li>HDFS, which provides distributed data storage and is used to share job files between other entities.</li>
+</ul>
+<p>As the Figure 1 show, a MapReduce processing including 10 steps, and in short, that is:</p>
+<ul>
+<li>The clients submit MapReduce jobs to the JobTracker. </li>
+<li>The JobTracker assigns Map and Reduce tasks to other nodes in the cluser</li>
+<li>These nodes each run a software daemon TaskTracker on separate JVM.</li>
+<li>Each TaskTracker actually initiates the Map or Reduce tasks and reports progress back to the JobTracker</li>
+</ul>
+<h3 id="Job_Submission">Job Submission</h3><p>When the client call submit() on job object. An internal JobSubmmitter Java Object is initiated and submitJobInternal() is called. If the clients calls the waiForCompletion(), the job progresss will begin and it will response to the client with process results to clients until the job completion.<br>JobSubmmiter do the following work:</p>
+<ul>
+<li>Ask the JobTracker for a new job ID.</li>
+<li>Checks the output specification of the job.</li>
+<li>Computes the input splits for the job.</li>
+<li>Copy the resources needed to run the job. Resources include the job jar file, the configuration file and the computed input splits. These resources will be copied to HDFS in a directory named after the job id. The job jar will be copied more than 3 times across the cluster so that TaskTrackers can access it quickly.</li>
+<li>Tell the JobTracker that the job is ready for execution by calling submitJob() on JobTracker.</li>
+</ul>
+<h3 id="Job_Initialization">Job Initialization</h3><p>When the JobTracker receives the call submitJob(), it will put the call into an internal queue from where the job scheduler will pick it up and initialize it. The initialization is done as follow:</p>
+<ul>
+<li>An job object is created to represent the job being run. It encapsulates its tasks and bookkeeping information so as to keep track the task progress and status.</li>
+<li>Retrieves the input splits from HDFS and create the list of tasks, each of which has task ID. JobTracker creates one map task for each split, and the number of reduce tasks according to configuration.</li>
+<li>JobTracker will create the setup task and cleanup task. Setup task is to create the final output directory for the job and the temporary working space for the task output. Cleanup task is to delete the temporary working space for the task ouput.</li>
+<li>JobTracker will assign tasks to free TaskTrackers</li>
+</ul>
+<h3 id="Task_Assignment">Task Assignment</h3><p>TaskTrackers send heartbeat periodically to JobTracker Node to tell it if it is alive or ready to get a new task. The JobTracker will allocate a new task to the ready TaskTracker. Task assignment is as follows:</p>
+<ul>
+<li>The JobTracker will choose a job to select the task from according to scheduling algorithm, a simple way is chosen on a priority list of job. After chose the job, the JobTracker will choose a task from the job.</li>
+<li>TaskTrackers has a fixed number of slots for map tasks and for reduces tasks which are set independently, the scheduler will fits the empty map task slots before reduce task slots.</li>
+<li>To choose a reduce task, the JobTracker simply takes next in its list of yet-to-be-run reduce task, because there is no data locality consideration. But map task chosen depends on the data locality and TaskTracker’s network location.</li>
+</ul>
+<h3 id="Task_Execution">Task Execution</h3><p>When the TaskTracker has been assigned a task. The task execution will be run as follows:</p>
+<ul>
+<li>Copy jar file from HDFS, copy needed files from the distributed cache on the local disk.</li>
+<li>Creates a local working directory for the task and ‘un-jars’ the jar file contents to the direcoty</li>
+<li>Creates a TaskRunner to run the task. The TaskRunner will lauch a new JVM to run each task.. TaskRunner fails by bugs will not affect TaskTracker. And multiple tasks on the node can reuse the JVM created by TaskRunner.</li>
+<li>Each task on the same JVM created by TaskRunner will run setup task and cleanup task.</li>
+<li>The child process created by TaskRunner will informs the parent process of the task’s progress every few seconds until the task is complete.</li>
+</ul>
+<h3 id="Progress_and_Status_Updates">Progress and Status Updates</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.3.png" alt="hd6.3">Figure 2 Classic MapReduce Framework Progress and Status Updates</a><br>After clients submit a job. The MapReduce job is a long time batching job. Hence the job progress report is important. What consists of the Hadoop task progress is as follows:</p>
+<ul>
+<li>Reading an input record in a mapper or reducer</li>
+<li>Writing an output record in a mapper or a reducer</li>
+<li>Setting the status description on a reporter, using the Reporter’s setStatus() method</li>
+<li>Incrementing a counter</li>
+<li>Calling Reporter’s progress()</li>
+</ul>
+<p><strong>As shown in Figure 2, when a task is running, the TaskTracker will notify the JobTracker its task progress by heartbeat every 5 seconds.</strong></p>
+<p>And mapper and reducer on the child JVM will report to TaskTracker with it’s progress status every few seconds. The mapper or reducers will set a flag to indicate the status change that should be sent to the TaskTracker. The flag is checked in a separated thread every 3 seconds. If the flag sets, it will notify the TaskTracker of current task status.<br>The JobTracker combines all of the updates to produce a global view, and the Client can use getStatus() to get the job progress status.</p>
+<h3 id="Job_Completion">Job Completion</h3><p>When the JobTracker receives a report that the last task for a job is complete, it will change its status to successful. Then the JobTracker will send a HTTP notification to the client which calls the waitForCompletion(). The job statistics and the counter information will be printed to the client console. Finally the JobTracker and the TaskTracker will do clean up action for the job.</p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/12/05/hadoop-mapreduce-1-framework/" data-id="cibns1a0t004iv4rtmlat1zwe" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Research/">Research</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/12/05/hadoop-mapreduce-2-yarn/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hadoop MapReduce 2 (YARN)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/12/05/hadoop-mapreduce-overview/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hadoop MapReduce Overview</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Node Express Mysql Scaffolding | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Node Express MySQL Scaffolding OverviewThere are many node scaffoldings based on Mongoddb, but MySQL is rare. This is a simple scaffolding built on express and mysql.
+node-express-mysql-scaffolding[mo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node Express Mysql Scaffolding">
+<meta property="og:url" content="http://yoursite.com/2013/12/18/node-express-mysql-scaffolding/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="Node Express MySQL Scaffolding OverviewThere are many node scaffoldings based on Mongoddb, but MySQL is rare. This is a simple scaffolding built on express and mysql.
+node-express-mysql-scaffolding[mo">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node Express Mysql Scaffolding">
+<meta name="twitter:description" content="Node Express MySQL Scaffolding OverviewThere are many node scaffoldings based on Mongoddb, but MySQL is rare. This is a simple scaffolding built on express and mysql.
+node-express-mysql-scaffolding[mo">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-node-express-mysql-scaffolding" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Node Express Mysql Scaffolding
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/18/node-express-mysql-scaffolding/">
+    <time datetime="2013-12-18T15:29:11.000Z" itemprop="datePublished">2013-12-18</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Nodejs/">Nodejs</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Node_Express_MySQL_Scaffolding_Overview">Node Express MySQL Scaffolding Overview</h3><p>There are many node scaffoldings based on Mongoddb, but MySQL is rare. This is a simple scaffolding built on express and mysql.</p>
+<p><a href="https://github.com/lgrcyanny/node-express-mysql-scaffolding" title="node-express-mysql-scaffolding" target="_blank" rel="external">node-express-mysql-scaffolding</a><br>[more…]</p>
+<h3 id="Features">Features</h3><p>1. Register with fullname,username, email, passord, very simple<br>2. Login with <a href="https://npmjs.org/package/passport-local" target="_blank" rel="external">passport-local</a> strategy<br>3. Twitter Bootstrap Support<br>Note: I just want keep the scaffolding clean, no more complex function, and keep it flexible.</p>
+<h3 id="Install">Install</h3><p><strong>NOTE:</strong> You need to have node.js, MySQL Server installed </p>
+<p>1. Clone the project<br>[shell]<br>  $ git clone <a href="https://github.com/lgrcyanny/node-express-mysql-scaffolding.git" target="_blank" rel="external">https://github.com/lgrcyanny/node-express-mysql-scaffolding.git</a><br>  $ npm install<br>  $ cp config/config.disk.js config/config.js<br>[/shell]<br>Please config your MySQL in the <code>config.js</code>;</p>
+<p>2. Install <a href="http://dev.mysql.com/downloads/" target="_blank" rel="external">MySQL server</a></p>
+<p>3. Start MySQL service</p>
+<p>4. Build the database<br>[shell]<br>  $ mysql -u root -p<br>  &gt; create database scaffolding<br>  &gt; quit<br>  $ mysql -u root -pyourpassword scaffolding &lt; scaffolding.sql<br>[/shell]</p>
+<p>5. Start Node.js Server<br>[shell]<br>  $ npm start<br>[/shell]</p>
+<p>6. Then visit <a href="http://localhost:3000/" target="_blank" rel="external">http://localhost:3000/</a></p>
+<h3 id="Related_modules">Related modules</h3><p>Thanks to <a href="https://github.com/madhums/node-express-mongoose-demo" title="node-express-mongoose-demo" target="_blank" rel="external">node-express-mongoose-demo</a>, it’s a great scaffolding, but it still took me 2 days to migrate from MongoDB based scaffolding to MySQL scaffolding, and the node-express-mongoose-demo has too many Login Support which is too complicated.</p>
+<h3 id="Directory_structure">Directory structure</h3><p>-app/<br>  |<strong>controllers/<br>  |</strong>models/<br>  |<strong>mailer/<br>  |</strong>views/<br>-config/<br>  |<strong>routes.js<br>  |</strong>config.js<br>  |<strong>passport.js (auth config)<br>  |</strong>express.js (express.js configs)<br>  |__middlewares/ (custom middlewares)<br>-public/</p>
+<h3 id="Tests">Tests</h3><p>Tests are not shipped now, I will write tests later.<br>[shell]<br>$ npm test<br>[/shell]</p>
+<h3 id="License">License</h3><p>(The MIT License)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/12/18/node-express-mysql-scaffolding/" data-id="cibns19z9002bv4rts0qs2y77" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/02/06/set-hadoop-hbase-part1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Set up Hadoop 2.2 and HBase 0.96 part1
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/12/05/hadoop-isnt-silver-bullet/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hadoop isn’t Silver Bullet</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

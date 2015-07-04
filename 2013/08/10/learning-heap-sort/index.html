@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>再叙堆排序 | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这个暑假，开始看《算法导论》，这是一本很厚的书，不过本着坚持就是胜利的原则，我选择一点点坚持，最近看到了堆排序。这是自己曾经靠背和记才慢慢理解的算法，而今重温，发现这个排序其实很简单，只需完成三点:
+1. 实现MaxHeapify函数, 也就是以递归或者循环的方式，让每一节点保持最大堆的性质。这是堆排序的核心函数，写好了，就万事大吉了。
+2. Build-Max-Heap, 利用MaxHeapif">
+<meta property="og:type" content="article">
+<meta property="og:title" content="再叙堆排序">
+<meta property="og:url" content="http://yoursite.com/2013/08/10/learning-heap-sort/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="这个暑假，开始看《算法导论》，这是一本很厚的书，不过本着坚持就是胜利的原则，我选择一点点坚持，最近看到了堆排序。这是自己曾经靠背和记才慢慢理解的算法，而今重温，发现这个排序其实很简单，只需完成三点:
+1. 实现MaxHeapify函数, 也就是以递归或者循环的方式，让每一节点保持最大堆的性质。这是堆排序的核心函数，写好了，就万事大吉了。
+2. Build-Max-Heap, 利用MaxHeapif">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="再叙堆排序">
+<meta name="twitter:description" content="这个暑假，开始看《算法导论》，这是一本很厚的书，不过本着坚持就是胜利的原则，我选择一点点坚持，最近看到了堆排序。这是自己曾经靠背和记才慢慢理解的算法，而今重温，发现这个排序其实很简单，只需完成三点:
+1. 实现MaxHeapify函数, 也就是以递归或者循环的方式，让每一节点保持最大堆的性质。这是堆排序的核心函数，写好了，就万事大吉了。
+2. Build-Max-Heap, 利用MaxHeapif">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-learning-heap-sort" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      再叙堆排序
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/08/10/learning-heap-sort/">
+    <time datetime="2013-08-10T13:45:36.000Z" itemprop="datePublished">2013-08-10</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这个暑假，开始看《算法导论》，这是一本很厚的书，不过本着坚持就是胜利的原则，我选择一点点坚持，最近看到了堆排序。这是自己曾经靠背和记才慢慢理解的算法，而今重温，发现这个排序其实很简单，只需完成三点:</p>
+<p>1. 实现MaxHeapify函数, 也就是以递归或者循环的方式，让每一节点保持最大堆的性质。这是堆排序的核心函数，写好了，就万事大吉了。</p>
+<p>2. Build-Max-Heap, 利用MaxHeapify函数构建一个最大堆。</p>
+<p>3. HeapSort,实现堆排： 先构建最大堆，再循环将第一个元素和最后一个元素交换，即把最大的元素换到最后，heapSize减1，最后对第一个元素调用MaxHeapify函数，保持最大堆的性质。</p>
+<p>看起来，堆排很好，最佳和最坏的复杂度都是O(n*lgn)，但实际应用中quicksort是一个比堆排更好的算法,速度比堆排更快。但堆的数据结构对实现优先级队列有很大意义。<br><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/heap/HeapSort.java" title="Source Code" target="_blank" rel="external">Source Code</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/08/10/learning-heap-sort/" data-id="cibns19zh002lv4rtqr95d7hf" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sort/">sort</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/08/18/the-usage-of-counting-sort/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          计数排序的应用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/05/25/good-resources-for-js-learning/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Good Resources for JavaScript</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

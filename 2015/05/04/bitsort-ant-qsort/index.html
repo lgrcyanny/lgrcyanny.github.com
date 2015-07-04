@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>位排序和快排 | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这已经不是一个新话题了，但是从开始实现一个C++位排序和快排，我还是花费了2个多小时，这里就记下自己的一点点体会啦。
+首先，题目来自《编程珠玑》第一章，主要是做位排序，同时和快排做比较：
+1. 实现位逻辑运算，实现位向量，并用该位向量实现1,000,000个数字的排序，数字最大是10,000,000
+2. 实现1000,000个数字的快排序
+3. 实现生成小于n且没有重复的k个整数，这里n=10,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="位排序和快排">
+<meta property="og:url" content="http://yoursite.com/2015/05/04/bitsort-ant-qsort/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="这已经不是一个新话题了，但是从开始实现一个C++位排序和快排，我还是花费了2个多小时，这里就记下自己的一点点体会啦。
+首先，题目来自《编程珠玑》第一章，主要是做位排序，同时和快排做比较：
+1. 实现位逻辑运算，实现位向量，并用该位向量实现1,000,000个数字的排序，数字最大是10,000,000
+2. 实现1000,000个数字的快排序
+3. 实现生成小于n且没有重复的k个整数，这里n=10,">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="位排序和快排">
+<meta name="twitter:description" content="这已经不是一个新话题了，但是从开始实现一个C++位排序和快排，我还是花费了2个多小时，这里就记下自己的一点点体会啦。
+首先，题目来自《编程珠玑》第一章，主要是做位排序，同时和快排做比较：
+1. 实现位逻辑运算，实现位向量，并用该位向量实现1,000,000个数字的排序，数字最大是10,000,000
+2. 实现1000,000个数字的快排序
+3. 实现生成小于n且没有重复的k个整数，这里n=10,">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-bitsort-ant-qsort" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      位排序和快排
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2015/05/04/bitsort-ant-qsort/">
+    <time datetime="2015-05-04T13:57:53.000Z" itemprop="datePublished">2015-05-04</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这已经不是一个新话题了，但是从开始实现一个C++位排序和快排，我还是花费了2个多小时，这里就记下自己的一点点体会啦。</p>
+<p>首先，题目来自《编程珠玑》第一章，主要是做位排序，同时和快排做比较：</p>
+<p>1. 实现位逻辑运算，实现位向量，并用该位向量实现1,000,000个数字的排序，数字最大是10,000,000</p>
+<p>2. 实现1000,000个数字的快排序</p>
+<p>3. 实现生成小于n且没有重复的k个整数，这里n=10,000,000, k = 1,000,000</p>
+<a id="more"></a>
+<h3 id="1-_位排序">1. 位排序</h3><p>[cpp]</p>
+<h1 id="include_&lt;iostream&gt;">include &lt;iostream&gt;</h1><h1 id="include_&lt;string&gt;">include &lt;string&gt;</h1><h1 id="include_&lt;fstream&gt;">include &lt;fstream&gt;</h1><p>// 这里以32位的int来实现位向量，初始化的开销可能会比较大<br>class BitVector {<br>public:<br>    BitVector(int size) {<br>        int n = (1 + (size / BITS_PER_WORD));<br>        buffer = new int[n];<br>        for (int i = 0; i &lt; n; ++i) {<br>            buffer[i] = 0;<br>        }<br>    }<br>    ~BitVector() {<br>        delete[] buffer;<br>    }<br>    void set(int i) {<br>        buffer[(i &gt;&gt; SHIFT)] |= 1 &lt;&lt; (i &amp; MASK);<br>    }<br>    void clr(int i) {<br>        buffer[(i &gt;&gt; SHIFT)] &amp;= ~(1 &lt;&lt; (i &amp; MASK));<br>    }<br>    int test(int i) {<br>        return buffer[(i &gt;&gt; SHIFT)] &amp; (1 &lt;&lt; (i &amp; MASK));<br>    }</p>
+<p>private:<br>    int* buffer;<br>    static const int BITS_PER_WORD = 32;<br>    static const int MASK = 0x1f;<br>    static const int SHIFT = 5;<br>};</p>
+<p>const int BitVector::BITS_PER_WORD;<br>const int BitVector::MASK;<br>const int BitVector::SHIFT;</p>
+<p>class Solution {<br>public:<br>    // 输入是要排序的文件名，同时需要给出输出文件名称<br>    // range是数字的范围<br>    void sort(<br>            int range,<br>            const std::string&amp; input_file_name,<br>            const std::string&amp; output_file_name) {<br>        BitVector bits_vector(range);<br>        std::ifstream fin(input_file_name);<br>        int i = 0;<br>        while (fin &gt;&gt; i) {<br>            bits_vector.set(i);<br>        }<br>        std::ofstream fout(output_file_name);<br>        for (int i = 0; i &lt; range; ++i) {<br>            if (bits_vector.test(i)) {<br>                fout &lt;&lt; i &lt;&lt; std::endl;<br>            }<br>        }<br>    }<br>};</p>
+<p>int main(int argc, char const *argv[]) {<br>    Solution s;<br>    int range = 10000000;<br>    s.sort(range, &quot;numbers_input.txt&quot;, &quot;numbers_output.txt&quot;);<br>}<br>[/cpp]</p>
+<h3 id="2-_Quick_Sort">2. Quick Sort</h3><p>[cpp]<br>class Solution {<br>public:<br>    void sort(<br>            const std::string&amp; input_file_name,<br>            const std::string&amp; output_file_name) {<br>        std::vector&lt;int&gt; arr;<br>        int number = 0;<br>        std::ifstream fin(input_file_name);<br>        while(fin &gt;&gt; number) {<br>            arr.push_back(number);<br>        }<br>        qsort(&amp;arr, 0, arr.size() - 1);<br>        std::ofstream fout(output_file_name);<br>        for (int i = 0; i &lt; arr.size(); ++i) {<br>            fout &lt;&lt; arr[i] &lt;&lt; std::endl;<br>        }<br>    }</p>
+<p>private:<br>    void qsort(std::vector&lt;int&gt;* arr, int p, int r) {<br>        if (p &gt;= r) {<br>            return;<br>        }<br>        int q = partition(arr, p, r);<br>        qsort(arr, p, q - 1);<br>        qsort(arr, q + 1, r);<br>    }</p>
+<pre><code><span class="keyword">int</span> partition(std::vector&amp;<span class="keyword">lt</span>;<span class="keyword">int</span>&amp;<span class="keyword">gt</span>;* arr, <span class="keyword">int</span> p, <span class="keyword">int</span> r) {
+    <span class="keyword">int</span> i = p;
+    <span class="keyword">int</span> j = i - <span class="number">1</span>;
+    <span class="keyword">for</span> (; i &amp;<span class="keyword">lt</span>; r; ++i) {
+        <span class="keyword">if</span> (arr-&amp;<span class="keyword">gt</span>;at(i) &amp;<span class="keyword">lt</span>; arr-&amp;<span class="keyword">gt</span>;at(r)) {
+            ++j;
+            std::swap(arr-&amp;<span class="keyword">gt</span>;at(i) , arr-&amp;<span class="keyword">gt</span>;at(j));
+        }
+    }
+    ++j;
+    std::swap(arr-&amp;<span class="keyword">gt</span>;at(j) , arr-&amp;<span class="keyword">gt</span>;at(r));
+    <span class="keyword">return</span> j;
+}
+</code></pre><p>};<br>[/cpp]</p>
+<h3 id="3-_生成范围是[0,n)的k个随机数">3. 生成范围是[0,n)的k个随机数</h3><p>该算法首先生成顺序的n个数字，再遍历该数组，将当前索引i和 random(i, n)生成的索引对应的数字交换，保证生成不重复的随机序列，生成1000000个范围为10000000的数字5.3s可以完成</p>
+<p>[python]<br>import sys<br>import random<br>def swap(list, i, j):<br>    tmp = list[i]<br>    list[i] = list[j]<br>    list[j] = tmp</p>
+<p>def generate():<br>    number_limit = int(sys.argv[1])<br>    n = int(sys.argv[2])<br>    list = []<br>    for i in range(number_limit):<br>        list.append(i)<br>    f = open(‘numbers_input.txt’, ‘w’)<br>    for i in range(n):<br>        random_index = random.randint(i, number_limit - 1)<br>        swap(list, i, random_index)<br>        f.write(str(list[i]) + ‘\n’)<br>    f.close()<br>generate()<br>[/python]</p>
+<h3 id="4-性能比较">4.性能比较</h3><p>运行的环境是Mac OSX 10.10，内存DDR3 4G，1.8GHz Inter Core i5<br>1. 位排序总运行时间是: 3.98s, 去掉读写文件的时间，0.47s完成排序<br>2. 快排序总运行时间: 4.71s, 去掉读写文件时间，0.63s完成排序<br>总之，快排的优势在于不限制排序数字范围，位排序限定范围，性能比快排高效。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/05/04/bitsort-ant-qsort/" data-id="cibns1a3h006bv4rt8cszeeqp" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/04/03/find-median-for-two-sorted-array/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">查找两个排序数组的中位数</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

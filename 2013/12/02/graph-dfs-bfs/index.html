@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Graph DFS and BFS | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="图论是一个重要的部分，以前数据结构课上过，没有作为考试要求，所以很不太熟悉，尤其是没有实现。考完试，无聊中重新看了看，想起以前在eBay，某帅哥突然开玩笑说DFS和BFS嘛，当然要会呀，Cyanny你会的吧，我说忘了，其实细细想起来，还真没有写过代码。In my view，没有实现过，就等于不会，今天实现了BFS和DFS，深深赞一个算导，说得明白和透彻，现在的算法书太多，这算是一本很不错的经典，厚">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Graph DFS and BFS">
+<meta property="og:url" content="http://yoursite.com/2013/12/02/graph-dfs-bfs/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="图论是一个重要的部分，以前数据结构课上过，没有作为考试要求，所以很不太熟悉，尤其是没有实现。考完试，无聊中重新看了看，想起以前在eBay，某帅哥突然开玩笑说DFS和BFS嘛，当然要会呀，Cyanny你会的吧，我说忘了，其实细细想起来，还真没有写过代码。In my view，没有实现过，就等于不会，今天实现了BFS和DFS，深深赞一个算导，说得明白和透彻，现在的算法书太多，这算是一本很不错的经典，厚">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Graph DFS and BFS">
+<meta name="twitter:description" content="图论是一个重要的部分，以前数据结构课上过，没有作为考试要求，所以很不太熟悉，尤其是没有实现。考完试，无聊中重新看了看，想起以前在eBay，某帅哥突然开玩笑说DFS和BFS嘛，当然要会呀，Cyanny你会的吧，我说忘了，其实细细想起来，还真没有写过代码。In my view，没有实现过，就等于不会，今天实现了BFS和DFS，深深赞一个算导，说得明白和透彻，现在的算法书太多，这算是一本很不错的经典，厚">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-graph-dfs-bfs" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Graph DFS and BFS
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/02/graph-dfs-bfs/">
+    <time datetime="2013-12-02T14:26:47.000Z" itemprop="datePublished">2013-12-02</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>图论是一个重要的部分，以前数据结构课上过，没有作为考试要求，所以很不太熟悉，尤其是没有实现。考完试，无聊中重新看了看，想起以前在eBay，某帅哥突然开玩笑说DFS和BFS嘛，当然要会呀，Cyanny你会的吧，我说忘了，其实细细想起来，还真没有写过代码。In my view，没有实现过，就等于不会，今天实现了BFS和DFS，深深赞一个算导，说得明白和透彻，现在的算法书太多，这算是一本很不错的经典，厚了点，但要是能厚着脸皮看完确实受益匪浅。</p>
+<h3 id="广度优先搜索BFS">广度优先搜索BFS</h3><p>其算法思想简介：<br>1. 利用队列<br>2. 每一个Vertex引入三个变量<br>color：WHITE 表示没有访问过，GREY 表示发现，BLACK 表示完成访问<br>parent: 父亲<br>d: 表示从root到该顶点的长度<br>3. 为了实现方便，我采用int来标识每一个顶点，采用邻接表来表示graph<br>深度优先搜索可以生成深度优先树，生成单源最短路径，即从root到每一个顶点的长度是最短路径。[more…]<br>BFS可以采用邻接矩阵表示，其复杂度较高为O(n^2)<br>如果采用邻接表表示，其复杂度为O(E+V),即顶点个数+边的个数<br>[java]<br>public void BFS(int root) {<br>    vertexes = new Vertex[n];<br>    // Initialize each vertex,<br>    // Each vertex has three segment: parent, d, color<br>    for (int i = 0; i &lt; n; i++) {<br>        vertexes[i] = new Vertex(i);<br>    }</p>
+<pre><code>Vertex rootv = vertexes[root];
+rootv.<span class="keyword">d</span> = 0;
+rootv.color = Color.GREY;
+queue.add(rootv);
+
+<span class="keyword">while</span> (!queue.isEmpty()) {
+    Vertex <span class="keyword">u</span> = queue.remove(0);
+    ArrayList&amp;lt;Integer&amp;gt; <span class="keyword">list</span> = <span class="keyword">graph</span>.<span class="literal">get</span>(<span class="keyword">u</span>.vertex);
+    <span class="keyword">for</span> (int i = 0; i &amp;lt; <span class="keyword">list</span>.size(); i++) {
+        Vertex temp = vertexes[<span class="keyword">list</span>.<span class="literal">get</span>(i)];
+        <span class="comment">// Make sure each vertex enqueue only once</span>
+        <span class="keyword">if</span> (temp.color == Color.WHITE) {
+            temp.parent = <span class="keyword">u</span>;
+            temp.<span class="keyword">d</span> = <span class="keyword">u</span>.<span class="keyword">d</span> + 1;
+            temp.color = Color.GREY;
+            queue.add(temp);
+        }                
+    }
+        <span class="keyword">u</span>.color = Color.BLACK;
+    res.add(<span class="keyword">u</span>);
+}
+</code></pre><p>}<br>[/java]<br><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/graph/GraphBFS.java" title="BFS Source" target="_blank" rel="external">BFS Source Code</a></p>
+<h3 id="深度优先搜索DFS">深度优先搜索DFS</h3><p>广度优先搜索DFS，基本算法思想<br>1. 采用递归，或stack来实现<br>2. 每一个Vertex引入四个变量<br>color：WHITE 表示没有访问过，GREY 表示发现，BLACK 表示完成访问<br>parent: 父亲<br>timestamp1: 表示第一次访问该顶点的时间戳<br>timestamp2:表示访问结束时的时间戳<br>3. 为了实现方便，我采用int来标识每一个顶点，采用邻接表来表示graph</p>
+<p>DFS采用邻接表表示Graph来实现，复杂度O(V+E), 矩阵复杂度依然不好，为O（n^2）<br>DFS是从多个源开始，最终会生成由多个源作为root的森林，即深度优先树（深度优先森林）。<br>同时引入时间戳，是为了获得DFS的进展情况，如果不需要时间戳，只是想简单地打印每一个顶点，可以不用。</p>
+<p>以下是递归的实现方法：<br>[java]<br>    public void DFS() {<br>        int i = 0;<br>        for (i = 0; i &lt; n; i++) {<br>            vertexes[i] = new Vertex(i);<br>        }<br>        for (i = 0; i &lt; n; i++) {<br>            Vertex u = vertexes[i];<br>            if (u.color == Color.WHITE) {<br>                visitDFS(u);<br>            }<br>        }<br>    }</p>
+<pre><code>private void visitDFS(Vertex <span class="keyword">u</span>) {
+    res.add(<span class="keyword">u</span>);
+    <span class="keyword">u</span>.color = Color.GREY;
+    <span class="keyword">timer</span>++;
+    <span class="keyword">u</span>.timestamp1 = <span class="keyword">timer</span>;
+    ArrayList&amp;lt;Integer&amp;gt; adjList = <span class="keyword">graph</span>.<span class="literal">get</span>(<span class="keyword">u</span>.vertex);
+    <span class="keyword">for</span> (int i = 0; i &amp;lt; adjList.size(); i++) {
+        Vertex v = vertexes[adjList.<span class="literal">get</span>(i)];
+        <span class="keyword">if</span> (v.color == Color.WHITE) {
+            v.parent = <span class="keyword">u</span>;
+            visitDFS(v);
+        }
+    }
+    <span class="keyword">u</span>.color = Color.BLACK;
+    <span class="keyword">timer</span>++;
+    <span class="keyword">u</span>.timestamp2 = <span class="keyword">timer</span>;
+}
+</code></pre><p>[/java]</p>
+<p>以下是采用栈的实现方法改写 “visitDFS”：<br>[java]<br>    /**</p>
+<pre><code><span class="comment"> * DFS with iterative method </span>
+<span class="comment"> * Make use of stack</span>
+<span class="comment"> * @param u</span>
+<span class="comment"> */</span>
+private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
+    res.add(<span class="keyword">u</span>);
+    <span class="keyword">u</span>.color = Color.GREY;
+    <span class="keyword">timer</span>++;
+    <span class="keyword">u</span>.timestamp1 = <span class="keyword">timer</span>;
+    <span class="keyword">stack</span>.add(<span class="keyword">u</span>);
+    <span class="keyword">while</span>(!<span class="keyword">stack</span>.isEmpty()) {
+        Vertex v = <span class="keyword">stack</span>.remove(<span class="keyword">stack</span>.size() - 1);
+        ArrayList&amp;lt;Integer&amp;gt; adjList = <span class="keyword">graph</span>.<span class="literal">get</span>(v.vertex);
+        <span class="keyword">for</span> (int i = 0; i &amp;lt; adjList.size(); i++) {
+            Vertex temp = vertexes[adjList.<span class="literal">get</span>(i)];
+            <span class="keyword">if</span> (temp.color == Color.WHITE) {
+                temp.parent = v;
+                temp.color = Color.GREY;
+                <span class="keyword">timer</span>++;
+                temp.timestamp1 = <span class="keyword">timer</span>;
+                res.add(temp);
+                <span class="keyword">stack</span>.add(temp);
+            }
+        }
+        v.color = Color.BLACK;
+        <span class="keyword">timer</span>++;
+        v.timestamp2 = <span class="keyword">timer</span>;
+    }
+    <span class="keyword">u</span>.color = Color.BLACK;
+    <span class="keyword">timer</span>++;
+    <span class="keyword">u</span>.timestamp2 = <span class="keyword">timer</span>;
+}
+</code></pre><p>[/java]</p>
+<p><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/graph/GraphDFS.java" title="DFS Source" target="_blank" rel="external">DFS Source Code</a></p>
+<p>最终发现，起始实现起来代码不多，重在想法。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/12/02/graph-dfs-bfs/" data-id="cibns1a1k0057v4rtzk5fe26n" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/12/05/hadoop-overview/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hadoop Overview
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">System Analysis and Design (Kenneth Kendall) Review Part4</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

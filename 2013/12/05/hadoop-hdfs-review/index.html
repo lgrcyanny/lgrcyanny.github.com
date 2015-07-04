@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hadoop HDFS Review | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="HDFS Basic ConceptsHadoop Distributed File System, know as HDFS, is a distributed file system designed to store large data sets and streaming data sets on commodity hardware with high scalability, rel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop HDFS Review">
+<meta property="og:url" content="http://yoursite.com/2013/12/05/hadoop-hdfs-review/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="HDFS Basic ConceptsHadoop Distributed File System, know as HDFS, is a distributed file system designed to store large data sets and streaming data sets on commodity hardware with high scalability, rel">
+<meta property="og:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.1.png">
+<meta property="og:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.2.png">
+<meta property="og:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.3.png">
+<meta property="og:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.4.png">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop HDFS Review">
+<meta name="twitter:description" content="HDFS Basic ConceptsHadoop Distributed File System, know as HDFS, is a distributed file system designed to store large data sets and streaming data sets on commodity hardware with high scalability, rel">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-hadoop-hdfs-review" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hadoop HDFS Review
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/05/hadoop-hdfs-review/">
+    <time datetime="2013-12-05T04:00:32.000Z" itemprop="datePublished">2013-12-05</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="HDFS_Basic_Concepts">HDFS Basic Concepts</h3><p>Hadoop Distributed File System, know as HDFS, is a distributed file system designed to store large data sets and streaming data sets on commodity hardware with high scalability, reliability and availability. </p>
+<p>HDFS is written in Java based on the Google File System (GFS). HDFS has many advantages compared with other distributed file systems:</p>
+<p><strong>1. Highly fault-tolerant</strong></p>
+<p>Fault-tolerant is the core architecture for HDFS. Since HDFS can run on low-cost and unreliable hardware, the hardware has a non-trivial probability of failures. HDFS is designed to carry on working without a noticeable interruption to the user in the face of such failure. HDFS provides redundant storage for massive amounts of data and Heartbeat for failure detection.<br>When one node fails, the master will detect it and re-assign the work to a different node. Restarting a node doesn’t need communicating with other data node. When failed node restart it will be added the system automatically. If a node appears to run slowly, the master can redundantly execute another instance of the same task, know as ‘speculative execution’.[more…]</p>
+<p><strong>2. Streaming Data Access</strong></p>
+<p>HDFS is designed with the most efficient data processing pattern: a write once, read-many times pattern. HDFS split large files into blocks, usually 64MB or 128MB. HDFS performs best with a modest number of large files. It prefers millions, rather than billions of files, and each of which is 100MB or more. No random writes to files is allowed. Also HDFS is optimized for large, steaming reads of files. No Random reads is allowed. </p>
+<p>A data set is generated and copied from source and replicated spread the HDFS system. It is efficient to load data from HDFS for big data analysis.</p>
+<p><strong>3. Large data sets</strong></p>
+<p>Large data means files that are MB, GB or TB in size. There are Hadoop clusters today that store PB data. HDFS support high aggregate data bandwidth and scale to hundreds of nodes in a single cluster. It also supports tens of millions of files processing.</p>
+<h3 id="HDFS_NameNode_and_DataNodes_Architecture">HDFS NameNode and DataNodes Architecture</h3><p>HDFS has a master/slave architecture. As shown in Figure1. </p>
+<p>The <strong>master node</strong> is the NameNode, which managers the file system namespace, file metadata and regulates the access interface for files by clients. A cluster has only one NameNode, which maintain the map of file metadata and  the location of blocks. </p>
+<p>The <strong>slave nodes</strong> are the DataNodes. A cluster has many DataNodes, which holds the actual data blocks.</p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.1.png" alt="hd3.1">Figure1 HDFS Architecture</a></p>
+<h3 id="NameNode">NameNode</h3><p>NameNode maintains the namespace tree, which is logical location and the mapping of file blocks to DataNodes, which is the physical location.</p>
+<p>The NameNode executes file system namespace operations like opening, closing, and renaming files and directories. It provides POSIX interface for client, so that user can access HDFS data with Unix like commands and no need to know about the function of NameNode and DataNodes. It is kind of abstraction which decrease the complexity for data access. </p>
+<p>The NameNode is the pivot in a cluster. A single NameNode greatly simplifies the architecture of HDFS. NameNode holds all of its metadata in RAM for fast access. It keeps a record of change on disk for crash recovery.</p>
+<p>However, once the NameNode fails, the cluster fails. The Single Point of Failure, known as SPOF is really a bottleneck for NameNode. Hadoop 2.0 introduces NameNode Federation and High Availability to solve the problem. We will discuss these in later section.</p>
+<h3 id="NameNode_Data_Persistent">NameNode Data Persistent</h3><p>In case of NameNode crash, the namespace information and metadata updates are stored persistently on the local disk in the form of two files: the namespace image called <strong>FsImage</strong> and the <strong>EditLog</strong>.</p>
+<p>FsImage is an image file persistently stores the file system namespace, including the file system tree and the metadata for all the files and the directories in the tree, the mapping of blocks to files and file system properties.</p>
+<p>EditLog is a transaction log to persistently record every change that occurs to file system metadata.</p>
+<p>However, we have to know there is one thing that is not persistent. The block locations we can call it Blockmap, which is stored in NameNode in-memory, not persistent on the local disk. Blockmap is reconstructed from DataNodes when the system starts by the Blockreport of DataNodes.</p>
+<p>When the system starts up, NameNode will load FsImage and EditLog from the local disk, applies the transactions from the EditLog to the in-memory representation of the FsImage, and flushes out the new version of FsImage on disk. Then it truncates the old EditLog since its transactions has been applied to the FsImage. This process is called a <strong>checkpoint</strong>.</p>
+<h3 id="Secondary_NameNode">Secondary NameNode</h3><p>To increase the reliability and availability of the NameNode, a separate daemon known as the Secondary NameNode takes care of some <strong>housekeeping</strong> tasks for the NameNode. Be careful that the Secondary NameNode is not a backup or a hot standby NameNode.</p>
+<p>The housekeeping wok is to periodically merge the namespace image FsImage with the EditLog to prevent the EditLog becoming to large. The Secondary NameNode runs on a single Node, which is a separate physical machine with as much memory and CPU requirements as the NameNode.</p>
+<p>The Secondary NameNode keeps a copy of the merged namespace image in case of the NameNode fails. But the time lags will result in data loss certainly. And during the NameNode recovery, the reconstruction of the Blockmap will cost too much time. So Hadoop works out the problem with Hadoop High Availability solution.</p>
+<h3 id="DataNodes">DataNodes</h3><p>The DataNodes holds all the actual data blocks. In sum up, it has three functions: </p>
+<ul>
+<li>Serves read and requests from the file system clients.</li>
+<li>Provides block operations, like creation, deletion and replication upon instruction from the NameNode.</li>
+<li>Make data Blockreport to NameNode periodically with lists of blocks that they are storing.</li>
+</ul>
+<p>In enterprise Hadoop deployment, each DataNode is a java program run on a separate JVM, and one instance of DataNode on one machine. </p>
+<p>In addition, NameNode is a java program run on a single machine. Written in java provides Hadoop good portability.</p>
+<h3 id="The_Communication_Protocols">The Communication Protocols</h3><p>HDFS client, NameNode and DataNodes communication protocols are TCP/IP. Client Protocol is TCP connection between a client and NameNode. The DataNode Protocol is the connection between the NameNode and the DataNodes. HDFS makes an abstraction wraps for the Client Protocol and the DataNode Protocol, which called Remote Procedure Call (RPC). NameNode never initiates any RPCs, only responds to RPC requests from clients or DataNodes.</p>
+<h3 id="HDFS_Files_Organization">HDFS Files Organization</h3><p>In traditional concepts, a disk has a block size, which is the minimum amount of data that it can read or write. Disk blocks are normally 512 bytes. While HDFS has the concept of block as well, which is a much larger unit – 64MB by default.</p>
+<p>HDFS large files are chopped up into 64MB or 128MB blocks. This brings several benefits:</p>
+<ul>
+<li>It can take advantage of any of the disks in the cluster, when the file is larger than any single disk.</li>
+<li>Making the unit of abstraction of a block simplifies the storage subsystem. HDFS will deal with blocks, rather than a file. Since blocks are a fixed size, it’s easy to calculate how many can be stored on a give disk and eliminate metadata concerns.</li>
+<li>Normally, a map task will operate on one local block at a time. Bocks spare the complexity of dealing with files.</li>
+<li>It’s easy to do data replication with blocks for providing fault tolerance and availability. Each block is replicated multiple times. Default is to replicate each block 3 times. Replicas are stored on different nodes.</li>
+<li>Block data fits well for streaming data. Files are written once and read many times. Blocks minimize the cost of seeking files.</li>
+</ul>
+<p>Although files are split into 64MB or 128MB blocks ， if a file is smaller than this full 64MB/128MB will not be split.</p>
+<h3 id="HDFS_Data_Replication">HDFS Data Replication</h3><p>HDFS each data block has a replica factor, which indicates how many times it should be replicated. Normally, the replica factor is three. Each block is replicated three times and spread on three different machines across the cluster. This provides efficient MapReduce processing because of good data locality.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.2.png" alt="hd3.2">Figure2 Block Replication</a><br>As shown in Figure2, the NameNode holds the metadata for each map of file and blocks, including filename, replica factor and block-id etc. Block data are spread on different DataNodes.</p>
+<h3 id="Data_Replica_Placement">Data Replica Placement</h3><p>Block replica placement is not random. Regarding of the reliability and the performance, HDFS policy is to put one replica on one node in the local rack, the second one on a node in a different remote rack and the third one on a different node in the same remote rack.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.3.png" alt="hd3.3">Figure 3 HDFS Racks</a><br>As shown in Figure 3, different DataNodes on different racks, Rack 0 and Rack1. Large HDFS instance run on a cluster of machines that commonly spread across many racks. Network bandwidth for intra-racks is greater than inter-racks. So the HDFS replica policy cuts the inter-rack write traffic and improves write performance. One third of replicas are on one node, two third of replicas are on one rack, the other third are distributed across the remaining racks. This policy guarantees the reliability.</p>
+<h3 id="Data_Replication_Pipeline">Data Replication Pipeline</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.4.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.4.png" alt="hd3.4">Figure 4 Data Replication Pipeline</a><br>As shown in Figure 4, it is the data flow of writing data to HDFS. A client request to request a file does not reach the NameNode immediately. It will follow the steps:<br>Step 1, the HDFS client caches the file data into a temporary local file until the local file accumulates data worth over one HDFS block size.<br>Step 2, the client contacts the NameNode, requests add a File.<br>Step 3, the NameNode inserts the file name into the file system tree and allocates a data block for it. Then responds to the client request with the identity of the DataNodes and the destination data block.<br>Step 4, suppose the HDFS file has a replication factor of three. The client retrieves a list of DataNodes, which contains that will host a replica of that block. The clients flushes the block of data from the local temporary file to the first DataNode.<br>Step 5,.the first DataNode starts receiving the data in small portions like 4KB, writes each portion to its local repository and transfers that portion to the second DataNode. Then the second DataNode retrieves the data portion, stores it and transfers to the third DataNode. Data is pipelined from the first DataNode to the third one.<br>Step 6, when a file is closed, the remaining un-flushed data in temporary local file is transferred to the DataNode. Then the client tells the NameNode that the file is closed.<br>Step 7, the NameNode commits the file creation operation into a persistent one. Be careful if the NameNode dies before the file is closed, the file is lost.<br>So far, we can see that file caching policy improves the writing performance. HDFS is write-once-read-many-times. When a client wants to read a file: It should contacts the NameNode to retrieves the file block map, including block id, block physical location. Then it communicates directly with the DataNodes to read data. The NameNode will not be a bottleneck for data transfer.</p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/12/05/hadoop-hdfs-review/" data-id="cibns1a12004sv4rtmn5b57ok" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Research/">Research</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/12/05/hadoop-hdfs-federation/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hadoop HDFS Federation 
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/12/05/hadoop-overview/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hadoop Overview</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

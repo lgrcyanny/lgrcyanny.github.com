@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>HBase MapReduce排序Secondary Sort | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MapReduce是Hadoop中处理大数据的方法，是一个处理大数据的简单算法、编程泛型。虽然思想简单，但其实真正用起来还是有很多问题，不是所有的问题都可以像WordCount那样典型和直观, 有很多需要trick的地方。MapReduce的中心思想是分而治之，数据要松耦合，可以划分为小数据集并行处理，如果数据本身在计算上存在很强的依赖关系，就不要赶鸭子上架，用MapReduce了。MapRedu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HBase MapReduce排序Secondary Sort">
+<meta property="og:url" content="http://yoursite.com/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="MapReduce是Hadoop中处理大数据的方法，是一个处理大数据的简单算法、编程泛型。虽然思想简单，但其实真正用起来还是有很多问题，不是所有的问题都可以像WordCount那样典型和直观, 有很多需要trick的地方。MapReduce的中心思想是分而治之，数据要松耦合，可以划分为小数据集并行处理，如果数据本身在计算上存在很强的依赖关系，就不要赶鸭子上架，用MapReduce了。MapRedu">
+<meta property="og:image" content="http://i59.tinypic.com/1416uzt.jpg">
+<meta property="og:image" content="http://i59.tinypic.com/j0ftw0.jpg">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HBase MapReduce排序Secondary Sort">
+<meta name="twitter:description" content="MapReduce是Hadoop中处理大数据的方法，是一个处理大数据的简单算法、编程泛型。虽然思想简单，但其实真正用起来还是有很多问题，不是所有的问题都可以像WordCount那样典型和直观, 有很多需要trick的地方。MapReduce的中心思想是分而治之，数据要松耦合，可以划分为小数据集并行处理，如果数据本身在计算上存在很强的依赖关系，就不要赶鸭子上架，用MapReduce了。MapRedu">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HBase MapReduce排序Secondary Sort
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/">
+    <time datetime="2014-03-20T10:51:08.000Z" itemprop="datePublished">2014-03-20</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Hadoop/HBase/">HBase</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MapReduce是Hadoop中处理大数据的方法，是一个处理大数据的简单算法、编程泛型。虽然思想简单，但其实真正用起来还是有很多问题，不是所有的问题都可以像WordCount那样典型和直观, 有很多需要trick的地方。MapReduce的中心思想是分而治之，数据要松耦合，可以划分为小数据集并行处理，如果数据本身在计算上存在很强的依赖关系，就不要赶鸭子上架，用MapReduce了。<br>MapReduce编程中，最重要的是要抓住Map和Reduce的input和output，好的input和output可以降低实现的复杂度。最近，写了很多关于MapReduce的job，有倒排索引，统计，排序等。其中，对排序花费了一番功夫，MapReduce做WordCount很好理解,<br>Map input:[offset, text],  output: [word, 1],</p>
+<p>Reduce input: [word, 1], output: [word, totalcount],还可以设置Combiner进行优化。</p>
+<a id="more"></a>
+<p>但排序不同了，大量的文件记录，分配给map，然后reduce出来的文件分布在各个机器上，怎么保证有序呢？排序是算法中常考常用的，MapReduce做排序还需要理解一下MapReduce过程中，非常magic的过程Shuffle and Sort.[more…]</p>
+<h3 id="Shuffle_and_Sort过程解析">Shuffle and Sort过程解析</h3><p><a href="http://tinypic.com?ref=1416uzt" target="_blank" rel="external"><img src="http://i59.tinypic.com/1416uzt.jpg" alt="Image and video hosting by TinyPic"></a><br>如上图，Shuffle的过程包括了Map端和Reduce端。</p>
+<h4 id="Map端">Map端</h4><p><a href="http://tinypic.com?ref=j0ftw0" target="_blank" rel="external"><img src="http://i59.tinypic.com/j0ftw0.jpg" alt="Image and video hosting by TinyPic"></a></p>
+<ol>
+<li>Input Split分配给Map</li>
+<li>Map进行计算，输出[key, value]形式的output</li>
+<li>Map的输出结果缓存在内存里</li>
+<li>内存中进行Partition，默认是HashPartitioner(采用取模hash (key.hashCode() &amp; Integer.MAX_VALUE) % numReduceTasks)， 目的是将map的结果分给不同的reducer，有几个Partition，就有几个reducer，partition的数目可以在job启动时通过参数 “-Dmapreduc.job.reduces”设置(Hadoop 2.2.0), HashPartitioner可以让map的结果均匀的分给不同机器上的reducer，保证负载均衡。</li>
+<li>内存中在Partition结束后，会对每个Partition中的结果按照key进行排序。</li>
+<li>排序结束后，相同的key在一起了，如果设置过combiner，就合并数据，减少写入磁盘的记录数</li>
+<li>当内存中buffer(default 100M)达到阈值(default 80%)，就会把记录spill(即溢写)到磁盘中，优化Map时可以调大buffer的阈值，缓存更多的数据。</li>
+<li>当磁盘中的spill文件数目在3(min.num.spills.for.combine)个（包括）以上, map的新的output会再次运行combiner，而如果磁盘中spill file文件就1~2个，就没有必要调用combiner，因为combiner大多数情况和reducer是一样的逻辑，可以在reduer端再计算。</li>
+<li>Map结束时会把spill出来的多个文件合并成一个，merge过程最多10（默认）个文件同时merge成一个文件，多余的文件分多次merge，merge过程是merge sort的算法。</li>
+<li>Map端shuffle完毕，数据都有序的存放在磁盘里，等待reducer来拿取</li>
+</ol>
+<h4 id="Reducer端">Reducer端</h4><p>shuffle and sort的过程不仅仅在map端，别忘了reducer端还没拿数据呢，reduce job当然不能开启。</p>
+<ol>
+<li>Copy phase: reducer的后台进程(default 5个)到被Application Master (Hadoop 2.2), 或者之前的JobTracker 指定的机器上将map的output拷贝到本地，先拷贝到内存，内存满了就拷贝的磁盘。</li>
+<li>Sort phase(Merge phase): Reduer采用merge sort，将来自各个map的data进行merge， merge成有序的更大的文件。</li>
+<li>如果设置过Combiner，merge过程可能会调用Combiner，调不调用要看在磁盘中产生的文件数目是否超过了设定的阈值。(这一点我还没有确认，但Combiner在Reducer端是可能调用。)</li>
+<li>Reduce phase: reduce job开始，输入是shuffle sort过程merge产生的文件。</li>
+</ol>
+<h3 id="MapReduce排序(Secondary_Sort)案例">MapReduce排序(Secondary Sort)案例</h3><p>理解了Shuffle的过程后，我们可以着手开始做排序了。<br>1. 需求<br>现在我在HBase里面，存储了10万条文献的评论统计记录，每个文献的评论数目是2~20，每个文献评论统计记录在HBase的存储示例如下：<br>即表 “pb_stat_comments_count”的记录<br>[rowkey, column family, column qualifer, value] =<br>[literature row key, ‘info’, ‘count’, 12]<br>[literature row key, ‘info’, ‘avgts’, 1400815843854]<br>count:是每个文献的记录<br>avgts：是所有文献的平均评价时间戳<br>排序要求：将文献按照评价次数逆序排，次数大的靠前，次数相同的平均评价时间相同的靠前。</p>
+<p>2. 思想<br>MapReduce在Map端排序时，都只按key排序，而现在我们的排序指标有两个字段count, avgts,组合的key，为了保证排序结果对于第二个字段有序，MapReduce里面叫做Secondary Sort,就是个名称而已，可以扩展为保证第三个字段有序，第四，第五…</p>
+<ul>
+<li>首先，我们需要重新自定义一个组合Key,即我们将看到的示例中的SortKeyPair类, 包括count和avgts两个字段，并overwrite里面的compare to方法，按我们的需求，count大的靠前，count相同，avgts大的靠前。</li>
+<li>其次，利用SortKeyPair，自定义一个SortComparatorClass给Map端排序时用。</li>
+<li>再次，自定义PartitionClass.<br>我们单机伪分布式下，默认只有一个Partition，一个Reducer，Partition有无均可，但是分布式环境下，我们要求分布在各个reducer上的结果有序，即评论次数2~5的在reducer0上，6~10的在reducer 1上，11~15在reducer2上，16~20在reducer3上，如果采用取模hash，会造成各个reducer的结果顺序无法控制，因此我们不能用HashPartitioner。而自己的Partitioner则需要只按count进行partition，不管平均评价时间，我们这里把partition的主要的这个key叫做NaturalKey.</li>
+<li>最后，我们可以看到reduce端要进行merge，merge过程中，我们需要把相同的count分做一组，需要自定义GroupingComparatorClass。<br>否则如果是按整个组合key进行分组，每个组合key都是不同的，不能分到一个reduce调用中，reduce方法会被调用10万次（单机环境，一个reducer拿到所有10万条文献）， 而如果按count分组，文献评论数目2~20，reduce方法只会被调用最多19次，减少了开销。<br>我们可以看到一个Reducer实例中，reduce方法会被调用多次，按道理是调用一次，但是因为Reducer过程会把数据分成多个组，reduce调用多次是可能的。（具体的需要再看看源码）</li>
+</ul>
+<h3 id="案例代码">案例代码</h3><p>1. 自定义组合key类：SortKeyPair.java</p>
+<p>[java]<br>public class SortKeyPair implements WritableComparable&lt;SortKeyPair&gt; {<br>    private int count = 0;<br>    private long avgts = 0;</p>
+<pre><code>    <span class="comment">//要写一个默认构造函数，否则MapReduce的反射机制，无法创建该类报错</span>
+<span class="function"><span class="keyword">public</span> <span class="title">SortKeyPair</span><span class="params">()</span> </span>{
+
+}
+
+<span class="comment">/**
+ * 
+ * <span class="doctag">@param</span> count
+ * <span class="doctag">@param</span> timestamp
+ *            Average timestamp
+ */</span>
+<span class="function"><span class="keyword">public</span> <span class="title">SortKeyPair</span><span class="params">(<span class="keyword">int</span> count, <span class="keyword">long</span> avgts)</span> </span>{
+    <span class="keyword">super</span>();
+    <span class="keyword">this</span>.count = count;
+    <span class="keyword">this</span>.avgts = avgts;
+}
+
+<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> count;
+}
+
+<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setCount</span><span class="params">(<span class="keyword">int</span> count)</span> </span>{
+    <span class="keyword">this</span>.count = count;
+}
+
+<span class="keyword">public</span> <span class="function"><span class="keyword">long</span> <span class="title">getAvgts</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> avgts;
+}
+
+<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setAvgts</span><span class="params">(<span class="keyword">long</span> avgts)</span> </span>{
+    <span class="keyword">this</span>.avgts = avgts;
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">write</span><span class="params">(DataOutput out)</span> <span class="keyword">throws</span> IOException </span>{
+    out.writeInt(<span class="keyword">this</span>.count);
+    out.writeLong(<span class="keyword">this</span>.avgts);
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">readFields</span><span class="params">(DataInput in)</span> <span class="keyword">throws</span> IOException </span>{
+    <span class="keyword">this</span>.count = in.readInt();
+    <span class="keyword">this</span>.avgts = in.readLong();
+}
+
+<span class="comment">/**
+ * We want sort in descending count and descending avgts， Java里面排序默认小的放前面，即返回-1的放前面，这里直接把小值返回1，就会被排序到后面了。
+ */</span>
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(SortKeyPair o)</span> </span>{
+    <span class="keyword">int</span> res = <span class="keyword">this</span>.count &amp;lt; o.getCount() ? <span class="number">1</span>
+            : (<span class="keyword">this</span>.count == o.getCount() ? 0 : -1);
+
+    <span class="keyword">if</span> (res == <span class="number">0</span>) {
+        res = <span class="keyword">this</span>.avgts &amp;lt; o.getAvgts() ? <span class="number">1</span>
+                : (<span class="keyword">this</span>.avgts == o.getAvgts() ? 0 : -1);
+    }
+
+    <span class="keyword">return</span> res;
+}
+
+    <span class="comment">//这个方法需要Overrride</span>
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> Integer.MAX_VALUE - <span class="keyword">this</span>.count;
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function">String <span class="title">toString</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">this</span>.count + &amp;quot;,&amp;quot; + <span class="keyword">this</span>.avgts;
+}
+
+    <span class="comment">// 这个方法，写不写都不会影响的，至少我测的是这样</span>
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>{
+    <span class="keyword">if</span> (obj == <span class="keyword">null</span>) {
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+    <span class="keyword">if</span> (<span class="keyword">this</span> == obj) {
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+    <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> SortKeyPair) {
+        SortKeyPair s = (SortKeyPair) obj;
+        <span class="keyword">return</span> <span class="keyword">this</span>.count == s.getCount() &amp;amp;&amp;amp; <span class="keyword">this</span>.avgts == s.getAvgts();
+    } <span class="keyword">else</span> {
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+}
+</code></pre><p>}<br>[/java]</p>
+<p>2. 自定义SortComparatorClass, 我命名为：CompositeKeyComparator.java</p>
+<p>[java]<br>public class CompositeKeyComparator extends WritableComparator{</p>
+<pre><code><span class="function"><span class="keyword">public</span> <span class="title">CompositeKeyComparator</span> <span class="params">()</span> </span>{
+    <span class="keyword">super</span>(SortKeyPair.class, <span class="keyword">true</span>);
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(WritableComparable a, WritableComparable b)</span> </span>{
+    SortKeyPair s1 = (SortKeyPair)a;
+    SortKeyPair s2 = (SortKeyPair)b;
+
+    <span class="function"><span class="keyword">return</span> s1.<span class="title">compareTo</span><span class="params">(s2)</span></span>;
+}
+</code></pre><p>}<br>[/java]</p>
+<p>3. 自定义PartitionerClass, 我命名为NaturalKeyPartitioner.java</p>
+<p>[java]<br>public class NaturalKeyPartitioner extends Partitioner&lt;SortKeyPair, Text&gt;{</p>
+<pre><code>@Override
+<span class="keyword">public</span> <span class="keyword">int</span> getPartition(SortKeyPair key, Text value, <span class="keyword">int</span> numPartitions) {
+    <span class="comment">// % is hash partition, can't make sure bigger count go to reducer with small id.</span>
+    <span class="keyword">int</span> <span class="keyword">count</span> = key.getCount();
+    <span class="keyword">if</span> (<span class="keyword">count</span> &amp;lt;= <span class="number">5</span>) {
+        <span class="keyword">return</span> <span class="number">0</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">count</span> &amp;gt; <span class="number">5</span> &amp;amp;&amp;amp; <span class="keyword">count</span> &amp;lt;= <span class="number">10</span>) {
+        <span class="keyword">return</span> <span class="number">1</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">count</span> &amp;gt; <span class="number">10</span> &amp;amp;&amp;amp; <span class="keyword">count</span> &amp;lt;= <span class="number">15</span>) {
+        <span class="keyword">return</span> <span class="number">2</span>;
+    } <span class="keyword">else</span> {
+        <span class="keyword">return</span> <span class="number">3</span>;
+    }
+}
+</code></pre><p>}<br>[/java]</p>
+<p>4. 自定义GroupingComparatorClass,<br>我命名为NaturalKeyGroupComparator.java</p>
+<p>[java]<br>public class NaturalKeyGroupComparator extends WritableComparator {</p>
+<pre><code><span class="function"><span class="keyword">public</span> <span class="title">NaturalKeyGroupComparator</span><span class="params">()</span> </span>{
+    <span class="keyword">super</span>(SortKeyPair.class, <span class="keyword">true</span>);
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(WritableComparable a, WritableComparable b)</span> </span>{
+    SortKeyPair s1 = (SortKeyPair) a;
+    SortKeyPair s2 = (SortKeyPair) b;
+    <span class="keyword">int</span> res = s1.getCount() &amp;lt; s2.getCount() ? <span class="number">1</span> : (s1.getCount() == s2
+            .getCount() ? 0 : -1);
+
+    <span class="keyword">return</span> res;
+}
+</code></pre><p>}<br>[/java]</p>
+<p>5. 定义Mapper，Reducer，并定义Job提交</p>
+<p>[java]<br>public class SecondarySort {</p>
+<pre><code>/**
+ * <span class="type">It</span> must be declared <span class="keyword">static</span>, <span class="keyword">in</span> <span class="keyword">case</span> <span class="keyword">of</span> reflection error
+ * 
+ * @author lgrcyanny
+ * 
+ */
+public <span class="keyword">static</span> class <span class="type">SortMapper</span> extends <span class="type">TableMapper</span>&amp;lt;<span class="type">SortKeyPair</span>, <span class="type">Text</span>&amp;gt; {
+
+            // <span class="type">Map</span> input [hbase row key, hbase <span class="literal">result</span>], output: [<span class="type">SortKeyPair</span>, <span class="type">Text</span>] (<span class="type">Text</span>中包括了我们最后输出到文件的信息：literature row key, count, avgts)
+    @<span class="type">Override</span>
+    protected <span class="type">void</span> map(<span class="type">ImmutableBytesWritable</span> key, <span class="type">Result</span> rs,
+            <span class="type">Context</span> context) throws <span class="type">IOException</span>, <span class="type">InterruptedException</span> {
+        <span class="type">String</span> literature = <span class="type">Bytes</span>.toString(rs.getRow());
+        <span class="type">int</span> count = <span class="type">Integer</span>.valueOf(<span class="type">Bytes</span>.toString(rs.getValue(
+                <span class="type">Bytes</span>.toBytes(&amp;quot;info&amp;quot;), <span class="type">Bytes</span>.toBytes(&amp;quot;count&amp;quot;))));
+        long avgts = <span class="type">Long</span>.valueOf(<span class="type">Bytes</span>.toString(rs.getValue(
+                <span class="type">Bytes</span>.toBytes(&amp;quot;info&amp;quot;), <span class="type">Bytes</span>.toBytes(&amp;quot;avgts&amp;quot;))));
+        context.write(new <span class="type">SortKeyPair</span>(count, avgts), new <span class="type">Text</span>(literature
+                + &amp;quot;,&amp;quot; + count + &amp;quot;,&amp;quot; + avgts));
+    }
+
+}
+
+public <span class="keyword">static</span> class <span class="type">SortReducer</span> extends
+        <span class="type">Reducer</span>&amp;lt;<span class="type">SortKeyPair</span>, <span class="type">Text</span>, <span class="type">Text</span>, <span class="type">Text</span>&amp;gt; {
+
+    /**
+     * <span class="type">Now</span> the key <span class="keyword">is</span> max <span class="type">SortKeyPair</span> <span class="keyword">in</span> the list, we just dump the ordered
+     * items
+             * <span class="type">Reduce</span> input: [<span class="type">SorKeyPair</span>, list <span class="keyword">of</span> text], <span class="type">Output</span>: [text, text] 
+     */
+    @<span class="type">Override</span>
+    protected <span class="type">void</span> reduce(<span class="type">SortKeyPair</span> key, <span class="type">Iterable</span>&amp;lt;<span class="type">Text</span>&amp;gt; items,
+            <span class="type">Context</span> context) throws <span class="type">IOException</span>, <span class="type">InterruptedException</span> {
+        <span class="type">Iterator</span>&amp;lt;<span class="type">Text</span>&amp;gt; <span class="keyword">iterator</span> = items.<span class="keyword">iterator</span>();
+        <span class="keyword">while</span> (<span class="keyword">iterator</span>.hasNext()) {
+            context.write(null, <span class="keyword">iterator</span>.next());// 因为value中已经包括了需要输出的信息，<span class="type">SortKeyPair</span>的信息不需要输出，key设置为null即可。
+        }
+    }
+}
+
+public <span class="keyword">static</span> <span class="type">void</span> main(<span class="type">String</span>[] args) throws <span class="type">IOException</span>,
+        <span class="type">ClassNotFoundException</span>, <span class="type">InterruptedException</span> {
+            // 因为数据源是<span class="type">HBase</span>，因此需要使用<span class="type">HBase</span>中的<span class="type">MapReduce</span>启动设置，可以参考<span class="type">HBase</span>官方网站
+            // 自己做测试，可以改成文件输入，看具体需求而定
+    <span class="type">Configuration</span> conf = <span class="type">HBaseConfiguration</span>.create();
+    <span class="type">Job</span> job = new <span class="type">Job</span>(conf, &amp;quot;<span class="type">Secondarysort</span>&amp;quot;);
+    job.setJarByClass(<span class="type">SecondarySort</span>.class);
+    <span class="type">Scan</span> scan = new <span class="type">Scan</span>();
+    scan.addFamily(<span class="type">Bytes</span>.toBytes(&amp;quot;info&amp;quot;));
+    scan.setCaching(<span class="number">5000</span>); // <span class="type">Default</span> <span class="keyword">is</span> <span class="number">1</span>, <span class="type">set</span> <span class="number">500</span> improve performance
+    scan.setCacheBlocks(<span class="literal">false</span>); // <span class="type">Close</span> <span class="keyword">block</span> cache <span class="keyword">for</span> <span class="type">MR</span> job
+    <span class="type">TableMapReduceUtil</span>.initTableMapperJob(&amp;quot;pb_stat_comments_count&amp;quot;, scan,
+            <span class="type">SortMapper</span>.class, <span class="type">SortKeyPair</span>.class, <span class="type">Text</span>.class, job);
+    job.setReducerClass(<span class="type">SortReducer</span>.class);
+
+    // <span class="type">For</span> secondary sort, 这里设置自定义排序的三个类
+    job.setSortComparatorClass(<span class="type">CompositeKeyComparator</span>.class);
+    job.setPartitionerClass(<span class="type">NaturalKeyPartitioner</span>.class);
+    job.setGroupingComparatorClass(<span class="type">NaturalKeyGroupComparator</span>.class);
+
+    job.setOutputKeyClass(<span class="type">Text</span>.class);
+    job.setOutputValueClass(<span class="type">Text</span>.class);
+
+            // <span class="type">Reducer</span>的输出，设置为文件输出
+    <span class="type">FileOutputFormat</span>.setOutputPath(job, new <span class="type">Path</span>(&amp;quot;secondary-sort-res&amp;quot;));
+
+    long start = <span class="type">System</span>.currentTimeMillis();
+    boolean res = job.waitForCompletion(<span class="literal">true</span>);
+    long <span class="keyword">end</span> = <span class="type">System</span>.currentTimeMillis();
+    <span class="keyword">if</span> (res) {
+        <span class="type">System</span>.<span class="keyword">out</span>.println(&amp;quot;<span class="type">Job</span> done <span class="keyword">with</span> time &amp;quot; + (<span class="keyword">end</span> - start));
+    } <span class="keyword">else</span> {
+        throw new <span class="type">IOException</span>(&amp;quot;<span class="type">Job</span> exit <span class="keyword">with</span> error.&amp;quot;);
+    }
+}
+</code></pre><p>}<br>[/java]</p>
+<h3 id="总结">总结</h3><p>MapReduce做排序，麻烦的不是写Mapper和Reducer，而是自定义<br>CompositeKeyClass<br>SortComparatorClas<br>PartitionerClass<br>GroupingComparatorClass<br>利用好Shuffle这个很magic课程，可以实现很多奇妙的功能。<br>本次案例的代码在<a href="https://github.com/lgrcyanny/PaperBook-MapReduce/tree/master/src/com/paperbook/mapreduce/stat/secondarysort" target="_blank" rel="external">我的GitHub上</a>。<br>这些都是个人的理解，如有不对之处，还请指正。</p>
+<p>最后，本学期的云计算课到最后了才让我们去些MapReduce程序，之前做无关的MySQL的项目，然后迁移HBase，看着很高端，但是做那个网站到底有什么意义，这是云计算，不是前端计算，HBase in Action中也提到，HBase的设计和MySQL的设计是完全不同的，而MySQL我相信到这个阶段的同学们都会用，何必再次重复劳动呢？直接上HBase不就可以了，本末倒置是我对本学期的课程的失望和吐槽。课程内容多半是概念，涉及技术的有多少？看论文，看概念每一个研究生都可以做到，而我想我们缺的是实践上的指导，比如MapReduce，除了能讲讲WordCount，还能再深入点么？Shuffle的过程可以多说说么？Zookeeper里面的PAXOS算法可以跟我们说说么？学院有Hadoop的集群机器，可以让我们去玩玩不？而不是写那个无聊的网站。<br>我个人觉得让我们去写一些Hadoop的架构分析，看看源码，也比写那个无聊的网站强。最后9次作业，做的头大，重复劳动，体力劳动，最后还考试，说写的多分会高，有意思么？那么多作业还考试，数据库课程就两次作业+一个论文，但是我觉得我学了也复习了很多知识，比起那些大而空的概念，高到不知哪里去了。<br>我对云计算，Hadoop,HBase感兴趣，本学期学了很多，但不是课堂上学的，估计我最后对云计算的概念们，要靠下周背PPT了。 我对云计算有兴趣，但对本学期的课程没兴趣。吐槽都是不好的情绪，调整好心态，好好考试吧~BTW，下周还有一次作业。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/" data-id="cibns1a03003gv4rtimkntx3t" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HBase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MapReduce/">MapReduce</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/04/12/dijkstra-algorithm-in-java/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Dijkstra Algorithm
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">HBase Architecture Analysis Part 3 Pros and Cons</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

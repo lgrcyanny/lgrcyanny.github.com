@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>分布式系统总结part4 | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Petri网1. 以生产者消费者为例子Petri三元组PN=(P,T,F)即，库所，变迁，转换弧
+Preset表示前集,如果x是变迁，那么preset表示某个变迁的输入库所集合，如果x是某个库所那么preset表示某个库所的输入变迁。
+Postset表示后集，如果x是变迁，那么postset表示某个变迁的输出库所集合，如果x是库所，那么postset表示某个库所的输出变迁集合。[more…]
+2.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式系统总结part4">
+<meta property="og:url" content="http://yoursite.com/2013/11/24/distributed-system-review-part4/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="Petri网1. 以生产者消费者为例子Petri三元组PN=(P,T,F)即，库所，变迁，转换弧
+Preset表示前集,如果x是变迁，那么preset表示某个变迁的输入库所集合，如果x是某个库所那么preset表示某个库所的输入变迁。
+Postset表示后集，如果x是变迁，那么postset表示某个变迁的输出库所集合，如果x是库所，那么postset表示某个库所的输出变迁集合。[more…]
+2.">
+<meta property="og:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System14-580x398.png">
+<meta property="og:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System16-580x290.png">
+<meta property="og:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System17-580x349.png">
+<meta property="og:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System15-580x355.png">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分布式系统总结part4">
+<meta name="twitter:description" content="Petri网1. 以生产者消费者为例子Petri三元组PN=(P,T,F)即，库所，变迁，转换弧
+Preset表示前集,如果x是变迁，那么preset表示某个变迁的输入库所集合，如果x是某个库所那么preset表示某个库所的输入变迁。
+Postset表示后集，如果x是变迁，那么postset表示某个变迁的输出库所集合，如果x是库所，那么postset表示某个库所的输出变迁集合。[more…]
+2.">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-distributed-system-review-part4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      分布式系统总结part4
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/24/distributed-system-review-part4/">
+    <time datetime="2013-11-24T07:04:39.000Z" itemprop="datePublished">2013-11-24</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Distributed-System/">Distributed System</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Distributed-System/Life/">Life</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Petri网">Petri网</h3><h4 id="1-_以生产者消费者为例子">1. 以生产者消费者为例子</h4><p>Petri三元组PN=(P,T,F)即，库所，变迁，转换弧</p>
+<p>Preset表示前集,如果x是变迁，那么preset表示某个变迁的输入库所集合，如果x是某个库所那么preset表示某个库所的输入变迁。</p>
+<p>Postset表示后集，如果x是变迁，那么postset表示某个变迁的输出库所集合，如果x是库所，那么postset表示某个库所的输出变迁集合。[more…]<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System14.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System14-580x398.png" alt="Distributed System14"></a></p>
+<h4 id="2-_Marking，_Enable，_Firing">2. Marking， Enable， Firing</h4><p>M(p)表示当前所有库所的Token数量, 是一个快照.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System16.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System16-580x290.png" alt="Distributed System16"></a><br>通过这个图，可以很简单地看出 M(p)的计算等式.<br>当库所的token都到位后，变迁就enable了，如上图左边t2是enable的, t1没有enable， 如果Firing点火，就会转到另一个Marking下，如图中右边的图是点火后的Marking。</p>
+<h3 id="3-Handle">3.Handle</h3><p>PP—handled : 某一个Place到另一个Place有两条不相交的路径</p>
+<p>TT handled：某一个Transition和另一个Transition有两条不相交的路径</p>
+<p>PT—handled：某一个Place到另一个Transition有两条不相交的路径</p>
+<p>TP—handled：某一个Transition到另一个Place有两条不相交的路径</p>
+<p>Well-handled：只有TT和PP，没有PT，TP。 因为PT会有死锁的风险， TP会造出某一个Place内部的Token无限增长</p>
+<h3 id="4-State_Machine和Marked_Graph">4.State Machine和Marked Graph</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System17.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System17-580x349.png" alt="Distributed System17"></a></p>
+<ul>
+<li>Marked Graph：库所只有单个输入和单个输出</li>
+<li>State Machine: 每个变迁只有单个输入和单个输出，这是一个有限状态机</li>
+<li>T-component：如果一个大的Petri可以找到一个子网符合marked graph的要求，就是 T-component, 如果所有的T-component的集合可以覆盖整个Petri网，就是T-coverability。</li>
+<li>P-component：是一个大的网络中的一个Petri子网，满足state machine的，如所有的P-component可以覆盖整个Petri网，则称Petri网P-coverability</li>
+</ul>
+<h3 id="5-_活性和有界性">5. 活性和有界性</h3><ul>
+<li>活性：从M0状态出发，对于任何一个M和t转换后的M’，可以让任何变迁T有可能点火enable.什么是不活呢，就是死锁，但是不死锁，不等价于活性</li>
+<li>有界性：不论状态如何变化，token数量都不会无限增长，保持在一定数量</li>
+<li>Petri是well-formed的：存在M0使这个Petri网有活性并且有界</li>
+</ul>
+<h3 id="6-_Free-choice_structure">6. Free-choice structure</h3><p>自由选择结构：如果两个输入库所交集不为空，蕴含两个输入库所相等</p>
+<p>t1和t2是对等的选择关系.</p>
+<p>自由选择结构可以表达并发关系和同步关系</p>
+<p>给定一个自由选择结构，可以很好地决定它的活性和有界性。</p>
+<h3 id="7-_哲学家吃通心粉">7. 哲学家吃通心粉</h3><p>有五个哲学家围坐在一圆桌旁，桌子中央有一盘通心面，每人面前有一只空盘子，每两人之间放一把叉子。每个哲学家思考、饥饿、然后，欲吃通心面。为了吃面，每个哲学家必须获得两把叉子，且每人只能直接从自己左边或右边去取叉子。</p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System15.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System15-580x355.png" alt="Distributed System15"></a></p>
+<h3 id="资源">资源</h3><p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part1/" title="分布式系统总结part1" target="_blank" rel="external">分布式系统总结part1 中间件，进程迁移，移动通信失效，名称解析，移动实体定位</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part2/" title="分布式系统总结part2" target="_blank" rel="external">分布式系统总结part2 Lamport同步与向量时间戳，两大选举算法，三大互斥算法</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part3/" title="分布式系统总结part3" target="_blank" rel="external">分布式系统总结part3 复制和一致性(以数据和以客户为中心的一致性)，容错（拜占庭将军问题，两阶段与三阶段提交）</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part4/" title="分布式系统总结part4" target="_blank" rel="external">分布式系统总结part4 Petri网解决哲学家问题和生产者、消费者问题</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/11/24/distributed-system-review-part4/" data-id="cibns1a2s005qv4rtene789m2" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          System Analysis and Design (Kenneth Kendall) Review Part1
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/11/24/distributed-system-review-part3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">分布式系统总结part3</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>查找两个排序数组的中位数 | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="题目是：求两个排序数组的中位数。设：两个排序的数组a[m], b[n]，求a和b数组的中位数。算法是：mid_a是数组a的中位数index，同理mid_b是数组b的中位数索引1. 如果a[mid_a] == b[mid_b] 中位数为a[mid_a]
+2. 如果a[mid_a] &amp;lt; b[mid_b], 递归查找a(mid_a + 1, m - 1), b(0, mid_b)，因为a[mid_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="查找两个排序数组的中位数">
+<meta property="og:url" content="http://yoursite.com/2015/04/03/find-median-for-two-sorted-array/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="题目是：求两个排序数组的中位数。设：两个排序的数组a[m], b[n]，求a和b数组的中位数。算法是：mid_a是数组a的中位数index，同理mid_b是数组b的中位数索引1. 如果a[mid_a] == b[mid_b] 中位数为a[mid_a]
+2. 如果a[mid_a] &amp;lt; b[mid_b], 递归查找a(mid_a + 1, m - 1), b(0, mid_b)，因为a[mid_">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="查找两个排序数组的中位数">
+<meta name="twitter:description" content="题目是：求两个排序数组的中位数。设：两个排序的数组a[m], b[n]，求a和b数组的中位数。算法是：mid_a是数组a的中位数index，同理mid_b是数组b的中位数索引1. 如果a[mid_a] == b[mid_b] 中位数为a[mid_a]
+2. 如果a[mid_a] &amp;lt; b[mid_b], 递归查找a(mid_a + 1, m - 1), b(0, mid_b)，因为a[mid_">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-find-median-for-two-sorted-array" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      查找两个排序数组的中位数
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2015/04/03/find-median-for-two-sorted-array/">
+    <time datetime="2015-04-03T14:07:01.000Z" itemprop="datePublished">2015-04-03</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>题目是：求两个排序数组的中位数。<br>设：两个排序的数组a[m], b[n]，求a和b数组的中位数。<br>算法是：<br>mid_a是数组a的中位数index，同理mid_b是数组b的中位数索引<br>1. 如果a[mid_a] == b[mid_b] 中位数为a[mid_a]</p>
+<p>2. 如果a[mid_a] &lt; b[mid_b], 递归查找a(mid_a + 1, m - 1), b(0, mid_b)，因为a[mid_a]比较小，不可能作为下一次查询的中位数</p>
+<p>3. 如果a[mid_a] &gt; b[mid_b], 递归查找a(0, mid_a), b(mid_b + 1, n - 1)，因为b[mid_b]比较小，不可能作为下一次查询的中位数</p>
+<p>4. 当只少于4个元素需要查找时递归停止，merge这少于4的元素，求出中位数。这里需要考虑奇偶数的情况，只剩下2个或3个元素，不如只考虑4个简单。</p>
+<p>注意：这里求上中位数，当n为奇数时，中位数是唯一的，出现位置为n/2；当n为偶数时候，存在两个中位数，数组index从0开始，位置分别为n/2 - 1（上中位数）和n/2（下中位数）。</p>
+<a id="more"></a>
+<p>[cpp]</p>
+<h1 id="include_&lt;iostream&gt;">include &lt;iostream&gt;</h1><p>using namespace std;</p>
+<p>class Solution {<br>public:<br>  int find_median(int a[], int p, int q, int b[], int r, int s) {<br>    int size_a = q - p + 1;<br>    int size_b = s - r + 1;<br>    int total_size = size_a + size_b;<br>    if (total_size &lt;= 4) {<br>      // calcuate median for less than 4 elements<br>      int i = p;<br>      int j = r;<br>      int num = (total_size + 1) / 2;<br>      for (int k = 1; k &lt; num; k++) {<br>        // A fake merge without copying, just move index<br>        if (i &lt;= q &amp;&amp; j &lt;= s) {<br>          if (a[i] &lt;= b[j]) {<br>            ++i;<br>          } else {<br>            ++j;<br>          }<br>        } else if (i &gt; q) {<br>          ++j;<br>        } else if (j &gt; s) {<br>          ++i;<br>        }<br>      }<br>      int median = 0;<br>      if (i &lt;= q &amp;&amp; j &lt;= s) {<br>        median = a[i] &lt; b[j] ? a[i] : b[j];<br>      } else if (i &gt; q){<br>        median = b[j];<br>      } else if (j &gt; s) {<br>        median = a[i];<br>      }<br>      return median;<br>    }<br>    int mid_a = get_median_index(a, p, q);<br>    int mid_b = get_median_index(b, r, s);<br>    if (a[mid_a] == b[mid_b]) {<br>      return a[mid_a];<br>    } else if (a[mid_a] &lt; b[mid_b]) {<br>      // mid_a is less, no need to be seached later, no possible to be median<br>      return find_median(a, mid_a + 1, q, b, r, mid_b);<br>    } else {<br>      // mid_b is less, no need to be seached later, no possible to be median<br>      return find_median(a, p, mid_a, b, mid_b + 1, s);<br>    }<br>  }</p>
+<p>private:<br>  int get_median_index(int a[], int p, int q) {<br>    int n = q - p + 1;<br>    int mid = n / 2;<br>    if (n % 2 == 0) {<br>      return p + mid - 1;<br>    } else {<br>      return p + mid;<br>    }<br>  }<br>};</p>
+<p>int main(int argc, char const *argv[])<br>{<br>  int a[] = {5, 6, 7, 8};<br>  int m = sizeof(a) / sizeof(int);<br>  int b[] = {1, 2, 3, 4};<br>  int n = sizeof(b) / sizeof(int);<br>  Solution s;<br>  int median = s.find_median(a, 0, m - 1, b, 0, n - 1);<br>  cout &lt;&lt; median &lt;&lt; endl;<br>  return 0;<br>}<br>[/cpp]</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/04/03/find-median-for-two-sorted-array/" data-id="cibns1a1w005iv4rthfzzi51j" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/05/04/bitsort-ant-qsort/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          位排序和快排
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/08/16/hive-architecture/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hive架构笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

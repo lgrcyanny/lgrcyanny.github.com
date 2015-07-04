@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>找一个数组中第2小的元素 | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="找出一个数组中的最小元素或者最大元素，遍历是最优解,即O(n)，我想这是会编程的人都会的简单算法。而如何找出第二小的元素呢，先排序，然后再选么，这样的算法最优也是O(n * lg n)，还是一次遍历来的更快，思想如下：
+假定数组A有n个元素,元素可以有重复：
+1. 初始化一个数组res[2]，变量i, i为遍历时使用。
+2. 当n为奇数时, res[0] = A[0], res[1] = A[1]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="找一个数组中第2小的元素">
+<meta property="og:url" content="http://yoursite.com/2013/09/12/select-second-smallest-element/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="找出一个数组中的最小元素或者最大元素，遍历是最优解,即O(n)，我想这是会编程的人都会的简单算法。而如何找出第二小的元素呢，先排序，然后再选么，这样的算法最优也是O(n * lg n)，还是一次遍历来的更快，思想如下：
+假定数组A有n个元素,元素可以有重复：
+1. 初始化一个数组res[2]，变量i, i为遍历时使用。
+2. 当n为奇数时, res[0] = A[0], res[1] = A[1]">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="找一个数组中第2小的元素">
+<meta name="twitter:description" content="找出一个数组中的最小元素或者最大元素，遍历是最优解,即O(n)，我想这是会编程的人都会的简单算法。而如何找出第二小的元素呢，先排序，然后再选么，这样的算法最优也是O(n * lg n)，还是一次遍历来的更快，思想如下：
+假定数组A有n个元素,元素可以有重复：
+1. 初始化一个数组res[2]，变量i, i为遍历时使用。
+2. 当n为奇数时, res[0] = A[0], res[1] = A[1]">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-select-second-smallest-element" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      找一个数组中第2小的元素
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/09/12/select-second-smallest-element/">
+    <time datetime="2013-09-12T12:09:43.000Z" itemprop="datePublished">2013-09-12</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>找出一个数组中的最小元素或者最大元素，遍历是最优解,即O(n)，我想这是会编程的人都会的简单算法。而如何找出第二小的元素呢，先排序，然后再选么，这样的算法最优也是O(n * lg n)，还是一次遍历来的更快，思想如下：</p>
+<p>假定数组A有n个元素,元素可以有重复：</p>
+<p>1. 初始化一个数组res[2]，变量i, i为遍历时使用。</p>
+<p>2. 当n为奇数时, res[0] = A[0], res[1] = A[1], i = 1;</p>
+<p>3. 当n为偶数时, res[0] = min {A[0], A[1]}, res[1] = max{A[0], A[1]}, i = 2;</p>
+<p>4. 接下来每次取数组A中的两个元素，较小的元素如果小于res[0]比较，则res[1] = res[0], 再赋值 res[0] = small；</p>
+<p>5. 如果res[0] == res[1]或者较大的元素小于res[1], 则res[1] = large;[more…]</p>
+<p>以上算法可以O(3n/2 - 2)时间，即O(n)的时间内选出第二小的元素。</p>
+<p><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/orderstatistics/SecondSmallest.java" target="_blank" rel="external">Github Source Code</a><br>[java]<br>public int selectSecondSmallest() {<br>    int[] res = new int[2];<br>    int n = data.length;<br>    int i = 2;<br>    if (n % 2 == 0) {<br>        i = 2;<br>        if (data[0] &lt; data[1]) {<br>            res[0] = data[0];<br>            res[1] = data[1];<br>        } else {<br>            res[0] = data[1];<br>            res[1] = data[0];<br>        }<br>    } else {<br>        i = 1;<br>        res[0] = data[0];<br>        res[1] = data[1];<br>    }<br>    for ( ;i &lt; n; i += 2) {<br>        int large = getLarge(data[i], data[i + 1]);<br>        int small = getSmall(data[i], data[i + 1]);<br>        if (small &lt; res[0]) {<br>            res[1] = res[0]; // Maybe res[0] is the second minimum, don’t forget the tiny step<br>            res[0] = small;<br>        } else if (small &lt; res[1]) {<br>            res[1] = small;<br>            continue;<br>        }<br>        if (large &lt; res[1] || res[0] == res[1]) {<br>            res[1] = large;<br>        }<br>    }<br>    System.out.println(&quot;The smallest is &quot; + res[0]);<br>    System.out.println(&quot;The second minimun is &quot; + res[1]);<br>    return res[1];<br>}<br>[/java]</p>
+<h3 id="后记">后记</h3><p>这个算法很简单，但是算法导论的答案给的太复杂了，<a href="http://blog.csdn.net/mishifangxiangdefeng/article/details/7687460" target="_blank" rel="external">用了树的算法</a>，这么诡异而复杂，算是领教了。这个算法可以扩展到找第i个小的元素。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/09/12/select-second-smallest-element/" data-id="cibns19yw001wv4rt9nr5ap8o" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          统计学的基本概念和方法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/09/09/warshall-algorithm-cycle-dectection/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Warshall&#39;s Algorithm for Cycle Dectection</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

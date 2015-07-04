@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hadoop HDFS Federation  | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="In traditional HDFS architecture, there is only one NameNode in a cluster, which maintains all of the namespace and block map. Regarding that Hadoop cluster is becoming larger and larger one enterpris">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop HDFS Federation ">
+<meta property="og:url" content="http://yoursite.com/2013/12/05/hadoop-hdfs-federation/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="In traditional HDFS architecture, there is only one NameNode in a cluster, which maintains all of the namespace and block map. Regarding that Hadoop cluster is becoming larger and larger one enterpris">
+<meta property="og:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/hd4.1.png">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop HDFS Federation ">
+<meta name="twitter:description" content="In traditional HDFS architecture, there is only one NameNode in a cluster, which maintains all of the namespace and block map. Regarding that Hadoop cluster is becoming larger and larger one enterpris">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-hadoop-hdfs-federation" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hadoop HDFS Federation 
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/05/hadoop-hdfs-federation/">
+    <time datetime="2013-12-05T06:48:10.000Z" itemprop="datePublished">2013-12-05</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>In traditional HDFS architecture, there is only one NameNode in a cluster, which maintains all of the namespace and block map. Regarding that Hadoop cluster is becoming larger and larger one enterprise platform and every file and block information is in NameNode RAM, when there are more than 4000 nodes with many files, the NameNode memory will reach its limit and it becomes the limiting factor for cluster scaling. In Hadoop 2.x release series, Hadoop introduces HDFS Federation, which allows a cluster to scale by adding NameNodes, each of which manages a portion of the filesystem namespace.[more…]<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd4.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd4.1.png" alt="hd4.1">Figure1 HDFS Federation</a><br>As shown in Figure1, there are many federated NameNodes which manages its own namespace. The NameNodes are independent and don’t require coordination with each other. The DataNodes are used as common storage for blocks. Each DataNode registers with all the NameNodes in the cluster and send periodic heartbeats and block report and handles commands from the NameNodes.<br>Each NameNode is responsible for two tasks: Namespace management and Block Management. For the two tasks, mange NameNode manages its own Namespace Volume, which consists of two parts:</p>
+<ul>
+<li>Namespace: the metadata for each file and block</li>
+<li>Block Pool: it is a set of blocks that belong to a single namespace. The Block Pool is in charge of block management task, including processing block reports and maintaining location of blocks.<br>Block pool storage is not partitioned , so DataNodes register with each NameNode in the cluster and store blocks from multiple block pools. The NameNode namespace must to generate block ID for new blocks.<br>A NameSpace Volume is a self-contained uinit . Each NameNode has no need to contact other NameNode and it’s failure will not influence other NameNode.<br>To access a federated HDFS, clients use client-side mount tables to map file paths to NameNodes. A new identifier ClusterID is added to all the nodes in the cluser. Federated NameNodes is configured by ViewFileSystem and the viewfs://URIs.<br>The HDFS Federation brings several benefits:</li>
+</ul>
+<ul>
+<li>NameSpace Scalability: It will support large clusters with many files, just add more NameNode to scale namespace.</li>
+<li>Performance: Break the limitation of single node, more NameNodes means more read/write operations and the throughput is improved.</li>
+<li>Isolation: A single NameNode has no isolation in multi user environment. While multiple NameNodes can provide isolated NameSpace for both production and experiment application. </li>
+</ul>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/12/05/hadoop-hdfs-federation/" data-id="cibns1a1h0052v4rt60efz3pt" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Research/">Research</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/12/05/hadoop-hdfs-high-availability/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hadoop HDFS High Availability(HA)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/12/05/hadoop-hdfs-review/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hadoop HDFS Review</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

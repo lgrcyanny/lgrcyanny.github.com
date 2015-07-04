@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Set up Hadoop 2.2 and HBase 0.96 part2 | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在完成Hadoop配置后，我们可以开始HBase的安装和配置了。对于HBase，我只想说走对了路就成功了一半，选对了版本就省事好多。之前下载的是0.94版，按照官方的配置，连Standalone都跑不通，纠结了半天，放弃治疗，选用0.96版本，一切顺利。
+配置HBase Standalone模式1. 前提条件MacOS 10.9Java安装好Standalone模式是单机的，基于Local Fil">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Set up Hadoop 2.2 and HBase 0.96 part2">
+<meta property="og:url" content="http://yoursite.com/2014/02/06/set-hadoop-hbase-part2/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="在完成Hadoop配置后，我们可以开始HBase的安装和配置了。对于HBase，我只想说走对了路就成功了一半，选对了版本就省事好多。之前下载的是0.94版，按照官方的配置，连Standalone都跑不通，纠结了半天，放弃治疗，选用0.96版本，一切顺利。
+配置HBase Standalone模式1. 前提条件MacOS 10.9Java安装好Standalone模式是单机的，基于Local Fil">
+<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Set up Hadoop 2.2 and HBase 0.96 part2">
+<meta name="twitter:description" content="在完成Hadoop配置后，我们可以开始HBase的安装和配置了。对于HBase，我只想说走对了路就成功了一半，选对了版本就省事好多。之前下载的是0.94版，按照官方的配置，连Standalone都跑不通，纠结了半天，放弃治疗，选用0.96版本，一切顺利。
+配置HBase Standalone模式1. 前提条件MacOS 10.9Java安装好Standalone模式是单机的，基于Local Fil">
+  
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+  
+
+  
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+      <section id="main"><article id="post-set-hadoop-hbase-part2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Set up Hadoop 2.2 and HBase 0.96 part2
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/02/06/set-hadoop-hbase-part2/">
+    <time datetime="2014-02-06T06:09:21.000Z" itemprop="datePublished">2014-02-06</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Hadoop/HBase/">HBase</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在完成<a href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part1/" title="set-hadoop-hbase-part1" target="_blank" rel="external">Hadoop配置</a>后，我们可以开始HBase的安装和配置了。<br>对于HBase，我只想说走对了路就成功了一半，选对了版本就省事好多。之前下载的是0.94版，按照官方的配置，连Standalone都跑不通，纠结了半天，放弃治疗，选用0.96版本，一切顺利。</p>
+<h3 id="配置HBase_Standalone模式">配置HBase Standalone模式</h3><p>1. 前提条件<br>MacOS 10.9<br>Java安装好<br>Standalone模式是单机的，基于Local FileSystem，不需要Hadoop，用于开发或测试。<br>[more…]<br>2. 下载HBase<br><a href="http://apache.fayea.com/apache-mirror/hbase/hbase-0.96.1/" target="_blank" rel="external">hbase-0.96.1-hadoop2-bin.tar.gz </a></p>
+<p>3. 解压安装<br>[shell]<br>$ tar xzvf hbase-0.96.1-hadoop2-bin.tar.gz<br>$ mv hbase-0.96.1-hadoop2 hbase<br>[/shell]<br>同样需要把hbase安装到Home目录下~/hbase, 对于我是/Users/lgrcyanny/hbase</p>
+<p>4. 配置环境变量<br>[shell]<br>$ vim ~/.bashrc</p>
+<h1 id="Config_HBase">Config HBase</h1><p>export HBASE_HOME=/Users/lgrcyanny/hbase<br>export PATH=$PATH:$HBASE_HOME/bin<br>[/shell]</p>
+<p>5. 编辑hbase-site.xml<br>[shell]<br>$ cd ~/hbase<br>$ mkdir -p mydata/hbase<br>$ mkdir -p mydata/zookeeper<br>$ vim conf/hbase-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.rootdir&lt;/name&gt;<br>    &lt;value&gt;file:///Users/lgrcyanny/hbase/mydata/hbase&lt;/value&gt;<br>  &lt;/property&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.dataDir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hbase/mydata/zookeeper&lt;/value&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>6. 编辑hbase-env.sh<br>[shell]<br>$ cd ~/hbase<br>$ vim conf/hbase-env.sh<br>export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/<br>export HBASE_OPTS=&quot;-Djava.security.krb5.realm= -Djava.security.krb5.kdc= -Djava.security.krb5.conf=/dev/null&quot;<br>[/shell]</p>
+<p>7. 关于/etc/hosts<br>对于Ubuntu的用户，需要修改/etc/hosts，将127.0.1.1改为127.0.0.1，因为HBase的环回地址默认是127.0.0.1，但官方的quikstart中提到0.96以后的版本不需要修改，MacOS中确实不用修改，之前用0.94的版本，因为环回地址的问题总是报错也无法修复，这是0.94的bug。如果是Ubuntu用户，可以尝试不修改hosts看能不能跑通。</p>
+<p>8. 启动并测试HBase<br>[shell]<br>$ start-hbase.sh<br>starting master, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-master-Cyanny-MacBook-Air.local.out<br>$ hbase shell<br>&gt; status<br>SLF4J: Class path contains multiple SLF4J bindings.<br>SLF4J: Found binding in [jar:file:/Users/lgrcyanny/hbase/lib/slf4j-log4j12-1.6.4.jar!/org/slf4j/impl/StaticLoggerBinder.class]<br>SLF4J: Found binding in [jar:file:/Users/lgrcyanny/hadoop/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]<br>SLF4J: See <a href="http://www.slf4j.org/codes.html#multiple_bindings" target="_blank" rel="external">http://www.slf4j.org/codes.html#multiple_bindings</a> for an explanation.<br>2014-02-06 14:27:29,472 WARN  [main] util.NativeCodeLoader: Unable to load native-hadoop library for your platform… using builtin-java classes where applicable<br>1 servers, 0 dead, 3.0000 average load<br>&gt; create ‘test’, ‘cf’<br>&gt; put ‘test’, ‘row1’, ‘cf:a’, ‘value1’<br>&gt; list<br>TABLE<br>test<br>1 row(s) in 0.1060 seconds</p>
+<p>=&gt; [&quot;test&quot;]<br>&gt; scan ‘test’<br>ROW                                      COLUMN+CELL<br> row1                                    column=cf:a, timestamp=1391653468438, value=value1<br>1 row(s) in 0.0650 seconds<br>&gt; exit<br>$ stop-hbase.sh<br>stopping hbase……………..<br>[/shell]</p>
+<p>如果上面的步骤完成，HBase的Standalone模式就安装成功。</p>
+<h3 id="配置HBase单机伪分布式">配置HBase单机伪分布式</h3><p>1. 修改hbase-site.xml<br>[shell]<br>$ cd ~/hbase<br>$ vim conf/hbase-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.rootdir&lt;/name&gt;<br>    &lt;value&gt;hdfs://localhost:9000/hbase&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;<br>    &lt;value&gt;true&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt;<br>    &lt;value&gt;localhost&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;dfs.replication&lt;/name&gt;<br>    &lt;value&gt;1&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.clientPort&lt;/name&gt;<br>    &lt;value&gt;2181&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.dataDir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hbase/mydata/zookeeper&lt;/value&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>2. 启动Hadoop和HBase<br>[shell]<br>$ start-dfs.sh<br>$ start-hbase.sh<br>localhost: starting zookeeper, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-zookeeper-Cyanny-MacBook-Air.local.out<br>starting master, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-master-Cyanny-MacBook-Air.local.out<br>localhost: starting regionserver, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-regionserver-Cyanny-MacBook-Air.local.out<br>$ jps<br>11107 HQuorumPeer<br>11427 Jps<br>11180 HMaster<br>11276 HRegionServer<br>9155 SecondaryNameNode<br>9064 DataNode<br>8990 NameNode<br>[/shell]<br>不需要启动yarn, 启动HDFS即可，我们可以看到HBase的伪分布式模式中，启动了内嵌的Zookeeper，启动了Master和RegionServer。</p>
+<p>3. 查看状态<br>查看Master Status： <a href="http://localhost:60010/master-status" target="_blank" rel="external">http://localhost:60010/master-status</a><br>查看Region Server Status： <a href="http://localhost:60030/rs-status" target="_blank" rel="external">http://localhost:60030/rs-status</a></p>
+<p>4. 测试HBase<br>可以按照Standalone模式中的第8步，打开hbase shell进行测试。</p>
+<p>到这里，如果顺利那么就一切都配置好了，可能花费了你1~2个小时，还是要恭喜，我前后花费了2天。<br>Anyway，探索的过程还是很愉快，Good Luck！</p>
+<h4 id="参考">参考</h4><p><a href="http://hbase.apache.org/book/quickstart.html" target="_blank" rel="external">HBase Quick Start</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/02/06/set-hadoop-hbase-part2/" data-id="cibns19ym001hv4rtteqxsj2x" class="article-share-link">分享到</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HBase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Revolution——面向对象看黑客帝国
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/02/06/set-hadoop-hbase-part1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Set up Hadoop 2.2 and HBase 0.96 part1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cyanny Liang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
