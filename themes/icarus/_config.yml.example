@@ -1,0 +1,44 @@
+# Header
+menu:
+  Home: .
+  Archives: archives
+  Categories: categories
+  Tags: tags
+  About: about
+
+# Content
+excerpt_link: Read More
+fancybox: true
+
+# Profile
+profile: true # whether to show profile bar
+
+# Sidebar
+sidebar: right # set to false if you don't want a sidebar
+widgets:
+- recent_posts
+- category
+- tag
+- tagcloud
+- archive
+thumbnail: true
+
+# Contacts
+contacts:
+  github: http://github.com/ppoffice/hexo-theme-icarus
+  twitter: '#'
+  facebook: '#'
+  dribbble: '#'
+  rss: atom.xml
+
+# Links
+links:
+  Hexo: http://hexo.io
+
+# Miscellaneous
+google_analytics:
+favicon: favicon.png
+twitter:
+google_plus:
+fb_admins:
+fb_app_id:
