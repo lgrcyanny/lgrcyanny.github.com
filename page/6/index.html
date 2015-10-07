@@ -27,6 +27,19 @@
   <link rel="stylesheet" href="/css/style.css" type="text/css">
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
   
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
 
   
 </head>
@@ -96,11 +109,11 @@
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        43
+        44
         <span>posts</span>
       </div>
       <div class="article-info-block">
-        24
+        26
         <span>tags</span>
       </div>
     </div>
@@ -125,6 +138,181 @@
 </aside>
       
       <section id="main">
+      <article id="post-distributed-system-review-part1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/24/distributed-system-review-part1/">分布式系统总结part1</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/24/distributed-system-review-part1/">
+    <time datetime="2013-11-24T03:12:15.000Z" itemprop="datePublished">2013-11-24</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/distributed-system/">Distributed System</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/distributed-system/life/">Life</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>激动哥给了一些点，总结如下吧，算是对分布式的一些理解，希望对朋友们有帮助。</p>
+<h3 id="分布式系统系统基本概念">分布式系统系统基本概念</h3><p>分布式系统是若干独立计算机的集合，这些计算机对于用户来说就像单个相关系统。透明性, 故障透明性。</p>
+<p>本质： 硬件上——机器是物理上独立的。软件上——对用户来说它们就像载和单个系统打交道。分布式系统位于用户的应用层和底层操作系统之间，有时也叫做中间件.</p>
+<p>分布式系统的目标：资源链接和共享，透明性，开放性，可伸缩性。[more…]</p>
+<h3 id="分布式系统作为中间件技术">分布式系统作为中间件技术</h3><ol>
+<li><p>中间件在分布式系统中的位置</p>
+<p>中间件：在应用系统和网络系统之间的附加的软件层，隐藏网络操作系统中低层平台集合的异构性，提供一组完整程度不同的服务集，提高分布的透明性。</p>
+<p>中间件的最高目标是透明性。同时也具有开放性、可扩展性和易用性</p>
+</li>
+<li><p>中间件模型</p>
+</li>
+</ol>
+<ul>
+<li>基于分布式文件系统：任何东西都是作为文件来处理，只对传统文件支持分布的透明性，比网络操作系统前进了一小步，仍然要求进程显式启动分布式机器，有一定的扩展。</li>
+<li>基于RPC：允许进程调用位于远程机器上的过程实现来隐藏网络通信。调用参数透明的传递到远程机器上，看起来就像在调用本地的进程一样，不知道网络通信的发生。</li>
+<li>基于分布式对象: 调用分布在远程机器上的对象的接口，通过消息传递调用</li>
+</ul>
+<p>3.中间件通信技术</p>
+<p>(1) RPC</p>
+<p>使用客户端存根和服务器端存根，实现访问的透明性，按值传递，对引用传递的支持比较弱， 基于响应的暂时同步通信。</p>
+<p>(2) RMI——远程对象调用</p>
+<p>不使用用客户端存根和服务器端存根，使用针对对象的存根。本质上是RPC，但针对远程对象。</p>
+<p>(3) MPI:面向消息的通信</p>
+<p>RPC和RMI的不足：要求远程机器正在执行; 并且对同步要求高，客户在发出请求后阻塞</p>
+<p>通信类型：持久通信，暂时通信；异步通信，同步通信； 两两正交共四种。</p>
+<p>•持久异步通信：如邮件系统，消息队列</p>
+<p>•持久同步通信</p>
+<p>•暂时异步通信：如异步RPC，UDP</p>
+<p>•暂时同步通信：基于接收的暂时同步通信：最弱的基于消息接收机制; 基于交付的暂时同步通信;基于响应的暂时同步通信： RMI， RPC。</p>
+<p>MPI比套接字提供更多的抽象的消息传递原语，提供持久异步通信，用在RPC和RMI不适用的场合，它们主要用来协助将高度分散的数据库集成进大规模信息系统中。其他的应用还包括电子邮件和工作流。</p>
+<p>(4)面向流的通信：</p>
+<p>流是一种完全不同的通信方式，它的主要问题是两个连续的消息是否有时间上的联系。如音频流和视频流，同步很关键。</p>
+<p>在连续数据流中，每个消息都规定了端到端的最大延迟时间。另外，发送的消息还要受端到端最小延迟时间的约束。</p>
+<p>三种传输模式</p>
+<p>异步传输模式：数据项是逐个传输的，但是对某一项在何时进行传输并没有进一步的限制。</p>
+<p>同步传输模式：数据流中每一个单元都定义了一个端到端最大延迟时间。</p>
+<p>等待传输模式：模式中数据单元必须按时传输，也就是数据传输的端到端延迟时间必须同时受到上限和下限的约束，实时系统。</p>
+<h3 id="进程迁移">进程迁移</h3><ol>
+<li><p>弱迁移 vs 弱迁移</p>
+<p>弱迁移：即代码的可移植性，只传输代码段以及某些初始化数据，传输过来的程序总是以初始状态重新开始执行，弱可迁移性只要求在目标机器上能执行该代码段，例如Java Applet小程序，这种方法的好处在于简单性。</p>
+<p>强迁移：迁移执行中的进程，先停止运行中的进程，捕捉运行现场，迁移到另一台机器上，从中断处继续运行，强迁移比弱迁移实现难度大，例如D’Agent是支持强可移动性的一个例子(Dartmouth College)</p>
+</li>
+<li><p>发送者启动迁移 vs 接收者启动迁移</p>
+<p>发送者启动迁移，代码或正在执行的进程在哪台机器上，就由该机器来启动迁移，例如向Web服务器发送搜索程序运行查询。这种迁移容易实现.</p>
+<p>接收者启动迁移，代码迁移的主动权在目标机器手中，例如Java Applet</p>
+<p>区别：接收者下载代码到客户端，性能好，安全性好，客户端只有少数的资源需要保护，如内存和网络连接等；</p>
+<p>发送者启动迁移，上传代码到服务器端，需要认证用户，需要对服务器资源提供强保护。</p>
+</li>
+<li><p>在目标进程内执行迁移代码 vs 在派生进程内执行迁移代码</p>
+</li>
+</ol>
+<p>三种方法相互正交，形成了8中进程迁移方法，如图：</p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System20.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System20-580x300.png" alt="Distributed System20"></a></p>
+<h3 id="移动Agent的基本概念">移动Agent的基本概念</h3><ol>
+<li><p>定义：是一种分布式的应用，移动Agent是一个运行于开放、动态网络环境中的，封装良好的计算实体，可自主地在异构的网络上寻找合适的计算资源，然后移动到资源所在机器上使用这些资源，它代表用户自主地在网络上移动，完成指定的任务。移动Agent由数据、操作、行为规则 封装而成。</p>
+</li>
+<li><p>基本特点：</p>
+</li>
+</ol>
+<ul>
+<li>自主移动性：不拘泥于初始执行结点，可再网络各主机间自主移动。移动Agent可以将自身的状态和代码从一个环境迁移到另一个环境，并恢复执行。</li>
+<li>协作性：移动Agent可以和其他Agent进行自主通信，协作完成任务。</li>
+<li>安全性</li>
+<li>移动功能而不移动数据，减少网络负担和延迟</li>
+</ul>
+<h3 id="Mogent解决移动通信失效">Mogent解决移动通信失效</h3><p>1.移动通信失效定义</p>
+<p>移动Agent最大的特性是移动性，其通信机制要求位置透明性，可靠性，高效性，异步性，自适应性。但在Agent自主移动过程中，常会导致消息发送到某一网络节点但接收者已经离开无法收到消息的情况，这种因为目标Agent的物理位置变化造成通信不正常的现象称为移动Agent通信失效。通信失效与网络和节点故障无关，完全是由Agent的移动性造成的，这是移动Agent协作的致命缺陷。</p>
+<p>2. Mogent系统架构</p>
+<p>一个完整的移动Agent通信协议至少包括Agent寻址和消息传送两大部分。Mogent系统采用结构化旅行计划模型。</p>
+<p>Mogent的架构中有两个重要实体：</p>
+<ul>
+<li>Mogent： 即移动Agent，可以协同工作。</li>
+<li>Host：一个物理节点的抽象，由IP地址或域名来标识，每一个Host安装MogentServer，维护管理本地的Mogent，主要由迁移子系统、通信子系统、安全子系统和开发监控子系统构成。</li>
+</ul>
+<p>3.Mogent系统的寻址</p>
+<p>Mogent-Server中有两个部件Home和Communicator完成Agent的透明寻址。</p>
+<p>Home：记录Host上“出生的”Agent的动态信息，Agent每次迁移到另一台Host必须向出生地登记当前的地址和物理名，基于起始位置的定位。</p>
+<p>Communicator：记录当前Host上所有agent的信息，Agent迁移时要向Communicator register 和 unregister, 负责agent之间通信的目标寻址、信件转发和通信失效排除等通信细节。</p>
+<p>4.通信失效的解决：消息传送</p>
+<p><strong>通信失效问题本质上是通信和移动所共享的“位置”信息未同步造成的。</strong><br>Mogent系统中引入了“状态”的概念，每个Agent的状态分为迁移态和静止态。</p>
+<p>同时引入两个信号量进行集中式同步控制策略，通过Home-Communicator集中管理对目标Mogent的地址信息的互斥访问，从根本上避免通信失效的发生，保证通信的可靠性。</p>
+<ul>
+<li>迁移状态：由Home构件记录Agent的状态，当Mogent在一个Host上时状态为静止态，当按旅行计划准备迁移时Mogent要通知Home更新状态为迁移态。</li>
+<li>在途信件数：保存在Host上，记录当前时刻以该Mogent为通信对象的在途信件数，发出信件，在途信件数增加，信件到达，在途信件数减一</li>
+</ul>
+<p>消息发送机制：Mogent通过控制“在途信件数”和“迁移状态”这两个信号量，确保消息发送者仅向处于静止状态的Agent发送消息</p>
+<p>Mogent迁移机制：Agent只有在没有消息发送给他的情况下才能移动。</p>
+<p>5.Mogent局限性</p>
+<ul>
+<li>频繁迁移，Home的地址注册开销大，会拥挤</li>
+<li>Agent迁移受到信号量的限制,影响Agent的自主性和移动性</li>
+</ul>
+<h3 id="两种名称解析方法:递归和迭代">两种名称解析方法:递归和迭代</h3><p>分布式系统中名称用来标识一个实体，有三种类型——名称、标识符、地址，名称解析就是查询名称的过程。</p>
+<p>1.迭代名称解析</p>
+<p>客户端把需要解析的名称路径发给根服务器root，根服务器解析出下一个服务器server1的地址返回给客户端，客户端再查询server1，server1再解析出server2的地址…</p>
+<p>如此迭代直到能解析出所需实体的地址。例如：考虑绝对路径名：root:&lt;nl, vu, cs, ftp, pub, globe, index.txt&gt;的解析，第四章PPT上有详细的说明</p>
+<p>总之迭代名称解析是客户端发起迭代查询。</p>
+<p>2.递归名称解析</p>
+<p>客户端把需要解析的名称路径发给根服务器root，根服务器解析出server1的地址后，不把结果返回给客户端，直接把名称传给server1，由server1解析后，再传给server2…不断递归，最后将解析出的实体地址返回给根服务器，根服务器再将实体地址返回给客户端。</p>
+<p>3.两种解析的比较<br>递归名称解析的缺陷：要求每台服务器具有较高的性能，根服务器要完成完整的名称解析，开销较大，一般在名称空间的全局层中，采用迭代名称解析。</p>
+<p>优点：与迭代名称解析相比，递归解析可以有效的使用缓存提高性能；减少了通信开销，通信开销取决于客户主机和服务器之间的信息交换。</p>
+<p>而在DNS解析中：从客户机到本地DNS的查询是递归查询，从本地DNS到到其他DNS服务器之间的查询是迭代查询</p>
+<h3 id="移动实体的定位">移动实体的定位</h3><p>移动实体的定位方法：使用与位置无关的标识符有效地实现定位。</p>
+<p><strong>1.广播和多播</strong></p>
+<p><strong>原理：</strong>包含该实体所用标识符的消息会广播到每台机器上，并且请求每台机器查看它是否拥有该实体。只有能够为实体提供访问点的机器才会发送回复消息，回复消息中包含访问点的地址。类比ARP</p>
+<p><strong>缺点：</strong>扩展性不好，随着网络的膨胀，广播变得更加低效。</p>
+<p>可以采用多播向特定的一组主机发送标识符，使用多播查找最近的复制实体，但实践证明，选择最近的复制实体没有那么容易。</p>
+<p><strong>2.转发指针</strong></p>
+<p><strong>原理：</strong>每当一个实体转移到另一个位置时，他就会留下一个指针，说明它下一步所在的位置。 例如：当实体从A移动到B时，它将在A中留下一个指针，这个指针指向它在B中的新位置。</p>
+<p>定位实体需要遍历转发指针形成的路线。为了避免形成太长的指针链，定期缩短指针链很重要。</p>
+<p><strong>优点：</strong>简便，一旦找到一个实体，就可以顺着转发指针链查找到实体当前的地址。</p>
+<p><strong>缺点：</strong>链可能特别长，定位实体的开销较大。链很脆弱，容易断开，只要一个转发指针丢失，就无法定位实体。一个解决办法是让指针链相对短一些，确保转发指针链的健壮性。<br>链中所有中间位置就必须维护它们的那一部分指针链。</p>
+<p><strong>3.基于起始位置的方法</strong></p>
+<p><strong>原理：</strong>每当实体转移到一个地方时，他会通知起始位置，告诉起始位置自己当前的位置，在定位实体时，首先询问起始位置，以便了解实体的当前位置。起始位置就是创建实体的位置。</p>
+<p><strong>优点：</strong>大型网络中进行实体定位,如Mogent</p>
+<p><strong>缺点：</strong>为了与移动实体通信，需要先和起始位置通信，而起始位置和实体本身的位置处于完全不同的位置，增加了通信延迟。    使用起始位置，必须保证起始位置始终存在，否则将无法定位实体。起始位置如果转移到另一个网络，将会无法定位实体。一种解决的办法是：注册起始位置，客户先查找起始位置所在的位置，起始位置相对稳定，可以缓存它。</p>
+<p><strong>4.分层方法——创建一颗搜索树</strong></p>
+<p><strong>原理：</strong> 网络划分成不重叠的分层域。只有一个顶级域，它覆盖了整个网络，每个域又可以划分为更多的子域。最低层的域叫做叶域，与网络中的局域网向对应。</p>
+<p>每个层次的每个域都有关联的目录节点，目录节点会持续跟踪实体，形成目录节点树。</p>
+<p>顶级域拥有每个实体的位置记录(指针)，其中每条位置记录都存储一个指向更低层子域目录节点的指针 </p>
+<p><strong>优点：</strong>查询操作是在局部进行，最差情况下，搜索会从叶域一直查到根域，再从根域到达包括该实体地址的子域。更新，插入和删除操作是局部进行：从叶节点到根节点。</p>
+<p><strong>缺点：</strong>第一， 定位实体的开销较大，从叶节点到根节点，再到叶节点。一种解决方法是采用指针缓存。第二，扩展性问题： 根节点需要存储所有实体的位置记录, 并为每个实体处理请求， 太多的查询和更新请求会成为瓶颈。解决办法是把根节点和其他高层目录节点划分成多个子节点，每个子节点处理实体的定位请求。<br>这些子节点最好均匀的扩散到网络中</p>
+<h3 id="资源">资源</h3><p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part1/" title="分布式系统总结part1" target="_blank" rel="external">分布式系统总结part1 中间件，进程迁移，移动通信失效，名称解析，移动实体定位</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part2/" title="分布式系统总结part2" target="_blank" rel="external">分布式系统总结part2 Lamport同步与向量时间戳，两大选举算法，三大互斥算法</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part3/" title="分布式系统总结part3" target="_blank" rel="external">分布式系统总结part3 复制和一致性(以数据和以客户为中心的一致性)，容错（拜占庭将军问题，两阶段与三阶段提交）</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part4/" title="分布式系统总结part4" target="_blank" rel="external">分布式系统总结part4 Petri网解决哲学家问题和生产者、消费者问题</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part1/" data-id="cifgww9ag005wuos6pbzznlbg" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/24/distributed-system-review-part1/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
       <article id="post-netkit-filesystem-custom-cutting" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -148,7 +336,7 @@
           
   <div class="article-category">
   	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Network/">Network</a>
+    <a class="article-category-link" href="/categories/network/">Network</a>
   </div>
 
         </div>
@@ -212,12 +400,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/16/netkit-filesystem-custom-cutting/" data-id="cibouf15b0027mbrtq0o8o39w" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/16/netkit-filesystem-custom-cutting/" data-id="cifgww9810027uos6xyfippoy" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/16/netkit-filesystem-custom-cutting/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Network/">Network</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/">Network</a></li></ul>
 
     </footer>
   </div>
@@ -249,7 +437,7 @@
           
   <div class="article-category">
   	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Network/">Network</a>
+    <a class="article-category-link" href="/categories/network/">Network</a>
   </div>
 
         </div>
@@ -403,12 +591,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/13/ipsec-architecture/" data-id="cibouf15k002hmbrt5h7389j3" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/13/ipsec-architecture/" data-id="cifgww987002huos6wy8tbmo2" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/13/ipsec-architecture/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li></ul>
 
     </footer>
   </div>
@@ -440,7 +628,7 @@
           
   <div class="article-category">
   	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    <a class="article-category-link" href="/categories/linux/">Linux</a>
   </div>
 
         </div>
@@ -480,12 +668,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/" data-id="cibouf15w002wmbrtslotapci" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/" data-id="cifgww98g002wuos6eubbr021" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vps/">VPS</a></li></ul>
 
     </footer>
   </div>
@@ -517,7 +705,7 @@
           
   <div class="article-category">
   	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    <a class="article-category-link" href="/categories/linux/">Linux</a>
   </div>
 
         </div>
@@ -575,12 +763,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" data-id="cibouf15p002pmbrt3us7phke" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" data-id="cifgww98b002puos61alf6exy" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vps/">VPS</a></li></ul>
 
     </footer>
   </div>
@@ -612,7 +800,7 @@
           
   <div class="article-category">
   	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Nodejs/">Nodejs</a>
+    <a class="article-category-link" href="/categories/nodejs/">Nodejs</a>
   </div>
 
         </div>
@@ -659,131 +847,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/10/how-to-start-learning-node-js/" data-id="cibouf15m002kmbrti3ejhq9l" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/10/how-to-start-learning-node-js/" data-id="cifgww989002kuos6vrypdezq" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/10/how-to-start-learning-node-js/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-    
-      <article id="post-agile-advantages-and-disadvantages" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/11/01/agile-advantages-and-disadvantages/">“吐槽”敏捷软件开发</a>
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/11/01/agile-advantages-and-disadvantages/">
-    <time datetime="2013-11-01T03:54:19.000Z" itemprop="datePublished">2013-11-01</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Agile/">Agile</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Agile/Life/">Life</a>
-  </div>
-
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>敏捷软件开发是在迭代和增量软件开发方法的基础上发展而来的一套软件开发方法，敏捷开发主张软件开发团队自组织，跨功能，它在1990年代开始逐渐引起广泛关注，并在2001年初由17名开发者在美国犹他州雪鸟滑雪胜地发起并组成了敏捷联盟，发表了著名的敏捷宣言。</p>
-<p>敏捷宣言的价值观倡导：个体和互动高于流程和工具；工作的软件高于详尽的文档；客户合作高于合同谈判；响应变化高于遵循计划。在这四个价值观的倡导下，该联盟又发布了敏捷开发的12条原则。12条原则中强调了敏捷开发的最重要目标是通过持续不断地及早交付有价值的软件使客户满意，即不再以on-time, on-budget作为成功的标准，而是以给客户带来的商业价值作为成功的标准。</p>
-<p>敏捷开发是轻量的开发方法，尽量的减少文档并面向源码，但文档并不是敏捷开发的根本特点，在《新方法学》中提到敏捷方法的两个根本特点：“适应性”而“非预见性”，“面向人”而非“面向过程”。</p>
-<p>敏捷方法矫正了传统软件开发方法中的官僚繁琐的过程，拥抱变化，强调适应性和以人为本的理念。敏捷开发方法包括XP，Scrum，水晶系列，相关环境驱动测试，Lean Developments (精悍开发)和RUP (Rational Unified Process)。而Scrum作为一种重要的敏捷开发方法，现被广泛应用在企业软件的开发中。[more…]</p>
-<h3 id="敏捷开发的优势">敏捷开发的优势</h3><p>敏捷软件开发作为一种新型的软件开发方法，具有很多优势：</p>
-<p>1. 适应性</p>
-<p>敏捷开发，敏捷的迭代周期短，可以快速交付可用的原型，通过迭代开发的方式对变更的需求做出适应性的调整，持续不断地及早的交付有价值的软件使客户满意。</p>
-<p>2. 团队自组织，以人为本</p>
-<p>敏捷团队里没有蓝领的编码工人，每一个人都是设计者，因为编码也是一种设计，编码是专业性更高的设计，给开发者更多的自主性，让他们自主决定一个user story该分成几个task，可以提高他们的积极性和创造力。让开发者自愿地投入产品开发比用强制力的手段更能带来产品的成功。</p>
-<p>3. 关注软件，减少繁琐的文档</p>
-<p>敏捷价值观众强调工作的软件高于详尽的文档，软件的需求不确定，软件的设计也很难给出，而敏捷开发可以更快的开始编码，生产出迭代可交付的产品，根据用户的反馈再做修改，不需要详尽的体系结构设计文件，详细设计文档等，减少了开发者的工作量，更多的关注编码。</p>
-<p>4. 面对面的交流</p>
-<p>敏捷开发的原则强调传递信息效果最好效率也最高的方式是面对面的交谈，Scrum每天的daily meeting，可以让团队成员面对面交流，保持项目进展的透明性。</p>
-<p>敏捷开发还有很多优势，在此就不一一列举，而我们更需要关注的是，是不是所有的软件开发都要敏捷呢？事实上，工业界也有很多公司不用敏捷开发，敏捷开发还存在它不能适应的地方。</p>
-<h3 id="敏捷开发不是银弹">敏捷开发不是银弹</h3><p>没有什么软件开发方法可以作为银弹的，敏捷开发也有它的不足。在Brooks的《人月神话》中，说道软件开发的根本任务是打造抽象软件实体的概念结构，次要任务是使用编程语言表达这些抽象实体，在空间、时间限制内将它们映射成机器语言。</p>
-<p>同时也提出了软件开发最根本的困难是复杂性，可变性，一致性和不可见性，而这部分就将从软件开发的根本困难方面探讨敏捷方法还存在的缺陷。</p>
-<p> <strong>(一)从复杂性方面和不可见性考虑——敏捷方法缺乏足够的设计和文档</strong></p>
-<p>复杂性是软件开发中的本质特性，复杂性主要来自于如何打造抽象和复杂的概念结构。McConnel曾经指出一个大型项目中，编码和单元测试只占15%，对于一个大型项目，编码的比重较少，还需要大部分的时间进行计划和设计，如果只是依靠代码很难把这些抽象的概念结构表达清楚的。敏捷方法中，采用面向源码而不是面向文档的方式进行软件开发，缺乏对整个产品和系统设计的考量和设计文档。</p>
-<p>在不可见性方面，软件是复杂的，难以可视化，敏捷可以通过迭代来交付可视化可运行的原型，但是通常的界面原型是不能够表现软件的质量属性的，软件需要必要设计，提高质量。</p>
-<p>敏捷方法在设计方面的不足，主要表现如下：</p>
-<p>1. 在开发之前，缺乏足够的针对易用性方面地设计，主要是用户体验和UI的设计</p>
-<p>在2009年，一份针对敏捷开发现状的调查报告—— Current State of Agile User-Centered Design: A Survey中指出：“ 敏捷软件开发方法在今天越来越流行，每年在工业界都有一定的增长。但是采用敏捷方法的团队缺乏软件易用性的意识，不能把易用性和以用户为中心的设计(User-Centered Design, UCD)和敏捷开发方法结合起来”。</p>
-<p>敏捷开发的最终目的是要及早的交付有价值的让客户满意的软件。然而太快的交付会造成软件的用户体验不佳。在这份报告中采用XP的方式开发一款游戏软件，软件确实可以不断地交付高质量的增量，但是用户对游戏并不满意。</p>
-<p>芬兰兰普拉达理工大学的教师Lea Hannola在他的论文Assessing and improving the front end activities of software development中指出：“软件开发能获得的最重要的益处可以通过提升前端的行为来实现。” [23]而如果要提升前端的行为就需要在软件编码开发之前对用户界面，前端交互方式，用户的输入，软件的输出，图形的色彩，相关的商业规则等方面，进行设计，并对设计的前端交互进行review。</p>
-<p>在这里并不是说需要一个完美的易用性设计，毕竟想挖掘所有的用户需求是困难，我们强调的是”just enough design”. 敏捷开发之前的几个迭代周期，不应该直接编码来做出一个交互原型UI，太多的关注代码的细节，浪费时间和精力，应该进行必要地易用性设计，这样以后的迭代中会更有信心，前期工作做好了后期的变更代价也会降低。</p>
-<p>2. 直接开始低层设计即编码，会带来更多的缺陷</p>
-<p>敏捷开发面向源码，不面向文档，提倡可运行的软件高于详尽的文档。而在实践中，很多敏捷团队把文档降到最低，只写user story, 拆分task，用JIRA跟踪管理项目Task，Bug等。</p>
-<p>Jack Reeves提出源码也应该是设计文档，而源码的设计文档是在数据结构和算法方面的低层的设计文档，过分的关注细节，会造成丢失大局。试问：如果对商业过程的规则都没有进行很好地建模和设计，何来一个良好的数据结构呢？试问：如果没有很好地中层设计，如何开发出符合模块化、信息隐藏，符合六条面向对象设计原则的代码呢？试问：如果不进行良好的设计，如何让写出的代码符合设计模式，而不是乱序的堆砌代码呢？</p>
-<p>在软件开发之前，虽然不恩能够进行完备的设计，但是可以进行能够指导开发工作的”enough up-front design”。</p>
-<p>软件开发的复杂度是复杂抽象概念结构的表达，例如开发一个股票交易软件，对股票交易的规则，对经济市场的信息需要进行建模，不管是用本体论，还是用BPL，UML，如果进行过设计，则可以降低一定的复杂度，在这些软件中编程实现是次要任务，根本任务是要把业务流程表达清楚，没有清晰地业务流程编码也使很难进行的。</p>
-<p>《软件工程的事实与谬误》中指出软件质量由七个属性组成：可移植性，可靠性，效率，可用性，可测试性，易理解性和可修改性。要做到这些质量，需要从体系结构方面进行设计，通过软件的User Story场景，建模逻辑视图、开发视图、进程视图和部署视图，从总体的角度定义软件的体系结构风格，是以数据为中心的风格、主程序子程序风格、隐式调用风格、Pipe Line风格、Client-Server风格或者MVC风格，这些都需要在体系结构上进行设计，并生成必要地文档。</p>
-<p>光从源码中的复杂的文件夹结构，复杂的包结构，是很难快速看出软件的体系结构风格的，不利于维护。</p>
-<p>而在体系结构的基础上，最好进行一定的中层设计，如果采用结构化的变成方法，则需要对函数的调用关系方面进行一定的设计，如是面向对象的方面，则需要绘制必要地类图、包图，如是对数据库的设计，则需要实体关系图，数据存储的设计。</p>
-<p>在足够的设计的基础上，复杂度降低了，再开始迭代编码，会让开发的增量更有质量。同时在设计和分析阶段，可以减少一定的缺陷，根据贝姆定律，在软件开发后期的变更的代价会更大，虽然敏捷拥抱变化，但我想没有哪一个程序员希望在迭代的后期在架构上做出变更，越早地给出一个设计方案，可以一定程度上降低后期变更的可能性。</p>
-<p>一个良好的设计，通过设计建模，让软件的质量属性一定程度上可视化，提高可见性，同时编写必要地设计文档，可以让团队保持接口的一致性。</p>
-<p>3. 对于需求相对确定的复杂项目，更需要设计</p>
-<p>如开发一个操作系统，服务器，数据库，编程语言如Nodejs，Python这类需求可以相对确定和复杂度较高的项目，也可以采用敏捷开发，但是在迭代开始之前，需要根据需求进行体系结构设计，中层设计，再针对具体的进行低层设计，编码，持续集成，测试，并根据每一个迭代的增量交付修改设计，再进行下一个迭代。</p>
-<p><strong>(二)从可变性方面考虑——敏捷方法缺乏足够的需求工程过程和文档</strong></p>
-<p>Scrum中通过User Story, 用文本的方式描述需求，“作为。。。，我想。。。，以便。。。”，再加上优先级和相关的功能测试集。</p>
-<p>但是简单地User Story并不能更清晰地表达复杂的需求，如一些专业领域的需求的建模，如金融、医学、生物等领域的，对于业务流程，需要适当数据流图和决策树表达复杂的业务流程，对于相关的数据，需要创建数据字典。</p>
-<p>在开始敏捷的快速迭代之前，一个足够的需求工程过程，可以让项目的域更加清晰和明确。敏捷开发的一个很大的问题是项目的域失控(Scope Creep), 敏捷虽然强调“欣然面对需求的变化，及时在开发的后期也一样”， 而敏捷的方法是快速迭代，用两周和三周的时间做出对需求变更的调整。但是没人会喜欢软件开发后期需求的变更，那为什么不在项目开始之前和用户做好足够的沟通呢？</p>
-<p>敏捷开发随着增量的迭代，用户会持续的提出需求，添加新功能，每一个sprint太过分的强调sprint的goal，而最终忘记了软件的goal，造成软件功能冗余，或偏离最初的需求，最终Scope Creep。</p>
-<p>需求工程过程也是一个可以降低复杂度的过程，通过需求的描述用例，活动图，复杂的状态图，通过多个维度分析软件需求，明确Scope，降低软件后期变更的风险和压力。</p>
-<p><strong>(三)从一致性方面考虑——敏捷方法不适合工作地点分离的团队</strong></p>
-<p>Scrum只适合小团队运作, 并且工作地点要尽量在一起，这样面对面的交流可以保证工作的透明度和一致性</p>
-<p>对于大型地上百人，而又不能拆分的团队，用敏捷开发是不适合的。敏捷，如Scrum最高效地是在5-6人，当超过7人时daily meeting，Planning Meeting的时间就会变长，影响团队的士气和气氛，同时会降低交流的效率。</p>
-<p>同时当团队成员不在一个办公室或者交流的网速不好，处于异地如跨国团队，团队的交流效率是不高的，此时敏捷开发是不适合的。不利于团队的知识的一致性</p>
-<p><strong>(四)从管理方面考虑——敏捷方法的其他问题</strong></p>
-<p>最后再从软件开发的管理方面讨论一下敏捷方法还存在的问题：<br>1. 每一个Sprint的估算没有那么准确</p>
-<p>虽然团队的估算能力好于个人，scrum sprint planning meeting的估算最终并没有那么准确，尤其是当sprint的User Story和task划分不明确时，估算的过程无疑是一个浪费时间的事情。</p>
-<p>2. Scrum Master变成决策者</p>
-<p>每天的Daily Meeting只是大家同步和汇报一下进度，而在中国很多的公司，也难免Scrum Master官僚起来，不相信团队成员，站立会议变成了向领导报告，听取领导建议，再开始今天的工作，而失去了站立会议的本意。团队打着自主的旗号，其实还是官僚的组织。 </p>
-<p>敏捷需要Scrum Master相信自己的团队。</p>
-<p>3. Scrum团队只适合有很好开发经验的团队</p>
-<p>敏捷开发不适合专业技能不强的团队，敏捷开发需要跨功能的经验充足的团队，专业技能不足，sprint的任务难以交付，也就失去了敏捷的意义。</p>
-<p>4. 不适合有deadline和固定预算的项目</p>
-<p>Scrum敏捷开发，可以很好的运作在需求不明确，deadline不明确的软件开发中，如移动互联网的很多项目，创新项目，而当软件项目是合同制的，需求明确，需要on-time, under-budget，那么采用传统的软件开发更好。</p>
-<p>5. 团队成员的离开可能会带来很大的负面效应</p>
-<p>Scrum团队本身是小型的团队，当某一个团队成员，特别是核心技术成员离开团队，会对团队的工作效率，士气等造成负面影响。</p>
-<p>6. 每个sprint的测试压力较大<br>敏捷团队是跨功能的团队，同时也包含测试人员，我曾经实习的团队有8人，其中有两名测试人员，她们在每个sprint中承担了所有的测试任务，工作压力大，尤其在sprint交付时的回归测试中，不得不占用其他开发者的时间帮助测试，而且测试保证的只是功能正常，对代码质量方面，无法提供保障。</p>
-<p>7. 当一个sprint backlog确定后，在一个sprint中的需求不允许变更</p>
-<p>在Scrum的一个sprint中，当前sprint的backlog不会再变更，变更是发生在下一次planning，但当在当前的sprint中如果User Story没有定义好，对需求理解不够清晰，或者在sprint的迭代周期内发生需求变更，那么当前sprint的交付注定会让用户不满意，无疑是浪费时间，那么只有在下一次planning才会做出变更。</p>
-<h3 id="总结">总结</h3><p>敏捷开发纵然不是银弹，但他做为一种轻量级的软件开发方法，确实会给软件开发带来效率的提升，尤其是它强调的面对面交流，如daily meeting保持了团队进度的透明性，让每一个人都知道项目的进度，帮助项目管理。同时敏捷开发给了团队很大的自主性，如果是正确的采取的敏捷方法，团队的士气和积极性都会得到很大的提升。我们应该根据自己的需求来决定是否采取敏捷软件开发方法，不能盲目跟风。</p>
-<h3 id="有价值的参考资料">有价值的参考资料</h3><p><a href="http://agilemanifesto.org/iso/zhchs/" title="敏捷宣言" target="_blank" rel="external">敏捷宣言</a></p>
-<p><a href="http://agilemanifesto.org/iso/zhchs/principles.html" title="敏捷12原则" target="_blank" rel="external">敏捷12原则</a></p>
-<p><a href="http://www.softwarepractitioner.org/translations/fowler/newMethodology.shtml" title="新方法论" target="_blank" rel="external">新方法论</a></p>
-<p><a href="http://blog.belatrixsf.com/benefits-pitfalls-of-using-scrum-software-development-methodology/" title="benefits-pitfalls-of-using-scrum-software-development-methodology" target="_blank" rel="external">benefits-pitfalls-of-using-scrum-software-development-methodology</a></p>
-<p><a href="http://www.thoughtworks.com/insights/articles/providing-just-enough-design-can-make-agile-software-delivery-more-successful" title="providing-just-enough-design-can-make-agile-software-delivery-more-successful" target="_blank" rel="external">providing-just-enough-design-can-make-agile-software-delivery-more-successful</a></p>
-<p><a href="http://www.my-project-management-expert.com/the-advantages-and-disadvantages-of-agile-software-development.html" title="the-advantages-and-disadvantages-of-agile-software-development" target="_blank" rel="external">the-advantages-and-disadvantages-of-agile-software-development</a></p>
-<p><a href="http://foohack.com/2007/11/agile-scrum-sucks-but-so-do-the-alternatives/" title="agile-scrum-sucks-but-so-do-the-alternatives" target="_blank" rel="external">agile-scrum-sucks-but-so-do-the-alternatives</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/01/agile-advantages-and-disadvantages/" data-id="cibouf18h0066mbrt0u1ddolc" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/11/01/agile-advantages-and-disadvantages/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Agile/">Agile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Research/">Research</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scrum/">Scrum</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li></ul>
 
     </footer>
   </div>
@@ -808,7 +877,16 @@
           <li>
             
             <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Algorithm/">Algorithm</a></p>
+              <p class="item-category"><a class="article-category-link" href="/categories/learning/">Learning</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/learning/akka/">Akka</a></p>
+              <p class="item-title"><a href="/2015/10/07/learning-akka/" class="title">Learning Akka</a></p>
+              <p class="item-date"><time datetime="2015-10-07T13:54:48.000Z" itemprop="datePublished">2015-10-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">Algorithm</a></p>
               <p class="item-title"><a href="/2015/05/04/bitsort-ant-qsort/" class="title">位排序和快排</a></p>
               <p class="item-date"><time datetime="2015-05-04T13:57:53.000Z" itemprop="datePublished">2015-05-04</time></p>
             </div>
@@ -817,7 +895,7 @@
           <li>
             
             <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Algorithm/">Algorithm</a></p>
+              <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">Algorithm</a></p>
               <p class="item-title"><a href="/2015/04/03/find-median-for-two-sorted-array/" class="title">查找两个排序数组的中位数</a></p>
               <p class="item-date"><time datetime="2015-04-03T14:07:01.000Z" itemprop="datePublished">2015-04-03</time></p>
             </div>
@@ -826,7 +904,7 @@
           <li>
             
             <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Hadoop/Hive/">Hive</a></p>
+              <p class="item-category"><a class="article-category-link" href="/categories/hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/hadoop/hive/">Hive</a></p>
               <p class="item-title"><a href="/2014/08/16/hive-architecture/" class="title">Hive架构笔记</a></p>
               <p class="item-date"><time datetime="2014-08-16T15:32:27.000Z" itemprop="datePublished">2014-08-16</time></p>
             </div>
@@ -835,18 +913,9 @@
           <li>
             
             <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Algorithm/">Algorithm</a></p>
+              <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">Algorithm</a></p>
               <p class="item-title"><a href="/2014/04/12/dijkstra-algorithm-in-java/" class="title">Dijkstra Algorithm</a></p>
               <p class="item-date"><time datetime="2014-04-12T03:55:04.000Z" itemprop="datePublished">2014-04-12</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Hadoop/HBase/">HBase</a></p>
-              <p class="item-title"><a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/" class="title">HBase MapReduce排序Secondary Sort</a></p>
-              <p class="item-date"><time datetime="2014-03-20T10:51:08.000Z" itemprop="datePublished">2014-03-20</time></p>
             </div>
           </li>
         
@@ -859,7 +928,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Agile/Life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-System/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-System/Life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/HBase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/Hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/System-Analysis-and-Design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -868,7 +937,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">tag cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Agile/" style="font-size: 10px;">Agile</a> <a href="/tags/Big-Data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/Design/" style="font-size: 14.29px;">Design</a> <a href="/tags/HBase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Learn/" style="font-size: 10px;">Learn</a> <a href="/tags/Learning/" style="font-size: 20px;">Learning</a> <a href="/tags/Linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Research/" style="font-size: 17.14px;">Research</a> <a href="/tags/Resource/" style="font-size: 10px;">Resource</a> <a href="/tags/Scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/SystemAnalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/VPS/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 10px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
     </div>
   </div>
 

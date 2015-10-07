@@ -27,6 +27,19 @@
   <link rel="stylesheet" href="/css/style.css" type="text/css">
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
   
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
 
   
 </head>
@@ -96,11 +109,11 @@
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        43
+        44
         <span>posts</span>
       </div>
       <div class="article-info-block">
-        24
+        26
         <span>tags</span>
       </div>
     </div>
@@ -125,6 +138,66 @@
 </aside>
       
       <section id="main">
+      <article id="post-hadoop-hdfs-high-availability" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/05/hadoop-hdfs-high-availability/">Hadoop HDFS High Availability(HA)</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/05/hadoop-hdfs-high-availability/">
+    <time datetime="2013-12-05T06:54:59.000Z" itemprop="datePublished">2013-12-05</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Reliability, Scalability and Availability are the most important three features for a distributed file system. In HDFS, persistent metadata, using the Secondary NameNode to create checkpoint against data loss, using block replication across the cluster against DataNode failure, all of these brings HDFS high reliability. And the master slave architecture wins HDFS great scalability. [more…]<br>However, HDFS has always had a well-known Single Point of Failure (SPOF) which impacts HDFS’s availability. HDFS fits well for ETL or batch-processing workflows, but in the past few years HDFS begin to be used for real time job, such as HBase. To recover a single NameNode, an administrator starts a new primary NameNode with FsImage and replays its EditLog, waits for Blockreport from DataNodes to leave safe mode. On large clusters with many files and blocks, it will take 30 minutes or more time to recovery. Long time recovery will impact the productivity of internal users and perhaps results in downtime visible to external users.<br>For these reasons, Hadoop community began a new feature for HDFS called High Availability Name Node (HA Name Node) in 2011. The HA makes use of an active and a standby NameNode. When the active NameNode fails, the hot standby NameNode will take over serving the role of an active NameNode without a significant interruption. </p>
+<h3 id="HA_Architecture">HA Architecture</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd5.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd5.1.png" alt="hd5.1">Figure1 HDFS High Availability Architecture</a><br>As shown in Figure 1, HA architecture has several changes</p>
+<ul>
+<li>The NameNodes must use highly available shared storage to share EditLog, such as Network File System (NFS), or BookKeeper. The active NameNode will write its EditLog on the Shared dir, and the Standby NameNode polls the shared log frequently and then applies to its in-memory so as to has the most complete and up-to-date file system state in memory.</li>
+<li>DataNodes must send Blockreports with block locations to both active and standy NameNodes. Because the block mappings are stored in a NameNode’s memory and not on a disk to increase data access performance.</li>
+<li>Clients must be configured to handle NameNode failover, using a mechanism that is transparent to users.<br>The HA guarantees if the active NameNode fails, the standby one will take over quickly in tens of seconds, since it has the latest state available in memory: the latest EditLog entries and an up-to-date block mapping.</li>
+</ul>
+<h3 id="Failover">Failover</h3><p>The transition from the active NameNode to the standby NameNode is controlled by the failover controller. Each NameNode runs a failover controller to monitor its namenode failure, which is a heartbeating mechanism. Failover is triggered when a NameNode fails.  </p>
+<p>After NameNode failover, the Client must be informed which is active NameNode now. Client Failover is handled transparently by the client library. The HDFS client supports the configuration for multiple network addresses, one for each NameNode. The NameNode is identified by a single logical URI which is mapped the two network addresses of the HA Name Nodes via client-side configuration. The client will retry the two addresses until the active NameNode is found. </p>
+<h3 id="Fencing">Fencing</h3><p>After Failover, HDFS makes use of the fencing technique to make sure that the previous died active NameNode is prevented from doing any damage and causing corruption. These mechanisms includes killing the NameNode’s process, revoking its access to the shared storage directory and disabling its network port via a remote management command. If these techniques fail, HDFS will use STONITH, that is “shoot the other node in the head”, which uses a specialized power distribution unit to forcibly power down the host machine. </p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/" data-id="cifgww99j004puos6ritjyl0x" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
       <article id="post-hadoop-hdfs-federation" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -148,7 +221,7 @@
           
   <div class="article-category">
   	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
   </div>
 
         </div>
@@ -171,12 +244,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-federation/" data-id="cibouf17e004umbrtui9r41l1" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-federation/" data-id="cifgww99m004uuos6b04o8l1u" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-federation/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Research/">Research</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
 
     </footer>
   </div>
@@ -208,7 +281,7 @@
           
   <div class="article-category">
   	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
   </div>
 
         </div>
@@ -268,12 +341,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-review/" data-id="cibouf175004kmbrt8rk9b1vl" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-review/" data-id="cifgww99g004kuos6vus83bmw" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-review/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Research/">Research</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
 
     </footer>
   </div>
@@ -305,7 +378,7 @@
           
   <div class="article-category">
   	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
   </div>
 
         </div>
@@ -370,12 +443,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-overview/" data-id="cibouf16o003xmbrt5vfc5pdy" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-overview/" data-id="cifgww98z003xuos6m4aj6y4e" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-overview/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Research/">Research</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
 
     </footer>
   </div>
@@ -407,7 +480,7 @@
           
   <div class="article-category">
   	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+    <a class="article-category-link" href="/categories/algorithm/">Algorithm</a>
   </div>
 
         </div>
@@ -500,7 +573,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/02/graph-dfs-bfs/" data-id="cibouf17i004zmbrt8jsxvhcl" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/02/graph-dfs-bfs/" data-id="cifgww99o004zuos6myvgldsp" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/02/graph-dfs-bfs/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -537,7 +610,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
           
   <div class="article-category">
   	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/System-Analysis-and-Design/">System Analysis and Design</a>
+    <a class="article-category-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a>
   </div>
 
         </div>
@@ -592,122 +665,12 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" data-id="cibouf141000lmbrtsbbku9ro" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" data-id="cifgww975000luos6xjun0cvz" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Design/">Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SystemAnalysis/">SystemAnalysis</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-    
-      <article id="post-system-analysis-design-kenneth-kendall-review-part3" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/">System Analysis and Design (Kenneth Kendall) Review Part3</a>
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/">
-    <time datetime="2013-11-27T09:20:43.000Z" itemprop="datePublished">2013-11-27</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/System-Analysis-and-Design/">System Analysis and Design</a>
-  </div>
-
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="6-_设计有效的输出">6. 设计有效的输出</h2><h3 id="6-1-输出设计目标">6.1.输出设计目标</h3><p>1.设计满足特定用途或组织目标的输出<br>输出要面向用户，考虑用户的年龄、收入和文化层次。</p>
-<p>2.制作对用户有意义的输出<br>设计要满足特定用户的需求，决定什么是内容，什么是途径。<br>考虑输出的时间和地点 [more…]</p>
-<p>3.交付合适数量的输出<br>决定要给用户多少信息，根据对用户的调查来决定，根据对象的重要性，数量和个数来决定<br>如：搜索后的结果</p>
-<p>4.合理分配输出，确保重要信息是必不可少的<br>如商店的门户网站，分类信息要展示<br>对必不可少的信息进行版本化，如计算器的科学性和普通型</p>
-<p>5.按时提供输出<br>In-Time 按时，及时的展现，考虑输出的时效性<br>如每年南大的主页在高考时很重要<br>如滴滴打车，采用语音输出</p>
-<p>6.选择最有效的输出方式：报表，屏幕输出，音频或视频输出。</p>
-<h3 id="6-2-选择输出技术时需要考虑">6.2.选择输出技术时需要考虑</h3><p>1)谁将使用，看到输出。<br>2)多少人需要输出<br>3)哪里需要输出，如配送部门和后勤部门<br>4)输出的目的<br>5)输出的速度是多少<br>6)访问输出的频率如何<br>7)输出将必须存储多长时间<br>8)产生、存储和分发输出必须遵循的特殊规则是什么<br>9)维护和供应的最初与后续的成本是什么<br>10)输出技术的环境需求是什么：易接近性、噪声吸收、温度控制、设备空间、电缆架设以及WiFi发射机的接近程度。 例如：打印输出噪声很大。</p>
-<h3 id="6-3-常见的输出技术">6.3.常见的输出技术</h3><p><img src="http://i44.tinypic.com/2q9cthc.jpg" alt=""><br>补充如下：<br>1. 打印机输出：如报表行程单、化验单、信用卡账单、财务单，具有持久性，需要考虑浪费纸张的成本，噪声，采用合适的表格形式<br>2. 视频输出：<br>补充静态的打印输出。<br>远程协作，将那些不能经常见面的人联系在一起<br>教学，帮助，培训视频<br>记录当前事件，方便以后的输出<br>保存一个重要情节，收藏，存档</p>
-<p>3. 动画输出：增强web站点的演示效果；比抽象的图像带来更好地决策支持。<br>4.电子邮件输出：可以用于私密信息。<br>5. 输出技术两种分类：<br>推技术：向用户推送信息，如推送流量统计，可以采用短信或电子邮件的方式。<br>拉技术：用户主动发起请求数据，如web上点击链接</p>
-<h3 id="6-4-避免输出的偏差">6.4.避免输出的偏差</h3><p>1.偏差的来源<br>a)信息排序的方式<br>b)可接受的边界值引入的偏差<br>c)使用图形引入的偏差</p>
-<p>2.如何避免偏差<br>a)明确偏差来源<br>b)在测试Web文档的外观过程中，设计交互式输出，让各种用户参与测试，并使用各种不同的系统配置测试输出。<br>c)让用户参与输出设计，使它们认识到输出信息中可能存在的偏差<br>d)创建灵活的输出，使得用户能修改边界值和范围。<br>e)训练用户依靠多种输出对系统输出执行“逼真测试”</p>
-<h3 id="6-5-印制报表的设计原则">6.5.印制报表的设计原则</h3><p>1.确定报表设计约定<br>设计表单时要遵循的约定包括：每个位置上出现的数据类型，表单大小，以及表明连续表上数据延续部分的方式。<br>2.纸张质量、类型和大小<br>3.功能、风格和美观程度<br>4.报表的功能属性：标题、页码、准备日期、列标题、相关数据项的集合、控制分割行的使用</p>
-<h3 id="6-6-设计屏幕输出">6.6.设计屏幕输出</h3><p>1.原则<br>a)保持屏幕简单<br>b)保持屏幕显示的一致性<br>c)方便用户在屏幕间移动<br>d)创建吸引人的屏幕</p>
-<p>2.在屏幕输出时使用图形要考虑<br>a)图形的用途<br>b)需要显示什么样的数据<br>c)读者对象<br>d)不同图形输出对读者的影响</p>
-<p>3.选择仪表盘输出时考虑：<br>a)确保数据有上下文<br>b)显示合理的汇总的精度<br>c)选择合适的工作指标进行显示<br>d)公正地表现数据<br>e)选择正确的图表样式进行显示<br>f)使用精心设计的显示媒体：大小、图片、颜色、标签<br>g)限制项目类型的多样性<br>h)突出显示重要数据<br>i)将数据按有意义的小组进行编排<br>j)保持屏幕简洁<br>k)使整个仪表板保持在一个单独的屏幕上</p>
-<p>4.Wedget和Gadeget输出<br>a)窗口小部件，可以个性化桌面<br>b)证券报价机、天气预报、RSS反馈可以采用widget<br>c)但widget会分散用户对系统支持的任务的注意力。</p>
-<h2 id="7-设计有效的输入">7.设计有效的输入</h2><h3 id="7-1-对输入的质量要求">7.1.对输入的质量要求</h3><p>1.输入的质量<br>1)有效性：输入表单、输入屏幕和Web上的输入窗体在信息系统中服务于具体的目的。<br>2)准确性：所作出的设计能保证用户准确输入数据。<br>3)易用性：表单和屏幕简单易懂<br>4)一致性：所有输入窗体，在不同的程序中按类似的方式组织数据。<br>5)简单性：设计简洁，让用户集中注意力输入数据。<br>6)有吸引力：精心设计表单，让用户喜欢</p>
-<p>2.输入还需要保证<br>完整性<br>输入顺序要合理：从主体到客体，重要到次要<br>如简历：先基本信息，再个人获奖，个人工作经历</p>
-<h3 id="7-2-良好的表单设计(纸质表单)">7.2.良好的表单设计(纸质表单)</h3><p>1.设计原则<br>a)使表单容易填写<br>b)满足用户的需求<br>c)保证输入的完整性，准确性<br>d)有吸引力</p>
-<p>2.使表单容易填写<br>a)表单流：从左到右，从上到下<br>b)表单的7个部分<br>i.标题<br>ii.标识和访问控制<br>iii.用法说明<br>iv.主体<br>v.签名和确认<br>vi.总结<br>vii.评论</p>
-<p>c)加标题：行标题，行下标题，加框标题，垂直选择标记，水平选择标记。<br>标题要有相关注释。<br>标题风格保持一致。</p>
-<p>3.满足用户的需求<br>创建表单目的：记录、处理、保存和获取商业所需信息。</p>
-<p>4.确保完整性和输入的准确性<br>这样可以让与收集数据相关的错误率大幅度降低。</p>
-<p>5.表单设计要有吸引力<br>按预期顺序组织信息：姓名、街道地址、城市、州(省)、邮政编码<br>吸引力来自于正确的表单布局和流向。<br>字体样式和线条粗细也是有用的设计元素。</p>
-<p>6.表单设计软件：如scansoft</p>
-<p>7.业务表单控制：<br>a)确保表单的输入是为了达到特定的需求，并且该需求是组织功能不可分割的。<br>b)避免重复信息，避免使用重复表单。<br>c)设计高效的表单。<br>d)以尽可能低的成本制作表单</p>
-<h3 id="7-3_良好的Web屏幕和Web窗体设计">7.3 良好的Web屏幕和Web窗体设计</h3><h4 id="7-3-1-屏幕设计原则">7.3.1.屏幕设计原则</h4><p>1.电子、web表单与静态表单的区别：<br>有光标，指示当前的数据输入位置<br>可以在上下文加入相关帮助</p>
-<p>2.设计原则<br>a)保持简洁<br>b)一致性<br>c)易于用户在屏幕间移动<br>d)创建有吸引力和满意的屏幕</p>
-<p>3.保持屏幕的简洁<br>屏幕输出的三个部分：<br>•标题：文件名称、下拉菜单和执行某些任务的图标<br>•主体：输入数据，从左到右，从上到下<br>•评论和用法说明<br>另一种保持简洁的方法是：使用上下文相关帮助和其他弹出窗口，利用超链接</p>
-<p>4.保持屏幕一致性：<br>a)与相关的纸质表单保持一致性<br>b)每次访问新屏幕时信息出现在同一个区域<br>c)逻辑上不可分割的信息始终组织在一起</p>
-<p>5.易于用户在屏幕间移动<br>a)易于用户从在不用web页之间移动<br>b)“三次单击”规则：用户应能在三次单击鼠标或按键之内，转到他们所需的屏幕。<br>c)使用向下箭头滚动屏幕<br>d)上下文相关的弹出窗口<br>e)屏幕对话</p>
-<p>6.设计有吸引力的屏幕<br>a)足够的留白，让用户集中注意力到数据上<br>b)使用逻辑流计划屏幕信息，按用户处理问题的方式组织屏幕信息，让他们容易找到所需信息<br>c)将信息划分为3个部分，参见简洁性，划分遵循一致性原则<br>d)采用粗细不同的线条划分不同的类目<br>e)反转影像，闪烁光标，但要慎用。<br>f)使用不同的字体</p>
-<p>7.屏幕设计中使用图标<br>a)每个应用程序使用的图标控制在20个之内<br>b)相关图标要一起出现，保持连续性和易懂性<br>c)图标含义越丰富，越有用。</p>
-<h4 id="7-3-2-GUI元素的设计">7.3.2.GUI元素的设计</h4><p>1.文本框：大小要能容纳所有的字符。要有标题。<br>2.复选框：标签放在复选框的右边；如果超过10个，要将他们组成一个组，并框起来。<br>3.单选按钮：选项文本放在右边；如果选项按钮超过6个，考虑下拉菜单。<br>4.下拉菜单和列表框<br>5.滑动块按钮和旋转按钮<br>6.图像映射<br>7.文本区<br>8.消息框<br>9.命令按钮</p>
-<p>10.表单控件和数值：GUI界面包括的每个控件必须有某种方法来存储与控件相关的数据。 Web页面上，可以采用名称和值对来实现。 每个Web表单控件获取数值的方法是不同的。<br>11.隐藏字段：表单中，对用户不可见，但需发送到服务器的数值<br>12.事件响应图：当GUI交互很复杂时，可以采用事件响应图列出各种可能发生的事件，概要的建立商业事件和响应的模型。<br>13.动态web网页：根据用户操作改变网页内容，基于JavaScript，可以用来显示临时的信息。但对需要加密，提供安全保护的数据，不要采用动态web的形式。而缺点是用户禁用JavaScript后，网页不可用。<br>14.Ajax，异步更新，web运行更快，更流畅。缺点是JavaScript必须启用，安全性问题。</p>
-<p>15.选项卡控件对话框设计原则：<br>a)为每个独特的特性创建一个分离的选项卡<br>b)将最常用的选项卡放在前面，并首先显示<br>c)可以考虑在设计的选项卡控件对话框中包含三个基本按钮：OK，Cancel，Help</p>
-<p>16.Web中使用色彩<br>a)色彩搭配要协调：对比前景和背景，突出表单上重要字段，显示错误。</p>
-<p>b)容易辨认的搭配：前景明亮，背景用不太明亮的。<br>i.黑底文字在黄色背景上<br>ii.绿色文字在白色背景上<br>iii.蓝色文字在白色背景上<br>iv.白色的文字在蓝色的背景上<br>v.黄色的文字在黑色的背景上</p>
-<p>c)色彩不宜超过4种，对于有经验的用户，不要超过7种。</p>
-<h3 id="7-4-内联网和互联网页设计">7.4.内联网和互联网页设计</h3><p>指导原则<br>1)提供清楚的用法说明<br>2)演示窗体的逻辑填写顺序，特别是因为用户滚动而看不到的部分<br>3)为特殊功能增加窗体的吸引力，使用各种文本框，按钮，下拉菜单、复选框和单选按钮<br>4)如果我们不能确定用户响应某个问题时将在字段中输入多少个字符，或者不能确定用户使用什么语言、结构或窗体输入数据，提供一个可滚动的文本框<br>5)为每个Web输入窗体准备两个基本按钮：Submit 和 Clear Form<br>6)如果窗体很长，且用户进行滚动之外别无它法，那么最好将窗体分成几个简单地窗体，放在不同的网页上<br>7)创建一个错误反馈屏幕<br>对于电子商务应用程序还需要达到目标：阐明有关信任、隐私和退货方面公司的任务和价值；建立高效的事务处理过程；建立良好的客户关系。</p>
-<h2 id="8-_HCI人机交互">8. HCI人机交互</h2><h3 id="8-1-基本概念">8.1.基本概念</h3><p>1.HCI是指确保系统的功能和可用性，提供有效的用户交互与支持，以及增强用户快乐体验。总体目标是实现组织和个人用户的效率和有效性。<br>2.主要策略：不断引出用户对原型设计（屏幕、表单、界面等）的使用经验反馈，根据修改建议提炼设计，然后再让用户试用，直到用户满意，最后由分析员固定下来。面谈就是一种获得HCI反馈的重要方式。<br>3.技术接受模型：感知有用性和感知易用性<br>4.可用性：包括产品使用的有效性、效率和在特定环境下使用的满意度、用户界面交互，开发产品的过程，组织应用以用户为中心的设计的能力<br>5.HCI设计中考虑用户的身体因素：视觉，听觉，触觉，考虑人的缺陷、残障和意图。</p>
-<p>6.良好的HCI进行系统设计的指导原则<br>1)界面与任务相匹配<br>2)提高界面效率<br>3)提供适当的反馈<br>4)生成有用的查询<br>5)提高工作者的效率</p>
-<p>7.评价UI的原则<br>1)较短的学习时间<br>2)用户不用多加考虑或者不用查阅手册和帮助菜单，就可以输入指令<br>3)界面应该与实际功能“无缝”连接，确保出出错概率小<br>4)用户和系统出错后恢复时间尽可能短<br>5)偶尔使用的用户重新学习系统时要尽可能快<br>6)界面提供信息准确，界面友好</p>
-<h3 id="8-2-对话设计的指导原则">8.2.对话设计的指导原则</h3><p>1.交流要让用户和计算机都能理解，意义明确</p>
-<p>2.最小化用户的行为，减少不必要的操作，可以采用以下方式：<br>1)输入时用代码代替词组<br>2)只输入系统中没有存储的数据<br>3)提供缺省信息<br>4)提供help信息，不要让用户乱操作<br>5)提供符合常规的快捷键</p>
-<p>3.操作的规范化和一致性<br>1)界面的标题、日期、时间、操作提示和反馈信息固定在相同位置<br>2)使用相同的键位或者菜单退出程序<br>3)采用一致的方法取消事务<br>4)用标准化的方法获得帮助，如F1<br>5)屏幕采用标准化的色彩<br>6)GUI中使用标准化的图标<br>7)网站中术语要一致<br>8)提供一致的方法实现对话导航<br>9)文字大小、颜色和对齐方式保持一致</p>
-<h3 id="8-3-用户界面类型">8.3.用户界面类型</h3><p>1.自然语言界面：实现复杂，如ask.com自然语言查询，对资源有特殊要求<br>2.问答式界面，对话框，适用于不熟悉特定应用或不了解某个主体的用户</p>
-<p>3.菜单：<br>优点：分类显示，不杂乱；减少界面无关信息；嵌套菜单可以提高用户的操作速度。<br>指导原则：<br>•层次和分类要清晰，不能混淆，<br>•主菜总是单停留在导航栏<br>•子菜单的层数不要超过3层<br>•下拉菜单按功能特征分区或者分组<br>•元素不要太拥挤，不重复，不遗漏，先主后次。<br>•选中主菜单的词后，弹出下拉菜单。<br>•不可用的选项灰色表示</p>
-<p>4.Form表单<br>用于输入和输出<br>•原则：<br>屏幕窗体要说明应该输入什么信息，以及在哪里输出。<br>在空白字段中输入数据时，输入内容应该反白或闪烁显示。<br>为简化窗体数据的输入，可预先给出默认值。<br>•优点：打印出的表单内容是极好的文档<br>•缺点：让有经验的用户厌烦，总希望找到一种更有效的数据输入方法。</p>
-<p>5.命令行:专业、学习难</p>
-<p>6.对话框<br>采用标准的操作，保证一致性，交流要有意义，提供最少的操作交互和行为。</p>
-<p>7.其他类型的用户界面<br>指示笔、触摸屏、语音识别与合成、触摸屏<br>语音交互的优点：让用户能腾出手来完成其他事项的同时，如驾驶，可以极大的提高数据输入速度。为有视觉或行为障碍的用户提供方便。</p>
-<h3 id="8-4-为用户提供反馈">8.4.为用户提供反馈</h3><p>1.反馈类型<br>a)确认接受了输入数据<br>b)确认输入格式正确</p>
-<p>c)提示输入格式不正确<br>反馈可以是新的界面、消息框、音频反馈<br>反馈要保证效率和准确性</p>
-<p>d)解释系统运行中的延迟<br>e)确认请求完成<br>f)提示用户请求无法完成<br>g)为用户提供更详细的反馈</p>
-<p>2.在系统设计中包含反馈<br>a)提供各种帮助选项，F1，<br>b)下拉菜单帮助<br>c)鼠标悬停的提示文本<br>d)帮助向导<br>e)帮助热线</p>
-<h3 id="8-5-电子商务网站的设计原则">8.5.电子商务网站的设计原则</h3><p>1.在网站上采用各种方法从客户处获得反馈<br>在用户启动电子邮件程序的同时，自动把公司的邮件地址放在“收件人”处<br>添加反馈按钮，点击后打开信息模板</p>
-<p>2.采用4种方法提供一次点击的导航，以确保用户容易地在网站中导航，并易于返回原来的网页。<br>1)建立卷滚菜单<br>2)在主页上按分层关系建立网站链接集，显示关键主题框架。<br>3)把网站地图放在主页上，并突出到该地图的链接，提高导航效率。<br>4)在网站内每一个页面上设置导航条，重复首页上的条目。</p>
-<div style="color: #EF4808"><br>两个好用的Chrome插件，小伙伴们看完复习资料支持一下吧：<br><a href="https://chrome.google.com/webstore/detail/剪影截图/gkloklemhahnoipikedmafefilidffko" title="剪影截图" target="_blank" rel="external">剪影截图：好用的网页截图，一键人人分享工具，快捷键ctrl+shift+z, 双击确定!</a><br><a href="https://chrome.google.com/webstore/detail/tss下载助手/odhkpoplnhfnhhhkgphckabboemiifle" title="TSS下载助手" target="_blank" rel="external">TSS下载助手：让你方便一键批量下载</a><br></div>
-
-<p>资源：<br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" title="System Analysis and Design (Kenneth Kendall) Review Part1" target="_blank" rel="external">系统分析与设计part1</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" title="System Analysis and Design (Kenneth Kendall) Review Part2" target="_blank" rel="external">系统分析与设计part2</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" title="System Analysis and Design (Kenneth Kendall) Review Part3" target="_blank" rel="external">系统分析与设计part3</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" title="System Analysis and Design (Kenneth Kendall) Review Part4" target="_blank" rel="external">系统分析与设计part4</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" data-id="cibouf149000tmbrtcwqadnto" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Design/">Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SystemAnalysis/">SystemAnalysis</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/design/">Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/systemanalysis/">SystemAnalysis</a></li></ul>
 
     </footer>
   </div>
@@ -732,7 +695,16 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
           <li>
             
             <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Algorithm/">Algorithm</a></p>
+              <p class="item-category"><a class="article-category-link" href="/categories/learning/">Learning</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/learning/akka/">Akka</a></p>
+              <p class="item-title"><a href="/2015/10/07/learning-akka/" class="title">Learning Akka</a></p>
+              <p class="item-date"><time datetime="2015-10-07T13:54:48.000Z" itemprop="datePublished">2015-10-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">Algorithm</a></p>
               <p class="item-title"><a href="/2015/05/04/bitsort-ant-qsort/" class="title">位排序和快排</a></p>
               <p class="item-date"><time datetime="2015-05-04T13:57:53.000Z" itemprop="datePublished">2015-05-04</time></p>
             </div>
@@ -741,7 +713,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
           <li>
             
             <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Algorithm/">Algorithm</a></p>
+              <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">Algorithm</a></p>
               <p class="item-title"><a href="/2015/04/03/find-median-for-two-sorted-array/" class="title">查找两个排序数组的中位数</a></p>
               <p class="item-date"><time datetime="2015-04-03T14:07:01.000Z" itemprop="datePublished">2015-04-03</time></p>
             </div>
@@ -750,7 +722,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
           <li>
             
             <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Hadoop/Hive/">Hive</a></p>
+              <p class="item-category"><a class="article-category-link" href="/categories/hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/hadoop/hive/">Hive</a></p>
               <p class="item-title"><a href="/2014/08/16/hive-architecture/" class="title">Hive架构笔记</a></p>
               <p class="item-date"><time datetime="2014-08-16T15:32:27.000Z" itemprop="datePublished">2014-08-16</time></p>
             </div>
@@ -759,18 +731,9 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
           <li>
             
             <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Algorithm/">Algorithm</a></p>
+              <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">Algorithm</a></p>
               <p class="item-title"><a href="/2014/04/12/dijkstra-algorithm-in-java/" class="title">Dijkstra Algorithm</a></p>
               <p class="item-date"><time datetime="2014-04-12T03:55:04.000Z" itemprop="datePublished">2014-04-12</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Hadoop/HBase/">HBase</a></p>
-              <p class="item-title"><a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/" class="title">HBase MapReduce排序Secondary Sort</a></p>
-              <p class="item-date"><time datetime="2014-03-20T10:51:08.000Z" itemprop="datePublished">2014-03-20</time></p>
             </div>
           </li>
         
@@ -783,7 +746,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
   <div class="widget-wrap">
     <h3 class="widget-title">categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Agile/Life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-System/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-System/Life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/HBase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/Hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/System-Analysis-and-Design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -792,7 +755,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
   <div class="widget-wrap">
     <h3 class="widget-title">tag cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Agile/" style="font-size: 10px;">Agile</a> <a href="/tags/Big-Data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/Design/" style="font-size: 14.29px;">Design</a> <a href="/tags/HBase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Learn/" style="font-size: 10px;">Learn</a> <a href="/tags/Learning/" style="font-size: 20px;">Learning</a> <a href="/tags/Linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Research/" style="font-size: 17.14px;">Research</a> <a href="/tags/Resource/" style="font-size: 10px;">Resource</a> <a href="/tags/Scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/SystemAnalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/VPS/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 10px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
     </div>
   </div>
 

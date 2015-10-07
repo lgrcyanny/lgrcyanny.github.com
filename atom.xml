@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://www.cyanny.com//"/>
-  <updated>2015-06-30T15:28:30.000Z</updated>
+  <updated>2015-10-07T14:49:35.000Z</updated>
   <id>http://www.cyanny.com//</id>
   
   <author>
@@ -16,42 +16,83 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Learning Akka]]></title>
+    <link href="http://www.cyanny.com/2015/10/07/learning-akka/"/>
+    <id>http://www.cyanny.com/2015/10/07/learning-akka/</id>
+    <published>2015-10-07T13:54:48.000Z</published>
+    <updated>2015-10-07T14:49:35.000Z</updated>
+    <content type="html"><![CDATA[<p>最近学习了scala，主要是跟着<strong>Functional Programming in Scala</strong>的课程学习的，scala主要的用处还是在spark上，关于spark也看了一些源码，处于继续探索中。</p>
+<p>并发时的消息通信是处理spark这样的分布式系统的关键。spark主要依赖scala社区的akka进行消息通讯。在spark1.2的代码中可以看到很多actor的影子，然而spark1.4中，都是封装为EndPoint，但Actor的思想和模式还在。</p>
+<p>基于Actor的消息通讯模型是akka的核心。Akka为处理并发、容错和可扩展性的分布式问题提供了一套基于Actor模型的库。并发的消息通讯中，抽象是关键的方面。Actor模型是1973年由Carl Hewitt在论文”Actor Model of Computation- Scalable Robust Information Systems”中提出, 后被应用于爱立信公司研发的Elang语言，爱立信公司应用Actor模型开发了高并发和可靠的通信系统。</p>
+<a id="more"></a>
+<h3 id="1-_Akka的重要的4个方面">1. Akka的重要的4个方面</h3><p><em>Actor</em></p>
+<ul>
+<li>为处理并发，并行问题提供了简单和high-level的抽象</li>
+<li>event-driven的异步非阻塞通讯</li>
+<li>轻量的actor进程，几百万个actor只占heap 1G左右</li>
+</ul>
+<p><em>容错性</em></p>
+<ul>
+<li>具有”let-it-crash”语意的监督者层级结构</li>
+<li>不同的监督者层级可以分布在不同的JVM中，提供真正容错的系统</li>
+<li>系统可以自我恢复，never stop</li>
+</ul>
+<p><em>寻址透明</em></p>
+<ul>
+<li>Actor在Akka内部采用统一的寻址方式，屏蔽底层细节</li>
+<li>Actor是纯消息传递，且为异步消息传递</li>
+</ul>
+<p><em>可持久化</em></p>
+<ul>
+<li>Actor收到的消息会被存储在邮箱中，收到的消息可以被持久化，actor可以被迁移到其他节点，重新回复并重启。</li>
+</ul>
+<p>总之，Akka的设计围绕着以下三个核心展开：</p>
+<ul>
+<li>Scale-up 并发</li>
+<li>Scal-out(Remoting)，可扩展性</li>
+<li>容错性</li>
+</ul>
+<h3 id="2-_永远不变的HelloWorld">2. 永远不变的HelloWorld</h3><p><a href="https://github.com/lgrcyanny/LearningAkka" target="_blank" rel="external">Hello World</a><br><em>Greeter</em><br>Actor必须实现receive方法, 通过hello world例子可以看到actor的入门很简单。<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> akka.actor.<span class="type">Actor</span></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Greeter</span> &#123;</span></span><br><span class="line">  <span class="keyword">case</span> <span class="class"><span class="keyword">object</span> <span class="title">Greet</span></span><br><span class="line"></span>  <span class="keyword">case</span> <span class="class"><span class="keyword">object</span> <span class="title">Done</span></span><br><span class="line"></span>&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Greeter</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Actor</span> &#123;</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">receive</span> =</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> msg<span class="annotation">@Greeter</span>.<span class="type">Greet</span> =&gt;</span><br><span class="line">      println(s<span class="string">"Hello Akka, receive $msg"</span>)</span><br><span class="line">      sender() ! <span class="type">Greeter</span>.<span class="type">Done</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><em>HelloWorld Actor</em><br>负责启动Greeter Actor<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Actor</span> &#123;</span></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">preStart</span> =</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">val</span> <span class="title">greeter</span> =</span> context.actorOf(<span class="type">Props</span>[<span class="type">Greeter</span>], <span class="string">"greeter"</span>)</span><br><span class="line">    greeter ! <span class="type">Greeter</span>.<span class="type">Greet</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">receive</span> =</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">Greeter</span>.<span class="type">Done</span> =&gt;</span><br><span class="line">      context.stop(self)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><em>Main启动</em></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Main</span> &#123;</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span>(</span>args: <span class="type">Array</span>[<span class="type">String</span>]) &#123;</span><br><span class="line">    akka.<span class="type">Main</span>.main(<span class="type">Array</span>(classOf[<span class="type">HelloWorld</span>].getName))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Akka的主要学习还是看官方的文档，akka的特定用法看api很不错。<br>以上就是akka的入门的一些学习吧，写的仓促，如有不对的地方还请指正。最近很忙，也没能好好写博客。<br>akka的深入篇，会持续更新。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>最近学习了scala，主要是跟着<strong>Functional Programming in Scala</strong>的课程学习的，scala主要的用处还是在spark上，关于spark也看了一些源码，处于继续探索中。</p>
+<p>并发时的消息通信是处理spark这样的分布式系统的关键。spark主要依赖scala社区的akka进行消息通讯。在spark1.2的代码中可以看到很多actor的影子，然而spark1.4中，都是封装为EndPoint，但Actor的思想和模式还在。</p>
+<p>基于Actor的消息通讯模型是akka的核心。Akka为处理并发、容错和可扩展性的分布式问题提供了一套基于Actor模型的库。并发的消息通讯中，抽象是关键的方面。Actor模型是1973年由Carl Hewitt在论文”Actor Model of Computation- Scalable Robust Information Systems”中提出, 后被应用于爱立信公司研发的Elang语言，爱立信公司应用Actor模型开发了高并发和可靠的通信系统。</p>]]>
+    
+    </summary>
+    
+      <category term="Akka" scheme="http://www.cyanny.com/tags/akka/"/>
+    
+      <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
+    
+      <category term="Learning" scheme="http://www.cyanny.com/categories/learning/"/>
+    
+      <category term="Akka" scheme="http://www.cyanny.com/categories/learning/akka/"/>
+    
+      <category term="Scala" scheme="http://www.cyanny.com/categories/learning/akka/scala/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[位排序和快排]]></title>
     <link href="http://www.cyanny.com/2015/05/04/bitsort-ant-qsort/"/>
     <id>http://www.cyanny.com/2015/05/04/bitsort-ant-qsort/</id>
     <published>2015-05-04T13:57:53.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
+    <updated>2015-10-07T13:38:00.000Z</updated>
     <content type="html"><![CDATA[<p>这已经不是一个新话题了，但是从开始实现一个C++位排序和快排，我还是花费了2个多小时，这里就记下自己的一点点体会啦。</p>
 <p>首先，题目来自《编程珠玑》第一章，主要是做位排序，同时和快排做比较：</p>
 <p>1. 实现位逻辑运算，实现位向量，并用该位向量实现1,000,000个数字的排序，数字最大是10,000,000</p>
 <p>2. 实现1000,000个数字的快排序</p>
 <p>3. 实现生成小于n且没有重复的k个整数，这里n=10,000,000, k = 1,000,000</p>
 <a id="more"></a>
-<h3 id="1-_位排序">1. 位排序</h3><p>[cpp]</p>
-<h1 id="include_&lt;iostream&gt;">include &lt;iostream&gt;</h1><h1 id="include_&lt;string&gt;">include &lt;string&gt;</h1><h1 id="include_&lt;fstream&gt;">include &lt;fstream&gt;</h1><p>// 这里以32位的int来实现位向量，初始化的开销可能会比较大<br>class BitVector {<br>public:<br>    BitVector(int size) {<br>        int n = (1 + (size / BITS_PER_WORD));<br>        buffer = new int[n];<br>        for (int i = 0; i &lt; n; ++i) {<br>            buffer[i] = 0;<br>        }<br>    }<br>    ~BitVector() {<br>        delete[] buffer;<br>    }<br>    void set(int i) {<br>        buffer[(i &gt;&gt; SHIFT)] |= 1 &lt;&lt; (i &amp; MASK);<br>    }<br>    void clr(int i) {<br>        buffer[(i &gt;&gt; SHIFT)] &amp;= ~(1 &lt;&lt; (i &amp; MASK));<br>    }<br>    int test(int i) {<br>        return buffer[(i &gt;&gt; SHIFT)] &amp; (1 &lt;&lt; (i &amp; MASK));<br>    }</p>
-<p>private:<br>    int* buffer;<br>    static const int BITS_PER_WORD = 32;<br>    static const int MASK = 0x1f;<br>    static const int SHIFT = 5;<br>};</p>
-<p>const int BitVector::BITS_PER_WORD;<br>const int BitVector::MASK;<br>const int BitVector::SHIFT;</p>
-<p>class Solution {<br>public:<br>    // 输入是要排序的文件名，同时需要给出输出文件名称<br>    // range是数字的范围<br>    void sort(<br>            int range,<br>            const std::string&amp; input_file_name,<br>            const std::string&amp; output_file_name) {<br>        BitVector bits_vector(range);<br>        std::ifstream fin(input_file_name);<br>        int i = 0;<br>        while (fin &gt;&gt; i) {<br>            bits_vector.set(i);<br>        }<br>        std::ofstream fout(output_file_name);<br>        for (int i = 0; i &lt; range; ++i) {<br>            if (bits_vector.test(i)) {<br>                fout &lt;&lt; i &lt;&lt; std::endl;<br>            }<br>        }<br>    }<br>};</p>
-<p>int main(int argc, char const *argv[]) {<br>    Solution s;<br>    int range = 10000000;<br>    s.sort(range, &quot;numbers_input.txt&quot;, &quot;numbers_output.txt&quot;);<br>}<br>[/cpp]</p>
-<h3 id="2-_Quick_Sort">2. Quick Sort</h3><p>[cpp]<br>class Solution {<br>public:<br>    void sort(<br>            const std::string&amp; input_file_name,<br>            const std::string&amp; output_file_name) {<br>        std::vector&lt;int&gt; arr;<br>        int number = 0;<br>        std::ifstream fin(input_file_name);<br>        while(fin &gt;&gt; number) {<br>            arr.push_back(number);<br>        }<br>        qsort(&amp;arr, 0, arr.size() - 1);<br>        std::ofstream fout(output_file_name);<br>        for (int i = 0; i &lt; arr.size(); ++i) {<br>            fout &lt;&lt; arr[i] &lt;&lt; std::endl;<br>        }<br>    }</p>
-<p>private:<br>    void qsort(std::vector&lt;int&gt;* arr, int p, int r) {<br>        if (p &gt;= r) {<br>            return;<br>        }<br>        int q = partition(arr, p, r);<br>        qsort(arr, p, q - 1);<br>        qsort(arr, q + 1, r);<br>    }</p>
-<pre><code><span class="keyword">int</span> partition(std::vector&amp;<span class="keyword">lt</span>;<span class="keyword">int</span>&amp;<span class="keyword">gt</span>;* arr, <span class="keyword">int</span> p, <span class="keyword">int</span> r) {
-    <span class="keyword">int</span> i = p;
-    <span class="keyword">int</span> j = i - <span class="number">1</span>;
-    <span class="keyword">for</span> (; i &amp;<span class="keyword">lt</span>; r; ++i) {
-        <span class="keyword">if</span> (arr-&amp;<span class="keyword">gt</span>;at(i) &amp;<span class="keyword">lt</span>; arr-&amp;<span class="keyword">gt</span>;at(r)) {
-            ++j;
-            std::swap(arr-&amp;<span class="keyword">gt</span>;at(i) , arr-&amp;<span class="keyword">gt</span>;at(j));
-        }
-    }
-    ++j;
-    std::swap(arr-&amp;<span class="keyword">gt</span>;at(j) , arr-&amp;<span class="keyword">gt</span>;at(r));
-    <span class="keyword">return</span> j;
-}
-</code></pre><p>};<br>[/cpp]</p>
+<h3 id="1-_位排序">1. 位排序</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#include &amp;lt;iostream&amp;gt;</span></span><br><span class="line"><span class="preprocessor">#include &amp;lt;string&amp;gt;</span></span><br><span class="line"><span class="preprocessor">#include &amp;lt;fstream&amp;gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里以32位的int来实现位向量，初始化的开销可能会比较大</span></span><br><span class="line"><span class="keyword">class</span> BitVector &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    BitVector(<span class="keyword">int</span> size) &#123;</span><br><span class="line">        <span class="keyword">int</span> n = (<span class="number">1</span> + (size / BITS_PER_WORD));</span><br><span class="line">        buffer = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &amp;lt; n; ++i) &#123;</span><br><span class="line">            buffer[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ~BitVector() &#123;</span><br><span class="line">        <span class="keyword">delete</span>[] buffer;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        buffer[(i &amp;gt;&amp;gt; SHIFT)] |= <span class="number">1</span> &amp;lt;&amp;lt; (i &amp;amp; MASK);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clr</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        buffer[(i &amp;gt;&amp;gt; SHIFT)] &amp;amp;= ~(<span class="number">1</span> &amp;lt;&amp;lt; (i &amp;amp; MASK));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> buffer[(i &amp;gt;&amp;gt; SHIFT)] &amp;amp; (<span class="number">1</span> &amp;lt;&amp;lt; (i &amp;amp; MASK));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span>* buffer;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> BITS_PER_WORD = <span class="number">32</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> MASK = <span class="number">0x1f</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> SHIFT = <span class="number">5</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> BitVector::BITS_PER_WORD;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> BitVector::MASK;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> BitVector::SHIFT;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 输入是要排序的文件名，同时需要给出输出文件名称</span></span><br><span class="line">    <span class="comment">// range是数字的范围</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sort</span><span class="params">(</span><br><span class="line">            <span class="keyword">int</span> range,</span><br><span class="line">            <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp;amp; input_file_name,</span><br><span class="line">            <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp;amp; output_file_name)</span> </span>&#123;</span><br><span class="line">        <span class="function">BitVector <span class="title">bits_vector</span><span class="params">(range)</span></span>;</span><br><span class="line">        <span class="built_in">std</span>::<span class="function">ifstream <span class="title">fin</span><span class="params">(input_file_name)</span></span>;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (fin &amp;gt;&amp;gt; i) &#123;</span><br><span class="line">            bits_vector.<span class="built_in">set</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">std</span>::<span class="function">ofstream <span class="title">fout</span><span class="params">(output_file_name)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &amp;lt; range; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (bits_vector.test(i)) &#123;</span><br><span class="line">                fout &amp;lt;&amp;lt; i &amp;lt;&amp;lt; <span class="built_in">std</span>::endl;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">    Solution s;</span><br><span class="line">    <span class="keyword">int</span> range = <span class="number">10000000</span>;</span><br><span class="line">    s.sort(range, &amp;quot;numbers_input.txt&amp;quot;, &amp;quot;numbers_output.txt&amp;quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-_Quick_Sort">2. Quick Sort</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sort</span><span class="params">(</span><br><span class="line">            <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp;amp; input_file_name,</span><br><span class="line">            <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp;amp; output_file_name)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">vector</span>&amp;lt;<span class="keyword">int</span>&amp;gt; arr;</span><br><span class="line">        <span class="keyword">int</span> number = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">std</span>::<span class="function">ifstream <span class="title">fin</span><span class="params">(input_file_name)</span></span>;</span><br><span class="line">        <span class="keyword">while</span>(fin &amp;gt;&amp;gt; number) &#123;</span><br><span class="line">            arr.push_back(number);</span><br><span class="line">        &#125;</span><br><span class="line">        qsort(&amp;amp;arr, <span class="number">0</span>, arr.size() - <span class="number">1</span>);</span><br><span class="line">        <span class="built_in">std</span>::<span class="function">ofstream <span class="title">fout</span><span class="params">(output_file_name)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &amp;lt; arr.size(); ++i) &#123;</span><br><span class="line">            fout &amp;lt;&amp;lt; arr[i] &amp;lt;&amp;lt; <span class="built_in">std</span>::endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">qsort</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&amp;lt;<span class="keyword">int</span>&amp;gt;* arr, <span class="keyword">int</span> p, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (p &amp;gt;= r) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> q = partition(arr, p, r);</span><br><span class="line">        qsort(arr, p, q - <span class="number">1</span>);</span><br><span class="line">        qsort(arr, q + <span class="number">1</span>, r);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&amp;lt;<span class="keyword">int</span>&amp;gt;* arr, <span class="keyword">int</span> p, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = p;</span><br><span class="line">        <span class="keyword">int</span> j = i - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (; i &amp;lt; r; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr-&amp;gt;at(i) &amp;lt; arr-&amp;gt;at(r)) &#123;</span><br><span class="line">                ++j;</span><br><span class="line">                <span class="built_in">std</span>::swap(arr-&amp;gt;at(i) , arr-&amp;gt;at(j));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ++j;</span><br><span class="line">        <span class="built_in">std</span>::swap(arr-&amp;gt;at(j) , arr-&amp;gt;at(r));</span><br><span class="line">        <span class="keyword">return</span> j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <h3 id="3-_生成范围是[0,n)的k个随机数">3. 生成范围是[0,n)的k个随机数</h3><p>该算法首先生成顺序的n个数字，再遍历该数组，将当前索引i和 random(i, n)生成的索引对应的数字交换，保证生成不重复的随机序列，生成1000000个范围为10000000的数字5.3s可以完成</p>
-<p>[python]<br>import sys<br>import random<br>def swap(list, i, j):<br>    tmp = list[i]<br>    list[i] = list[j]<br>    list[j] = tmp</p>
-<p>def generate():<br>    number_limit = int(sys.argv[1])<br>    n = int(sys.argv[2])<br>    list = []<br>    for i in range(number_limit):<br>        list.append(i)<br>    f = open(‘numbers_input.txt’, ‘w’)<br>    for i in range(n):<br>        random_index = random.randint(i, number_limit - 1)<br>        swap(list, i, random_index)<br>        f.write(str(list[i]) + ‘\n’)<br>    f.close()<br>generate()<br>[/python]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">swap</span><span class="params">(list, i, j)</span>:</span></span><br><span class="line">    tmp = list[i]</span><br><span class="line">    list[i] = list[j]</span><br><span class="line">    list[j] = tmp</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate</span><span class="params">()</span>:</span></span><br><span class="line">    number_limit = int(sys.argv[<span class="number">1</span>])</span><br><span class="line">    n = int(sys.argv[<span class="number">2</span>])</span><br><span class="line">    list = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(number_limit):</span><br><span class="line">        list.append(i)</span><br><span class="line">    f = open(<span class="string">'numbers_input.txt'</span>, <span class="string">'w'</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        random_index = random.randint(i, number_limit - <span class="number">1</span>)</span><br><span class="line">        swap(list, i, random_index)</span><br><span class="line">        f.write(str(list[i]) + <span class="string">'\n'</span>)</span><br><span class="line">    f.close()</span><br><span class="line">generate()</span><br></pre></td></tr></table></figure>
 <h3 id="4-性能比较">4.性能比较</h3><p>运行的环境是Mac OSX 10.10，内存DDR3 4G，1.8GHz Inter Core i5<br>1. 位排序总运行时间是: 3.98s, 去掉读写文件的时间，0.47s完成排序<br>2. 快排序总运行时间: 4.71s, 去掉读写文件时间，0.63s完成排序<br>总之，快排的优势在于不限制排序数字范围，位排序限定范围，性能比快排高效。</p>
 ]]></content>
     <summary type="html">
@@ -65,7 +106,7 @@
     
       <category term="algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
     
-      <category term="Algorithm" scheme="http://www.cyanny.com/categories/Algorithm/"/>
+      <category term="Algorithm" scheme="http://www.cyanny.com/categories/algorithm/"/>
     
   </entry>
   
@@ -98,7 +139,7 @@
     
       <category term="algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
     
-      <category term="Algorithm" scheme="http://www.cyanny.com/categories/Algorithm/"/>
+      <category term="Algorithm" scheme="http://www.cyanny.com/categories/algorithm/"/>
     
   </entry>
   
@@ -171,13 +212,13 @@
     
     </summary>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
-      <category term="Hive" scheme="http://www.cyanny.com/tags/Hive/"/>
+      <category term="Hive" scheme="http://www.cyanny.com/tags/hive/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
-      <category term="Hive" scheme="http://www.cyanny.com/categories/Hadoop/Hive/"/>
+      <category term="Hive" scheme="http://www.cyanny.com/categories/hadoop/hive/"/>
     
   </entry>
   
@@ -297,7 +338,7 @@
     
       <category term="algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
     
-      <category term="Algorithm" scheme="http://www.cyanny.com/categories/Algorithm/"/>
+      <category term="Algorithm" scheme="http://www.cyanny.com/categories/algorithm/"/>
     
   </entry>
   
@@ -566,15 +607,15 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     
     </summary>
     
-      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
-      <category term="MapReduce" scheme="http://www.cyanny.com/tags/MapReduce/"/>
+      <category term="MapReduce" scheme="http://www.cyanny.com/tags/mapreduce/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
-      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/categories/hadoop/hbase/"/>
     
   </entry>
   
@@ -609,15 +650,15 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     
     </summary>
     
-      <category term="Big Data" scheme="http://www.cyanny.com/tags/Big-Data/"/>
+      <category term="Big Data" scheme="http://www.cyanny.com/tags/big-data/"/>
     
-      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
-      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/categories/hadoop/hbase/"/>
     
   </entry>
   
@@ -646,15 +687,15 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     
     </summary>
     
-      <category term="Big Data" scheme="http://www.cyanny.com/tags/Big-Data/"/>
+      <category term="Big Data" scheme="http://www.cyanny.com/tags/big-data/"/>
     
-      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
-      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/categories/hadoop/hbase/"/>
     
   </entry>
   
@@ -708,15 +749,15 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     
     </summary>
     
-      <category term="Big Data" scheme="http://www.cyanny.com/tags/Big-Data/"/>
+      <category term="Big Data" scheme="http://www.cyanny.com/tags/big-data/"/>
     
-      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
-      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/categories/hadoop/hbase/"/>
     
   </entry>
   
@@ -761,15 +802,15 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     
     </summary>
     
-      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
-      <category term="Learn" scheme="http://www.cyanny.com/tags/Learn/"/>
+      <category term="Learn" scheme="http://www.cyanny.com/tags/learn/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
-      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/categories/hadoop/hbase/"/>
     
   </entry>
   
@@ -802,7 +843,7 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     
       <category term="life" scheme="http://www.cyanny.com/tags/life/"/>
     
-      <category term="Life" scheme="http://www.cyanny.com/categories/Life/"/>
+      <category term="Life" scheme="http://www.cyanny.com/categories/life/"/>
     
   </entry>
   
@@ -839,13 +880,13 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <![CDATA[<p>在完成<a href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part1/" title="set-hadoop-hbase-part1" target="_blank" rel="external">Hadoop]]>
     </summary>
     
-      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
-      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/categories/hadoop/hbase/"/>
     
   </entry>
   
@@ -889,15 +930,15 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <![CDATA[<p>过完春节，新年开始了，闲暇的时光弄了一下Hadoop和HBase，之前也配置过Hadoop，不过是1.x的版本和现在2.2的版本不一样了，HBase的官网推荐使用Hadoop2.x，配置HBase确实花费了点时间，网上的各种教程相似但各异，自己遇到的问题和方法也值得记下来，]]>
     </summary>
     
-      <category term="HBase" scheme="http://www.cyanny.com/tags/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
-      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
+      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
-      <category term="HBase" scheme="http://www.cyanny.com/categories/Hadoop/HBase/"/>
+      <category term="HBase" scheme="http://www.cyanny.com/categories/hadoop/hbase/"/>
     
   </entry>
   
@@ -926,9 +967,9 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <![CDATA[<h3 id="Node_Express_MySQL_Scaffolding_Overview">Node Express MySQL Scaffolding Overview</h3><p>There are many node scaffoldings based on Mo]]>
     </summary>
     
-      <category term="Node.js" scheme="http://www.cyanny.com/tags/Node-js/"/>
+      <category term="Node.js" scheme="http://www.cyanny.com/tags/node-js/"/>
     
-      <category term="Nodejs" scheme="http://www.cyanny.com/categories/Nodejs/"/>
+      <category term="Nodejs" scheme="http://www.cyanny.com/categories/nodejs/"/>
     
   </entry>
   
@@ -955,13 +996,13 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <![CDATA[<p>Hadoop is a great framework for distributed large data computing. But Hadoop is not the silver bullet. Hadoop fits not very well in such ]]>
     </summary>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
-      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
+      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
     
-      <category term="Research" scheme="http://www.cyanny.com/tags/Research/"/>
+      <category term="Research" scheme="http://www.cyanny.com/tags/research/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
   </entry>
   
@@ -1024,13 +1065,13 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <![CDATA[<p>For large clusters with more than 4000 nodes, the classic MapReduce framework hit the scalability problems.<br><strong>Therefore, a group]]>
     </summary>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
-      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
+      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
     
-      <category term="Research" scheme="http://www.cyanny.com/tags/Research/"/>
+      <category term="Research" scheme="http://www.cyanny.com/tags/research/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
   </entry>
   
@@ -1101,13 +1142,13 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <![CDATA[<p>For MapReduce programming, a developer can run a MapReduce job by simply calling submit() or waitForCompletion() on a job object. This me]]>
     </summary>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
-      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
+      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
     
-      <category term="Research" scheme="http://www.cyanny.com/tags/Research/"/>
+      <category term="Research" scheme="http://www.cyanny.com/tags/research/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
   </entry>
   
@@ -1134,7 +1175,7 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <![CDATA[<h3 id="MapReduce_Introduction">MapReduce Introduction</h3><p><strong>MapReduce is a parallel programming model and an associated implementa]]>
     </summary>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
   </entry>
   
@@ -1160,13 +1201,13 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <![CDATA[<p>Reliability, Scalability and Availability are the most important three features for a distributed file system. In HDFS, persistent metada]]>
     </summary>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
-      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
+      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
     
-      <category term="Research" scheme="http://www.cyanny.com/tags/Research/"/>
+      <category term="Research" scheme="http://www.cyanny.com/tags/research/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
   </entry>
   
@@ -1192,82 +1233,13 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <![CDATA[<p>In traditional HDFS architecture, there is only one NameNode in a cluster, which maintains all of the namespace and block map. Regarding ]]>
     </summary>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
-      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
+      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
     
-      <category term="Research" scheme="http://www.cyanny.com/tags/Research/"/>
+      <category term="Research" scheme="http://www.cyanny.com/tags/research/"/>
     
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Hadoop HDFS Review]]></title>
-    <link href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-review/"/>
-    <id>http://www.cyanny.com/2013/12/05/hadoop-hdfs-review/</id>
-    <published>2013-12-05T04:00:32.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="HDFS_Basic_Concepts">HDFS Basic Concepts</h3><p>Hadoop Distributed File System, know as HDFS, is a distributed file system designed to store large data sets and streaming data sets on commodity hardware with high scalability, reliability and availability. </p>
-<p>HDFS is written in Java based on the Google File System (GFS). HDFS has many advantages compared with other distributed file systems:</p>
-<p><strong>1. Highly fault-tolerant</strong></p>
-<p>Fault-tolerant is the core architecture for HDFS. Since HDFS can run on low-cost and unreliable hardware, the hardware has a non-trivial probability of failures. HDFS is designed to carry on working without a noticeable interruption to the user in the face of such failure. HDFS provides redundant storage for massive amounts of data and Heartbeat for failure detection.<br>When one node fails, the master will detect it and re-assign the work to a different node. Restarting a node doesn’t need communicating with other data node. When failed node restart it will be added the system automatically. If a node appears to run slowly, the master can redundantly execute another instance of the same task, know as ‘speculative execution’.[more…]</p>
-<p><strong>2. Streaming Data Access</strong></p>
-<p>HDFS is designed with the most efficient data processing pattern: a write once, read-many times pattern. HDFS split large files into blocks, usually 64MB or 128MB. HDFS performs best with a modest number of large files. It prefers millions, rather than billions of files, and each of which is 100MB or more. No random writes to files is allowed. Also HDFS is optimized for large, steaming reads of files. No Random reads is allowed. </p>
-<p>A data set is generated and copied from source and replicated spread the HDFS system. It is efficient to load data from HDFS for big data analysis.</p>
-<p><strong>3. Large data sets</strong></p>
-<p>Large data means files that are MB, GB or TB in size. There are Hadoop clusters today that store PB data. HDFS support high aggregate data bandwidth and scale to hundreds of nodes in a single cluster. It also supports tens of millions of files processing.</p>
-<h3 id="HDFS_NameNode_and_DataNodes_Architecture">HDFS NameNode and DataNodes Architecture</h3><p>HDFS has a master/slave architecture. As shown in Figure1. </p>
-<p>The <strong>master node</strong> is the NameNode, which managers the file system namespace, file metadata and regulates the access interface for files by clients. A cluster has only one NameNode, which maintain the map of file metadata and  the location of blocks. </p>
-<p>The <strong>slave nodes</strong> are the DataNodes. A cluster has many DataNodes, which holds the actual data blocks.</p>
-<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.1.png" alt="hd3.1">Figure1 HDFS Architecture</a></p>
-<h3 id="NameNode">NameNode</h3><p>NameNode maintains the namespace tree, which is logical location and the mapping of file blocks to DataNodes, which is the physical location.</p>
-<p>The NameNode executes file system namespace operations like opening, closing, and renaming files and directories. It provides POSIX interface for client, so that user can access HDFS data with Unix like commands and no need to know about the function of NameNode and DataNodes. It is kind of abstraction which decrease the complexity for data access. </p>
-<p>The NameNode is the pivot in a cluster. A single NameNode greatly simplifies the architecture of HDFS. NameNode holds all of its metadata in RAM for fast access. It keeps a record of change on disk for crash recovery.</p>
-<p>However, once the NameNode fails, the cluster fails. The Single Point of Failure, known as SPOF is really a bottleneck for NameNode. Hadoop 2.0 introduces NameNode Federation and High Availability to solve the problem. We will discuss these in later section.</p>
-<h3 id="NameNode_Data_Persistent">NameNode Data Persistent</h3><p>In case of NameNode crash, the namespace information and metadata updates are stored persistently on the local disk in the form of two files: the namespace image called <strong>FsImage</strong> and the <strong>EditLog</strong>.</p>
-<p>FsImage is an image file persistently stores the file system namespace, including the file system tree and the metadata for all the files and the directories in the tree, the mapping of blocks to files and file system properties.</p>
-<p>EditLog is a transaction log to persistently record every change that occurs to file system metadata.</p>
-<p>However, we have to know there is one thing that is not persistent. The block locations we can call it Blockmap, which is stored in NameNode in-memory, not persistent on the local disk. Blockmap is reconstructed from DataNodes when the system starts by the Blockreport of DataNodes.</p>
-<p>When the system starts up, NameNode will load FsImage and EditLog from the local disk, applies the transactions from the EditLog to the in-memory representation of the FsImage, and flushes out the new version of FsImage on disk. Then it truncates the old EditLog since its transactions has been applied to the FsImage. This process is called a <strong>checkpoint</strong>.</p>
-<h3 id="Secondary_NameNode">Secondary NameNode</h3><p>To increase the reliability and availability of the NameNode, a separate daemon known as the Secondary NameNode takes care of some <strong>housekeeping</strong> tasks for the NameNode. Be careful that the Secondary NameNode is not a backup or a hot standby NameNode.</p>
-<p>The housekeeping wok is to periodically merge the namespace image FsImage with the EditLog to prevent the EditLog becoming to large. The Secondary NameNode runs on a single Node, which is a separate physical machine with as much memory and CPU requirements as the NameNode.</p>
-<p>The Secondary NameNode keeps a copy of the merged namespace image in case of the NameNode fails. But the time lags will result in data loss certainly. And during the NameNode recovery, the reconstruction of the Blockmap will cost too much time. So Hadoop works out the problem with Hadoop High Availability solution.</p>
-<h3 id="DataNodes">DataNodes</h3><p>The DataNodes holds all the actual data blocks. In sum up, it has three functions: </p>
-<ul>
-<li>Serves read and requests from the file system clients.</li>
-<li>Provides block operations, like creation, deletion and replication upon instruction from the NameNode.</li>
-<li>Make data Blockreport to NameNode periodically with lists of blocks that they are storing.</li>
-</ul>
-<p>In enterprise Hadoop deployment, each DataNode is a java program run on a separate JVM, and one instance of DataNode on one machine. </p>
-<p>In addition, NameNode is a java program run on a single machine. Written in java provides Hadoop good portability.</p>
-<h3 id="The_Communication_Protocols">The Communication Protocols</h3><p>HDFS client, NameNode and DataNodes communication protocols are TCP/IP. Client Protocol is TCP connection between a client and NameNode. The DataNode Protocol is the connection between the NameNode and the DataNodes. HDFS makes an abstraction wraps for the Client Protocol and the DataNode Protocol, which called Remote Procedure Call (RPC). NameNode never initiates any RPCs, only responds to RPC requests from clients or DataNodes.</p>
-<h3 id="HDFS_Files_Organization">HDFS Files Organization</h3><p>In traditional concepts, a disk has a block size, which is the minimum amount of data that it can read or write. Disk blocks are normally 512 bytes. While HDFS has the concept of block as well, which is a much larger unit – 64MB by default.</p>
-<p>HDFS large files are chopped up into 64MB or 128MB blocks. This brings several benefits:</p>
-<ul>
-<li>It can take advantage of any of the disks in the cluster, when the file is larger than any single disk.</li>
-<li>Making the unit of abstraction of a block simplifies the storage subsystem. HDFS will deal with blocks, rather than a file. Since blocks are a fixed size, it’s easy to calculate how many can be stored on a give disk and eliminate metadata concerns.</li>
-<li>Normally, a map task will operate on one local block at a time. Bocks spare the complexity of dealing with files.</li>
-<li>It’s easy to do data replication with blocks for providing fault tolerance and availability. Each block is replicated multiple times. Default is to replicate each block 3 times. Replicas are stored on different nodes.</li>
-<li>Block data fits well for streaming data. Files are written once and read many times. Blocks minimize the cost of seeking files.</li>
-</ul>
-<p>Although files are split into 64MB or 128MB blocks ， if a file is smaller than this full 64MB/128MB will not be split.</p>
-<h3 id="HDFS_Data_Replication">HDFS Data Replication</h3><p>HDFS each data block has a replica factor, which indicates how many times it should be replicated. Normally, the replica factor is three. Each block is replicated three times and spread on three different machines across the cluster. This provides efficient MapReduce processing because of good data locality.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.2.png" alt="hd3.2">Figure2 Block Replication</a><br>As shown in Figure2, the NameNode holds the metadata for each map of file and blocks, including filename, replica factor and block-id etc. Block data are spread on different DataNodes.</p>
-<h3 id="Data_Replica_Placement">Data Replica Placement</h3><p>Block replica placement is not random. Regarding of the reliability and the performance, HDFS policy is to put one replica on one node in the local rack, the second one on a node in a different remote rack and the third one on a different node in the same remote rack.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.3.png" alt="hd3.3">Figure 3 HDFS Racks</a><br>As shown in Figure 3, different DataNodes on different racks, Rack 0 and Rack1. Large HDFS instance run on a cluster of machines that commonly spread across many racks. Network bandwidth for intra-racks is greater than inter-racks. So the HDFS replica policy cuts the inter-rack write traffic and improves write performance. One third of replicas are on one node, two third of replicas are on one rack, the other third are distributed across the remaining racks. This policy guarantees the reliability.</p>
-<h3 id="Data_Replication_Pipeline">Data Replication Pipeline</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.4.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.4.png" alt="hd3.4">Figure 4 Data Replication Pipeline</a><br>As shown in Figure 4, it is the data flow of writing data to HDFS. A client request to request a file does not reach the NameNode immediately. It will follow the steps:<br>Step 1, the HDFS client caches the file data into a temporary local file until the local file accumulates data worth over one HDFS block size.<br>Step 2, the client contacts the NameNode, requests add a File.<br>Step 3, the NameNode inserts the file name into the file system tree and allocates a data block for it. Then responds to the client request with the identity of the DataNodes and the destination data block.<br>Step 4, suppose the HDFS file has a replication factor of three. The client retrieves a list of DataNodes, which contains that will host a replica of that block. The clients flushes the block of data from the local temporary file to the first DataNode.<br>Step 5,.the first DataNode starts receiving the data in small portions like 4KB, writes each portion to its local repository and transfers that portion to the second DataNode. Then the second DataNode retrieves the data portion, stores it and transfers to the third DataNode. Data is pipelined from the first DataNode to the third one.<br>Step 6, when a file is closed, the remaining un-flushed data in temporary local file is transferred to the DataNode. Then the client tells the NameNode that the file is closed.<br>Step 7, the NameNode commits the file creation operation into a persistent one. Be careful if the NameNode dies before the file is closed, the file is lost.<br>So far, we can see that file caching policy improves the writing performance. HDFS is write-once-read-many-times. When a client wants to read a file: It should contacts the NameNode to retrieves the file block map, including block id, block physical location. Then it communicates directly with the DataNodes to read data. The NameNode will not be a bottleneck for data transfer.</p>
-<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h3 id="HDFS_Basic_Concepts">HDFS Basic Concepts</h3><p>Hadoop Distributed File System, know as HDFS, is a distributed file system designed ]]>
-    </summary>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/Hadoop/"/>
-    
-      <category term="Learning" scheme="http://www.cyanny.com/tags/Learning/"/>
-    
-      <category term="Research" scheme="http://www.cyanny.com/tags/Research/"/>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/Hadoop/"/>
+      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
   </entry>
   
