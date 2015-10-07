@@ -21,7 +21,7 @@ date: 2015-05-04 21:57:53
 
 ### 1\. 位排序
 
-[cpp]
+```cpp
 #include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;fstream&gt;
@@ -88,11 +88,11 @@ int main(int argc, char const *argv[]) {
     int range = 10000000;
     s.sort(range, &quot;numbers_input.txt&quot;, &quot;numbers_output.txt&quot;);
 }
-[/cpp]
+```
 
 ### 2\. Quick Sort
 
-[cpp]
+```cpp
 class Solution {
 public:
     void sort(
@@ -135,13 +135,13 @@ private:
         return j;
     }
 };
-[/cpp]
+```
 
 ### 3\. 生成范围是[0,n)的k个随机数
 
 该算法首先生成顺序的n个数字，再遍历该数组，将当前索引i和 random(i, n)生成的索引对应的数字交换，保证生成不重复的随机序列，生成1000000个范围为10000000的数字5.3s可以完成
 
-[python]
+```python
 import sys
 import random
 def swap(list, i, j):
@@ -162,7 +162,8 @@ def generate():
         f.write(str(list[i]) + '\n')
     f.close()
 generate()
-[/python]
+
+```
 
 ### 4.性能比较
 
