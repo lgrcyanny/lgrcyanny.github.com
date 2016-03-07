@@ -5,15 +5,15 @@
   
   <title>CyannyLive</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Think More Action More">
+  <meta name="description" content="Keep Learning and Writing">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CyannyLive">
 <meta property="og:url" content="http://www.cyanny.com/page/6/index.html">
 <meta property="og:site_name" content="CyannyLive">
-<meta property="og:description" content="Think More Action More">
+<meta property="og:description" content="Keep Learning and Writing">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CyannyLive">
-<meta name="twitter:description" content="Think More Action More">
+<meta name="twitter:description" content="Keep Learning and Writing">
 <meta name="twitter:creator" content="@lgrcyanny">
 <link rel="publisher" href="lgrcyanny">
 <meta property="fb:admins" content="lgrcyanny">
@@ -109,11 +109,11 @@ ga('send', 'pageview');
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        44
+        45
         <span>posts</span>
       </div>
       <div class="article-info-block">
-        26
+        27
         <span>tags</span>
       </div>
     </div>
@@ -138,6 +138,148 @@ ga('send', 'pageview');
 </aside>
       
       <section id="main">
+      <article id="post-distributed-system-review-part2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/24/distributed-system-review-part2/">分布式系统总结part2</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/24/distributed-system-review-part2/">
+    <time datetime="2013-11-24T05:19:34.000Z" itemprop="datePublished">2013-11-24</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/distributed-system/">Distributed System</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/distributed-system/life/">Life</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Lamport逻辑和向量时间戳">Lamport逻辑和向量时间戳</h3><p><strong>1.Lamport逻辑时钟</strong></p>
+<p>Lamport认为，重要的不是所有进程在时间上完全一致，而是它们在事件的发生顺序上要达成一致。</p>
+<p>先发生的定义： a → b 表示a在b之前发生，此时 C(a) &lt; C(b), a b可以是同一个进程中的两个事件或进程间的消息发送事件。并发事件没有先后关系。</p>
+<p>Lamport算法：[more…]</p>
+<ul>
+<li>遵循事件的先发生关系，每个消息都应携带根据发送者时钟的发送时间，当消息到达并接收时，接收者时钟显示的时间比消息发送者时间早时，接收者就将时钟调到比发送者者的时间大1的值。</li>
+<li>为了满足全局时间的需要：在每两个事件之间，时钟必须至少滴答一次，如果一个进程以相当快的速度发送或者接收两个消息，那么他得时钟必须在这之间至少滴答一次。</li>
+<li>两个事件不会精确地同时发生</li>
+</ul>
+<p><strong>2.Lamport逻辑时钟的缺陷</strong></p>
+<p>不能捕捉因果关系，而向量时间戳可以。</p>
+<ul>
+<li>Lamport时间戳导致分布式系统中所有事件都要经过排序以具有这样的关系：如果a发生在b之前， 那么C(a) &lt; C(b)</li>
+<li>Lamport时间戳只能捕捉事件发生的先后关系，而不能捕捉因果关系。C(a) &lt; C(b)不能说明a事件发生在b事件之前。 因果关系需要通过向量时间戳来捕获。</li>
+</ul>
+<p><strong>3.向量时间戳</strong></p>
+<p>因果关系：如果VT(a) &lt; VT(b) 则a在因果上处于事件b之前。向量时间戳是让每个进程P都维护一个向量V来完成，该向量的性质如下：</p>
+<p>a)Vi[i]是到目前为止进程Pi发生的事件的数量。 </p>
+<p>b)如果Vi[j]=k，那么进程Pi知道进程Pj中已经发生了k个事件</p>
+<p>接收者可以通过消息m的时间戳知道其他进程中有多少事件发生在它之前，消息m在因果上可能依赖于这些事件。</p>
+<p>当Pj收到消息m，调整自己的向量，将每项Vj[k]设置为<strong>max{Vj[k], vt[k]}</strong>, 然后  <strong>Vj[i]增加1</strong>。</p>
+<p>需要会看图计算向量时间戳：<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System01.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System01-580x308.png" alt="Distributed System01"></a><br>向量时间戳中只有各个分量都是小于关系时存在因果关系，而平行关系是并发关系。</p>
+<h3 id="选举算法">选举算法</h3><p><strong>1. 欺负算法(Bully Algorithm)</strong></p>
+<p>算法：当一个进程发现协调者不再响应请求时，它就发起一个选举：</p>
+<p>P向所有编号比它大的进程发送一个election消息； </p>
+<p>如果无人响应，P获胜成为协调者； </p>
+<p>如果有编号比它大的进程响应，则响应者接管选举工作。P的工作完成。</p>
+<p>当以前崩溃的进程恢复时，它将主持一次选举，如果该进程是当前正在运行的进程中进程号最大的，就成为协调者。</p>
+<p>总之进程号最大的总是取胜。</p>
+<p><strong>2.环算法——不使用令牌环</strong></p>
+<p>假设进程按照物理和逻辑顺序进行了排序，那么每个进程就知道它的后继者是谁了。</p>
+<p>当任何一个进程注意到协调者不工作时，它就构造一个带有它自己的进程号的election消息，并将该消息发送给它的后继者。</p>
+<p>如果后继者崩溃了，发送者沿着此环跳过它的后继者发送给下一个进程，或者再下一个，直到找到一个正在运行进程。</p>
+<p>在每一步中，发送者都将自己的进程号加到该消息列表中，以使自己成为协调者的候选人之一。 </p>
+<p>最终，消息返回到发起此次选举的进程。当发起者进程接收到一个包含自己进程号的消息时，它识别出这个事件。此时，消息类型变成coordinator消息，并再一次绕环运行，向所有进程通知谁是协调者(成员列表中进程号最大的那个)以及新环中的成员都有谁。这个消息再循环一周后被删除，随后每个进程都恢复原来的工作。</p>
+<h3 id="互斥算法">互斥算法</h3><h4 id="1-_集中式算法">1. 集中式算法</h4><p>(1).算法</p>
+<p>选举一个进程作为协调者，如最大网络地址号的机器上的进程。</p>
+<p>无论何时一个进程要进入临界区，它都要向协调者发送一个请求消息，说明它想要进入哪个临界区并请求允许。</p>
+<p>如果没有进程在临界区就发送“允许”应答，该进程进入临界区，如果有进程在临界区，就把该消息放入请求队列，发送“拒绝请求”的应答。</p>
+<p>当临界区中的进程退出临界区，向协调者发送“释放”消息，协调者会从请求队列中取出第一个进程，发送“允许”进入的消息。</p>
+<p>(2)优点</p>
+<p>实现了互斥，每个时刻，协调者只让一个进程进入临界区。</p>
+<p>很公平，没有进程会永远阻塞，不会饥饿，不会死锁</p>
+<p>容易实现，每使用一次临界区，只需要三条消息（请求，允许，释放）</p>
+<p>可以管理临界区或更一般的资源<br>(3).缺点</p>
+<p>协调者是单点故障，在规模较大的系统中，单个协调者会成为性能瓶颈.</p>
+<p>如果进程在发出请求之后阻塞，那么请求者就不能区分“拒绝进入”和协调者已经崩溃的两种情况。</p>
+<h4 id="2-分布式算法">2.分布式算法</h4><p>1)Lamport算法</p>
+<ul>
+<li>当进程Si想进入临界区，向其他n-1个进程广播请求REQUEST(tsi, i), 并把请求放入自己请求队列request_queuei。</li>
+<li>其他n-1个进程受到请求REQUEST(tsi, i)后，把该请求放入各自的请求队列request_queuej， 并向进程Si响应一个带时间戳的REPLY消息。</li>
+<li><p>进程Si进入临界区，当且仅当满足以下两个条件：</p>
+<pre><code>*   Si从其他进程收到的消息的时间戳都大于自己的请求时间戳<span class="comment">(tsi, i)</span>
+</code></pre><ul>
+<li>Si的请求是请求队列request_queuei的第一个请求</li>
+</ul>
+</li>
+<li><p>当进程Si退出临界区：从请求队列request_queuei中删除该请求，并向其他n-1个进程广播一个带时间戳的释放临界区的消息。其他n-1个进程收到该消息后，从请求队列request_queuej中删除该请求</p>
+</li>
+</ul>
+<p>在Lamport算法中，进程Request, REPLY, RELEASE一共发送了3(n-1)条消息，其实在一个接收者收到消息后，如果不同意Si进入临界区，没有必要再发送确认。<br>可以改进算法在2(n-1)到3(n-1)之间</p>
+<p>2)Ricart和Agrwala算法，改进Lamport算法</p>
+<ul>
+<li>当一个进程想进入一个临界区时，它构造一个消息，其中包含它要进入的临界区的名字、它的进程号和当前时间。然后它将消息发送给所有其他的进程，理论上讲也包括它自己。</li>
+<li>当一个进程接收到来自另一个进程的请求消息时，它根据自己与消息中的临界区相关的状态来决定它要采取的动作。可以分为三种情况：第一，若接收者不在临界区也不想进入临界区，它就向发送者发送一个OK消息。第二，若接收者已经在临界区，它不进行应答，而是将该请求放入队列中。第三，如果接收者想进入临界区但尚未进入时，它将对收到的消息的时间戳和包含在它发送给其余进程的消息中的时间戳进行比较。时间戳最早的那个进程获胜。如果收到的消息的时间戳比较早，那么接收者向发送者发回一个OK消息。如果它自己的消息的时间戳比较早，那么接收者将接收到的请求放入队列中，并且不发送任何消息。</li>
+<li>在发送了请求进入临界区的请求消息后，进程进行等待，直到其他所有进程都发回OK消息为止。一旦得到所有进程的允许，它就可以进入临界区了。当它退出临界区时，它向其他队列中的所有进程发送OK消息，并将请求从队列中删除。（也就是说一个进程进入临界区的条件是收到了n-1个OK消息）</li>
+</ul>
+<p>算法优点：不会饥饿，死锁；每次进入临界区仅需要2(n-1)条消息；没有单点故障</p>
+<p>算法缺点：第一，单点故障变成了n点故障，如果任何一个进程崩溃，不能应答OK，这种不应答被错误的解释为拒绝请求，阻塞了所有进程进入任何一个临界区。第二，网络通信开销多于集中式算法；第三，要么必须使用组通信原语，要么每个进程必须维护组成员清单；第四，要求所有进程参与做出与进入临界区有关的所有决定，强迫每个进程都承担这样的负载是不可能的，可以在得到大多数进程OK的情况下进入临界区，但实现复杂。</p>
+<h4 id="3-令牌环算法">3.令牌环算法</h4><p>(1)算法</p>
+<ul>
+<li>假设：总线式的网络中，进程没有固定的顺序，环中为每个进程分配了一个位置，每个进程都直到谁在它的下一个位置。</li>
+<li>当环初始化时，进程0得到一个令牌token。该令牌绕着环运行，用点对点发送消息的方式把它从进程k传递到进程k+1(以环大小为模)。进程从它邻近的进程得到令牌后，检查自己是否要进入临界区。如果自己要进入临界区，那么它就进入临界区，做它要做的工作，然后离开临界区。在该进程退出临界区后，它沿着环继续传递令牌。不允许使用同一个令牌进入另一个临界区。</li>
+<li>如果一个进程得到了邻近进程传来的令牌，但是它并不想进入临界区，那么它只是将令牌沿环往下传递。因而，当没有进程想进入临界区时，令牌就绕环高速传递。</li>
+</ul>
+<p>(2)优点</p>
+<p>没有饥饿现象：任何时候都只有一个进程有令牌，并且令牌以固定的顺序循环传递。</p>
+<p>(3)缺点</p>
+<p>如果令牌丢失，必须重新生成令牌.</p>
+<p>检测令牌丢失很困难，网络中令牌出现两次的时间间隔不确定，没有发现令牌可能是丢失，也可能是某个进程在占用。</p>
+<p>如果有进程崩溃，该算法会有问题。(恢复方法： 要求每个进程维护进程环的配置信息， 每个进程收到令牌后发出确认信息，当它尝试把令牌传递给它的邻近进程时，如果没有收到确认，该进程就崩溃了，从组中删除该进程，继续传递令牌。)</p>
+<h4 id="三种互斥算法的比较">三种互斥算法的比较</h4><p>（1）程进入临界区，需要发送的消息数目不同</p>
+<p>集中式算法: 3条消息，请求，允许，释放，简单而有效.</p>
+<p>分布式算法：2(n-1)条</p>
+<p>令牌环算法: 1~(n-1)条</p>
+<p>（2）进入临界区之前的消息延迟不同<br>集中式算法: 2条消息，请求，允许。</p>
+<p>分布式算法：2(n-1)条</p>
+<p>令牌环算法: 0~(n-1)条</p>
+<p>（3）三种算法在这三种算法在进程崩溃的情况下都损失惨重。为了避免进程崩溃造成的系统瘫痪，必须引入专门的措施和额外的复杂性。</p>
+<h3 id="资源">资源</h3><p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part1/" title="分布式系统总结part1" target="_blank" rel="external">分布式系统总结part1 中间件，进程迁移，移动通信失效，名称解析，移动实体定位</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part2/" title="分布式系统总结part2" target="_blank" rel="external">分布式系统总结part2 Lamport同步与向量时间戳，两大选举算法，三大互斥算法</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part3/" title="分布式系统总结part3" target="_blank" rel="external">分布式系统总结part3 复制和一致性(以数据和以客户为中心的一致性)，容错（拜占庭将军问题，两阶段与三阶段提交）</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part4/" title="分布式系统总结part4" target="_blank" rel="external">分布式系统总结part4 Petri网解决哲学家问题和生产者、消费者问题</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part2/" data-id="cilge5l6l005sa2secx7nzgwd" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/24/distributed-system-review-part2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
       <article id="post-distributed-system-review-part1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -299,7 +441,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part1/" data-id="cifgww9ag005wuos6pbzznlbg" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part1/" data-id="cilge5l6n005wa2se8bly7mef" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/24/distributed-system-review-part1/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -400,7 +542,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/16/netkit-filesystem-custom-cutting/" data-id="cifgww9810027uos6xyfippoy" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/16/netkit-filesystem-custom-cutting/" data-id="cilge5l480027a2se8ammqnad" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/16/netkit-filesystem-custom-cutting/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -591,7 +733,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/13/ipsec-architecture/" data-id="cifgww987002huos6wy8tbmo2" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/13/ipsec-architecture/" data-id="cilge5l4f002ha2sescwt3la5" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/13/ipsec-architecture/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -668,7 +810,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/" data-id="cifgww98g002wuos6eubbr021" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/" data-id="cilge5l4q002wa2se06cxg0wc" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -763,96 +905,12 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" data-id="cifgww98b002puos61alf6exy" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" data-id="cilge5l4k002pa2se9ins5ph9" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vps/">VPS</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-    
-      <article id="post-how-to-start-learning-node-js" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/11/10/how-to-start-learning-node-js/">How to start learning Node.js</a>
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/11/10/how-to-start-learning-node-js/">
-    <time datetime="2013-11-10T12:36:45.000Z" itemprop="datePublished">2013-11-10</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/nodejs/">Nodejs</a>
-  </div>
-
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>I have always wanted to do some meaningful projects, not the homework project at college, not the debug working at company. I just wanted to start a meaningful project for interest, or for fun. Maybe it will become a big success. and I believe in that. And recently I am busy with a spark prject based on Node.js.</p>
-<p>Node.js is a platform built on Chrome’s JavaScript V8 engine. The event-driven, non-blocking I/O model makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.</p>
-<p>In short, I think the advantages is:[more…]</p>
-<ul>
-<li>Same language on both server side and front side</li>
-<li>Event-driven and callback feature gains perfect performance</li>
-<li>With WebSocket, you can built great real-time app, like online chat room</li>
-<li>Worth to learn, it’s new, and will give you a new perspective of web development</li>
-</ul>
-<h2 id="Beginner_Guides">Beginner Guides</h2><p><a href="http://nodeguide.com/beginner.html" target="_blank" rel="external">1. Felix’s Node.js Beginners Guide</a></p>
-<p>This a short blog that can help you overview Node.js, learn some basics of Node.js, you can finish it within 30 min.<br>The Module system of node is worth to dig, read the <a href="http://nodejs.org/api/modules.html" target="_blank" rel="external">api</a>, especially the concept of <strong>exports</strong> and the <strong>module.exports</strong></p>
-<p><a href="http://nodeguide.com/style.html#class-names" target="_blank" rel="external">2. Node style guide</a></p>
-<p>Before programming, learn the programming style of node.</p>
-<p><a href="https://npmjs.org/doc/coding-style.html" target="_blank" rel="external">NPM coding style</a><br>This is the npm coding style. At the beginning, indentation with 2 spaces make me uneasy. But now I am used to it.</p>
-<p><a href="http://www.nodebeginner.org/" target="_blank" rel="external">3. The Node Beginning Book</a></p>
-<p>The beginning book is really great, Even though it has more than 70 pages, I finished it and learned a lot. I followed the example in the book, build a simple blog demo. And the code in the book had some tiny issue. I have uploaded the demo to my github, <a href="https://github.com/lgrcyanny/nodedemo" target="_blank" rel="external">node-simle-blog-demo</a>.<br>BTW, the book will teach you how to run linux command by node <a href="http://nodejs.org/api/child_process.html" target="_blank" rel="external">Child Processes</a>, sounds interesting.</p>
-<h2 id="Learning_more_details">Learning more details</h2><p><a href="http://expressjs.com/guide.html" target="_blank" rel="external">4. Express guide</a></p>
-<p>After learning how to build an application stack from the beginner book, you can start express now, finish the guide, understand the basics of the great web framework express. BTW, in node community, there are large amount of web framework. Like Tower.js, meteor.js, derby and so on. But express is the most popular and is supported by many people. I recommend it.</p>
-<p><a href="http://www.manning.com/cantelon/" target="_blank" rel="external">5. Node.js in Action</a></p>
-<p>The book recommended by express guide has more than 400 pages. Don’t withdraw, insist on it, you can follow the book example, and learn more details about node. I haven’t finish it, because I want to start my project more quickly, I just walked to Chapter4.<br>The <strong>callback</strong> model and <strong>event driven</strong> explained in the book is great. Especially the muti-chat room by socket.io gave me a deep impression.</p>
-<p><a href="http://howtonode.org/express-mongodb" target="_blank" rel="external">6. Build a express mongo blog</a></p>
-<p>Follow the blog and build a simple blog with mongodb+express+jade, the code of jade for the blog has a tiny issue <a href="http://www.devthought.com/code/use-jade-blocks-not-layouts/" target="_blank" rel="external">here</a>, my demo is here <a href="https://github.com/lgrcyanny/expressblog" target="_blank" rel="external">express blog</a></p>
-<p>7. Now I am fed up with tutorials, I decided to build something by myself. I build a file uploader/downloader with express. <a href="https://github.com/lgrcyanny/ExpressFileManager" target="_blank" rel="external">FileManager</a></p>
-<h2 id="Build_the_Web_project">Build the Web project</h2><p><a href="https://github.com/madhums/nodejs-express-mongoose-demo" target="_blank" rel="external">8. Node Express mongoose demo</a></p>
-<p>I build PartyTime based on the demo. The demo is a blog with passport and authentication function. Worth to learn</p>
-<p><a href="http://mongoosejs.com/" target="_blank" rel="external">9. Mongoose</a></p>
-<p>Although mongodb provide nodejs api, I think the middleware is more better than the origin mongodb API</p>
-<p><a href="http://docs.mongodb.org/manual/" target="_blank" rel="external">10. Mongodb Manual</a></p>
-<p>Lean basics about mongodb, especially the Data Modeling method.</p>
-<h2 id="Others">Others</h2><p><a href="https://github.com/joyent/node" target="_blank" rel="external">11. Node github</a></p>
-<p><a href="http://docs.nodejitsu.com/" target="_blank" rel="external">12. A guide for api usage</a></p>
-<p><a href="http://www.nodecloud.org/" target="_blank" rel="external">13. Node Cloud</a><br>This is a resource directory gathering sites related to Node.js.</p>
-<p><a href="https://npmjs.org/" target="_blank" rel="external">14. NPM</a>  Finding and uploading npm package.</p>
-<p>15. Some api worth to read: Modules, Child Processes, Crypto, File System, HTTP, Events, Path, QueryString, URL.</p>
-<h2 id="Good_Luck!">Good Luck!</h2><p>Many tutorials, no matter how to lean, enjoy the learning process and the final sucess! Don’t waiting for finishing every details before starting your project.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/10/how-to-start-learning-node-js/" data-id="cifgww989002kuos6vrypdezq" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/11/10/how-to-start-learning-node-js/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li></ul>
 
     </footer>
   </div>
@@ -873,6 +931,15 @@ ga('send', 'pageview');
     <h3 class="widget-title">recents</h3>
     <div class="widget">
       <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/learning/">Learning</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/learning/scala/">Scala</a></p>
+              <p class="item-title"><a href="/2016/03/06/programming-in-scala-overview-key-note/" class="title">Programming In Scala Overview Key Note</a></p>
+              <p class="item-date"><time datetime="2016-03-06T10:01:42.000Z" itemprop="datePublished">2016-03-06</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -910,15 +977,6 @@ ga('send', 'pageview');
             </div>
           </li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">Algorithm</a></p>
-              <p class="item-title"><a href="/2014/04/12/dijkstra-algorithm-in-java/" class="title">Dijkstra Algorithm</a></p>
-              <p class="item-date"><time datetime="2014-04-12T03:55:04.000Z" itemprop="datePublished">2014-04-12</time></p>
-            </div>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -928,7 +986,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -937,7 +995,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">tag cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 10px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
     </div>
   </div>
 
@@ -950,7 +1008,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2015 Cyanny Liang
+      &copy; 2016 Cyanny Liang
     </div>
   </div>
 </footer>
