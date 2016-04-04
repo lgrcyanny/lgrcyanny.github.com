@@ -21,7 +21,7 @@ categories:
 - Grow new types, such as BigInt
 - Grow new control structures, such as actor based api
 
-## 2. What makes scala scalable**
+## 2. What makes scala scalable
 fusion object-oriented and functional programming
 
 - **Object-Oriented**
