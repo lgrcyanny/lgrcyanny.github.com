@@ -103,17 +103,17 @@ ga('send', 'pageview');
   	<div class="base-info profile-block">
 		  <img id="avatar" src="/css/images/avatar.png">
       <h2 id="name">Cyanny Liang</h2>
-      <h3 id="title">Big Data &amp; Cloud Computing</h3>
+      <h3 id="title">Big Data &amp; Distributed Computing</h3>
       <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
       <a id="follow" href="https://github.com/lgrcyanny/">FOLLOW</a>
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        45
+        46
         <span>posts</span>
       </div>
       <div class="article-info-block">
-        27
+        29
         <span>tags</span>
       </div>
     </div>
@@ -138,6 +138,111 @@ ga('send', 'pageview');
 </aside>
       
       <section id="main">
+      <article id="post-hadoop-mapreduce-1-framework" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/05/hadoop-mapreduce-1-framework/">Hadoop MapReduce 1 Framework</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/05/hadoop-mapreduce-1-framework/">
+    <time datetime="2013-12-05T08:11:12.000Z" itemprop="datePublished">2013-12-05</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>For MapReduce programming, a developer can run a MapReduce job by simply calling submit() or waitForCompletion() on a job object. This method abstracts the job processing details away from developer. But there is a great of job processing behind the scene that we will consider in this section.<br>Hadoop 2.x has released new MapReduce framework implementation called YARN or MapReduce 2, for traditional MapReduce is the classic framework which is also called MapReduce 1. YARN is compatible with MapReduce 1. [more…]</p>
+<h3 id="MapReduce_1_high_level_overview">MapReduce 1 high level overview</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.2.png" alt="hd6.2">Figure1 Classic MapReduce Framework</a><br>As shown in Figure 1, there are four independent entities in the framework:</p>
+<ul>
+<li>Client, which submits the MapReduce Job</li>
+<li>JobTracker, which coordinates and controls the job run. It is a Java class called JobTracker.</li>
+<li>TaskerTrackers, which run the task that is split job, control the specific map or reduce task, and make reports to JobTracker. They are Java class as well.</li>
+<li>HDFS, which provides distributed data storage and is used to share job files between other entities.</li>
+</ul>
+<p>As the Figure 1 show, a MapReduce processing including 10 steps, and in short, that is:</p>
+<ul>
+<li>The clients submit MapReduce jobs to the JobTracker. </li>
+<li>The JobTracker assigns Map and Reduce tasks to other nodes in the cluser</li>
+<li>These nodes each run a software daemon TaskTracker on separate JVM.</li>
+<li>Each TaskTracker actually initiates the Map or Reduce tasks and reports progress back to the JobTracker</li>
+</ul>
+<h3 id="Job_Submission">Job Submission</h3><p>When the client call submit() on job object. An internal JobSubmmitter Java Object is initiated and submitJobInternal() is called. If the clients calls the waiForCompletion(), the job progresss will begin and it will response to the client with process results to clients until the job completion.<br>JobSubmmiter do the following work:</p>
+<ul>
+<li>Ask the JobTracker for a new job ID.</li>
+<li>Checks the output specification of the job.</li>
+<li>Computes the input splits for the job.</li>
+<li>Copy the resources needed to run the job. Resources include the job jar file, the configuration file and the computed input splits. These resources will be copied to HDFS in a directory named after the job id. The job jar will be copied more than 3 times across the cluster so that TaskTrackers can access it quickly.</li>
+<li>Tell the JobTracker that the job is ready for execution by calling submitJob() on JobTracker.</li>
+</ul>
+<h3 id="Job_Initialization">Job Initialization</h3><p>When the JobTracker receives the call submitJob(), it will put the call into an internal queue from where the job scheduler will pick it up and initialize it. The initialization is done as follow:</p>
+<ul>
+<li>An job object is created to represent the job being run. It encapsulates its tasks and bookkeeping information so as to keep track the task progress and status.</li>
+<li>Retrieves the input splits from HDFS and create the list of tasks, each of which has task ID. JobTracker creates one map task for each split, and the number of reduce tasks according to configuration.</li>
+<li>JobTracker will create the setup task and cleanup task. Setup task is to create the final output directory for the job and the temporary working space for the task output. Cleanup task is to delete the temporary working space for the task ouput.</li>
+<li>JobTracker will assign tasks to free TaskTrackers</li>
+</ul>
+<h3 id="Task_Assignment">Task Assignment</h3><p>TaskTrackers send heartbeat periodically to JobTracker Node to tell it if it is alive or ready to get a new task. The JobTracker will allocate a new task to the ready TaskTracker. Task assignment is as follows:</p>
+<ul>
+<li>The JobTracker will choose a job to select the task from according to scheduling algorithm, a simple way is chosen on a priority list of job. After chose the job, the JobTracker will choose a task from the job.</li>
+<li>TaskTrackers has a fixed number of slots for map tasks and for reduces tasks which are set independently, the scheduler will fits the empty map task slots before reduce task slots.</li>
+<li>To choose a reduce task, the JobTracker simply takes next in its list of yet-to-be-run reduce task, because there is no data locality consideration. But map task chosen depends on the data locality and TaskTracker’s network location.</li>
+</ul>
+<h3 id="Task_Execution">Task Execution</h3><p>When the TaskTracker has been assigned a task. The task execution will be run as follows:</p>
+<ul>
+<li>Copy jar file from HDFS, copy needed files from the distributed cache on the local disk.</li>
+<li>Creates a local working directory for the task and ‘un-jars’ the jar file contents to the direcoty</li>
+<li>Creates a TaskRunner to run the task. The TaskRunner will lauch a new JVM to run each task.. TaskRunner fails by bugs will not affect TaskTracker. And multiple tasks on the node can reuse the JVM created by TaskRunner.</li>
+<li>Each task on the same JVM created by TaskRunner will run setup task and cleanup task.</li>
+<li>The child process created by TaskRunner will informs the parent process of the task’s progress every few seconds until the task is complete.</li>
+</ul>
+<h3 id="Progress_and_Status_Updates">Progress and Status Updates</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.3.png" alt="hd6.3">Figure 2 Classic MapReduce Framework Progress and Status Updates</a><br>After clients submit a job. The MapReduce job is a long time batching job. Hence the job progress report is important. What consists of the Hadoop task progress is as follows:</p>
+<ul>
+<li>Reading an input record in a mapper or reducer</li>
+<li>Writing an output record in a mapper or a reducer</li>
+<li>Setting the status description on a reporter, using the Reporter’s setStatus() method</li>
+<li>Incrementing a counter</li>
+<li>Calling Reporter’s progress()</li>
+</ul>
+<p><strong>As shown in Figure 2, when a task is running, the TaskTracker will notify the JobTracker its task progress by heartbeat every 5 seconds.</strong></p>
+<p>And mapper and reducer on the child JVM will report to TaskTracker with it’s progress status every few seconds. The mapper or reducers will set a flag to indicate the status change that should be sent to the TaskTracker. The flag is checked in a separated thread every 3 seconds. If the flag sets, it will notify the TaskTracker of current task status.<br>The JobTracker combines all of the updates to produce a global view, and the Client can use getStatus() to get the job progress status.</p>
+<h3 id="Job_Completion">Job Completion</h3><p>When the JobTracker receives a report that the last task for a job is complete, it will change its status to successful. Then the JobTracker will send a HTTP notification to the client which calls the waitForCompletion(). The job statistics and the counter information will be printed to the client console. Finally the JobTracker and the TaskTracker will do clean up action for the job.</p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-1-framework/" data-id="cimlpupxz004asnsemhna0y6e" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-1-framework/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
       <article id="post-hadoop-mapreduce-overview" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -185,7 +290,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-overview/" data-id="cilge5l5a0043a2se44833n6q" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-overview/" data-id="cimlpupxp0043snserltn0abr" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-overview/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -243,7 +348,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/" data-id="cilge5l5p004pa2se9uyzkb3m" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/" data-id="cimlpupye004psnsenu8rxfs4" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -303,7 +408,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-federation/" data-id="cilge5l5r004ua2se8e402osc" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-federation/" data-id="cimlpupyh004usnseelktw4ul" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-federation/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -400,7 +505,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-review/" data-id="cilge5l5m004ka2se59jv7gdd" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-review/" data-id="cimlpupyb004ksnse0w2sarj6" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-review/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -502,142 +607,12 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-overview/" data-id="cilge5l57003xa2sepxs6qtde" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-overview/" data-id="cimlpupxl003xsnsepg9c6s68" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-overview/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-    
-      <article id="post-graph-dfs-bfs" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/12/02/graph-dfs-bfs/">Graph DFS and BFS</a>
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/12/02/graph-dfs-bfs/">
-    <time datetime="2013-12-02T14:26:47.000Z" itemprop="datePublished">2013-12-02</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/algorithm/">Algorithm</a>
-  </div>
-
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>图论是一个重要的部分，以前数据结构课上过，没有作为考试要求，所以很不太熟悉，尤其是没有实现。考完试，无聊中重新看了看，想起以前在eBay，某帅哥突然开玩笑说DFS和BFS嘛，当然要会呀，Cyanny你会的吧，我说忘了，其实细细想起来，还真没有写过代码。In my view，没有实现过，就等于不会，今天实现了BFS和DFS，深深赞一个算导，说得明白和透彻，现在的算法书太多，这算是一本很不错的经典，厚了点，但要是能厚着脸皮看完确实受益匪浅。</p>
-<h3 id="广度优先搜索BFS">广度优先搜索BFS</h3><p>其算法思想简介：<br>1. 利用队列<br>2. 每一个Vertex引入三个变量<br>color：WHITE 表示没有访问过，GREY 表示发现，BLACK 表示完成访问<br>parent: 父亲<br>d: 表示从root到该顶点的长度<br>3. 为了实现方便，我采用int来标识每一个顶点，采用邻接表来表示graph<br>深度优先搜索可以生成深度优先树，生成单源最短路径，即从root到每一个顶点的长度是最短路径。[more…]<br>BFS可以采用邻接矩阵表示，其复杂度较高为O(n^2)<br>如果采用邻接表表示，其复杂度为O(E+V),即顶点个数+边的个数<br>[java]<br>public void BFS(int root) {<br>    vertexes = new Vertex[n];<br>    // Initialize each vertex,<br>    // Each vertex has three segment: parent, d, color<br>    for (int i = 0; i &lt; n; i++) {<br>        vertexes[i] = new Vertex(i);<br>    }</p>
-<pre><code>Vertex rootv = vertexes[root];
-rootv.<span class="keyword">d</span> = 0;
-rootv.color = Color.GREY;
-queue.add(rootv);
-
-<span class="keyword">while</span> (!queue.isEmpty()) {
-    Vertex <span class="keyword">u</span> = queue.remove(0);
-    ArrayList&amp;lt;Integer&amp;gt; <span class="keyword">list</span> = <span class="keyword">graph</span>.<span class="literal">get</span>(<span class="keyword">u</span>.vertex);
-    <span class="keyword">for</span> (int i = 0; i &amp;lt; <span class="keyword">list</span>.size(); i++) {
-        Vertex temp = vertexes[<span class="keyword">list</span>.<span class="literal">get</span>(i)];
-        <span class="comment">// Make sure each vertex enqueue only once</span>
-        <span class="keyword">if</span> (temp.color == Color.WHITE) {
-            temp.parent = <span class="keyword">u</span>;
-            temp.<span class="keyword">d</span> = <span class="keyword">u</span>.<span class="keyword">d</span> + 1;
-            temp.color = Color.GREY;
-            queue.add(temp);
-        }                
-    }
-        <span class="keyword">u</span>.color = Color.BLACK;
-    res.add(<span class="keyword">u</span>);
-}
-</code></pre><p>}<br>[/java]<br><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/graph/GraphBFS.java" title="BFS Source" target="_blank" rel="external">BFS Source Code</a></p>
-<h3 id="深度优先搜索DFS">深度优先搜索DFS</h3><p>广度优先搜索DFS，基本算法思想<br>1. 采用递归，或stack来实现<br>2. 每一个Vertex引入四个变量<br>color：WHITE 表示没有访问过，GREY 表示发现，BLACK 表示完成访问<br>parent: 父亲<br>timestamp1: 表示第一次访问该顶点的时间戳<br>timestamp2:表示访问结束时的时间戳<br>3. 为了实现方便，我采用int来标识每一个顶点，采用邻接表来表示graph</p>
-<p>DFS采用邻接表表示Graph来实现，复杂度O(V+E), 矩阵复杂度依然不好，为O（n^2）<br>DFS是从多个源开始，最终会生成由多个源作为root的森林，即深度优先树（深度优先森林）。<br>同时引入时间戳，是为了获得DFS的进展情况，如果不需要时间戳，只是想简单地打印每一个顶点，可以不用。</p>
-<p>以下是递归的实现方法：<br>[java]<br>    public void DFS() {<br>        int i = 0;<br>        for (i = 0; i &lt; n; i++) {<br>            vertexes[i] = new Vertex(i);<br>        }<br>        for (i = 0; i &lt; n; i++) {<br>            Vertex u = vertexes[i];<br>            if (u.color == Color.WHITE) {<br>                visitDFS(u);<br>            }<br>        }<br>    }</p>
-<pre><code>private void visitDFS(Vertex <span class="keyword">u</span>) {
-    res.add(<span class="keyword">u</span>);
-    <span class="keyword">u</span>.color = Color.GREY;
-    <span class="keyword">timer</span>++;
-    <span class="keyword">u</span>.timestamp1 = <span class="keyword">timer</span>;
-    ArrayList&amp;lt;Integer&amp;gt; adjList = <span class="keyword">graph</span>.<span class="literal">get</span>(<span class="keyword">u</span>.vertex);
-    <span class="keyword">for</span> (int i = 0; i &amp;lt; adjList.size(); i++) {
-        Vertex v = vertexes[adjList.<span class="literal">get</span>(i)];
-        <span class="keyword">if</span> (v.color == Color.WHITE) {
-            v.parent = <span class="keyword">u</span>;
-            visitDFS(v);
-        }
-    }
-    <span class="keyword">u</span>.color = Color.BLACK;
-    <span class="keyword">timer</span>++;
-    <span class="keyword">u</span>.timestamp2 = <span class="keyword">timer</span>;
-}
-</code></pre><p>[/java]</p>
-<p>以下是采用栈的实现方法改写 “visitDFS”：<br>[java]<br>    /**</p>
-<pre><code><span class="comment"> * DFS with iterative method </span>
-<span class="comment"> * Make use of stack</span>
-<span class="comment"> * @param u</span>
-<span class="comment"> */</span>
-private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
-    res.add(<span class="keyword">u</span>);
-    <span class="keyword">u</span>.color = Color.GREY;
-    <span class="keyword">timer</span>++;
-    <span class="keyword">u</span>.timestamp1 = <span class="keyword">timer</span>;
-    <span class="keyword">stack</span>.add(<span class="keyword">u</span>);
-    <span class="keyword">while</span>(!<span class="keyword">stack</span>.isEmpty()) {
-        Vertex v = <span class="keyword">stack</span>.remove(<span class="keyword">stack</span>.size() - 1);
-        ArrayList&amp;lt;Integer&amp;gt; adjList = <span class="keyword">graph</span>.<span class="literal">get</span>(v.vertex);
-        <span class="keyword">for</span> (int i = 0; i &amp;lt; adjList.size(); i++) {
-            Vertex temp = vertexes[adjList.<span class="literal">get</span>(i)];
-            <span class="keyword">if</span> (temp.color == Color.WHITE) {
-                temp.parent = v;
-                temp.color = Color.GREY;
-                <span class="keyword">timer</span>++;
-                temp.timestamp1 = <span class="keyword">timer</span>;
-                res.add(temp);
-                <span class="keyword">stack</span>.add(temp);
-            }
-        }
-        v.color = Color.BLACK;
-        <span class="keyword">timer</span>++;
-        v.timestamp2 = <span class="keyword">timer</span>;
-    }
-    <span class="keyword">u</span>.color = Color.BLACK;
-    <span class="keyword">timer</span>++;
-    <span class="keyword">u</span>.timestamp2 = <span class="keyword">timer</span>;
-}
-</code></pre><p>[/java]</p>
-<p><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/graph/GraphDFS.java" title="DFS Source" target="_blank" rel="external">DFS Source Code</a></p>
-<p>最终发现，起始实现起来代码不多，重在想法。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/02/graph-dfs-bfs/" data-id="cilge5l61004za2sebf49gtnc" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/12/02/graph-dfs-bfs/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
 
     </footer>
   </div>
@@ -658,6 +633,15 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
     <h3 class="widget-title">recents</h3>
     <div class="widget">
       <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a></p>
+              <p class="item-title"><a href="/2016/04/04/machine-learning-linear-regression/" class="title">Machine Learning Linear Regression</a></p>
+              <p class="item-date"><time datetime="2016-04-04T07:55:31.000Z" itemprop="datePublished">2016-04-04</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -695,15 +679,6 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
             </div>
           </li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/hadoop/hive/">Hive</a></p>
-              <p class="item-title"><a href="/2014/08/16/hive-architecture/" class="title">Hive架构笔记</a></p>
-              <p class="item-date"><time datetime="2014-08-16T15:32:27.000Z" itemprop="datePublished">2014-08-16</time></p>
-            </div>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -713,7 +688,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
   <div class="widget-wrap">
     <h3 class="widget-title">categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -722,7 +697,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
   <div class="widget-wrap">
     <h3 class="widget-title">tag cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 10px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
     </div>
   </div>
 

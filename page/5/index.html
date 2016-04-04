@@ -103,17 +103,17 @@ ga('send', 'pageview');
   	<div class="base-info profile-block">
 		  <img id="avatar" src="/css/images/avatar.png">
       <h2 id="name">Cyanny Liang</h2>
-      <h3 id="title">Big Data &amp; Cloud Computing</h3>
+      <h3 id="title">Big Data &amp; Distributed Computing</h3>
       <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
       <a id="follow" href="https://github.com/lgrcyanny/">FOLLOW</a>
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        45
+        46
         <span>posts</span>
       </div>
       <div class="article-info-block">
-        27
+        29
         <span>tags</span>
       </div>
     </div>
@@ -138,6 +138,136 @@ ga('send', 'pageview');
 </aside>
       
       <section id="main">
+      <article id="post-graph-dfs-bfs" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/02/graph-dfs-bfs/">Graph DFS and BFS</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/02/graph-dfs-bfs/">
+    <time datetime="2013-12-02T14:26:47.000Z" itemprop="datePublished">2013-12-02</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/algorithm/">Algorithm</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>图论是一个重要的部分，以前数据结构课上过，没有作为考试要求，所以很不太熟悉，尤其是没有实现。考完试，无聊中重新看了看，想起以前在eBay，某帅哥突然开玩笑说DFS和BFS嘛，当然要会呀，Cyanny你会的吧，我说忘了，其实细细想起来，还真没有写过代码。In my view，没有实现过，就等于不会，今天实现了BFS和DFS，深深赞一个算导，说得明白和透彻，现在的算法书太多，这算是一本很不错的经典，厚了点，但要是能厚着脸皮看完确实受益匪浅。</p>
+<h3 id="广度优先搜索BFS">广度优先搜索BFS</h3><p>其算法思想简介：<br>1. 利用队列<br>2. 每一个Vertex引入三个变量<br>color：WHITE 表示没有访问过，GREY 表示发现，BLACK 表示完成访问<br>parent: 父亲<br>d: 表示从root到该顶点的长度<br>3. 为了实现方便，我采用int来标识每一个顶点，采用邻接表来表示graph<br>深度优先搜索可以生成深度优先树，生成单源最短路径，即从root到每一个顶点的长度是最短路径。[more…]<br>BFS可以采用邻接矩阵表示，其复杂度较高为O(n^2)<br>如果采用邻接表表示，其复杂度为O(E+V),即顶点个数+边的个数<br>[java]<br>public void BFS(int root) {<br>    vertexes = new Vertex[n];<br>    // Initialize each vertex,<br>    // Each vertex has three segment: parent, d, color<br>    for (int i = 0; i &lt; n; i++) {<br>        vertexes[i] = new Vertex(i);<br>    }</p>
+<pre><code>Vertex rootv = vertexes[root];
+rootv.<span class="keyword">d</span> = 0;
+rootv.color = Color.GREY;
+queue.add(rootv);
+
+<span class="keyword">while</span> (!queue.isEmpty()) {
+    Vertex <span class="keyword">u</span> = queue.remove(0);
+    ArrayList&amp;lt;Integer&amp;gt; <span class="keyword">list</span> = <span class="keyword">graph</span>.<span class="literal">get</span>(<span class="keyword">u</span>.vertex);
+    <span class="keyword">for</span> (int i = 0; i &amp;lt; <span class="keyword">list</span>.size(); i++) {
+        Vertex temp = vertexes[<span class="keyword">list</span>.<span class="literal">get</span>(i)];
+        <span class="comment">// Make sure each vertex enqueue only once</span>
+        <span class="keyword">if</span> (temp.color == Color.WHITE) {
+            temp.parent = <span class="keyword">u</span>;
+            temp.<span class="keyword">d</span> = <span class="keyword">u</span>.<span class="keyword">d</span> + 1;
+            temp.color = Color.GREY;
+            queue.add(temp);
+        }                
+    }
+        <span class="keyword">u</span>.color = Color.BLACK;
+    res.add(<span class="keyword">u</span>);
+}
+</code></pre><p>}<br>[/java]<br><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/graph/GraphBFS.java" title="BFS Source" target="_blank" rel="external">BFS Source Code</a></p>
+<h3 id="深度优先搜索DFS">深度优先搜索DFS</h3><p>广度优先搜索DFS，基本算法思想<br>1. 采用递归，或stack来实现<br>2. 每一个Vertex引入四个变量<br>color：WHITE 表示没有访问过，GREY 表示发现，BLACK 表示完成访问<br>parent: 父亲<br>timestamp1: 表示第一次访问该顶点的时间戳<br>timestamp2:表示访问结束时的时间戳<br>3. 为了实现方便，我采用int来标识每一个顶点，采用邻接表来表示graph</p>
+<p>DFS采用邻接表表示Graph来实现，复杂度O(V+E), 矩阵复杂度依然不好，为O（n^2）<br>DFS是从多个源开始，最终会生成由多个源作为root的森林，即深度优先树（深度优先森林）。<br>同时引入时间戳，是为了获得DFS的进展情况，如果不需要时间戳，只是想简单地打印每一个顶点，可以不用。</p>
+<p>以下是递归的实现方法：<br>[java]<br>    public void DFS() {<br>        int i = 0;<br>        for (i = 0; i &lt; n; i++) {<br>            vertexes[i] = new Vertex(i);<br>        }<br>        for (i = 0; i &lt; n; i++) {<br>            Vertex u = vertexes[i];<br>            if (u.color == Color.WHITE) {<br>                visitDFS(u);<br>            }<br>        }<br>    }</p>
+<pre><code>private void visitDFS(Vertex <span class="keyword">u</span>) {
+    res.add(<span class="keyword">u</span>);
+    <span class="keyword">u</span>.color = Color.GREY;
+    <span class="keyword">timer</span>++;
+    <span class="keyword">u</span>.timestamp1 = <span class="keyword">timer</span>;
+    ArrayList&amp;lt;Integer&amp;gt; adjList = <span class="keyword">graph</span>.<span class="literal">get</span>(<span class="keyword">u</span>.vertex);
+    <span class="keyword">for</span> (int i = 0; i &amp;lt; adjList.size(); i++) {
+        Vertex v = vertexes[adjList.<span class="literal">get</span>(i)];
+        <span class="keyword">if</span> (v.color == Color.WHITE) {
+            v.parent = <span class="keyword">u</span>;
+            visitDFS(v);
+        }
+    }
+    <span class="keyword">u</span>.color = Color.BLACK;
+    <span class="keyword">timer</span>++;
+    <span class="keyword">u</span>.timestamp2 = <span class="keyword">timer</span>;
+}
+</code></pre><p>[/java]</p>
+<p>以下是采用栈的实现方法改写 “visitDFS”：<br>[java]<br>    /**</p>
+<pre><code><span class="comment"> * DFS with iterative method </span>
+<span class="comment"> * Make use of stack</span>
+<span class="comment"> * @param u</span>
+<span class="comment"> */</span>
+private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
+    res.add(<span class="keyword">u</span>);
+    <span class="keyword">u</span>.color = Color.GREY;
+    <span class="keyword">timer</span>++;
+    <span class="keyword">u</span>.timestamp1 = <span class="keyword">timer</span>;
+    <span class="keyword">stack</span>.add(<span class="keyword">u</span>);
+    <span class="keyword">while</span>(!<span class="keyword">stack</span>.isEmpty()) {
+        Vertex v = <span class="keyword">stack</span>.remove(<span class="keyword">stack</span>.size() - 1);
+        ArrayList&amp;lt;Integer&amp;gt; adjList = <span class="keyword">graph</span>.<span class="literal">get</span>(v.vertex);
+        <span class="keyword">for</span> (int i = 0; i &amp;lt; adjList.size(); i++) {
+            Vertex temp = vertexes[adjList.<span class="literal">get</span>(i)];
+            <span class="keyword">if</span> (temp.color == Color.WHITE) {
+                temp.parent = v;
+                temp.color = Color.GREY;
+                <span class="keyword">timer</span>++;
+                temp.timestamp1 = <span class="keyword">timer</span>;
+                res.add(temp);
+                <span class="keyword">stack</span>.add(temp);
+            }
+        }
+        v.color = Color.BLACK;
+        <span class="keyword">timer</span>++;
+        v.timestamp2 = <span class="keyword">timer</span>;
+    }
+    <span class="keyword">u</span>.color = Color.BLACK;
+    <span class="keyword">timer</span>++;
+    <span class="keyword">u</span>.timestamp2 = <span class="keyword">timer</span>;
+}
+</code></pre><p>[/java]</p>
+<p><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/graph/GraphDFS.java" title="DFS Source" target="_blank" rel="external">DFS Source Code</a></p>
+<p>最终发现，起始实现起来代码不多，重在想法。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/12/02/graph-dfs-bfs/" data-id="cimlpupyk004zsnse3d5djtyo" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/12/02/graph-dfs-bfs/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
       <article id="post-system-analysis-design-kenneth-kendall-review-part4" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -216,7 +346,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" data-id="cilge5l3a000la2se5qtpdqt2" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" data-id="cimlpupv5000lsnsekhx477sh" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -326,7 +456,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" data-id="cilge5l3e000ta2se2iglekus" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" data-id="cimlpupvc000tsnsexz1x8836" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -404,7 +534,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" data-id="cilge5l3h000ya2sezmqvlz6y" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" data-id="cimlpupvg000ysnses90mxmfw" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -511,7 +641,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" data-id="cilge5l3k0013a2seouvpl9w4" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" data-id="cimlpupvj0013snse74z13fcz" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -591,126 +721,9 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part4/" data-id="cilge5l6g005ia2se4o9lp8bc" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part4/" data-id="cimlpupz5005isnsee4hj2g9h" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/24/distributed-system-review-part4/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-    
-      <article id="post-distributed-system-review-part3" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/11/24/distributed-system-review-part3/">分布式系统总结part3</a>
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/11/24/distributed-system-review-part3/">
-    <time datetime="2013-11-24T06:26:20.000Z" itemprop="datePublished">2013-11-24</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/distributed-system/">Distributed System</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/distributed-system/life/">Life</a>
-  </div>
-
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="复制和一致性">复制和一致性</h2><p>数据的复制是为了提高性能和可靠性，但是我们需要保持各个副本的一致性：</p>
-<p>问题一： 数据更新的实际分发问题，它需要关心副本的位置，以及如何在副本之间传播更新。</p>
-<p>问题二：如何保持多个副本的一致性[more…]</p>
-<h3 id="以数据为中心的一致性">以数据为中心的一致性</h3><h4 id="1-_严格的一致性">1. 严格的一致性</h4><p>(1)条件：所有访问按绝对时间排序，数据项x的任何读操作将返回最近一次对x的写操作的结果所对应的值。</p>
-<p>(2)要求：所有写操作是瞬间可见的，系统维持一个绝对的全局时间顺序，如果发生写操作，后续的读操作都会得到最新的写入的值。</p>
-<p>(3)缺点：依赖于绝对的全局时间，分布式系统中为每个操作分配准确的全局时间是不可能的，一般是将时间分割成一系列连续的、不重叠的时间间隔，保证没个时间间隔内最多只发生一个单一操作。<br>精确的定义最后一次写操作是困难的，如图可以看到严格一致性<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System02.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System02.png" alt="Distributed System02"></a></p>
-<h4 id="2-线性化和顺序的一致性">2.线性化和顺序的一致性</h4><p>(1)顺序一致性</p>
-<p>条件：所有进程以相同顺序看到所有的共享访问，访问不按时间排序。任何执行结果都是相同的，就好像所有进程对数据存储的读、写操作按照某种序列顺序执行的，并且每个进程的操作按照程序所定制的顺序出现在这个序列中。</p>
-<p>缺点：严重的性能问题，对于任何的顺序一致性存储，改变协议以提高读操作的性能必将降低写操作的性能，反之亦然。<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System03.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System03-580x350.png" alt="Distributed System03"></a><br>(2)线性化一致性</p>
-<p>条件：所有进程以相同顺序看到所有的共享访问，访问根据(并非唯一的)全局时间戳排序。</p>
-<p>在实际应用中，线性化主要用于开发算法的形式验证。关于根据时间戳维护顺序的附加限制使得线性化的实现比顺序一致性的实现开销更大。 </p>
-<h4 id="3-因果一致性">3.因果一致性</h4><p>条件：是一种弱化的顺序一致性模型，所有进程必须以相同的顺序看到具有潜在因果关系的写操作。不同机器上的进程可以以不同的顺序被看到并发的写操作.</p>
-<p>当一个读操作后面跟着一个写操作时，这两个事件就具有潜在的因果关系。</p>
-<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System04.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System04-580x394.png" alt="Distributed System04"></a></p>
-<h4 id="4-FIFO一致性">4.FIFO一致性</h4><p>条件：所有进程以某个单一进程(有两个以上的写操作)提出写操作的顺序看到这些写操作，但是不同进程可以以不同的顺序看到不同的进程提出的写操作。</p>
-<p>优点：容易实现，不需要保证不同进程看到相同的写操作顺序，除非两个以上的写操作是同一个进程提出的。这种情况下，写操作必须按顺序达到。</p>
-<p>缺点：仍然对许多应用存在不必要的限制，因为这些应用需要从任何位置都可以看到按顺序看到某个单一进程所产生的写操作。同时并不是所有的应用程序都要求看到所有的写操作。这就引入了弱一致性。</p>
-<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System05.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System05.png" alt="Distributed System05"></a></p>
-<h4 id="5-弱一致性">5.弱一致性</h4><p>条件：引入同步变量，只有执行一次同步，共享数据才能保持一致。  </p>
-<p>a)对数据存储所关联的同步变量的访问是顺序一致的；b)每个拷贝完成所有先前执行的写操作之前，不允许对同步变量进行任何操作；c)所有先前对同步变量执行的操作都执行完毕之前，不允许对数据项进行任何读或者写操作。</p>
-<p>特点：弱一致性是在一组操作，而非单个操作上强迫执行顺序一致性。同步变量用于划分操作的组。</p>
-<p>缺点：即当同步变量被访问时，数据存储不知道此次访问是因为进程已经结束对数据存储的写操作还是因为进程将开始读数据而进行的。我们需要区分进程进入临界区和离开临界区的区别，引入了释放一致性。 </p>
-<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System06.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System06-580x347.png" alt="Distributed System06"></a></p>
-<h4 id="6-释放一致性">6.释放一致性</h4><p>条件：退出临界区时，让共享数据保持一致，提供两种类型的同步变量。获取(acquire) 操作是用于通知数据存储进程进入临界区的操作，而释放(release)操作是表明进程刚刚离开临界区的操作。</p>
-<ul>
-<li>对共享数据执行读操作或写操作之前，所有进程先前执行的获取操作都必须已经成功完成；</li>
-<li>在释放操作被允许执行前，所有进程先前执行的读操作和写操作都必须已经完成；</li>
-<li>对同步变量的访问是FIFO一致的(不需要顺序一致)</li>
-</ul>
-<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System07.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System07.png" alt="Distributed System07"></a></p>
-<h4 id="7-入口一致性">7.入口一致性</h4><p>条件：它需要程序员(或编译器)在每个临界区的开始和结束处分别使用获取和释放操作，入口一致性要求每个普通的共享数据项都要与某种同步变量(如锁或障碍)关联。即让进程在进入临界区时，让属于同一临界区的共享数据保持一致。</p>
-<p>优点：第一，将一系列共享数据项与各自的同步变量关联起来可以减少获取和释放一个同步变量所带来的额外开销。因为只有少数的数据项需要同步。第二，增加了并行度：这也使得多个包含不同共享数据的临界区可以同时执行</p>
-<p>缺点：第一，同步变量和共享数据的关联带来了额外的复杂性和负载，程序设计可能更加复杂，容易出错。第二，关于入口一致性的一个程序设计问题是如何正确地将数据与同步变量关联起来。解决这个问题的一种方法是使用分布式的共享对象，向用户屏蔽低层的同步细节。</p>
-<h4 id="以数据为中心的一致性的比较">以数据为中心的一致性的比较</h4><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System18.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System18-580x276.png" alt="Distributed System18"></a><br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System19.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System19-580x222.png" alt="Distributed System19"></a></p>
-<h3 id="以客户为中心的一致性模型">以客户为中心的一致性模型</h3><h4 id="1-_最终一致性">1. 最终一致性</h4><p>条件： 没有更新操作时，所有副本逐渐成为相互完全相同的拷贝。最终一致性实际上只要求更新操作被保证传播到所有副本</p>
-<p>优点：开销小</p>
-<p>缺点：移动用户访问分布式数据库的不同副本时，如果副本没有更新，会出现不一致。</p>
-<h4 id="2-_单调读">2. 单调读</h4><p>条件：总是读最新值，如果一个进程读取数据x的值，那么该进程对执行任何后续读操作将总是得到第一次读取的那个值或更新的值。<br>如果一个进程已经在t时刻看到x的值，那么以后他不再会看到较老的版本的x的值。</p>
-<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System08.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System08-580x359.png" alt="Distributed System08"></a></p>
-<h4 id="3-_单调写">3. 单调写</h4><p>条件：总是在最新的拷贝上写，一个进程对数据项x执行的写操作必须在该进程对x执行任何后续写操作之前完成，保证写操作以正确的顺序传播到数据存储的所有拷贝。<br>在单调写一致性的定义中，同一进程的写操作的执行顺序与这些操作的启动顺序相同。</p>
-<p>比较：注意，单调写一致性与数据为中心的FIFO一致性相似。FIFO一致性的本质是，同一进程执行的写操作必须在任何地方以正确的顺序执行。</p>
-<p>这一顺序限制也适用于单调写一致性，只是我们这里考虑的是仅为单一进程维持的一致性，而不是为许多并发进程维持的一致性。</p>
-<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System09.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System09-580x382.png" alt="Distributed System09"></a></p>
-<h3 id="4-写后读">4.写后读</h3><p>条件：一个进程对数据项x执行一次写操作的结果总是会被该进程对x执行的后续读操作看见。 一个写操作总是在同一进程执行的后续读操作之前完成，而不管这个后续的读操作发生在什么位置。 </p>
-<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System10.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System10-580x344.png" alt="Distributed System10"></a></p>
-<h3 id="5-读后写">5.读后写</h3><p>条件：同一个进程对数据项x执行的读操作之后的写操作，保证发生在与x读取值相同或比之更新的值上。进程对数据项上x所执行的任何后续的写操作都会在x的拷贝上执行，而该拷贝是用该进程最近读取的值更新的。</p>
-<p>在读取的最新值上进行写操作。<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System11.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System11-580x340.png" alt="Distributed System11"></a></p>
-<h2 id="容错">容错</h2><h3 id="1-_两军问题">1. 两军问题</h3><p>两军的通信信道不稳定，需要达成一致才能发动攻击，无论双方发了多少次确认，都不能确定通信兵是否把自己的消息带给对方，永远不会达成协议。<br>在不可靠传输的条件下，即使是无错误的进程，在两个进程之间达成协议也是不可能的。</p>
-<h3 id="2-_拜占庭将军问题">2. 拜占庭将军问题</h3><p>通信良好，进程确不好，正如拜占庭的将军有叛徒的情况。</p>
-<p>在这个问题中，红军还是在山谷中扎营，但是在附近的山上有n个带领部队的蓝军将领。通信是通过电话双向进行的，及时而且质量很好。但是有n个将军是叛徒(故障)，他们通过给忠诚的将军发送错误的和矛盾的信息(模拟故障进程)来阻止他们达成协议。现在问题在于忠诚的将军是否还能达成协议。 </p>
-<p>Lamport采用递归算法来让无故障的进程达成协议。</p>
-<p>N个进程，其中M个故障进程：只有当<strong>N&gt;=3m+1</strong>时，才能达成一致，即有三分之二的进程是正常的。</p>
-<h3 id="3-_两阶段提交">3. 两阶段提交</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System12.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System12-580x293.png" alt="Distributed System12"></a><br>状态机很能说明问题。</p>
-<p>两个阶段：vote_commit and global_commit, 3(n-1)条消息</p>
-<p>缺点：两阶段提交的一个问题在于当协调者崩溃时，参与者不能做出最后的决定。因此参与者可能在协调者恢复之前保持阻塞。</p>
-<p>因此引入3PC，三阶段提交，但3PC实际中用的少，因为2PC阻塞情况很少出现。</p>
-<h3 id="4-_三阶段提交">4. 三阶段提交</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System13.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System13-580x302.png" alt="Distributed System13"></a><br>没有一个可以直接转换到Commit或者Abort状态的单独状态。</p>
-<p>没有一个这样的状态：它不能做出最后决定，而且可以从它直接转换到Commit状态。 Commit之前需要经过PRCOMMIT状态。</p>
-<p>三阶段：vote-commit, prepare-commit, global-commit</p>
-<p>引入了PRECOMMIT状态。</p>
-<ul>
-<li>2PC：崩溃的参与者可能恢复到了Commit状态而所有参与者还处于Ready状态。在这种情况下，其余的可能操作进程不能做出最后的决定，不得不在崩溃的进程恢复之前阻塞。</li>
-<li>在3PC中，只要有可操作的进程处于Ready状态，就没有崩溃的进程可以恢复到Init、Abort或Precommit之外的状态。因此存活进程总是可以做出的最后决定。当协调者崩溃，达到了预备提交阶段，在2PC中其他进程就会阻塞，但在3PC中，在预备提交阶段，即使没有协调者，也可以做出决定。</li>
-</ul>
-<h3 id="资源">资源</h3><p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part1/" title="分布式系统总结part1" target="_blank" rel="external">分布式系统总结part1 中间件，进程迁移，移动通信失效，名称解析，移动实体定位</a></p>
-<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part2/" title="分布式系统总结part2" target="_blank" rel="external">分布式系统总结part2 Lamport同步与向量时间戳，两大选举算法，三大互斥算法</a></p>
-<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part3/" title="分布式系统总结part3" target="_blank" rel="external">分布式系统总结part3 复制和一致性(以数据和以客户为中心的一致性)，容错（拜占庭将军问题，两阶段与三阶段提交）</a></p>
-<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part4/" title="分布式系统总结part4" target="_blank" rel="external">分布式系统总结part4 Petri网解决哲学家问题和生产者、消费者问题</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part3/" data-id="cilge5l6j005oa2sep8f0v4dj" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/11/24/distributed-system-review-part3/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li></ul>
@@ -734,6 +747,15 @@ ga('send', 'pageview');
     <h3 class="widget-title">recents</h3>
     <div class="widget">
       <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a></p>
+              <p class="item-title"><a href="/2016/04/04/machine-learning-linear-regression/" class="title">Machine Learning Linear Regression</a></p>
+              <p class="item-date"><time datetime="2016-04-04T07:55:31.000Z" itemprop="datePublished">2016-04-04</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -771,15 +793,6 @@ ga('send', 'pageview');
             </div>
           </li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/hadoop/hive/">Hive</a></p>
-              <p class="item-title"><a href="/2014/08/16/hive-architecture/" class="title">Hive架构笔记</a></p>
-              <p class="item-date"><time datetime="2014-08-16T15:32:27.000Z" itemprop="datePublished">2014-08-16</time></p>
-            </div>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -789,7 +802,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -798,7 +811,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">tag cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 10px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
     </div>
   </div>
 

@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://www.cyanny.com//"/>
-  <updated>2016-03-07T01:37:19.000Z</updated>
+  <updated>2016-04-04T08:10:08.000Z</updated>
   <id>http://www.cyanny.com//</id>
   
   <author>
@@ -16,18 +16,68 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Machine Learning Linear Regression]]></title>
+    <link href="http://www.cyanny.com/2016/04/04/machine-learning-linear-regression/"/>
+    <id>http://www.cyanny.com/2016/04/04/machine-learning-linear-regression/</id>
+    <published>2016-04-04T07:55:31.000Z</published>
+    <updated>2016-04-04T08:10:08.000Z</updated>
+    <content type="html"><![CDATA[<p>I have been learning the coursera Machine Learning Course by Andrew Ng for two weeks now. Machine Learning is fun and different. For the coursera assignment1 of linear regression, I want to share something.<br><a id="more"></a></p>
+<h2 id="Octave_Install">Octave Install</h2><p>The course use Octave/Matlab for programming practice. I learned octave basics in two days. I don’t have too much time, can just doing these homework in weekends. For Octavel installed on mac, I encounter some problems and solve it.</p>
+<ul>
+<li>brew update &amp;&amp; brew upgrade</li>
+<li>brew tap —repair</li>
+<li>brew install octave</li>
+<li>install xserver(seems no need to install)<ul>
+<li><a href="http://www.xquartz.org/" target="_blank" rel="external">http://www.xquartz.org/</a></li>
+</ul>
+</li>
+<li>font can’t find when plot<ul>
+<li>export FONTCONFIG_PATH=/opt/X11/lib/X11/fontconfig</li>
+</ul>
+</li>
+<li>can’t plot unknown or ambiguous terminal type; type just ‘set terminal’ for a list<ul>
+<li>brew uninstall gnuplot</li>
+<li>download and install aquaterm: <a href="https://sourceforge.net/projects/aquaterm/?source=typ_redirect" target="_blank" rel="external">https://sourceforge.net/projects/aquaterm/?source=typ_redirect</a></li>
+<li>brew install gnuplot —with-aquaterm —with-qt4</li>
+</ul>
+</li>
+<li>add start config to /usr/local/share/octave/site/m/startup/octaverc<ul>
+<li>PS1(‘&gt;&gt; ‘)</li>
+</ul>
+</li>
+</ul>
+<h2 id="Gradient_Descent_Algorithm">Gradient Descent Algorithm</h2><p>Implementing gradient desenct algorithm in vectorization style is what I am proud of. Here is my implementation:<br>No for loop looks elegant.</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[theta, J_history]</span> = <span class="title">gradientDescent</span><span class="params">(X, y, theta, alpha, num_iters)</span></span></span><br><span class="line"><span class="comment">%GRADIENTDESCENT Performs gradient descent to learn theta</span></span><br><span class="line"><span class="comment">%   theta = GRADIENTDESENT(X, y, theta, alpha, num_iters) updates theta by </span></span><br><span class="line"><span class="comment">%   taking num_iters gradient steps with learning rate alpha</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Initialize some useful values</span></span><br><span class="line">m = <span class="built_in">length</span>(y); <span class="comment">% number of training examples</span></span><br><span class="line">J_history = <span class="built_in">zeros</span>(num_iters, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:num_iters</span><br><span class="line"></span><br><span class="line">    <span class="comment">% ====================== YOUR CODE HERE ======================</span></span><br><span class="line">    <span class="comment">% Instructions: Perform a single gradient step on the parameter vector</span></span><br><span class="line">    <span class="comment">%               theta. </span></span><br><span class="line">    <span class="comment">%</span></span><br><span class="line">    <span class="comment">% Hint: While debugging, it can be useful to print out the values</span></span><br><span class="line">    <span class="comment">%       of the cost function (computeCost) and gradient here.</span></span><br><span class="line">    <span class="comment">%</span></span><br><span class="line">    predications = X * theta;</span><br><span class="line">    errors = predications - y; <span class="comment">% m by 1 vector</span></span><br><span class="line">    sum_delta = (alpha / m) * sum(errors .* X, <span class="number">1</span>); <span class="comment">% sum by column, which is 1 by n + 1 matrix</span></span><br><span class="line">    theta = theta - sum_delta<span class="operator">'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">% ============================================================</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">% Save the cost J in every iteration    </span></span><br><span class="line">    J_history(iter) = computeCost(X, y, theta);</span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h2 id="My_assignments_on_github">My assignments on github</h2><p><a href="https://github.com/lgrcyanny/MachineLearningCoursera/tree/master/assignments/ex1/ex1" target="_blank" rel="external">Assignments1</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>I have been learning the coursera Machine Learning Course by Andrew Ng for two weeks now. Machine Learning is fun and different. For the coursera assignment1 of linear regression, I want to share something.<br>]]>
+    
+    </summary>
+    
+      <category term="Coursera" scheme="http://www.cyanny.com/tags/coursera/"/>
+    
+      <category term="Machine Learning" scheme="http://www.cyanny.com/tags/machine-learning/"/>
+    
+      <category term="Machine Learning" scheme="http://www.cyanny.com/categories/machine-learning/"/>
+    
+      <category term="Linear Regression" scheme="http://www.cyanny.com/categories/machine-learning/linear-regression/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Programming In Scala Overview Key Note]]></title>
     <link href="http://www.cyanny.com/2016/03/06/programming-in-scala-overview-key-note/"/>
     <id>http://www.cyanny.com/2016/03/06/programming-in-scala-overview-key-note/</id>
     <published>2016-03-06T10:01:42.000Z</published>
-    <updated>2016-03-07T01:37:19.000Z</updated>
+    <updated>2016-03-08T01:11:23.000Z</updated>
     <content type="html"><![CDATA[<p>过去半年里，都在忙着spark相关的项目，主要的编程语言是scala，前些年主要用的是c++，刚转到scala上时，有点不适应函数式编程语言的思想，现在已经半年多过去了，觉得scala真的是awesome，简洁有力的表达，整合了functional programming和object programming，并且设计良好。<br>去年上了Martin Odersky的编程课<i>Functional Programming In Scala</i>, 觉得挺感兴趣，学习了很多，想在scala语言上看得更多，更深入些，我选择了Scala的权威著作<a href="http://www.artima.com/shop/programming_in_scala_2ed" target="_blank" rel="external">Programming In Scala</a>, 虽然这书有快900页，但我想挑战下，与其每天泡在各种新闻资讯里，还不如看看书泡在书里。每天都看看书，觉得挺好，有些笔记和心得就写在博客里，毕竟工作忙，写博客的时间很少，但我想还是应该多总结和留下写想法。之后阅读Spark的源码，我也会坚持写下些东西，看过了和写下来总还是不一样嘛。<br><a id="more"></a></p>
 <h1 id="Scala_Overview">Scala Overview</h1><h2 id="1-_Scala_is_a_Scalable_Language">1. Scala is a Scalable Language</h2><ul>
 <li>Scala is a blend of object-oriented and functional programing language</li>
 <li>Grow new types, such as BigInt</li>
 <li>Grow new control structures, such as actor based api</li>
 </ul>
-<h2 id="2-_What_makes_scala_scalable**">2. What makes scala scalable**</h2><p>fusion object-oriented and functional programming</p>
+<h2 id="2-_What_makes_scala_scalable">2. What makes scala scalable</h2><p>fusion object-oriented and functional programming</p>
 <ul>
 <li><strong>Object-Oriented</strong><ul>
 <li>it combines data with operations under a formalized interface. So objects have a lot to do with language scalability: the same techniques apply to the construction of small as well as large program</li>
@@ -124,7 +174,7 @@
     <link href="http://www.cyanny.com/2015/10/07/learning-akka/"/>
     <id>http://www.cyanny.com/2015/10/07/learning-akka/</id>
     <published>2015-10-07T13:54:48.000Z</published>
-    <updated>2015-10-07T14:49:35.000Z</updated>
+    <updated>2016-03-06T10:10:38.000Z</updated>
     <content type="html"><![CDATA[<p>最近学习了scala，主要是跟着<strong>Functional Programming in Scala</strong>的课程学习的，scala主要的用处还是在spark上，关于spark也看了一些源码，处于继续探索中。</p>
 <p>并发时的消息通信是处理spark这样的分布式系统的关键。spark主要依赖scala社区的akka进行消息通讯。在spark1.2的代码中可以看到很多actor的影子，然而spark1.4中，都是封装为EndPoint，但Actor的思想和模式还在。</p>
 <p>基于Actor的消息通讯模型是akka的核心。Akka为处理并发、容错和可扩展性的分布式问题提供了一套基于Actor模型的库。并发的消息通讯中，抽象是关键的方面。Actor模型是1973年由Carl Hewitt在论文”Actor Model of Computation- Scalable Robust Information Systems”中提出, 后被应用于爱立信公司研发的Elang语言，爱立信公司应用Actor模型开发了高并发和可靠的通信系统。</p>
@@ -1278,38 +1328,6 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <summary type="html">
     <![CDATA[<h3 id="MapReduce_Introduction">MapReduce Introduction</h3><p><strong>MapReduce is a parallel programming model and an associated implementa]]>
     </summary>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Hadoop HDFS High Availability(HA)]]></title>
-    <link href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/"/>
-    <id>http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/</id>
-    <published>2013-12-05T06:54:59.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
-    <content type="html"><![CDATA[<p>Reliability, Scalability and Availability are the most important three features for a distributed file system. In HDFS, persistent metadata, using the Secondary NameNode to create checkpoint against data loss, using block replication across the cluster against DataNode failure, all of these brings HDFS high reliability. And the master slave architecture wins HDFS great scalability. [more…]<br>However, HDFS has always had a well-known Single Point of Failure (SPOF) which impacts HDFS’s availability. HDFS fits well for ETL or batch-processing workflows, but in the past few years HDFS begin to be used for real time job, such as HBase. To recover a single NameNode, an administrator starts a new primary NameNode with FsImage and replays its EditLog, waits for Blockreport from DataNodes to leave safe mode. On large clusters with many files and blocks, it will take 30 minutes or more time to recovery. Long time recovery will impact the productivity of internal users and perhaps results in downtime visible to external users.<br>For these reasons, Hadoop community began a new feature for HDFS called High Availability Name Node (HA Name Node) in 2011. The HA makes use of an active and a standby NameNode. When the active NameNode fails, the hot standby NameNode will take over serving the role of an active NameNode without a significant interruption. </p>
-<h3 id="HA_Architecture">HA Architecture</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd5.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd5.1.png" alt="hd5.1">Figure1 HDFS High Availability Architecture</a><br>As shown in Figure 1, HA architecture has several changes</p>
-<ul>
-<li>The NameNodes must use highly available shared storage to share EditLog, such as Network File System (NFS), or BookKeeper. The active NameNode will write its EditLog on the Shared dir, and the Standby NameNode polls the shared log frequently and then applies to its in-memory so as to has the most complete and up-to-date file system state in memory.</li>
-<li>DataNodes must send Blockreports with block locations to both active and standy NameNodes. Because the block mappings are stored in a NameNode’s memory and not on a disk to increase data access performance.</li>
-<li>Clients must be configured to handle NameNode failover, using a mechanism that is transparent to users.<br>The HA guarantees if the active NameNode fails, the standby one will take over quickly in tens of seconds, since it has the latest state available in memory: the latest EditLog entries and an up-to-date block mapping.</li>
-</ul>
-<h3 id="Failover">Failover</h3><p>The transition from the active NameNode to the standby NameNode is controlled by the failover controller. Each NameNode runs a failover controller to monitor its namenode failure, which is a heartbeating mechanism. Failover is triggered when a NameNode fails.  </p>
-<p>After NameNode failover, the Client must be informed which is active NameNode now. Client Failover is handled transparently by the client library. The HDFS client supports the configuration for multiple network addresses, one for each NameNode. The NameNode is identified by a single logical URI which is mapped the two network addresses of the HA Name Nodes via client-side configuration. The client will retry the two addresses until the active NameNode is found. </p>
-<h3 id="Fencing">Fencing</h3><p>After Failover, HDFS makes use of the fencing technique to make sure that the previous died active NameNode is prevented from doing any damage and causing corruption. These mechanisms includes killing the NameNode’s process, revoking its access to the shared storage directory and disabling its network port via a remote management command. If these techniques fail, HDFS will use STONITH, that is “shoot the other node in the head”, which uses a specialized power distribution unit to forcibly power down the host machine. </p>
-<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>Reliability, Scalability and Availability are the most important three features for a distributed file system. In HDFS, persistent metada]]>
-    </summary>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
-    
-      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
-    
-      <category term="Research" scheme="http://www.cyanny.com/tags/research/"/>
     
       <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
