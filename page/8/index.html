@@ -109,7 +109,7 @@ ga('send', 'pageview');
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        46
+        47
         <span>posts</span>
       </div>
       <div class="article-info-block">
@@ -138,6 +138,65 @@ ga('send', 'pageview');
 </aside>
       
       <section id="main">
+      <article id="post-select-second-smallest-element" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/09/12/select-second-smallest-element/">找一个数组中第2小的元素</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/09/12/select-second-smallest-element/">
+    <time datetime="2013-09-12T12:09:43.000Z" itemprop="datePublished">2013-09-12</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/algorithm/">Algorithm</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>找出一个数组中的最小元素或者最大元素，遍历是最优解,即O(n)，我想这是会编程的人都会的简单算法。而如何找出第二小的元素呢，先排序，然后再选么，这样的算法最优也是O(n * lg n)，还是一次遍历来的更快，思想如下：</p>
+<p>假定数组A有n个元素,元素可以有重复：</p>
+<p>1. 初始化一个数组res[2]，变量i, i为遍历时使用。</p>
+<p>2. 当n为奇数时, res[0] = A[0], res[1] = A[1], i = 1;</p>
+<p>3. 当n为偶数时, res[0] = min {A[0], A[1]}, res[1] = max{A[0], A[1]}, i = 2;</p>
+<p>4. 接下来每次取数组A中的两个元素，较小的元素如果小于res[0]比较，则res[1] = res[0], 再赋值 res[0] = small；</p>
+<p>5. 如果res[0] == res[1]或者较大的元素小于res[1], 则res[1] = large;[more…]</p>
+<p>以上算法可以O(3n/2 - 2)时间，即O(n)的时间内选出第二小的元素。</p>
+<p><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/orderstatistics/SecondSmallest.java" target="_blank" rel="external">Github Source Code</a><br>[java]<br>public int selectSecondSmallest() {<br>    int[] res = new int[2];<br>    int n = data.length;<br>    int i = 2;<br>    if (n % 2 == 0) {<br>        i = 2;<br>        if (data[0] &lt; data[1]) {<br>            res[0] = data[0];<br>            res[1] = data[1];<br>        } else {<br>            res[0] = data[1];<br>            res[1] = data[0];<br>        }<br>    } else {<br>        i = 1;<br>        res[0] = data[0];<br>        res[1] = data[1];<br>    }<br>    for ( ;i &lt; n; i += 2) {<br>        int large = getLarge(data[i], data[i + 1]);<br>        int small = getSmall(data[i], data[i + 1]);<br>        if (small &lt; res[0]) {<br>            res[1] = res[0]; // Maybe res[0] is the second minimum, don’t forget the tiny step<br>            res[0] = small;<br>        } else if (small &lt; res[1]) {<br>            res[1] = small;<br>            continue;<br>        }<br>        if (large &lt; res[1] || res[0] == res[1]) {<br>            res[1] = large;<br>        }<br>    }<br>    System.out.println(&quot;The smallest is &quot; + res[0]);<br>    System.out.println(&quot;The second minimun is &quot; + res[1]);<br>    return res[1];<br>}<br>[/java]</p>
+<h3 id="后记">后记</h3><p>这个算法很简单，但是算法导论的答案给的太复杂了，<a href="http://blog.csdn.net/mishifangxiangdefeng/article/details/7687460" target="_blank" rel="external">用了树的算法</a>，这么诡异而复杂，算是领教了。这个算法可以扩展到找第i个小的元素。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/09/12/select-second-smallest-element/" data-id="cimunv9rq001nvise3sbonbhk" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/09/12/select-second-smallest-element/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
       <article id="post-warshall-algorithm-cycle-dectection" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -203,7 +262,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/09/09/warshall-algorithm-cycle-dectection/" data-id="cimlpupu20003snseug6t5814" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/09/09/warshall-algorithm-cycle-dectection/" data-id="cimunv9qo0003visez5z7bgqh" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/09/09/warshall-algorithm-cycle-dectection/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -265,7 +324,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/08/18/the-usage-of-counting-sort/" data-id="cimlpupuf000asnse9m34mmes" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/08/18/the-usage-of-counting-sort/" data-id="cimunv9qy000avisemne9pp7z" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/08/18/the-usage-of-counting-sort/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -319,7 +378,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/08/10/learning-heap-sort/" data-id="cimlpupwf002csnsev8g06oeg" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/08/10/learning-heap-sort/" data-id="cimunv9s5002cvisemvzfgmsu" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/08/10/learning-heap-sort/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -379,7 +438,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/05/25/good-resources-for-js-learning/" data-id="cimlpupym0052snse88q0xgs3" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/05/25/good-resources-for-js-learning/" data-id="cimunv9uc0052vise35dd40nw" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/05/25/good-resources-for-js-learning/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -405,6 +464,15 @@ ga('send', 'pageview');
     <h3 class="widget-title">recents</h3>
     <div class="widget">
       <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a></p>
+              <p class="item-title"><a href="/2016/04/10/machine-learning-logistic-regression/" class="title">machine-learning-logistic-regression</a></p>
+              <p class="item-date"><time datetime="2016-04-10T13:48:51.000Z" itemprop="datePublished">2016-04-10</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -442,15 +510,6 @@ ga('send', 'pageview');
             </div>
           </li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">Algorithm</a></p>
-              <p class="item-title"><a href="/2015/04/03/find-median-for-two-sorted-array/" class="title">查找两个排序数组的中位数</a></p>
-              <p class="item-date"><time datetime="2015-04-03T14:07:01.000Z" itemprop="datePublished">2015-04-03</time></p>
-            </div>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -460,7 +519,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -469,7 +528,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">tag cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 10px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 11.43px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 11.43px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
     </div>
   </div>
 

@@ -109,7 +109,7 @@ ga('send', 'pageview');
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        46
+        47
         <span>posts</span>
       </div>
       <div class="article-info-block">
@@ -138,6 +138,108 @@ ga('send', 'pageview');
 </aside>
       
       <section id="main">
+      <article id="post-hadoop-overview" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/05/hadoop-overview/">Hadoop Overview</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/05/hadoop-overview/">
+    <time datetime="2013-12-05T03:36:08.000Z" itemprop="datePublished">2013-12-05</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="The_motivation_for_Hadoop">The motivation for Hadoop</h3><p>Apache Hadoop is an open source distributed computing framework for large-scale data sets processing. Doug Cutting, who is the creator of Apache Lucene Project, creates it. </p>
+<p>The name of Hadoop is a made-up name, which is the nickname of a stuffed yellow elephant of the kid of Doug. Hadoop has its origins in Apache Nutch, an open source web search engine, and it is built based on work done by Google in early 2000s, specifically on Google papers describing the Google File System (GFS) published in 2003, and MapReduce published in 2004. </p>
+<p>Hadoop moved out of Nutch to form an independent in Feb. 2006. Up to now, Hadoop has been powered by many companies, such as Yahoo who claims it has the biggest Hadoop cluster in the world with more than 42000 nodes, LinkedIn who has 4100 nodes, Facebook who has 1400 nodes, Taobao who has the biggest cluster in China with more than 2000 nodes. [more…]</p>
+<h3 id="The_problems_for_traditional_big_data_processing">The problems for traditional big data processing</h3><p>Why these companies adopt Hadoop? The reason is simple, that we live in a big data age. We are flooded with big data every day on the Internet. Consider that: Facebook hosts approximately 10 billion photos, taken up on PB storage. Every second on eBay, a total merchandise value of 1400 dollars is traded and 10 million new items are listed on eBay every day. Ancestry.com, the genealogy site, store around 2.5 PB of Data.</p>
+<p>How to make use of these big data to make analysis? For traditional methods, use only one machine to process computation, which needs faster processor and RAM. Even though the CPU power doubles every 18 months according to Moores’s Law, it hasn’t meet the big data analysis needs. Yet distributed system evolved to allow developers to use multiple machines for a single job, like MPI, PVM and Condor. However, programing for these traditional distributed systems is complex, you have to deal with these problems:</p>
+<ul>
+<li>It’s difficult to deal with partial failures of the system. Developers spend more time designing for failure than they do actually working on the problem itself.</li>
+<li>Finite and precious bandwidth must be available to combine data from different disks and transfer time is very slow for big data volume.</li>
+<li>Data exchange requires synchronization.</li>
+<li>Temporal dependencies are complicated.</li>
+</ul>
+<h3 id="How_can_Hadoop_save_big_data_analysis">How can Hadoop save big data analysis</h3><p>What really counts is big data. Traditional distributed computing can’t handle big data in a decent way, but Hadoop can. Lets see what Hadoop brings to us: </p>
+<ul>
+<li>Hadoop provide partial failure support. Hadoop Distributed File System (HDFS) can store large data sets with high reliability and scalability.</li>
+<li>HDFS provide great fault tolerance. Partial Failure will not result in the failure of the entire system. And HDFS provide data recoverability for partial failure.</li>
+<li>Hadoop introduce MapReduce, which spares programmers from low-level details, like partial failure. The MapReduce framework will detect failed tasks and reschedule them automatically.</li>
+<li>Hadoop provide data locality. The MapReduce framework tries to collocate data with the compute nodes. Data is local, and tasks are separated with no dependence on each other. So the shared-nothing and data locality architecture can save more bandwidth and solve the complicated dependence problem</li>
+</ul>
+<p>In summary, Hadoop is a great big data processing tool.</p>
+<h3 id="Hadoop_Basic_Concepts_and_Core_Concepts">Hadoop Basic Concepts and Core Concepts</h3><p>The core concepts for Hadoop are to distribute the data as it is initially stored in the system. That is data locality, individual nodes can work on data local to these nodes, and no data transfer over the network is required for initial processing.<br>Here are the basic concepts for Hadoop:</p>
+<ul>
+<li>Applications are written in high-level code. Developers don’t worry about network programming, temporal dependencies etc.</li>
+<li>Nodes talk to each other as little as possible. Developers should not write code which communicates between nodes, that is ‘Shared-Nothing’ architecture.</li>
+<li>Data is spread among machines in advance. Computation happens where the data is stored, wherever possible, just as near the node as possible. Data is replicated multiple times on the system for increased availability and reliability.</li>
+</ul>
+<h3 id="Hadoop_High-Level_Overview">Hadoop High-Level Overview</h3><p>Hadoop consists of two important components: HDFS and MapReduce.<br>HDFS is Hadoop Distributed File System, which is a distributed file system designed to store large data sets and streaming data sets on commodity hardware with high scalability, reliability and availability.</p>
+<p>MapReduce is a distributed processing framework designed to operate on large data stored on HDFS, which provides a clean interface for developers.</p>
+<p>A set of machines running HDFS and MapReduce is known as a Hadoop Cluster. An individual machine in a cluster is known as nodes. The nodes play different roles. There are two kind important nodes: Master Nodes and Slave Nodes.</p>
+<p>There are 5 important daemons on these nodes. </p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png" alt="hd2.1">Figure1 Hadoop High-Level Architecture</a></p>
+<p>As shown in Figure, Hadoop is comprised of 5 separate daemons:</p>
+<ul>
+<li>NameNode, which holds the metadata for HDFS.</li>
+<li>Secondary NameNode, which performs housekeeping functions for NameNode, and isn’t a backup or hot standby for the NameNode.</li>
+<li>DataNode, which stores actual HDFS data blocks. In Hadoop, a large file is split into 64M or 128M blocks.</li>
+<li>JobTracker, which manages MapReduce jobs, distributes individual tasks to machines running.</li>
+<li>TaskTracker, which initiates and monitors each individual Map and Reduce tasks.</li>
+</ul>
+<p>Each daemon runs on its own Java Virtual Machine (JVM), no Nodes can run 5 daemons at the same time.  </p>
+<p>Master Nodes runs the NameNode, Secondary NameNode, JobTracker daemons. And only one of each of these daemons runs on the cluster.<br>Slave Nodes run the DataNode and TaskTracker daemons. A slave node will run both of these daemons. All of these Slave Nodes run in parallel, each on their own part of the overall dataset locally.</p>
+<p>Just for very small clusters, the NameNode, JobTracker and the Secondary NameNode run on a single machine. However, when there are beyond 20-30 nodes. It’s better to run each of them on individual nodes. </p>
+<h3 id="Hadoop_Ecosystem">Hadoop Ecosystem</h3><p>Hadoop has a family of related projects based on the infrastructure for distributed computing and large-scale data processing. The core projects are apache open source projects. Except for HDFS and MapReduce, some hadoop related projects are:</p>
+<ul>
+<li>Ambari, a Hadoop management and cluster monitoring system.</li>
+<li>Avro, a serialization system for efficient, cross-language RPC and persistent data storage.</li>
+<li>Pig, a data flow language and execution environment for exploring very large datasets, which runs on HDFS and MapReduce clusters.</li>
+<li>HBase, provide random, realtime read/write access to BigData. The project built a column-oriented database, host very large tables —— billions of rows X millions of columns. The project is based on Google’s paper BigTable: A Distributed Storage System for Structured Data.</li>
+<li>Hive, which is distributed data warehouse. Hive manages data stored in HDFS and provides a query language based on SQL, which is translated by runtime engine to MapReduce Job.</li>
+<li>Zookeeper, a distributed, highly available coordination service. It provides centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services, which make build distributed applications more efficient.</li>
+<li>Oozie, a service for running and scheduling workflows of Hadoop jobs, which includes MapReduce, Pig, Hive and sqoop jobs.</li>
+<li>Mahout, a scalable machine learning libraries based on Hadoop HDFS and MapReduce.</li>
+</ul>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-overview/" data-id="cimunv9t1003xvisemdsy8gy5" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/12/05/hadoop-overview/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
       <article id="post-graph-dfs-bfs" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -254,7 +356,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/02/graph-dfs-bfs/" data-id="cimlpupyk004zsnse3d5djtyo" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/02/graph-dfs-bfs/" data-id="cimunv9u5004zviseyuwm8jbo" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/02/graph-dfs-bfs/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -346,7 +448,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" data-id="cimlpupv5000lsnsekhx477sh" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" data-id="cimunv9r6000lvisekiq32lgg" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -456,7 +558,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" data-id="cimlpupvc000tsnsexz1x8836" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" data-id="cimunv9ra000tvise4fo0g7kg" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -534,7 +636,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" data-id="cimlpupvg000ysnses90mxmfw" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" data-id="cimunv9rc000yvisexpzr8ik0" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -641,92 +743,12 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" data-id="cimlpupvj0013snse74z13fcz" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" data-id="cimunv9rg0013visel4gruh5y" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/design/">Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/systemanalysis/">SystemAnalysis</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-    
-      <article id="post-distributed-system-review-part4" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/11/24/distributed-system-review-part4/">分布式系统总结part4</a>
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/11/24/distributed-system-review-part4/">
-    <time datetime="2013-11-24T07:04:39.000Z" itemprop="datePublished">2013-11-24</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/distributed-system/">Distributed System</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/distributed-system/life/">Life</a>
-  </div>
-
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Petri网">Petri网</h3><h4 id="1-_以生产者消费者为例子">1. 以生产者消费者为例子</h4><p>Petri三元组PN=(P,T,F)即，库所，变迁，转换弧</p>
-<p>Preset表示前集,如果x是变迁，那么preset表示某个变迁的输入库所集合，如果x是某个库所那么preset表示某个库所的输入变迁。</p>
-<p>Postset表示后集，如果x是变迁，那么postset表示某个变迁的输出库所集合，如果x是库所，那么postset表示某个库所的输出变迁集合。[more…]<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System14.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System14-580x398.png" alt="Distributed System14"></a></p>
-<h4 id="2-_Marking，_Enable，_Firing">2. Marking， Enable， Firing</h4><p>M(p)表示当前所有库所的Token数量, 是一个快照.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System16.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System16-580x290.png" alt="Distributed System16"></a><br>通过这个图，可以很简单地看出 M(p)的计算等式.<br>当库所的token都到位后，变迁就enable了，如上图左边t2是enable的, t1没有enable， 如果Firing点火，就会转到另一个Marking下，如图中右边的图是点火后的Marking。</p>
-<h3 id="3-Handle">3.Handle</h3><p>PP—handled : 某一个Place到另一个Place有两条不相交的路径</p>
-<p>TT handled：某一个Transition和另一个Transition有两条不相交的路径</p>
-<p>PT—handled：某一个Place到另一个Transition有两条不相交的路径</p>
-<p>TP—handled：某一个Transition到另一个Place有两条不相交的路径</p>
-<p>Well-handled：只有TT和PP，没有PT，TP。 因为PT会有死锁的风险， TP会造出某一个Place内部的Token无限增长</p>
-<h3 id="4-State_Machine和Marked_Graph">4.State Machine和Marked Graph</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System17.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System17-580x349.png" alt="Distributed System17"></a></p>
-<ul>
-<li>Marked Graph：库所只有单个输入和单个输出</li>
-<li>State Machine: 每个变迁只有单个输入和单个输出，这是一个有限状态机</li>
-<li>T-component：如果一个大的Petri可以找到一个子网符合marked graph的要求，就是 T-component, 如果所有的T-component的集合可以覆盖整个Petri网，就是T-coverability。</li>
-<li>P-component：是一个大的网络中的一个Petri子网，满足state machine的，如所有的P-component可以覆盖整个Petri网，则称Petri网P-coverability</li>
-</ul>
-<h3 id="5-_活性和有界性">5. 活性和有界性</h3><ul>
-<li>活性：从M0状态出发，对于任何一个M和t转换后的M’，可以让任何变迁T有可能点火enable.什么是不活呢，就是死锁，但是不死锁，不等价于活性</li>
-<li>有界性：不论状态如何变化，token数量都不会无限增长，保持在一定数量</li>
-<li>Petri是well-formed的：存在M0使这个Petri网有活性并且有界</li>
-</ul>
-<h3 id="6-_Free-choice_structure">6. Free-choice structure</h3><p>自由选择结构：如果两个输入库所交集不为空，蕴含两个输入库所相等</p>
-<p>t1和t2是对等的选择关系.</p>
-<p>自由选择结构可以表达并发关系和同步关系</p>
-<p>给定一个自由选择结构，可以很好地决定它的活性和有界性。</p>
-<h3 id="7-_哲学家吃通心粉">7. 哲学家吃通心粉</h3><p>有五个哲学家围坐在一圆桌旁，桌子中央有一盘通心面，每人面前有一只空盘子，每两人之间放一把叉子。每个哲学家思考、饥饿、然后，欲吃通心面。为了吃面，每个哲学家必须获得两把叉子，且每人只能直接从自己左边或右边去取叉子。</p>
-<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System15.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System15-580x355.png" alt="Distributed System15"></a></p>
-<h3 id="资源">资源</h3><p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part1/" title="分布式系统总结part1" target="_blank" rel="external">分布式系统总结part1 中间件，进程迁移，移动通信失效，名称解析，移动实体定位</a></p>
-<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part2/" title="分布式系统总结part2" target="_blank" rel="external">分布式系统总结part2 Lamport同步与向量时间戳，两大选举算法，三大互斥算法</a></p>
-<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part3/" title="分布式系统总结part3" target="_blank" rel="external">分布式系统总结part3 复制和一致性(以数据和以客户为中心的一致性)，容错（拜占庭将军问题，两阶段与三阶段提交）</a></p>
-<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part4/" title="分布式系统总结part4" target="_blank" rel="external">分布式系统总结part4 Petri网解决哲学家问题和生产者、消费者问题</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part4/" data-id="cimlpupz5005isnsee4hj2g9h" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/11/24/distributed-system-review-part4/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li></ul>
 
     </footer>
   </div>
@@ -747,6 +769,15 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
     <h3 class="widget-title">recents</h3>
     <div class="widget">
       <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a></p>
+              <p class="item-title"><a href="/2016/04/10/machine-learning-logistic-regression/" class="title">machine-learning-logistic-regression</a></p>
+              <p class="item-date"><time datetime="2016-04-10T13:48:51.000Z" itemprop="datePublished">2016-04-10</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -784,15 +815,6 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
             </div>
           </li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">Algorithm</a></p>
-              <p class="item-title"><a href="/2015/04/03/find-median-for-two-sorted-array/" class="title">查找两个排序数组的中位数</a></p>
-              <p class="item-date"><time datetime="2015-04-03T14:07:01.000Z" itemprop="datePublished">2015-04-03</time></p>
-            </div>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -802,7 +824,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
   <div class="widget-wrap">
     <h3 class="widget-title">categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -811,7 +833,7 @@ private void visitDFSIterative(Vertex <span class="keyword">u</span>) {
   <div class="widget-wrap">
     <h3 class="widget-title">tag cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 10px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 11.43px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 11.43px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
     </div>
   </div>
 

@@ -3,19 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Dijkstra Algorithm | CyannyLive</title>
+  <title>machine-learning-logistic-regression | CyannyLive</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="计算单源最短路径的算法有Bellman-Ford算法，主要是计算带负权有向图的单源最短路径。第二种算法：对于DAG图（Directed Acyclic Graph, 有向无环图）可以通过拓扑排序后再计算单源最短路径。第三，可以使用BFS(广度优先搜索)计算单源最短路径。第四，就是著名的Dijkstra算法，要求有向图的所有边的权值非负，当然图可以不是DAG图。">
+  <meta name="description" content="Today I finished the week3 assignemnt about logistic regression.Logistic Regression is for classification problem, and the predication value is fixed descrete values, such as 1 for positive or 0 for n">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dijkstra Algorithm">
-<meta property="og:url" content="http://www.cyanny.com/2014/04/12/dijkstra-algorithm-in-java/index.html">
+<meta property="og:title" content="machine-learning-logistic-regression">
+<meta property="og:url" content="http://www.cyanny.com/2016/04/10/machine-learning-logistic-regression/index.html">
 <meta property="og:site_name" content="CyannyLive">
-<meta property="og:description" content="计算单源最短路径的算法有Bellman-Ford算法，主要是计算带负权有向图的单源最短路径。第二种算法：对于DAG图（Directed Acyclic Graph, 有向无环图）可以通过拓扑排序后再计算单源最短路径。第三，可以使用BFS(广度优先搜索)计算单源最短路径。第四，就是著名的Dijkstra算法，要求有向图的所有边的权值非负，当然图可以不是DAG图。">
-<meta property="og:image" content="http://i59.tinypic.com/9ggih1.jpg">
-<meta property="og:updated_time" content="2015-06-30T15:28:30.000Z">
+<meta property="og:description" content="Today I finished the week3 assignemnt about logistic regression.Logistic Regression is for classification problem, and the predication value is fixed descrete values, such as 1 for positive or 0 for n">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/761b7938jw1f2rxxio8x0j20v80nit9x.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/761b7938jw1f2rxxhyf4ij20v00ngtbs.jpg">
+<meta property="og:updated_time" content="2016-04-10T14:23:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dijkstra Algorithm">
-<meta name="twitter:description" content="计算单源最短路径的算法有Bellman-Ford算法，主要是计算带负权有向图的单源最短路径。第二种算法：对于DAG图（Directed Acyclic Graph, 有向无环图）可以通过拓扑排序后再计算单源最短路径。第三，可以使用BFS(广度优先搜索)计算单源最短路径。第四，就是著名的Dijkstra算法，要求有向图的所有边的权值非负，当然图可以不是DAG图。">
+<meta name="twitter:title" content="machine-learning-logistic-regression">
+<meta name="twitter:description" content="Today I finished the week3 assignemnt about logistic regression.Logistic Regression is for classification problem, and the predication value is fixed descrete values, such as 1 for positive or 0 for n">
 <meta name="twitter:creator" content="@lgrcyanny">
 <link rel="publisher" href="lgrcyanny">
 <meta property="fb:admins" content="lgrcyanny">
@@ -139,7 +140,7 @@ ga('send', 'pageview');
   </div>
 </aside>
       
-      <section id="main"><article id="post-dijkstra-algorithm-in-java" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-machine-learning-logistic-regression" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -148,21 +149,21 @@ ga('send', 'pageview');
         
   
     <h1 class="article-title" itemprop="name">
-      Dijkstra Algorithm
+      machine-learning-logistic-regression
     </h1>
   
 
         <div class="article-meta">
           <div class="article-date">
   <i class="fa fa-calendar"></i>
-  <a href="/2014/04/12/dijkstra-algorithm-in-java/">
-    <time datetime="2014-04-12T03:55:04.000Z" itemprop="datePublished">2014-04-12</time>
+  <a href="/2016/04/10/machine-learning-logistic-regression/">
+    <time datetime="2016-04-10T13:48:51.000Z" itemprop="datePublished">2016-04-10</time>
   </a>
 </div>
           
   <div class="article-category">
   	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/algorithm/">Algorithm</a>
+    <a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a>
   </div>
 
         </div>
@@ -170,118 +171,35 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>计算单源最短路径的算法有Bellman-Ford算法，主要是计算带负权有向图的单源最短路径。第二种算法：对于DAG图（Directed Acyclic Graph, 有向无环图）可以通过拓扑排序后再计算单源最短路径。第三，可以使用BFS(广度优先搜索)计算单源最短路径。第四，就是著名的Dijkstra算法，要求有向图的所有边的权值非负，当然图可以不是DAG图。</p>
-<a id="more"></a>
-<p>Dijkstra的实现思想主要是采用最小优先级队列，队列排序的标准是source节点到当前节点的距离，每次从堆顶取出一个节点，遍历该节点的邻接表，进行松弛(Relax)操作，松弛操作的伪代码如下：<br>[java]<br>relax(u, v) {<br>  if (v.distance &gt; u.distance + weight[u, v]) {<br>    v.distance = u.distance + weight[u, v];<br>    v.parent = u;<br>  }<br>}<br>[/java]</p>
-<p>Dijkstra算法的伪代码如下：<br>[java]<br>dijkstraShortestPath(graph, s) {<br>  for each v in graph {<br>    v.parent = null;<br>    v.distance = MaxValue;<br>  }<br>  MinPriorityQueue queue;<br>  s.distance = 0;<br>  queue.add(s);<br>  while (queue != empty) {<br>    u = queue.extractMin();<br>    for each v in adjacentlist of u {<br>      if (v.distance &gt; u.distance + weight[u, v]) {<br>        v.distance = u.distance + weight[u, v];<br>        v.parent = u;<br>        queue.add(v);<br>      }<br>    }<br>  }<br>}<br>[/java]</p>
-<p>Dijkstra算法实现时的一个难点是如何实现最小优先级队列以及图如何表示，我在实现中采用Java提供的PriorityQueue，同时Graph的表示采用邻接表。而邻接表最初的想法是一个ArrayList<arraylist<edge>&gt;, 每个Edge对象 = Vertex + weight; 但这个实现的限制是，在ArrayList中每个list的index就十分重要，当从queue中取得一个节点，需要按index找到他的邻接list。在<a href="https://github.com/mburst/dijkstras-algorithm/blob/master/Dijkstras.java" target="_blank" rel="external">GitHub上</a>看到一个实现，是用LinkedHashMap表示邻接表，但凭什么给每个节点按string的key进行标识呢？不是很认同。<br>最后采取的办法是，将每个节点的邻接list放入每个节点对象中，主要是受<a href="http://www.algolist.com/code/java/Dijkstra%27s_algorithm" target="_blank" rel="external">这个博客</a>的启发。<br>最后实现代码如下，也不是很长。</arraylist<edge></p>
-<h3 id="1-_定义Vertex">1. 定义Vertex</h3><p>[java]<br>public class Vertex implements Comparable&lt;Vertex&gt;{<br>    public String id = null;<br>    public Vertex parent = null;<br>    public Edge[] adjacencyList = null;<br>    public int distance = Integer.MAX_VALUE; // The min distance from source to the current vertex</p>
-<pre><code><span class="function"><span class="keyword">public</span> <span class="title">Vertex</span><span class="params">()</span> </span>{
-
-}
-
-<span class="function"><span class="keyword">public</span> <span class="title">Vertex</span><span class="params">(String id)</span> </span>{
-    <span class="keyword">this</span>.id = id;
-}
-
-<span class="comment">/**
- * Override this method for min priority queue
- */</span>
-<span class="annotation">@Override</span>
-<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Vertex o)</span> </span>{
-    <span class="keyword">return</span> <span class="keyword">this</span>.distance &amp;lt; o.distance ? -<span class="number">1</span> : (<span class="keyword">this</span>.distance == o.distance ? 0 : 1);
-}
-
-<span class="annotation">@Override</span>
-<span class="keyword">public</span> <span class="function">String <span class="title">toString</span><span class="params">()</span> </span>{
-    <span class="keyword">return</span> &amp;quot;Vertex [id=&amp;quot; + id + &amp;quot;, distance=&amp;quot; + distance + &amp;quot;]&amp;quot;;
-}
-</code></pre><p>}<br>[/java]</p>
-<h3 id="2-_定义Edge对象">2. 定义Edge对象</h3><p>[java]<br>public class Edge {<br>    public Vertex vertex = null;<br>    public int weight = 0;</p>
-<pre><code><span class="keyword">public</span> Edge() {
-
-}
-
-<span class="keyword">public</span> Edge(Vertex <span class="built_in">vertex</span>, <span class="built_in">int</span> weight) {
-    <span class="keyword">this</span>.<span class="built_in">vertex</span> = <span class="built_in">vertex</span>;
-    <span class="keyword">this</span>.weight = weight;
-}
-</code></pre><p>}<br>[/java]</p>
-<h3 id="3-_Dijkstra算法实现">3. Dijkstra算法实现</h3><p>测试的图如下：</p>
-<p><a href="http://tinypic.com?ref=9ggih1.jpg" target="_blank" rel="external"><img src="http://i59.tinypic.com/9ggih1.jpg" alt="Image and video hosting by TinyPic"></a><br>[java]<br>public class DijkstraGraph {<br>    public Vertex[] graph = null;</p>
-<pre><code><span class="function"><span class="keyword">public</span> <span class="title">DijkstraGraph</span><span class="params">(Vertex[] graph)</span> </span>{
-    <span class="keyword">this</span>.graph = graph;
-}
-
-<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">computShortestPath</span><span class="params">(Vertex source)</span> </span>{
-    PriorityQueue&amp;lt;Vertex&amp;gt; queue = <span class="keyword">new</span> PriorityQueue&amp;lt;Vertex&amp;gt;();
-    source.distance = <span class="number">0</span>;
-    queue.add(source);
-    <span class="keyword">while</span> (!queue.isEmpty()) {
-        Vertex u = queue.remove();
-        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &amp;lt; u.adjacencyList.length; i++) {
-            Edge v = u.adjacencyList[i]; <span class="comment">// The neighbor of vertex u</span>
-            <span class="keyword">if</span> (v.vertex.distance &amp;gt; u.distance + v.weight) {
-                v.vertex.distance = u.distance + v.weight;
-                v.vertex.parent = u;
-                queue.add(v.vertex);
-            }
-        }
-    }
-}
-
-<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">printShortestPath</span><span class="params">()</span> </span>{
-    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &amp;lt; graph.length; i++) {
-        Vertex <span class="keyword">target</span> = graph[i];
-        Stack&amp;lt;Vertex&amp;gt; path = <span class="keyword">new</span> Stack&amp;lt;Vertex&amp;gt;();
-        <span class="keyword">while</span> (<span class="keyword">target</span> != <span class="keyword">null</span>) {
-            path.push(<span class="keyword">target</span>);
-            <span class="keyword">target</span> = <span class="keyword">target</span>.parent;
-        }
-        printPath(path);
-    }
-}
-
-<span class="keyword">private</span> <span class="function"><span class="keyword">void</span> <span class="title">printPath</span><span class="params">(Stack&amp;lt;Vertex&amp;gt; path)</span> </span>{
-    System.out.println(&amp;quot;=============The path is=========&amp;quot;);
-    <span class="keyword">while</span> (!path.isEmpty()) {
-        System.out.println(path.pop());
-    }
-}
-
-<span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{
-    Vertex v0 = <span class="keyword">new</span> Vertex(&amp;quot;s&amp;quot;);
-    Vertex v1 = <span class="keyword">new</span> Vertex(&amp;quot;t&amp;quot;);
-    Vertex v2 = <span class="keyword">new</span> Vertex(&amp;quot;x&amp;quot;);
-    Vertex v3 = <span class="keyword">new</span> Vertex(&amp;quot;z&amp;quot;);
-    Vertex v4 = <span class="keyword">new</span> Vertex(&amp;quot;y&amp;quot;);
-
-    v0.adjacencyList = <span class="keyword">new</span> Edge[] { <span class="keyword">new</span> Edge(v1, <span class="number">10</span>), <span class="keyword">new</span> Edge(v4, <span class="number">5</span>) };
-    v1.adjacencyList = <span class="keyword">new</span> Edge[] { <span class="keyword">new</span> Edge(v2, <span class="number">1</span>), <span class="keyword">new</span> Edge(v4, <span class="number">2</span>) };
-    v2.adjacencyList = <span class="keyword">new</span> Edge[] { <span class="keyword">new</span> Edge(v3, <span class="number">4</span>) };
-    v3.adjacencyList = <span class="keyword">new</span> Edge[] { <span class="keyword">new</span> Edge(v0, <span class="number">7</span>), <span class="keyword">new</span> Edge(v2, <span class="number">6</span>) };
-    v4.adjacencyList = <span class="keyword">new</span> Edge[] { <span class="keyword">new</span> Edge(v1, <span class="number">3</span>), <span class="keyword">new</span> Edge(v2, <span class="number">9</span>),
-            <span class="keyword">new</span> Edge(v3, <span class="number">2</span>) };
-
-    Vertex[] graph = { v0, v1, v2, v3 };
-
-    DijkstraGraph dijkstraGraph = <span class="keyword">new</span> DijkstraGraph(graph);
-    dijkstraGraph.computShortestPath(v0);
-    dijkstraGraph.printShortestPath(); <span class="comment">// Each path from v0</span>
-
-}
-</code></pre><p>}<br>[/java]</p>
-<p>源码在<a href="https://github.com/lgrcyanny/Algorithm/tree/master/src/com/algorithm/graph/dijkstra" target="_blank" rel="external">Cyanny GitHub</a></p>
+        <p>Today I finished the week3 assignemnt about logistic regression.<br>Logistic Regression is for classification problem, and the predication value is fixed descrete values, such as 1 for positive or 0 for negative. I this the essence of logistic regression is:</p>
+<ul>
+<li>hypothesis function sigmoid function</li>
+<li>cost function: J(theta)</li>
+<li>gradient descent and algorithms</li>
+<li>advantanced optimization with regularization to solve overfitting problem.<a id="more"></a>
+<h2 id="Basics_about_logistic_regression">Basics about logistic regression</h2><strong>hypothesis function = 1 / (1 + exp(htheta(x)))</strong>, where htheta(x) = theta’ <em> x(theta’ is transpose theta)<br><img src="http://ww2.sinaimg.cn/mw690/761b7938jw1f2rxxio8x0j20v80nit9x.jpg" alt="Sigmoid Function or Logistic Function"><br>htheta(x) mean <em>*Probalitiy that y=1, given x parameterized by theta P(y=1 | x; theta)</em></em>, <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> htheta(x) &gt;= <span class="number">0.5</span>, then y = <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> htheta(x) &lt; <span class="number">0.5</span>, then y = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Descision_Boundary">Descision Boundary</h2><p><img src="http://ww3.sinaimg.cn/mw690/761b7938jw1f2rxxhyf4ij20v00ngtbs.jpg" alt="descision boundary"><br>Our goal is the calculate theta, can classify our traing data with descision boundary.<br>In the example, the traning data can be classified into 2 categories by a straight line.<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (theta<span class="operator">'</span>x) &gt;= <span class="number">0</span>, then htheta(x) &gt;= <span class="number">0.5</span>, then y = <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> (theta<span class="operator">'</span>x) &lt; <span class="number">0</span>, then htheta(x) &lt; <span class="number">0.5</span>, then y = <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="Cost_function_implementation">Cost function implementation</h2><p>For the assignment of week3, predicate the adimission by university with 2 exams grade data.<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[J, grad]</span> = <span class="title">costFunction</span><span class="params">(theta, X, y)</span></span></span><br><span class="line"><span class="comment">%COSTFUNCTION Compute cost and gradient for logistic regression</span></span><br><span class="line"><span class="comment">%   J = COSTFUNCTION(theta, X, y) computes the cost of using theta as the</span></span><br><span class="line"><span class="comment">%   parameter for logistic regression and the gradient of the cost</span></span><br><span class="line"><span class="comment">%   w.r.t. to the parameters.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Initialize some useful values</span></span><br><span class="line">m = <span class="built_in">length</span>(y); <span class="comment">% number of training examples</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% You need to return the following variables correctly </span></span><br><span class="line">J = <span class="number">0</span>;</span><br><span class="line">grad = <span class="built_in">zeros</span>(<span class="built_in">size</span>(theta));</span><br><span class="line"></span><br><span class="line"><span class="comment">% ====================== YOUR CODE HERE ======================</span></span><br><span class="line"><span class="comment">% Instructions: Compute the cost of a particular choice of theta.</span></span><br><span class="line"><span class="comment">%               You should set J to the cost.</span></span><br><span class="line"><span class="comment">%               Compute the partial derivatives and set grad to the partial</span></span><br><span class="line"><span class="comment">%               derivatives of the cost w.r.t. each parameter in theta</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="comment">% Note: grad should have the same dimensions as theta</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="comment">% Predications: h_theta(x)</span></span><br><span class="line">predications = sigmoid(X * theta);</span><br><span class="line">cost_items = y .* <span class="built_in">log</span>(predications) + (<span class="number">1</span> - y) .* <span class="built_in">log</span>(<span class="number">1</span> - predications);</span><br><span class="line">J = (-<span class="number">1</span> / m) * sum(cost_items);</span><br><span class="line"></span><br><span class="line">grad = (<span class="number">1</span> / m) * sum((predications - y) .* X, <span class="number">1</span>)<span class="operator">'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">% =============================================================</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="Cost_function_with_regularization">Cost function with regularization</h2><p>Regularzation is for overfitting problem.</p>
+<ul>
+<li>underfit: not fit the training data, with high bias between predications and actual value </li>
+<li>Just Right: great fit</li>
+<li>Overfitting:  often with too many features, not so much traning data, fit traing data well, but with hight variance, predict new data not very well</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[J, grad]</span> = <span class="title">costFunctionReg</span><span class="params">(theta, X, y, lambda)</span></span></span><br><span class="line"><span class="comment">%COSTFUNCTIONREG Compute cost and gradient for logistic regression with regularization</span></span><br><span class="line"><span class="comment">%   J = COSTFUNCTIONREG(theta, X, y, lambda) computes the cost of using</span></span><br><span class="line"><span class="comment">%   theta as the parameter for regularized logistic regression and the</span></span><br><span class="line"><span class="comment">%   gradient of the cost w.r.t. to the parameters. </span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Initialize some useful values</span></span><br><span class="line">m = <span class="built_in">length</span>(y); <span class="comment">% number of training examples</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% You need to return the following variables correctly </span></span><br><span class="line">J = <span class="number">0</span>;</span><br><span class="line">grad = <span class="built_in">zeros</span>(<span class="built_in">size</span>(theta));</span><br><span class="line"></span><br><span class="line"><span class="comment">% ====================== YOUR CODE HERE ======================</span></span><br><span class="line"><span class="comment">% Instructions: Compute the cost of a particular choice of theta.</span></span><br><span class="line"><span class="comment">%               You should set J to the cost.</span></span><br><span class="line"><span class="comment">%               Compute the partial derivatives and set grad to the partial</span></span><br><span class="line"><span class="comment">%               derivatives of the cost w.r.t. each parameter in theta</span></span><br><span class="line">predications = sigmoid(X * theta);</span><br><span class="line">cost_items = (y .* <span class="built_in">log</span>(predications)) + (<span class="number">1</span> - y) .* <span class="built_in">log</span>(<span class="number">1</span> - predications);</span><br><span class="line">reg_items = theta .^ <span class="number">2</span>;</span><br><span class="line"><span class="comment">% don't penalize theta0</span></span><br><span class="line">sum_reg_items = sum(reg_items) - reg_items(<span class="number">1</span>);</span><br><span class="line">J = (-<span class="number">1</span> / m) * sum(cost_items) + (lambda / (<span class="number">2</span> * m)) * sum_reg_items;</span><br><span class="line"></span><br><span class="line">partial_derivative_items = (<span class="number">1</span> / m) * sum((predications - y) .* X)<span class="operator">'</span>;</span><br><span class="line"><span class="comment">% don't penalize theta0, so grad(1) for theta0 is as before</span></span><br><span class="line">grad(<span class="number">1</span>) = partial_derivative_items(<span class="number">1</span>);</span><br><span class="line">n = <span class="built_in">size</span>(theta, <span class="number">1</span>);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">j</span> = <span class="number">2</span>:n</span><br><span class="line">    grad(<span class="built_in">j</span>) = partial_derivative_items(<span class="built_in">j</span>) + (lambda / m) * theta(<span class="built_in">j</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">% =============================================================</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h2 id="Github_assignments">Github assignments</h2><p><a href="https://github.com/lgrcyanny/MachineLearningCoursera/tree/master/assignments/ex2-logistic-regression" target="_blank" rel="external">Week 3 Assignments</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2014/04/12/dijkstra-algorithm-in-java/" data-id="cimunv9wh0060viseye5nf721" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2016/04/10/machine-learning-logistic-regression/" data-id="cimunv9wx006gviseipr3g9g5" class="article-share-link">Share</a>
       
-        <a href="http://www.cyanny.com/2014/04/12/dijkstra-algorithm-in-java/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://www.cyanny.com/2016/04/10/machine-learning-logistic-regression/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/coursera/">Coursera</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/machine-learning/">Machine Learning</a></li></ul>
 
     </footer>
   </div>
@@ -289,19 +207,10 @@ ga('send', 'pageview');
     
 <nav id="article-nav">
   
-    <a href="/2014/08/16/hive-architecture/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Hive架构笔记
-        
-      </div>
-    </a>
   
-  
-    <a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/04/04/machine-learning-linear-regression/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">HBase MapReduce排序Secondary Sort</div>
+      <div class="article-nav-title">Machine Learning Linear Regression</div>
     </a>
   
 </nav>

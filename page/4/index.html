@@ -109,7 +109,7 @@ ga('send', 'pageview');
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        46
+        47
         <span>posts</span>
       </div>
       <div class="article-info-block">
@@ -138,6 +138,103 @@ ga('send', 'pageview');
 </aside>
       
       <section id="main">
+      <article id="post-hadoop-mapreduce-2-yarn" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/05/hadoop-mapreduce-2-yarn/">Hadoop MapReduce 2 (YARN)</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/05/hadoop-mapreduce-2-yarn/">
+    <time datetime="2013-12-05T08:57:01.000Z" itemprop="datePublished">2013-12-05</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>For large clusters with more than 4000 nodes, the classic MapReduce framework hit the scalability problems.<br><strong>Therefore, a group in Yahoo began to design the next generation MapReduce in 2010, and in 2013 Hadoop 2.x releases MapReduce 2, Yet Another Resource Negotiator (YARN) to remedy the sociability shortcoming.</strong><br>The fundamental idea of YARN is to split up the two major functionalities of the JobTracker: resource management (job scheduling) and job monitoring into separate daemons. YARN has a global Resource Manager (RM) and per-application Application Master(AM).[more…]</p>
+<h3 id="YARN_High-level_Overview">YARN High-level Overview</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.1.png" alt="hd7.1">Figure1 YARN High-level Overview</a><br>As shown in Figure1, the YARN involves more entities than classic MapReduce 1 :</p>
+<ul>
+<li>Client, the same as classic MapReduce which submits the MapReduce job.</li>
+<li>Resource Manager, which has the ultimate authority that arbitrates resources among all the applications in the cluster, it coordinates the allocation of compute resources on the cluster.</li>
+<li>Node Manager, which is in charge of resource containers, monitoring resource usage (cpu, memory, disk , network) on the node , and reporting to the Resource Manager.</li>
+<li>Application Master, which is in charge of the life cycle an application, like a MapReduce Job. It will negotiates with the Resource Manager of cluster resources—-in YARN called containers. The Application Master and the MapReduce task in the containers are scheduled by the Resource Manager. And both of them are managed by the Node Manager. Application Mater is also responsible for keeping track of task progress and status. </li>
+<li>HDFS, the same as classic MapReduce, for files sharing between different entities.</li>
+</ul>
+<p>Resource Manager consists of two components: Scheduler and ApplicationsManager.</p>
+<p>Scheduler is in charge of allocating resources. The resource Container incorporates elements such as memory, cup, disk, network etc. Scheduler just has the resource allocation function, has no responsible for job status monitoring. And the scheduler is pluggable, can be replaced by other scheduler plugin-in.</p>
+<p>The ApplicationsManager is responsible for accepting job-submissions, negotiating the first container for executing the application specific Application Master, and it provides restart service when the container fails.<br>The MapReduce job is just one type of application in YARN. Different application can run on the same cluster with YARN framework. That’s the beauty of YARN.</p>
+<h3 id="YARN_MapReduce">YARN MapReduce</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.2.png" alt="hd7.2">Figure2 MapReduce with YARN</a><br>As shown in Figure2, it is the MapReduce process with YARN, there are 11 steps, and we will explain it in 6 steps the same as the MapReduce 1 framework. They are Job Submission, Job Initialization, Task Assignment, Task Execution, Progress and Status Updates, and Job Completion.</p>
+<h4 id="Job_Submission">Job Submission</h4><p>Clients can submit jobs with the same API as MapReduce 1 in YARN. YARN implements its ClientProtocol, the submission process is similar to MapReduce 1.</p>
+<ul>
+<li>The client calls the submit() method, which will initiate the JobSubmmitter object and call submitJobInternel().</li>
+<li>Resource Manager will allocate a new application ID and response it to client.</li>
+<li>The job client checks the output specification of the job</li>
+<li>The job client computes the input splits</li>
+<li>The job client copies resources, including the splits data, configuration information, the job JAR into HDFS</li>
+<li>Finally, the job client notify Resource Manager it is ready by calling submitApplication() on the Resource Manager.</li>
+</ul>
+<h4 id="Job_Initialization">Job Initialization</h4><p> When the Resource Manager(RM) receives the call submitApplication(), RM will hands off the job to its scheduler. The job initialization is as follows:</p>
+<ul>
+<li>The scheduler allocates a resource container for the job, </li>
+<li>The RM launches the Application Master under the Node Manager’s management. </li>
+<li>Application Master initialize the job. Application Master is a Java class named MRAppMaster, which initializes the job by creating a number of bookkeeping objects to keep track of the job progress. It will receive the progress and the completion reports from the tasks. </li>
+<li>Application Master retrieves the input splits from HDFS, and creates a map task object for each split. It will create a number of reduce task objects determined by the mapreduce.job.reduces configuration property.</li>
+<li>Application Master then decides how to run the job. </li>
+</ul>
+<p>For small job, called uber job, which is the one has less than 10 mappers and only one reducer, or the input split size is smaller than a HDFS block, the Application Manager will run the job on its own JVM sequentially. This policy is different from MapReduce 1 which will ignore the small jobs on a single TaskTracker.</p>
+<p>For large job, the Application Master will launches a new node with new NodeManager and new container, in which run the task. This can run job in parallel and gain more performance. </p>
+<p>Application Master calls the job setup method to create the job’s output directory. That’s different from MapReduce 1, where the setup task is called by each task’s TaskTracker.</p>
+<h4 id="Task_Assignment">Task Assignment</h4><p>When the job is very large so that it can’t be run on the same node as the Application Master. The Application Master will make request to the Resource Manager to negotiate more resource container which is in piggybacked on heartbeat calls. The task assignment is as follows:</p>
+<ul>
+<li>The Application Master make request to the Resource Manager in heartbeat call. The request includes the data locality information, like hosts and corresponding racks that the input splits resides on. </li>
+<li>The Recourse Manager hand over the request to the Scheduler. The Scheduler makes decisions based on these information. It attempts to place the task as close the data as possible. The data-local nodes is great, if this is not possible , the rack-local the preferred to nolocal node.</li>
+<li>The request also specific the memory requirements, which is between the minimum allocation (1GB by default) and the maximum allocation (10GB). The Scheduler will schedule a container with multiples of 1GB memory to the task, based on the mapreduce.map.memory.mb and mapreduce.reduce.memory.mb property set by the task.</li>
+</ul>
+<p>This way is more flexible than MapReduce 1. In MapReduce 1, the TaskTrackers have a fixed number of slots and each task runs in a slot. Each slot has fixed memory allowance which results in two problems. For small task, it will waste of memory, and for large task which need more memeory, it will lack of memory.<br>In YARN, the memory allocation is more fine-grained, which is also the beauty of YARE resides in.</p>
+<h4 id="Task_Execution">Task Execution</h4><p>After the task has been assigned the container by the Resource Manger’s scheduler, the Application Master will contact the NodeManger which will launch the task JVM.<br>The task execution is as follows:</p>
+<ul>
+<li>The Java Application whose class name is YarnChild localizes the resources that the task needs. YarnChild retrieves job resources including the job jar, configuration file, and any needed files from the HDFS and the distributed cache on the local disk.</li>
+<li>YarnChild run the map or the reduce task<br>Each YarnChild runs on a dedicated JVM, which isolates user code from the long running system daemons like NodeManager and the Application Master. Different from MapReduce 1, <strong>YARN doesn’t support JVM reuse</strong>, hence each task must run on new JVM.<br>The streaming and the pipeline processs and communication in the same as MapReduce 1.</li>
+</ul>
+<h4 id="Progress_and_Status_Updates">Progress and Status Updates</h4><p>When the job is running under YARN, the mapper or reducer will report its status and progress to its Application Master every 3 seconds over the umbilical interface. The Application Master will aggregate these status reports into a view of the task status and progress. While in MapReduce 1, the TaskTracker reports status to JobTracker which is responsible for aggregating status into a global view.<br>Moreover, the Node Manger will send heartbeats to the Resource Manager every few seconds. The Node Manager will monitoring the Application Master and the recourse container usage like cpu, memeory and network, and make reports to the Resource Manager. When the Node Manager fails and stops heartbeat the Resource Manager, the Resource Manager will remove the node from its available resource nodes pool.<br>The client pulls the status by calling getStatus() every 1 second to receive the progress updates, which are printed on the user console. User can also check the status from the web UI. The Resource Manager web UI will display all the running applications with links to the web UI where displays task status and progress in detail.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.3.png" alt="hd7.3">Figure 3  YARN Progress and Status Updates</a></p>
+<h4 id="Job_Completion">Job Completion</h4><p>Every 5 second the client will check the job completion over the HTTP ClientProtocol by calling waitForCompletion(). When the job is done, the Application Master and the task containers clean up their working state and the outputCommitter’s job cleanup method is called. And the job information is archived as history for later interrogation by user.</p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-2-yarn/" data-id="cimunv9t70045viseaz10gejj" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-2-yarn/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
       <article id="post-hadoop-mapreduce-1-framework" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -229,7 +326,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-1-framework/" data-id="cimlpupxz004asnsemhna0y6e" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-1-framework/" data-id="cimunv9tc004avise4138gmey" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-1-framework/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -290,7 +387,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-overview/" data-id="cimlpupxp0043snserltn0abr" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-overview/" data-id="cimunv9t40043visee6vb30lr" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-overview/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -348,7 +445,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/" data-id="cimlpupye004psnsenu8rxfs4" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/" data-id="cimunv9tz004pvisekasqonqp" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -408,7 +505,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-federation/" data-id="cimlpupyh004usnseelktw4ul" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-federation/" data-id="cimunv9u2004uvisebest3xp8" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-federation/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -505,111 +602,9 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-review/" data-id="cimlpupyb004ksnse0w2sarj6" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-review/" data-id="cimunv9tu004kviseb4xeta1b" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-review/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-    
-      <article id="post-hadoop-overview" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/12/05/hadoop-overview/">Hadoop Overview</a>
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/12/05/hadoop-overview/">
-    <time datetime="2013-12-05T03:36:08.000Z" itemprop="datePublished">2013-12-05</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
-  </div>
-
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="The_motivation_for_Hadoop">The motivation for Hadoop</h3><p>Apache Hadoop is an open source distributed computing framework for large-scale data sets processing. Doug Cutting, who is the creator of Apache Lucene Project, creates it. </p>
-<p>The name of Hadoop is a made-up name, which is the nickname of a stuffed yellow elephant of the kid of Doug. Hadoop has its origins in Apache Nutch, an open source web search engine, and it is built based on work done by Google in early 2000s, specifically on Google papers describing the Google File System (GFS) published in 2003, and MapReduce published in 2004. </p>
-<p>Hadoop moved out of Nutch to form an independent in Feb. 2006. Up to now, Hadoop has been powered by many companies, such as Yahoo who claims it has the biggest Hadoop cluster in the world with more than 42000 nodes, LinkedIn who has 4100 nodes, Facebook who has 1400 nodes, Taobao who has the biggest cluster in China with more than 2000 nodes. [more…]</p>
-<h3 id="The_problems_for_traditional_big_data_processing">The problems for traditional big data processing</h3><p>Why these companies adopt Hadoop? The reason is simple, that we live in a big data age. We are flooded with big data every day on the Internet. Consider that: Facebook hosts approximately 10 billion photos, taken up on PB storage. Every second on eBay, a total merchandise value of 1400 dollars is traded and 10 million new items are listed on eBay every day. Ancestry.com, the genealogy site, store around 2.5 PB of Data.</p>
-<p>How to make use of these big data to make analysis? For traditional methods, use only one machine to process computation, which needs faster processor and RAM. Even though the CPU power doubles every 18 months according to Moores’s Law, it hasn’t meet the big data analysis needs. Yet distributed system evolved to allow developers to use multiple machines for a single job, like MPI, PVM and Condor. However, programing for these traditional distributed systems is complex, you have to deal with these problems:</p>
-<ul>
-<li>It’s difficult to deal with partial failures of the system. Developers spend more time designing for failure than they do actually working on the problem itself.</li>
-<li>Finite and precious bandwidth must be available to combine data from different disks and transfer time is very slow for big data volume.</li>
-<li>Data exchange requires synchronization.</li>
-<li>Temporal dependencies are complicated.</li>
-</ul>
-<h3 id="How_can_Hadoop_save_big_data_analysis">How can Hadoop save big data analysis</h3><p>What really counts is big data. Traditional distributed computing can’t handle big data in a decent way, but Hadoop can. Lets see what Hadoop brings to us: </p>
-<ul>
-<li>Hadoop provide partial failure support. Hadoop Distributed File System (HDFS) can store large data sets with high reliability and scalability.</li>
-<li>HDFS provide great fault tolerance. Partial Failure will not result in the failure of the entire system. And HDFS provide data recoverability for partial failure.</li>
-<li>Hadoop introduce MapReduce, which spares programmers from low-level details, like partial failure. The MapReduce framework will detect failed tasks and reschedule them automatically.</li>
-<li>Hadoop provide data locality. The MapReduce framework tries to collocate data with the compute nodes. Data is local, and tasks are separated with no dependence on each other. So the shared-nothing and data locality architecture can save more bandwidth and solve the complicated dependence problem</li>
-</ul>
-<p>In summary, Hadoop is a great big data processing tool.</p>
-<h3 id="Hadoop_Basic_Concepts_and_Core_Concepts">Hadoop Basic Concepts and Core Concepts</h3><p>The core concepts for Hadoop are to distribute the data as it is initially stored in the system. That is data locality, individual nodes can work on data local to these nodes, and no data transfer over the network is required for initial processing.<br>Here are the basic concepts for Hadoop:</p>
-<ul>
-<li>Applications are written in high-level code. Developers don’t worry about network programming, temporal dependencies etc.</li>
-<li>Nodes talk to each other as little as possible. Developers should not write code which communicates between nodes, that is ‘Shared-Nothing’ architecture.</li>
-<li>Data is spread among machines in advance. Computation happens where the data is stored, wherever possible, just as near the node as possible. Data is replicated multiple times on the system for increased availability and reliability.</li>
-</ul>
-<h3 id="Hadoop_High-Level_Overview">Hadoop High-Level Overview</h3><p>Hadoop consists of two important components: HDFS and MapReduce.<br>HDFS is Hadoop Distributed File System, which is a distributed file system designed to store large data sets and streaming data sets on commodity hardware with high scalability, reliability and availability.</p>
-<p>MapReduce is a distributed processing framework designed to operate on large data stored on HDFS, which provides a clean interface for developers.</p>
-<p>A set of machines running HDFS and MapReduce is known as a Hadoop Cluster. An individual machine in a cluster is known as nodes. The nodes play different roles. There are two kind important nodes: Master Nodes and Slave Nodes.</p>
-<p>There are 5 important daemons on these nodes. </p>
-<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png" alt="hd2.1">Figure1 Hadoop High-Level Architecture</a></p>
-<p>As shown in Figure, Hadoop is comprised of 5 separate daemons:</p>
-<ul>
-<li>NameNode, which holds the metadata for HDFS.</li>
-<li>Secondary NameNode, which performs housekeeping functions for NameNode, and isn’t a backup or hot standby for the NameNode.</li>
-<li>DataNode, which stores actual HDFS data blocks. In Hadoop, a large file is split into 64M or 128M blocks.</li>
-<li>JobTracker, which manages MapReduce jobs, distributes individual tasks to machines running.</li>
-<li>TaskTracker, which initiates and monitors each individual Map and Reduce tasks.</li>
-</ul>
-<p>Each daemon runs on its own Java Virtual Machine (JVM), no Nodes can run 5 daemons at the same time.  </p>
-<p>Master Nodes runs the NameNode, Secondary NameNode, JobTracker daemons. And only one of each of these daemons runs on the cluster.<br>Slave Nodes run the DataNode and TaskTracker daemons. A slave node will run both of these daemons. All of these Slave Nodes run in parallel, each on their own part of the overall dataset locally.</p>
-<p>Just for very small clusters, the NameNode, JobTracker and the Secondary NameNode run on a single machine. However, when there are beyond 20-30 nodes. It’s better to run each of them on individual nodes. </p>
-<h3 id="Hadoop_Ecosystem">Hadoop Ecosystem</h3><p>Hadoop has a family of related projects based on the infrastructure for distributed computing and large-scale data processing. The core projects are apache open source projects. Except for HDFS and MapReduce, some hadoop related projects are:</p>
-<ul>
-<li>Ambari, a Hadoop management and cluster monitoring system.</li>
-<li>Avro, a serialization system for efficient, cross-language RPC and persistent data storage.</li>
-<li>Pig, a data flow language and execution environment for exploring very large datasets, which runs on HDFS and MapReduce clusters.</li>
-<li>HBase, provide random, realtime read/write access to BigData. The project built a column-oriented database, host very large tables —— billions of rows X millions of columns. The project is based on Google’s paper BigTable: A Distributed Storage System for Structured Data.</li>
-<li>Hive, which is distributed data warehouse. Hive manages data stored in HDFS and provides a query language based on SQL, which is translated by runtime engine to MapReduce Job.</li>
-<li>Zookeeper, a distributed, highly available coordination service. It provides centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services, which make build distributed applications more efficient.</li>
-<li>Oozie, a service for running and scheduling workflows of Hadoop jobs, which includes MapReduce, Pig, Hive and sqoop jobs.</li>
-<li>Mahout, a scalable machine learning libraries based on Hadoop HDFS and MapReduce.</li>
-</ul>
-<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-overview/" data-id="cimlpupxl003xsnsepg9c6s68" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/12/05/hadoop-overview/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
@@ -633,6 +628,15 @@ ga('send', 'pageview');
     <h3 class="widget-title">recents</h3>
     <div class="widget">
       <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a></p>
+              <p class="item-title"><a href="/2016/04/10/machine-learning-logistic-regression/" class="title">machine-learning-logistic-regression</a></p>
+              <p class="item-date"><time datetime="2016-04-10T13:48:51.000Z" itemprop="datePublished">2016-04-10</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -670,15 +674,6 @@ ga('send', 'pageview');
             </div>
           </li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">Algorithm</a></p>
-              <p class="item-title"><a href="/2015/04/03/find-median-for-two-sorted-array/" class="title">查找两个排序数组的中位数</a></p>
-              <p class="item-date"><time datetime="2015-04-03T14:07:01.000Z" itemprop="datePublished">2015-04-03</time></p>
-            </div>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -688,7 +683,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -697,7 +692,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">tag cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 10px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 11.43px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 11.43px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
     </div>
   </div>
 

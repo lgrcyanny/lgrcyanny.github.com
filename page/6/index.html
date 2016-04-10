@@ -109,7 +109,7 @@ ga('send', 'pageview');
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        46
+        47
         <span>posts</span>
       </div>
       <div class="article-info-block">
@@ -138,6 +138,86 @@ ga('send', 'pageview');
 </aside>
       
       <section id="main">
+      <article id="post-distributed-system-review-part4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/24/distributed-system-review-part4/">分布式系统总结part4</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/24/distributed-system-review-part4/">
+    <time datetime="2013-11-24T07:04:39.000Z" itemprop="datePublished">2013-11-24</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/distributed-system/">Distributed System</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/distributed-system/life/">Life</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Petri网">Petri网</h3><h4 id="1-_以生产者消费者为例子">1. 以生产者消费者为例子</h4><p>Petri三元组PN=(P,T,F)即，库所，变迁，转换弧</p>
+<p>Preset表示前集,如果x是变迁，那么preset表示某个变迁的输入库所集合，如果x是某个库所那么preset表示某个库所的输入变迁。</p>
+<p>Postset表示后集，如果x是变迁，那么postset表示某个变迁的输出库所集合，如果x是库所，那么postset表示某个库所的输出变迁集合。[more…]<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System14.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System14-580x398.png" alt="Distributed System14"></a></p>
+<h4 id="2-_Marking，_Enable，_Firing">2. Marking， Enable， Firing</h4><p>M(p)表示当前所有库所的Token数量, 是一个快照.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System16.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System16-580x290.png" alt="Distributed System16"></a><br>通过这个图，可以很简单地看出 M(p)的计算等式.<br>当库所的token都到位后，变迁就enable了，如上图左边t2是enable的, t1没有enable， 如果Firing点火，就会转到另一个Marking下，如图中右边的图是点火后的Marking。</p>
+<h3 id="3-Handle">3.Handle</h3><p>PP—handled : 某一个Place到另一个Place有两条不相交的路径</p>
+<p>TT handled：某一个Transition和另一个Transition有两条不相交的路径</p>
+<p>PT—handled：某一个Place到另一个Transition有两条不相交的路径</p>
+<p>TP—handled：某一个Transition到另一个Place有两条不相交的路径</p>
+<p>Well-handled：只有TT和PP，没有PT，TP。 因为PT会有死锁的风险， TP会造出某一个Place内部的Token无限增长</p>
+<h3 id="4-State_Machine和Marked_Graph">4.State Machine和Marked Graph</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System17.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System17-580x349.png" alt="Distributed System17"></a></p>
+<ul>
+<li>Marked Graph：库所只有单个输入和单个输出</li>
+<li>State Machine: 每个变迁只有单个输入和单个输出，这是一个有限状态机</li>
+<li>T-component：如果一个大的Petri可以找到一个子网符合marked graph的要求，就是 T-component, 如果所有的T-component的集合可以覆盖整个Petri网，就是T-coverability。</li>
+<li>P-component：是一个大的网络中的一个Petri子网，满足state machine的，如所有的P-component可以覆盖整个Petri网，则称Petri网P-coverability</li>
+</ul>
+<h3 id="5-_活性和有界性">5. 活性和有界性</h3><ul>
+<li>活性：从M0状态出发，对于任何一个M和t转换后的M’，可以让任何变迁T有可能点火enable.什么是不活呢，就是死锁，但是不死锁，不等价于活性</li>
+<li>有界性：不论状态如何变化，token数量都不会无限增长，保持在一定数量</li>
+<li>Petri是well-formed的：存在M0使这个Petri网有活性并且有界</li>
+</ul>
+<h3 id="6-_Free-choice_structure">6. Free-choice structure</h3><p>自由选择结构：如果两个输入库所交集不为空，蕴含两个输入库所相等</p>
+<p>t1和t2是对等的选择关系.</p>
+<p>自由选择结构可以表达并发关系和同步关系</p>
+<p>给定一个自由选择结构，可以很好地决定它的活性和有界性。</p>
+<h3 id="7-_哲学家吃通心粉">7. 哲学家吃通心粉</h3><p>有五个哲学家围坐在一圆桌旁，桌子中央有一盘通心面，每人面前有一只空盘子，每两人之间放一把叉子。每个哲学家思考、饥饿、然后，欲吃通心面。为了吃面，每个哲学家必须获得两把叉子，且每人只能直接从自己左边或右边去取叉子。</p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System15.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System15-580x355.png" alt="Distributed System15"></a></p>
+<h3 id="资源">资源</h3><p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part1/" title="分布式系统总结part1" target="_blank" rel="external">分布式系统总结part1 中间件，进程迁移，移动通信失效，名称解析，移动实体定位</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part2/" title="分布式系统总结part2" target="_blank" rel="external">分布式系统总结part2 Lamport同步与向量时间戳，两大选举算法，三大互斥算法</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part3/" title="分布式系统总结part3" target="_blank" rel="external">分布式系统总结part3 复制和一致性(以数据和以客户为中心的一致性)，容错（拜占庭将军问题，两阶段与三阶段提交）</a></p>
+<p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part4/" title="分布式系统总结part4" target="_blank" rel="external">分布式系统总结part4 Petri网解决哲学家问题和生产者、消费者问题</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part4/" data-id="cimunv9v2005ivisebydlhsjl" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/24/distributed-system-review-part4/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
       <article id="post-distributed-system-review-part3" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -241,7 +321,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part3/" data-id="cimlpupzb005osnseklv8sdvp" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part3/" data-id="cimunv9ve005oviseyjhri2fy" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/24/distributed-system-review-part3/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -383,7 +463,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part2/" data-id="cimlpupze005ssnsee32hdcct" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part2/" data-id="cimunv9vl005svise3d5fdr78" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/24/distributed-system-review-part2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -558,7 +638,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part1/" data-id="cimlpupzi005wsnseryhrgcsc" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part1/" data-id="cimunv9w1005wvisexnkjavwy" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/24/distributed-system-review-part1/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -659,7 +739,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/16/netkit-filesystem-custom-cutting/" data-id="cimlpupwb0027snse6om1jete" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/16/netkit-filesystem-custom-cutting/" data-id="cimunv9s20027visep1jb5a25" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/16/netkit-filesystem-custom-cutting/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -850,89 +930,12 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/13/ipsec-architecture/" data-id="cimlpupwh002hsnsefdj0pi2u" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/13/ipsec-architecture/" data-id="cimunv9s7002hvisejpejamol" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/13/ipsec-architecture/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-    
-      <article id="post-how-to-set-up-vps-and-deploy-wordpress-blog-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/">如何配置VPS并发布WordPress Blog?(第一篇)</a>
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/">
-    <time datetime="2013-11-11T12:02:33.000Z" itemprop="datePublished">2013-11-11</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/linux/">Linux</a>
-  </div>
-
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近将VPS放到digitalocean上, 因为之前的VPS被关停了,所以再找一个, 相信这次会稳定了,之前的服务器是CentOS5.9,而现在的版本是CentOS7,以下的一些配置可能不正确了,可以参考这个链接<a href="http://www.howtoforge.com/apache_php_mysql_on_centos_7_lamp" title="lamp with centos7.0" target="_blank" rel="external">LAMP with Centos 7.0</a></p>
-<h3 id="目标">目标</h3><p>发布个人的WordPress博客网站，配置LAMP环境，并用GitHub来发布Blog，不用FTP，会很慢。<br>[more…]</p>
-<h3 id="连接VPS">连接VPS</h3><p>我在Mac下，所以很方便的连上VPS, 为了方便管理直接用root登陆, 第一次配置安全性先不考虑，用root方便些<br>[bash]<br>ssh -l root ip.address<br>[/bash]<br>如果在Windows下，下载一个putty就可以很方便的连上VPS，SSH端口是22，VPS默认可以用SSH连接。</p>
-<h3 id="有用的命令">有用的命令</h3><p>[bash]<br>cat /etc/<em>release</em>    #查看Linux的版本<br>uname -a              # 查看内核的版本<br>ifconfig -a           # 查看网卡情况<br>nman localhost        # 查看端口的情况<br>iptables -vL          # 查看防火墙的情况<br>netstat -aln | grep 80  # 查看网络连接情况<br>init 6                  # 重启<br>passwd                  # 修改当前用户的密码，可以该root密码<br>[/bash]</p>
-<h3 id="Linux_running_level">Linux running level</h3><p>Linux下的运行级别，一个常识</p>
-<p>0 – halt</p>
-<p>1 – Single user mode </p>
-<p>2 – Multiuser, without NFS </p>
-<p>3 – Full multiuser mode </p>
-<p>4 – unused </p>
-<p>5 – X11 </p>
-<p>6 – reboot </p>
-<p>[bash]<br>init running-level  # 触发运行级别，关机，重启各种方便<br>[/bash]</p>
-<h3 id="关闭selinux">关闭selinux</h3><p>selinux经常捣乱，先把它关了，还要永久关<br>[bash]<br>getenforce                  # 查看selinux的状态<br>sestatus                    # 一样，查看selinux状态<br>vim /etc/sysconfig/selinux  # 将SELINUX 改为disabled状态，然后重启<br>setenforce 0                # 只能暂时改变selinux状态，不能永久更改，只有上面的方法可以<br>init 6                      # 重启<br>[/bash]</p>
-<p>这个在DigitalOcean的镜像中不需要配置.</p>
-<h3 id="安装Apache">安装Apache</h3><p>[bash]<br>yum -y install httpd<br>chkconfig —levels 235 httpd on  # 将httpd进程设置为开机启动<br>service httpd start              # 此时可以用ip访问VPS，如<a href="http://129.29.10.10，如果可以访问便安装成功" target="_blank" rel="external">http://129.29.10.10，如果可以访问便安装成功</a><br>[/bash]<br>Apache在CentOS的DocumentRoot是“/var/www/html”, 配置文件在”/etc/httpd/config/httpd.conf”</p>
-<p>无奈，第一个问题遇到了，我的Apache访问不了，纠结半天，原来是防火墙iptables的问题。</p>
-<h3 id="打开防火墙">打开防火墙</h3><p>CentOS的iptables默认只让注册过的端口通过，而80端口没有注册过，不能通过防火墙。<br>[bash]<br>vim /etc/sysconfig/iptables</p>
-<h1 id="将_“-A_RH-Firewall-1-INPUT_-j_REJECT_—reject-with_icmp-host-prohibited”_这行注释了，保存退出">将 “-A RH-Firewall-1-INPUT -j REJECT —reject-with icmp-host-prohibited” 这行注释了，保存退出</h1><p>service iptables restart<br>[/bash]<br>BTW,如果采用以下的方法enable 80 端口，我今天成功了, 以前没有成功不知为何，不过上面的方法是肯定好的，下面的方法是一个安全点的办法。<br>[bash]<br>iptables -A INPUT -p tcp —dport 80 -j ACCEPT<br>iptables -A INPUT -p tcp —dport 443 -j ACCEPT  // 添加443 SSL端口未来会用<br>service iptables save                          // /etc/sysconfig/iptables 文件会被重写<br>service iptables restart<br>[/bash]<br>此时再访问<a href="http://youripaddress就会有apache界面了。" target="_blank" rel="external">http://youripaddress就会有apache界面了。</a></p>
-<p>在DigitalOcean中,不需要配置本项.</p>
-<h3 id="安装MySQL">安装MySQL</h3><p>[bash]<br>yum install -y mysql mysql-server<br>chkconfig —levels 235 mysqld on<br>service mysqld start<br>mysql_secure_installation         // 设置root密码，我这次谨慎了一下，没有全部选yes，大家看情况，记住自己的root密码<br>mysql -uroot -p                  // 进入MySQL，看看玩玩<br>[/bash]</p>
-<p>在DigitalOcean中安装的是MariaDB, 兼容MySQL, 具体看参考链接.<a href="http://www.howtoforge.com/apache_php_mysql_on_centos_7_lamp" title="lamp with centos7.0" target="_blank" rel="external">LAMP with Centos 7.0</a></p>
-<h3 id="安装PHP">安装PHP</h3><p>我被坑过，CentOS 5.9的yum的默认包库中PHP是5.1.6，后来WordPress跑不了(至少5.2.4)，所以需要更新一下yum。</p>
-<p>如果想了解更详细的信息，可以看看这个链接<br><a href="http://www.tecmint.com/install-apache-mysql-php-on-redhat-centos-fedora/" title="Install Apache, MySQL 5.5.32 &amp; PHP 5.5.0 on RHEL/CentOS 6.4/5.9 &amp; Fedora 19-12" target="_blank" rel="external">Install Apache, MySQL 5.5.32 &amp; PHP 5.5.0 on RHEL/CentOS 6.4/5.9 &amp; Fedora 19-12</a><br>[bash]<br>yum info name of module  # 查看某个包的信息<br>rpm -Uvh <a href="http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm</a><br>rpm -Uvh <a href="http://rpms.famillecollet.com/enterprise/remi-release-5.rpm" target="_blank" rel="external">http://rpms.famillecollet.com/enterprise/remi-release-5.rpm</a><br>yum —enablerepo=remi,remi-test install -y php php-common<br>yum —enablerepo=remi,remi-test install php-mysql php-pgsql php-pecl-mongo php-sqlite php-pecl-memcache php-pecl-memcached php-gd php-mbstring php-mcrypt php-xml php-pecl-apc php-cli php-pear php-pdo  # 安装PHP会用到的module<br>service httpd restart<br>vim /var/www/html/phpinfo.php<br>[/bash]<br>输入：<br>[php]<br>&lt;?php<br>  phpinfo();<br>?&gt;<br>[/php]<br>再访问<a href="http://ipaddress/phpinfo.php，" target="_blank" rel="external">http://ipaddress/phpinfo.php，</a> 查看php的状态</p>
-<h3 id="VPS_DNS解析">VPS DNS解析</h3><p>有了VPS，再买一个域名吧，我在godaddy上买了一个域名，用DNSPod来解析，国内的DNS解析，会快一些。</p>
-<p>需要在godaddy上将NameServer更改为:</p>
-<p>[text]<br>F1G1NS1.DNSPOD.NET<br>F1G1NS2.DNSPOD.NET<br>[/text]<br>再到DNSpod上注册，填写IP，等信息，就能简单完成DNS解析，从此以后就可以用域名访问VPS了。</p>
-<h3 id="本章结束">本章结束</h3><p>OKay, that’s it! LAMP环境安装好了，一切就绪，坐等发布WordPress了，请看<a href="http://cyanny/myblog/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" title="如何配置VPS并发布WordPress Blog?(第二篇)" target="_blank" rel="external">如何配置VPS并发布WordPress Blog?(第二篇)</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/" data-id="cimlpupws002wsnseu6n8iee9" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vps/">VPS</a></li></ul>
 
     </footer>
   </div>
@@ -953,6 +956,15 @@ ga('send', 'pageview');
     <h3 class="widget-title">recents</h3>
     <div class="widget">
       <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a></p>
+              <p class="item-title"><a href="/2016/04/10/machine-learning-logistic-regression/" class="title">machine-learning-logistic-regression</a></p>
+              <p class="item-date"><time datetime="2016-04-10T13:48:51.000Z" itemprop="datePublished">2016-04-10</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -990,15 +1002,6 @@ ga('send', 'pageview');
             </div>
           </li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">Algorithm</a></p>
-              <p class="item-title"><a href="/2015/04/03/find-median-for-two-sorted-array/" class="title">查找两个排序数组的中位数</a></p>
-              <p class="item-date"><time datetime="2015-04-03T14:07:01.000Z" itemprop="datePublished">2015-04-03</time></p>
-            </div>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1008,7 +1011,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -1017,7 +1020,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">tag cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 10px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 11.43px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 11.43px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
     </div>
   </div>
 

@@ -109,7 +109,7 @@ ga('send', 'pageview');
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        46
+        47
         <span>posts</span>
       </div>
       <div class="article-info-block">
@@ -138,6 +138,83 @@ ga('send', 'pageview');
 </aside>
       
       <section id="main">
+      <article id="post-how-to-set-up-vps-and-deploy-wordpress-blog-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/">如何配置VPS并发布WordPress Blog?(第一篇)</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/">
+    <time datetime="2013-11-11T12:02:33.000Z" itemprop="datePublished">2013-11-11</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/linux/">Linux</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近将VPS放到digitalocean上, 因为之前的VPS被关停了,所以再找一个, 相信这次会稳定了,之前的服务器是CentOS5.9,而现在的版本是CentOS7,以下的一些配置可能不正确了,可以参考这个链接<a href="http://www.howtoforge.com/apache_php_mysql_on_centos_7_lamp" title="lamp with centos7.0" target="_blank" rel="external">LAMP with Centos 7.0</a></p>
+<h3 id="目标">目标</h3><p>发布个人的WordPress博客网站，配置LAMP环境，并用GitHub来发布Blog，不用FTP，会很慢。<br>[more…]</p>
+<h3 id="连接VPS">连接VPS</h3><p>我在Mac下，所以很方便的连上VPS, 为了方便管理直接用root登陆, 第一次配置安全性先不考虑，用root方便些<br>[bash]<br>ssh -l root ip.address<br>[/bash]<br>如果在Windows下，下载一个putty就可以很方便的连上VPS，SSH端口是22，VPS默认可以用SSH连接。</p>
+<h3 id="有用的命令">有用的命令</h3><p>[bash]<br>cat /etc/<em>release</em>    #查看Linux的版本<br>uname -a              # 查看内核的版本<br>ifconfig -a           # 查看网卡情况<br>nman localhost        # 查看端口的情况<br>iptables -vL          # 查看防火墙的情况<br>netstat -aln | grep 80  # 查看网络连接情况<br>init 6                  # 重启<br>passwd                  # 修改当前用户的密码，可以该root密码<br>[/bash]</p>
+<h3 id="Linux_running_level">Linux running level</h3><p>Linux下的运行级别，一个常识</p>
+<p>0 – halt</p>
+<p>1 – Single user mode </p>
+<p>2 – Multiuser, without NFS </p>
+<p>3 – Full multiuser mode </p>
+<p>4 – unused </p>
+<p>5 – X11 </p>
+<p>6 – reboot </p>
+<p>[bash]<br>init running-level  # 触发运行级别，关机，重启各种方便<br>[/bash]</p>
+<h3 id="关闭selinux">关闭selinux</h3><p>selinux经常捣乱，先把它关了，还要永久关<br>[bash]<br>getenforce                  # 查看selinux的状态<br>sestatus                    # 一样，查看selinux状态<br>vim /etc/sysconfig/selinux  # 将SELINUX 改为disabled状态，然后重启<br>setenforce 0                # 只能暂时改变selinux状态，不能永久更改，只有上面的方法可以<br>init 6                      # 重启<br>[/bash]</p>
+<p>这个在DigitalOcean的镜像中不需要配置.</p>
+<h3 id="安装Apache">安装Apache</h3><p>[bash]<br>yum -y install httpd<br>chkconfig —levels 235 httpd on  # 将httpd进程设置为开机启动<br>service httpd start              # 此时可以用ip访问VPS，如<a href="http://129.29.10.10，如果可以访问便安装成功" target="_blank" rel="external">http://129.29.10.10，如果可以访问便安装成功</a><br>[/bash]<br>Apache在CentOS的DocumentRoot是“/var/www/html”, 配置文件在”/etc/httpd/config/httpd.conf”</p>
+<p>无奈，第一个问题遇到了，我的Apache访问不了，纠结半天，原来是防火墙iptables的问题。</p>
+<h3 id="打开防火墙">打开防火墙</h3><p>CentOS的iptables默认只让注册过的端口通过，而80端口没有注册过，不能通过防火墙。<br>[bash]<br>vim /etc/sysconfig/iptables</p>
+<h1 id="将_“-A_RH-Firewall-1-INPUT_-j_REJECT_—reject-with_icmp-host-prohibited”_这行注释了，保存退出">将 “-A RH-Firewall-1-INPUT -j REJECT —reject-with icmp-host-prohibited” 这行注释了，保存退出</h1><p>service iptables restart<br>[/bash]<br>BTW,如果采用以下的方法enable 80 端口，我今天成功了, 以前没有成功不知为何，不过上面的方法是肯定好的，下面的方法是一个安全点的办法。<br>[bash]<br>iptables -A INPUT -p tcp —dport 80 -j ACCEPT<br>iptables -A INPUT -p tcp —dport 443 -j ACCEPT  // 添加443 SSL端口未来会用<br>service iptables save                          // /etc/sysconfig/iptables 文件会被重写<br>service iptables restart<br>[/bash]<br>此时再访问<a href="http://youripaddress就会有apache界面了。" target="_blank" rel="external">http://youripaddress就会有apache界面了。</a></p>
+<p>在DigitalOcean中,不需要配置本项.</p>
+<h3 id="安装MySQL">安装MySQL</h3><p>[bash]<br>yum install -y mysql mysql-server<br>chkconfig —levels 235 mysqld on<br>service mysqld start<br>mysql_secure_installation         // 设置root密码，我这次谨慎了一下，没有全部选yes，大家看情况，记住自己的root密码<br>mysql -uroot -p                  // 进入MySQL，看看玩玩<br>[/bash]</p>
+<p>在DigitalOcean中安装的是MariaDB, 兼容MySQL, 具体看参考链接.<a href="http://www.howtoforge.com/apache_php_mysql_on_centos_7_lamp" title="lamp with centos7.0" target="_blank" rel="external">LAMP with Centos 7.0</a></p>
+<h3 id="安装PHP">安装PHP</h3><p>我被坑过，CentOS 5.9的yum的默认包库中PHP是5.1.6，后来WordPress跑不了(至少5.2.4)，所以需要更新一下yum。</p>
+<p>如果想了解更详细的信息，可以看看这个链接<br><a href="http://www.tecmint.com/install-apache-mysql-php-on-redhat-centos-fedora/" title="Install Apache, MySQL 5.5.32 &amp; PHP 5.5.0 on RHEL/CentOS 6.4/5.9 &amp; Fedora 19-12" target="_blank" rel="external">Install Apache, MySQL 5.5.32 &amp; PHP 5.5.0 on RHEL/CentOS 6.4/5.9 &amp; Fedora 19-12</a><br>[bash]<br>yum info name of module  # 查看某个包的信息<br>rpm -Uvh <a href="http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm</a><br>rpm -Uvh <a href="http://rpms.famillecollet.com/enterprise/remi-release-5.rpm" target="_blank" rel="external">http://rpms.famillecollet.com/enterprise/remi-release-5.rpm</a><br>yum —enablerepo=remi,remi-test install -y php php-common<br>yum —enablerepo=remi,remi-test install php-mysql php-pgsql php-pecl-mongo php-sqlite php-pecl-memcache php-pecl-memcached php-gd php-mbstring php-mcrypt php-xml php-pecl-apc php-cli php-pear php-pdo  # 安装PHP会用到的module<br>service httpd restart<br>vim /var/www/html/phpinfo.php<br>[/bash]<br>输入：<br>[php]<br>&lt;?php<br>  phpinfo();<br>?&gt;<br>[/php]<br>再访问<a href="http://ipaddress/phpinfo.php，" target="_blank" rel="external">http://ipaddress/phpinfo.php，</a> 查看php的状态</p>
+<h3 id="VPS_DNS解析">VPS DNS解析</h3><p>有了VPS，再买一个域名吧，我在godaddy上买了一个域名，用DNSPod来解析，国内的DNS解析，会快一些。</p>
+<p>需要在godaddy上将NameServer更改为:</p>
+<p>[text]<br>F1G1NS1.DNSPOD.NET<br>F1G1NS2.DNSPOD.NET<br>[/text]<br>再到DNSpod上注册，填写IP，等信息，就能简单完成DNS解析，从此以后就可以用域名访问VPS了。</p>
+<h3 id="本章结束">本章结束</h3><p>OKay, that’s it! LAMP环境安装好了，一切就绪，坐等发布WordPress了，请看<a href="http://cyanny/myblog/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" title="如何配置VPS并发布WordPress Blog?(第二篇)" target="_blank" rel="external">如何配置VPS并发布WordPress Blog?(第二篇)</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/" data-id="cimunv9sh002wvisek8lg7akq" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vps/">VPS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
       <article id="post-how-to-set-up-vps-and-deploy-wordpress-blog-2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -219,7 +296,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" data-id="cimlpupwm002psnselvplfhgr" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" data-id="cimunv9sc002pvise3p4e05nb" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -303,7 +380,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/10/how-to-start-learning-node-js/" data-id="cimlpupwj002ksnsehj5or7fv" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/10/how-to-start-learning-node-js/" data-id="cimunv9s9002kviseh2bcfo97" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/10/how-to-start-learning-node-js/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -422,7 +499,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/01/agile-advantages-and-disadvantages/" data-id="cimlpuq010066snserom5scx8" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/11/01/agile-advantages-and-disadvantages/" data-id="cimunv9wq0066visexx8wy0kr" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/11/01/agile-advantages-and-disadvantages/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -525,7 +602,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/10/06/talk-about-open-source-software/" data-id="cimlpupuq000fsnse2kqo2ooc" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/10/06/talk-about-open-source-software/" data-id="cimunv9r2000fviseu9km4kmv" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/10/06/talk-about-open-source-software/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -697,71 +774,12 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/" data-id="cimlpupyx005dsnsefqb2h215" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/" data-id="cimunv9us005dvisepfwf1sq7" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/math/">math</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-    
-      <article id="post-select-second-smallest-element" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/09/12/select-second-smallest-element/">找一个数组中第2小的元素</a>
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/09/12/select-second-smallest-element/">
-    <time datetime="2013-09-12T12:09:43.000Z" itemprop="datePublished">2013-09-12</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/algorithm/">Algorithm</a>
-  </div>
-
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>找出一个数组中的最小元素或者最大元素，遍历是最优解,即O(n)，我想这是会编程的人都会的简单算法。而如何找出第二小的元素呢，先排序，然后再选么，这样的算法最优也是O(n * lg n)，还是一次遍历来的更快，思想如下：</p>
-<p>假定数组A有n个元素,元素可以有重复：</p>
-<p>1. 初始化一个数组res[2]，变量i, i为遍历时使用。</p>
-<p>2. 当n为奇数时, res[0] = A[0], res[1] = A[1], i = 1;</p>
-<p>3. 当n为偶数时, res[0] = min {A[0], A[1]}, res[1] = max{A[0], A[1]}, i = 2;</p>
-<p>4. 接下来每次取数组A中的两个元素，较小的元素如果小于res[0]比较，则res[1] = res[0], 再赋值 res[0] = small；</p>
-<p>5. 如果res[0] == res[1]或者较大的元素小于res[1], 则res[1] = large;[more…]</p>
-<p>以上算法可以O(3n/2 - 2)时间，即O(n)的时间内选出第二小的元素。</p>
-<p><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/orderstatistics/SecondSmallest.java" target="_blank" rel="external">Github Source Code</a><br>[java]<br>public int selectSecondSmallest() {<br>    int[] res = new int[2];<br>    int n = data.length;<br>    int i = 2;<br>    if (n % 2 == 0) {<br>        i = 2;<br>        if (data[0] &lt; data[1]) {<br>            res[0] = data[0];<br>            res[1] = data[1];<br>        } else {<br>            res[0] = data[1];<br>            res[1] = data[0];<br>        }<br>    } else {<br>        i = 1;<br>        res[0] = data[0];<br>        res[1] = data[1];<br>    }<br>    for ( ;i &lt; n; i += 2) {<br>        int large = getLarge(data[i], data[i + 1]);<br>        int small = getSmall(data[i], data[i + 1]);<br>        if (small &lt; res[0]) {<br>            res[1] = res[0]; // Maybe res[0] is the second minimum, don’t forget the tiny step<br>            res[0] = small;<br>        } else if (small &lt; res[1]) {<br>            res[1] = small;<br>            continue;<br>        }<br>        if (large &lt; res[1] || res[0] == res[1]) {<br>            res[1] = large;<br>        }<br>    }<br>    System.out.println(&quot;The smallest is &quot; + res[0]);<br>    System.out.println(&quot;The second minimun is &quot; + res[1]);<br>    return res[1];<br>}<br>[/java]</p>
-<h3 id="后记">后记</h3><p>这个算法很简单，但是算法导论的答案给的太复杂了，<a href="http://blog.csdn.net/mishifangxiangdefeng/article/details/7687460" target="_blank" rel="external">用了树的算法</a>，这么诡异而复杂，算是领教了。这个算法可以扩展到找第i个小的元素。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/09/12/select-second-smallest-element/" data-id="cimlpupvv001nsnsezsp9h9c1" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/09/12/select-second-smallest-element/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
 
     </footer>
   </div>
@@ -782,6 +800,15 @@ ga('send', 'pageview');
     <h3 class="widget-title">recents</h3>
     <div class="widget">
       <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a></p>
+              <p class="item-title"><a href="/2016/04/10/machine-learning-logistic-regression/" class="title">machine-learning-logistic-regression</a></p>
+              <p class="item-date"><time datetime="2016-04-10T13:48:51.000Z" itemprop="datePublished">2016-04-10</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -819,15 +846,6 @@ ga('send', 'pageview');
             </div>
           </li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/algorithm/">Algorithm</a></p>
-              <p class="item-title"><a href="/2015/04/03/find-median-for-two-sorted-array/" class="title">查找两个排序数组的中位数</a></p>
-              <p class="item-date"><time datetime="2015-04-03T14:07:01.000Z" itemprop="datePublished">2015-04-03</time></p>
-            </div>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -837,7 +855,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -846,7 +864,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">tag cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 10px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 11.43px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 11.43px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
     </div>
   </div>
 
