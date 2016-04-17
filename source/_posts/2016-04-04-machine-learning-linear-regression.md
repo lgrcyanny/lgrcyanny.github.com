@@ -67,5 +67,38 @@ end
 
 ```
 
+**Another implementation by wwzyhao**
+[by wwzyhao]
+```matlab
+function [theta, J_history] = gradientDescent(X, y, theta, alpha, num_iters)
+%GRADIENTDESCENT Performs gradient descent to learn theta
+%   theta = GRADIENTDESENT(X, y, theta, alpha, num_iters) updates theta by 
+%   taking num_iters gradient steps with learning rate alpha
+
+% Initialize some useful values
+m = length(y); % number of training examples
+J_history = zeros(num_iters, 1);
+
+for iter = 1:num_iters
+
+    delta = zeros(size(X, 2), 1);
+    for j = 1:m
+        x = (X(j,:))';
+        delta = delta + (1 / m) * (theta' * x - y(j)) * x;
+    end;
+
+    theta = theta - alpha * delta;
+
+    % ============================================================
+
+    % Save the cost J in every iteration    
+    J_history(iter) = computeCost(X, y, theta);
+
+end
+
+end
+```
+
 ## My assignments on github
 [Assignments1](https://github.com/lgrcyanny/MachineLearningCoursera/tree/master/assignments/ex1/ex1)
+For submit errors on coursera, please to[Jacob Middag](https://learner.coursera.help/hc/en-us/community/posts/204693179-linear-regression-submit-error)
