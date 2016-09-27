@@ -50,7 +50,7 @@ function [all_theta] = oneVsAll(X, y, num_labels, lambda)
 m = size(X, 1);
 n = size(X, 2);
 
-% You need to return the following variables correctly 
+% You need to return the following variables correctly
 all_theta = zeros(num_labels, n + 1);
 
 % Add ones to the X data matrix
@@ -82,7 +82,7 @@ function p = predictOneVsAll(all_theta, X)
 m = size(X, 1);
 num_labels = size(all_theta, 1);
 
-% You need to return the following variables correctly 
+% You need to return the following variables correctly
 p = zeros(size(X, 1), 1);
 
 % Add ones to the X data matrix
