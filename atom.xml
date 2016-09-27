@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://www.cyanny.com//"/>
-  <updated>2016-04-17T14:22:19.000Z</updated>
+  <updated>2016-09-27T01:42:47.000Z</updated>
   <id>http://www.cyanny.com//</id>
   
   <author>
@@ -16,11 +16,70 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[春江花月夜]]></title>
+    <link href="http://www.cyanny.com/2016/09/27/%E6%98%A5%E6%B1%9F%E8%8A%B1%E6%9C%88%E5%A4%9C/"/>
+    <id>http://www.cyanny.com/2016/09/27/春江花月夜/</id>
+    <published>2016-09-27T01:35:59.000Z</published>
+    <updated>2016-09-27T01:42:47.000Z</updated>
+    <content type="html"><![CDATA[<p>有人说张若虚的这首诗很值得背诵下来</p>
+<h2 id="春江花月夜">春江花月夜</h2><a id="more"></a>
+<hr>
+<blockquote>
+<p>春江潮水连海平，海上明月共潮生。<br>滟滟随波千万里，何处春江无月明！<br>江流宛转绕芳甸，月照花林皆似霰;<br>空里流霜不觉飞，汀上白沙看不见。<br>江天一色无纤尘，皎皎空中孤月轮。<br>江畔何人初见月？江月何年初照人？<br>人生代代无穷已，江月年年只相似。<br>不知江月待何人，但见长江送流水。<br>白云一片去悠悠，青枫浦上不胜愁。<br>谁家今夜扁舟子？何处相思明月楼？<br>可怜楼上月徘徊，应照离人妆镜台。<br>玉户帘中卷不去，捣衣砧上拂还来。<br>此时相望不相闻，愿逐月华流照君。<br>鸿雁长飞光不度，鱼龙潜跃水成文。<br>昨夜闲潭梦落花，可怜春半不还家。<br>江水流春去欲尽，江潭落月复西斜。<br>斜月沉沉藏海雾，碣石潇湘无限路。<br>不知乘月几人归，落月摇情满江树。</p>
+<hr>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>有人说张若虚的这首诗很值得背诵下来</p>
+<h2 id="春江花月夜">春江花月夜</h2>]]>
+    
+    </summary>
+    
+      <category term="诗话" scheme="http://www.cyanny.com/tags/%E8%AF%97%E8%AF%9D/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[eight-queens-problem-in-scala]]></title>
+    <link href="http://www.cyanny.com/2016/09/27/eight-queens-problem-in-scala/"/>
+    <id>http://www.cyanny.com/2016/09/27/eight-queens-problem-in-scala/</id>
+    <published>2016-09-27T01:15:28.000Z</published>
+    <updated>2016-09-27T01:43:11.000Z</updated>
+    <content type="html"><![CDATA[<p>I have deciacated in <strong>Programming in Scala</strong> for about 4 months. My work is busy, but I can’t give up reading more books.<br>Scala is a fabulous language, both object oriented and functional.<br>Eight qeens problem can be expressed in scala easily and concise.<br><a id="more"></a></p>
+<h2 id="Eight_Queens_Problem">Eight Queens Problem</h2><p>Given a standard chess-board, place eight queens such that no queen is in check from any other (a queen can check another piece if they are on the same column, row, or diagonal)</p>
+<h2 id="Solutions">Solutions</h2><p>The problem in scala is recursively.</p>
+<ol>
+<li><p>First each solution is a List[(Row, Column)]</p>
+<pre><code>- Each <span class="keyword">element</span> is <span class="operator">a</span> coordinated, <span class="operator">the</span> queen position <span class="operator">in</span> <span class="keyword">each</span> row
+- The coordicate <span class="keyword">for</span> row k comes <span class="keyword">first</span>, followed <span class="keyword">by</span> row `k-<span class="number">1</span>`, `k-<span class="number">2</span>`, ... <span class="number">0</span>
+</code></pre></li>
+<li><p>Use a Set[List[Row, Column]], represent all solutions</p>
+</li>
+<li>To place next <code>k+1</code> qeen, we iterate all solutions, if match the condition, yield another list</li>
+</ol>
+<h2 id="Lets_run_the_code">Lets run the code</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * the coordinates of the queen in row k comes first in each List[(ROW, Column)], followed</span><br><span class="line">    * by k -1, k - 2, ..., 0 and so on</span><br><span class="line">    *</span><br><span class="line">    * @param n</span><br><span class="line">    * @return</span><br><span class="line">    */</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">queens</span>(</span>n: <span class="type">Int</span>): <span class="type">Set</span>[<span class="type">List</span>[(<span class="type">Row</span>, <span class="type">Column</span>)]] = &#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">placeQueen</span>(</span>k: <span class="type">Int</span>): <span class="type">Set</span>[<span class="type">List</span>[(<span class="type">Row</span>, <span class="type">Column</span>)]] = &#123;</span><br><span class="line">      <span class="keyword">if</span> (k &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="type">Set</span>(<span class="type">List</span>())</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> &#123;</span><br><span class="line">          queens &lt;- placeQueen(k - <span class="number">1</span>)</span><br><span class="line">          column &lt;- <span class="number">0</span> until n</span><br><span class="line">          queen = (k, column)</span><br><span class="line">          <span class="keyword">if</span> isSafe(queen, queens)</span><br><span class="line">        &#125; <span class="keyword">yield</span> queen :: queens</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isSafe</span>(</span>queen: (<span class="type">Row</span>, <span class="type">Column</span>), queens: <span class="type">List</span>[(<span class="type">Row</span>, <span class="type">Column</span>)]): <span class="type">Boolean</span> = &#123;</span><br><span class="line">      queens.forall &#123; placedQueen =&gt;</span><br><span class="line">        placedQueen._1 != queen._1 &amp;&amp;</span><br><span class="line">          placedQueen._2 != queen._2 &amp;&amp;</span><br><span class="line">          (<span class="type">Math</span>.abs(placedQueen._1 - queen._1) !=</span><br><span class="line">            <span class="type">Math</span>.abs(placedQueen._2 - queen._2))</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    placeQueen(n - <span class="number">1</span>)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Github_Link">Github Link</h2><p><a href="https://github.com/lgrcyanny/ScalaPractice/blob/master/ProgrammingInScala/src/main/scala/com/chapter23/EightQueens.scala" target="_blank" rel="external">Eight Queens</a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/lgrcyanny/ScalaPractice.git&#10;mvn clean package&#10;cd ProgrammingInScala&#10;scala -cp</span><br></pre></td></tr></table></figure>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>I have deciacated in <strong>Programming in Scala</strong> for about 4 months. My work is busy, but I can’t give up reading more books.<br>Scala is a fabulous language, both object oriented and functional.<br>Eight qeens problem can be expressed in scala easily and concise.<br>]]>
+    
+    </summary>
+    
+      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
+    
+      <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
+    
+      <category term="Learning" scheme="http://www.cyanny.com/categories/learning/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Machine Learning Neural Networks]]></title>
     <link href="http://www.cyanny.com/2016/04/17/machine-learning-neural-networks/"/>
     <id>http://www.cyanny.com/2016/04/17/machine-learning-neural-networks/</id>
     <published>2016-04-17T13:29:20.000Z</published>
-    <updated>2016-04-17T14:22:19.000Z</updated>
+    <updated>2016-09-27T01:15:39.000Z</updated>
     <content type="html"><![CDATA[<p>This week is about the mysterious Neural Networks. The courses in this week just explain the basics about Neural Networks.</p>
 <h2 id="What_is_Neural_Networks">What is Neural Networks</h2><p>It’s a technique to train our data based on how human brains works. A simple Neural Network has:</p>
 <ul>
@@ -34,8 +93,8 @@
 <h2 id="Handwritten_Digital_Classification">Handwritten Digital Classification</h2><p>This week’s assignment is to do multi classification on handwritten recognize.</p>
 <p><strong>Do multi classification with one-vs-all logistic regression</strong><br>For handwritens in 10 lables: 0~9, we do 10 regression regression to calculate 10 group of theta. And then make 10 predications base on these 10 group of theta, choose the lable with max hypothesis value（probaility value）</p>
 <p><strong>1. Cost function</strong><br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[J, grad]</span> = <span class="title">lrCostFunction</span><span class="params">(theta, X, y, lambda)</span></span></span><br><span class="line">reg_theta = <span class="matrix">[<span class="number">0</span>;theta(<span class="number">2</span>:end)]</span>;</span><br><span class="line">predictions = sigmoid(X * theta);</span><br><span class="line">J = (-<span class="number">1</span> / m) * sum((y .* <span class="built_in">log</span>(predictions) + (<span class="number">1</span> - y) .* <span class="built_in">log</span>(<span class="number">1</span> - predictions))) + (lambda / (<span class="number">2</span> * m)) * sum(reg_theta .^ <span class="number">2</span>);</span><br><span class="line">grad = (<span class="number">1</span> / m) * (X<span class="operator">'</span> * (predictions - y)) + (lambda / m) * reg_theta;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>2. OneVsAll</strong><br>make 10 classifications<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[all_theta]</span> = <span class="title">oneVsAll</span><span class="params">(X, y, num_labels, lambda)</span></span></span><br><span class="line"><span class="comment">% Some useful variables</span></span><br><span class="line">m = <span class="built_in">size</span>(X, <span class="number">1</span>);</span><br><span class="line">n = <span class="built_in">size</span>(X, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% You need to return the following variables correctly </span></span><br><span class="line">all_theta = <span class="built_in">zeros</span>(num_labels, n + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Add ones to the X data matrix</span></span><br><span class="line">X = <span class="matrix">[ones(m, <span class="number">1</span>) X]</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">% Note: For this assignment, we recommend using fmincg to optimize the cost</span></span><br><span class="line"><span class="comment">%       function. It is okay to use a for-loop (for c = 1:num_labels) to</span></span><br><span class="line"><span class="comment">%       loop over the different classes.</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="comment">%       fmincg works similarly to fminunc, but is more efficient when we</span></span><br><span class="line"><span class="comment">%       are dealing with large number of parameters.</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:num_labels</span><br><span class="line">    initial_theta = <span class="built_in">zeros</span>(n + <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    options = optimset(<span class="string">'GradObj'</span>, <span class="string">'on'</span>, <span class="string">'MaxIter'</span>, <span class="number">50</span>);</span><br><span class="line">    <span class="comment">% theta is a column vector</span></span><br><span class="line">    <span class="comment">% Run fmincg to obtain the optimal theta</span></span><br><span class="line">    <span class="matrix">[theta]</span> = fmincg(@(t)(lrCostFunction(t, X, (y == <span class="built_in">i</span>), lambda)), ...</span><br><span class="line">                    initial_theta, options);</span><br><span class="line">    all_theta(<span class="built_in">i</span>, :) = theta<span class="operator">'</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>3. PredictOneVsAll</strong><br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">p</span> = <span class="title">predictOneVsAll</span><span class="params">(all_theta, X)</span></span></span><br><span class="line">m = <span class="built_in">size</span>(X, <span class="number">1</span>);</span><br><span class="line">num_labels = <span class="built_in">size</span>(all_theta, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% You need to return the following variables correctly </span></span><br><span class="line">p = <span class="built_in">zeros</span>(<span class="built_in">size</span>(X, <span class="number">1</span>), <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Add ones to the X data matrix</span></span><br><span class="line">X = <span class="matrix">[ones(m, <span class="number">1</span>) X]</span>;</span><br><span class="line">predictions = X * all_theta<span class="operator">'</span>;</span><br><span class="line"><span class="comment">% calculate max of each row</span></span><br><span class="line"><span class="matrix">[max_predictions, p]</span> = max(predictions, <span class="matrix">[]</span>, <span class="number">2</span>);</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>2. OneVsAll</strong><br>make 10 classifications<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[all_theta]</span> = <span class="title">oneVsAll</span><span class="params">(X, y, num_labels, lambda)</span></span></span><br><span class="line"><span class="comment">% Some useful variables</span></span><br><span class="line">m = <span class="built_in">size</span>(X, <span class="number">1</span>);</span><br><span class="line">n = <span class="built_in">size</span>(X, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% You need to return the following variables correctly</span></span><br><span class="line">all_theta = <span class="built_in">zeros</span>(num_labels, n + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Add ones to the X data matrix</span></span><br><span class="line">X = <span class="matrix">[ones(m, <span class="number">1</span>) X]</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">% Note: For this assignment, we recommend using fmincg to optimize the cost</span></span><br><span class="line"><span class="comment">%       function. It is okay to use a for-loop (for c = 1:num_labels) to</span></span><br><span class="line"><span class="comment">%       loop over the different classes.</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="comment">%       fmincg works similarly to fminunc, but is more efficient when we</span></span><br><span class="line"><span class="comment">%       are dealing with large number of parameters.</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:num_labels</span><br><span class="line">    initial_theta = <span class="built_in">zeros</span>(n + <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    options = optimset(<span class="string">'GradObj'</span>, <span class="string">'on'</span>, <span class="string">'MaxIter'</span>, <span class="number">50</span>);</span><br><span class="line">    <span class="comment">% theta is a column vector</span></span><br><span class="line">    <span class="comment">% Run fmincg to obtain the optimal theta</span></span><br><span class="line">    <span class="matrix">[theta]</span> = fmincg(@(t)(lrCostFunction(t, X, (y == <span class="built_in">i</span>), lambda)), ...</span><br><span class="line">                    initial_theta, options);</span><br><span class="line">    all_theta(<span class="built_in">i</span>, :) = theta<span class="operator">'</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>3. PredictOneVsAll</strong><br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">p</span> = <span class="title">predictOneVsAll</span><span class="params">(all_theta, X)</span></span></span><br><span class="line">m = <span class="built_in">size</span>(X, <span class="number">1</span>);</span><br><span class="line">num_labels = <span class="built_in">size</span>(all_theta, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% You need to return the following variables correctly</span></span><br><span class="line">p = <span class="built_in">zeros</span>(<span class="built_in">size</span>(X, <span class="number">1</span>), <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Add ones to the X data matrix</span></span><br><span class="line">X = <span class="matrix">[ones(m, <span class="number">1</span>) X]</span>;</span><br><span class="line">predictions = X * all_theta<span class="operator">'</span>;</span><br><span class="line"><span class="comment">% calculate max of each row</span></span><br><span class="line"><span class="matrix">[max_predictions, p]</span> = max(predictions, <span class="matrix">[]</span>, <span class="number">2</span>);</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
 <p>The logistic has great accurracy, about 95% in this case, but neural network will have higher accuracy, about 97%.</p>
 <h2 id="Neural_Forward_Propagation_algorithm">Neural Forward Propagation algorithm</h2><p>In the assignment, it build hypothesis function with 3 layers neural network.<br>The predications implementation</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">p</span> = <span class="title">predict</span><span class="params">(Theta1, Theta2, X)</span></span></span><br><span class="line"><span class="comment">%PREDICT Predict the label of an input given a trained neural network</span></span><br><span class="line"><span class="comment">%   p = PREDICT(Theta1, Theta2, X) outputs the predicted label of X given the</span></span><br><span class="line"><span class="comment">%   trained weights of a neural network (Theta1, Theta2)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Useful values</span></span><br><span class="line">m = <span class="built_in">size</span>(X, <span class="number">1</span>);</span><br><span class="line">num_labels = <span class="built_in">size</span>(Theta2, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% You need to return the following variables correctly </span></span><br><span class="line">p = <span class="built_in">zeros</span>(<span class="built_in">size</span>(X, <span class="number">1</span>), <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% ====================== YOUR CODE HERE ======================</span></span><br><span class="line"><span class="comment">% Instructions: Complete the following code to make predictions using</span></span><br><span class="line"><span class="comment">%               your learned neural network. You should set p to a </span></span><br><span class="line"><span class="comment">%               vector containing labels between 1 to num_labels.</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="comment">% Hint: The max function might come in useful. In particular, the max</span></span><br><span class="line"><span class="comment">%       function can also return the index of the max element, for more</span></span><br><span class="line"><span class="comment">%       information see 'help max'. If your examples are in rows, then, you</span></span><br><span class="line"><span class="comment">%       can use max(A, [], 2) to obtain the max for each row.</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="comment">% Theta1 is 25 * 401, X is 5000 * 401</span></span><br><span class="line">X = <span class="matrix">[ones(m, <span class="number">1</span>) X]</span>;</span><br><span class="line"><span class="comment">% z2 is 5000 * 25</span></span><br><span class="line">z2 = X * Theta1<span class="operator">'</span>;</span><br><span class="line">a2 = sigmoid(z2);</span><br><span class="line"><span class="comment">% a2 with bias unit is 5000 * 26</span></span><br><span class="line">a2 = <span class="matrix">[ones(m, <span class="number">1</span>) a2]</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">% Theta2 is 10 * 26</span></span><br><span class="line"><span class="comment">% z3 is 5000 * 10</span></span><br><span class="line">z3 = a2 * Theta2<span class="operator">'</span>;</span><br><span class="line">a3 = sigmoid(z3);</span><br><span class="line"><span class="matrix">[max_valid, p]</span> = max(a3, <span class="matrix">[]</span>, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% =========================================================================</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
@@ -71,7 +130,7 @@
     <link href="http://www.cyanny.com/2016/04/10/machine-learning-logistic-regression/"/>
     <id>http://www.cyanny.com/2016/04/10/machine-learning-logistic-regression/</id>
     <published>2016-04-10T13:48:51.000Z</published>
-    <updated>2016-04-17T14:13:07.000Z</updated>
+    <updated>2016-09-27T01:03:41.000Z</updated>
     <content type="html"><![CDATA[<p>Today I finished the week3 assignemnt about logistic regression.<br>Logistic Regression is for classification problem, and the predication value is fixed descrete values, such as 1 for positive or 0 for negative. I this the essence of logistic regression is:</p>
 <ul>
 <li>hypothesis function sigmoid function</li>
@@ -116,7 +175,7 @@
     <link href="http://www.cyanny.com/2016/04/04/machine-learning-linear-regression/"/>
     <id>http://www.cyanny.com/2016/04/04/machine-learning-linear-regression/</id>
     <published>2016-04-04T07:55:31.000Z</published>
-    <updated>2016-04-10T14:27:22.000Z</updated>
+    <updated>2016-09-27T01:03:41.000Z</updated>
     <content type="html"><![CDATA[<p>I have been learning the coursera Machine Learning Course by Andrew Ng for two weeks now. Machine Learning is fun and different. For the coursera assignment1 of linear regression, I want to share something.<br><a id="more"></a></p>
 <h2 id="Octave_Install">Octave Install</h2><p>The course use Octave/Matlab for programming practice. I learned octave basics in two days. I don’t have too much time, can just doing these homework in weekends. For Octavel installed on mac, I encounter some problems and solve it.</p>
 <ul>
@@ -167,7 +226,7 @@
     <link href="http://www.cyanny.com/2016/03/06/programming-in-scala-overview-key-note/"/>
     <id>http://www.cyanny.com/2016/03/06/programming-in-scala-overview-key-note/</id>
     <published>2016-03-06T10:01:42.000Z</published>
-    <updated>2016-03-08T01:11:23.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<p>过去半年里，都在忙着spark相关的项目，主要的编程语言是scala，前些年主要用的是c++，刚转到scala上时，有点不适应函数式编程语言的思想，现在已经半年多过去了，觉得scala真的是awesome，简洁有力的表达，整合了functional programming和object programming，并且设计良好。<br>去年上了Martin Odersky的编程课<i>Functional Programming In Scala</i>, 觉得挺感兴趣，学习了很多，想在scala语言上看得更多，更深入些，我选择了Scala的权威著作<a href="http://www.artima.com/shop/programming_in_scala_2ed" target="_blank" rel="external">Programming In Scala</a>, 虽然这书有快900页，但我想挑战下，与其每天泡在各种新闻资讯里，还不如看看书泡在书里。每天都看看书，觉得挺好，有些笔记和心得就写在博客里，毕竟工作忙，写博客的时间很少，但我想还是应该多总结和留下写想法。之后阅读Spark的源码，我也会坚持写下些东西，看过了和写下来总还是不一样嘛。<br><a id="more"></a></p>
 <h1 id="Scala_Overview">Scala Overview</h1><h2 id="1-_Scala_is_a_Scalable_Language">1. Scala is a Scalable Language</h2><ul>
 <li>Scala is a blend of object-oriented and functional programing language</li>
@@ -271,7 +330,7 @@
     <link href="http://www.cyanny.com/2015/10/07/learning-akka/"/>
     <id>http://www.cyanny.com/2015/10/07/learning-akka/</id>
     <published>2015-10-07T13:54:48.000Z</published>
-    <updated>2016-03-06T10:10:38.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<p>最近学习了scala，主要是跟着<strong>Functional Programming in Scala</strong>的课程学习的，scala主要的用处还是在spark上，关于spark也看了一些源码，处于继续探索中。</p>
 <p>并发时的消息通信是处理spark这样的分布式系统的关键。spark主要依赖scala社区的akka进行消息通讯。在spark1.2的代码中可以看到很多actor的影子，然而spark1.4中，都是封装为EndPoint，但Actor的思想和模式还在。</p>
 <p>基于Actor的消息通讯模型是akka的核心。Akka为处理并发、容错和可扩展性的分布式问题提供了一套基于Actor模型的库。并发的消息通讯中，抽象是关键的方面。Actor模型是1973年由Carl Hewitt在论文”Actor Model of Computation- Scalable Robust Information Systems”中提出, 后被应用于爱立信公司研发的Elang语言，爱立信公司应用Actor模型开发了高并发和可靠的通信系统。</p>
@@ -333,7 +392,7 @@
     <link href="http://www.cyanny.com/2015/05/04/bitsort-ant-qsort/"/>
     <id>http://www.cyanny.com/2015/05/04/bitsort-ant-qsort/</id>
     <published>2015-05-04T13:57:53.000Z</published>
-    <updated>2015-10-07T13:38:00.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<p>这已经不是一个新话题了，但是从开始实现一个C++位排序和快排，我还是花费了2个多小时，这里就记下自己的一点点体会啦。</p>
 <p>首先，题目来自《编程珠玑》第一章，主要是做位排序，同时和快排做比较：</p>
 <p>1. 实现位逻辑运算，实现位向量，并用该位向量实现1,000,000个数字的排序，数字最大是10,000,000</p>
@@ -366,7 +425,7 @@
     <link href="http://www.cyanny.com/2015/04/03/find-median-for-two-sorted-array/"/>
     <id>http://www.cyanny.com/2015/04/03/find-median-for-two-sorted-array/</id>
     <published>2015-04-03T14:07:01.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<p>题目是：求两个排序数组的中位数。<br>设：两个排序的数组a[m], b[n]，求a和b数组的中位数。<br>算法是：<br>mid_a是数组a的中位数index，同理mid_b是数组b的中位数索引<br>1. 如果a[mid_a] == b[mid_b] 中位数为a[mid_a]</p>
 <p>2. 如果a[mid_a] &lt; b[mid_b], 递归查找a(mid_a + 1, m - 1), b(0, mid_b)，因为a[mid_a]比较小，不可能作为下一次查询的中位数</p>
 <p>3. 如果a[mid_a] &gt; b[mid_b], 递归查找a(0, mid_a), b(mid_b + 1, n - 1)，因为b[mid_b]比较小，不可能作为下一次查询的中位数</p>
@@ -399,7 +458,7 @@
     <link href="http://www.cyanny.com/2014/08/16/hive-architecture/"/>
     <id>http://www.cyanny.com/2014/08/16/hive-architecture/</id>
     <published>2014-08-16T15:32:27.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<p>Hive是基于Hadoop的大数据查询引擎, 存储于HDFS上的数据,要求开发者采用MR才能进行计算, 但MR是low-level的分布式计算,对于复杂的分析job, 多重MR是很复杂的, Hive致力于让用户采用传统的RDBMS的SQL查询处理分布式的大数据.<br><a id="more"></a></p>
 <h3 id="1-_架构">1. 架构</h3><p><a href="http://tinypic.com?ref=2qs2w6e" target="_blank" rel="external"><img src="http://i60.tinypic.com/2qs2w6e.jpg" alt="Image and video hosting by TinyPic"></a></p>
 <p>(1) external interface: 提供用户接口，WebUI, CLI, JDBC, ODBC<br>(2) Thrift Server：为JDBC, ODBC 提供服务<br>(3) MetaStore: 存储元数据信息<br>(4) Driver：控制HQL的生命周期， 包括</p>
@@ -478,7 +537,7 @@
     <link href="http://www.cyanny.com/2014/04/12/dijkstra-algorithm-in-java/"/>
     <id>http://www.cyanny.com/2014/04/12/dijkstra-algorithm-in-java/</id>
     <published>2014-04-12T03:55:04.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<p>计算单源最短路径的算法有Bellman-Ford算法，主要是计算带负权有向图的单源最短路径。第二种算法：对于DAG图（Directed Acyclic Graph, 有向无环图）可以通过拓扑排序后再计算单源最短路径。第三，可以使用BFS(广度优先搜索)计算单源最短路径。第四，就是著名的Dijkstra算法，要求有向图的所有边的权值非负，当然图可以不是DAG图。</p>
 <a id="more"></a>
 <p>Dijkstra的实现思想主要是采用最小优先级队列，队列排序的标准是source节点到当前节点的距离，每次从堆顶取出一个节点，遍历该节点的邻接表，进行松弛(Relax)操作，松弛操作的伪代码如下：<br>[java]<br>relax(u, v) {<br>  if (v.distance &gt; u.distance + weight[u, v]) {<br>    v.distance = u.distance + weight[u, v];<br>    v.parent = u;<br>  }<br>}<br>[/java]</p>
@@ -598,7 +657,7 @@
     <link href="http://www.cyanny.com/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/"/>
     <id>http://www.cyanny.com/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/</id>
     <published>2014-03-20T10:51:08.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<p>MapReduce是Hadoop中处理大数据的方法，是一个处理大数据的简单算法、编程泛型。虽然思想简单，但其实真正用起来还是有很多问题，不是所有的问题都可以像WordCount那样典型和直观, 有很多需要trick的地方。MapReduce的中心思想是分而治之，数据要松耦合，可以划分为小数据集并行处理，如果数据本身在计算上存在很强的依赖关系，就不要赶鸭子上架，用MapReduce了。<br>MapReduce编程中，最重要的是要抓住Map和Reduce的input和output，好的input和output可以降低实现的复杂度。最近，写了很多关于MapReduce的job，有倒排索引，统计，排序等。其中，对排序花费了一番功夫，MapReduce做WordCount很好理解,<br>Map input:[offset, text],  output: [word, 1],</p>
 <p>Reduce input: [word, 1], output: [word, totalcount],还可以设置Combiner进行优化。</p>
 <a id="more"></a>
@@ -875,7 +934,7 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <link href="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/"/>
     <id>http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/</id>
     <published>2014-03-13T14:13:20.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<h2 id="5-_HBase_Physical_Architecture">5. HBase Physical Architecture</h2><p>Figure 5.1 shows the deployment view for HBase cluster:<br>HBase is the master-slave cluster on top of HDFS. The classic deployment is as follows:<br>➢<strong> Master node:</strong> one HMaster and one NameNode running on a machine as the master node.<br>➢ <strong>Slave node:</strong> Each node is running one HRegionServer and one DataNode. And each node report status to the master node and Zookeeper.<br>➢<strong> Zookeeper:</strong> HBase is shipped with ensemble Zookeeper, but for large clusters, using existing Zookeeper is better. Zookeeper is crucial, the HMaster and HRegionServers will register on Zookeeper.<br>➢ <strong>Client</strong>: There can be many clients to access HRegionServer, like Java Client, Shell Client, Thrift Client and Avro Client</p>
 <p><a id="more"></a> <a href="http://tinypic.com?ref=6eg29d" target="_blank" rel="external"><img src="http://i58.tinypic.com/6eg29d.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 5.1 HBase Deployment View</p>
 <h2 id="6-HBase_Pros">6.HBase Pros</h2><p><strong>1. Master-Slave Architecture</strong><br>HBase build on top HDFS, HDFS is mater-slave architecture, HBase follows this style. It will improve the interoperability between HBase and HDFS.<br>This style do good for load balance, the HMaster takes over the load balance job, assign regions to region servers and auto failover dead RegionServers.</p>
@@ -918,7 +977,7 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <link href="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part2-process-architecture/"/>
     <id>http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part2-process-architecture/</id>
     <published>2014-03-13T14:00:11.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<h2 id="4-_Process_Architecture">4. Process Architecture</h2><h3 id="4-1_HBase_Write_Path">4.1 HBase Write Path</h3><p>The client doesn’t write data directly into HFile on HDFS. Firstly it writes data to WAL(Write Ahead Log), and Secondly, writes to MemStore shared by a HStore in memory.<br><a id="more"></a><br><a href="http://tinypic.com?ref=20i77l0" target="_blank" rel="external"><img src="http://i58.tinypic.com/20i77l0.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure4.1 HBase Write Path</p>
 <p><strong>MemStore</strong> is a write buffer(64MB by default). When the data in MemStore accumulates its threshold, data will be flush to a new HFile on HDFS persistently. Each Column Family can have many HFiles, but each HFile only belongs to one Column Family.<br><strong>WAL</strong> is for data reliability, WAL is persistent on HDFS and each Region Server has only on WAL. When the Region Server is down before MemStore flush, HBase can replay WAL to restore data on a new Region Server.<br>A data write completes successfully only after the data is written to WAL and MemStore.</p>
 <h3 id="4-2_HBase_Read_Path">4.2 HBase Read Path</h3><p>As shown in Figure 4.2, it’s the read path of HBase.<br>1. Client will query the MemStore in memory, if it has the target row.<br>2. When MemStore query failed, client will hit the BlockCache.<br>3. After the MemStore and BlockCache query failed, HBase will load HFiles into memory which may contain the target row info.<br>The MemStore and BlockCache is the mechanism for real time data access for distributed large data.<br><strong>BlockCache is a LRU(Lease Recently Used) priority cache.</strong> Each RegionServer has a single BlockCache. It keeps frequently accessed data from HFile in memory to reduce disk data reads. The “Block”(64KB by default) is the smallest index unit of data or the smallest unit of data that can be read from disk by one pass.<br>For random data access, small block size is preferred, but block index consumes more memory. And for sequential data access, large block size is better, fewer index save more memory.</p>
@@ -955,7 +1014,7 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <link href="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/"/>
     <id>http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/</id>
     <published>2014-03-13T13:18:32.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<h2 id="1-_Overview">1. Overview</h2><p>Apache HBase is an open source column-oriented database. <strong>It is often described as a sparse, consistent, distributed, multi-dimensional sorted map.</strong> HBase is modeled after Google’s “Bigtable: A distributed Storage System for Structured Data”, which can host very large tables with billions of rows, X millions of columns.<br><a id="more"></a><br>HBase is a No-SQL database, and it has very different paradigms from traditional RDBMS, which speaks SQL and enforce relationships upon data. HBase stores structured and semi-structured data with key-value style. Each row in HBase is located by<strong> &lt;Rowkey, Column Family, Column Qualifier, Version&gt;.</strong></p>
 <p>HBase stores data distributed on Hadoop HDFS shipped with random data access. HDFS is Hadoop Distributed File System, which stores big data sets with streaming style. It has high reliability, scalability and availability but the cons is that HDFS split data into blocks (64MB or 128MB), it can handle large chucks of data very well, but not very well for small piece of data and low-latency data access. In other words, HDFS isn’t fit for online real time read and write, and that’s the meaning of HBase. HBase goal is to make use of cloud distributed data storage for online real time data access.<br>The blog analyzes the architecture of HBase with the method of “4+1” views by Kruthten.</p>
 <h2 id="2-_Use_Case_View">2. Use Case View</h2><p><a href="http://tinypic.com?ref=346rmhh" target="_blank" rel="external"><img src="http://i60.tinypic.com/346rmhh.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 2.1 User Case View of HBase<br>The figure 2.1 shows the use case view of HBase. Since from the architecture view, the figure gives more details about the main features of HBase:<br>As shown on figure 2.1, the main features of HBase are as follows:<br><strong>1. For User:</strong></p>
@@ -1017,7 +1076,7 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <link href="http://www.cyanny.com/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/"/>
     <id>http://www.cyanny.com/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/</id>
     <published>2014-02-27T08:00:42.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<p>项目如果没有采用Java开发，难道就不能用HBase了么？程序猿不会善罢甘休的，有什么语言就会有什么API存在，我还觉得用Java配置时各种缺包错误很烦呢，记得《数学之美》中曾说道：“做技术有术和道两个层面”，知道HBase的架构和一些底层细节是”道”，而使用各种配置和API开发应用则是”术”，而我们就来试试非Java连接HBase。<br>HBase的第三方接口有Shell, Java, REST和Thrift，可以参考《HBase in Action》chapter 6, REST接口比较慢，使用起来并没有Thrift好。而你可能疑惑什么是Thrift:<br><a id="more"></a><br><em><br>Thrift is a “software framework, for scalable cross-language services development…with a code generation engine to build services that work efficiently and seamlessly between C++, Java, Python, PHP, Ruby, Erlang, Perl, Haskell, C#, Cocoa, JavaScript, Node.js…” Thrift allows us to create a thin API in NodeJS to communicate with HBase using a thin socket protocol. The advantages over REST are that the connection stays alive and the protocol is thinner than XML.
 </em><br>Apache Thrift是一个proxy，一个基于RPC的中间件，通过该接口，我们可以采用任何第三方语言连接HBase, 由此可见软件中间件封装底层detail的魅力。HBase提供C++, Java, Python, Node.js的Thrift文件。就Node.js来说，HBase提供了Thrift1和Thrift2， 官方的说法是Thrift2会逐步取代Thrift1， Thrift1我用了，发现命名不规范，而且CRUD并没有全部跑通，之后换用Thrift2，试验后成功了。<br>HBase Thrift API文档很少，官方只找到一个<a href="http://wiki.apache.org/hadoop/Hbase/ThriftApi" title="Python HBase API" target="_blank" rel="external">Python的老版本API</a>, 参考过的博客中采用Thrift2和Node.js的，Google一圈也没有，因此在这里把自己的一些小试验写下来，分享给朋友们，如有不对之处，还请指正。</p>
 <h3 id="一、环境配置">一、环境配置</h3><p>1. 系统要求<br>*nix系统，我是Max OX 10.9，因此在配置上也是以Mac的配置为准。</p>
@@ -1070,7 +1129,7 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <link href="http://www.cyanny.com/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/"/>
     <id>http://www.cyanny.com/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/</id>
     <published>2014-02-27T02:41:52.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<p>作者: Thomas Zhang</p>
 <h3 id="前言">前言</h3><p>清楚地记得，第一次看《The Matrix》这部电影是在小学六年级，在一个英语班上，同小伙伴们一起，围着一个20英寸的小电视，一知半解地看完了一部完全没有中文字幕的英文版本。虽然那时的自己，对这个繁复庞杂的世界架构必然一知半解，但纵然如此，惊喜与震撼已经随着剧终Neo手中听筒的落地，而深埋内心。我开始像Mopheus一样的问自己。What is real? How to define real? 我开始问自己，这个世界是否真的有可能是一个Matrix中的映像，周遭的生活，是否真的有可能是镜花水月，空中楼台。转眼十几年过去了。这十几年中，《The Matrix》三部曲一直珍藏在我的硬盘中，时不时翻出来重新品味，每次又都有不一样的体验。[more…]<br>十年后的今天，我已经从一个懵懂的少年，成为一个软件工程专业的学生。不得不说，直到接触了软件，接触了计算机体系结构，接触了面向对象的设计思想，对于这部电影，我才有了一个更深刻，更不一样的理解和体会。而经过这一整个学期对面向对象技术的实papapa践与深入了解，对这部经典的理解，似乎又深入了许多。<br>对于这三部曲，《The Matrix》是开创性的，如疾风骤雨办将一个残酷的真相——现实劈头盖脸的丢到你面前，只留下目瞪口呆的你独自回味着扑面而来的震撼和冲击；《The Matrix ——Reload》是颠覆性的，将你冥思苦想，以为理解了的世界一把推翻，告诉你，真相，其实远远没有那么简单；《The Matrix —— Revolution》是整个三部曲的高潮与结尾，却更是一个开端，那一夜雨战之后，一切都恢复了原装，但是一切，又都变得不同了起来。这篇文章当然不是描述对电影艺术表现抑或情节内容的感受与分析，但是我们仍然要找一个切入点，一个面向对象世界中，和那个电影中的波澜壮阔的世界能够微妙的联系在一起的点。我选择了，Revolution——革命。</p>
 <h3 id="Recolution">Recolution</h3><p>在那个雨夜大战之后，Neo和Smith这一对系统中的异常，终于被抹平，Matrix中的世界，似乎又恢复昔日的平静，一切都回到了原点。但，事实真的是这样么？Revolution，革命，究竟又指的是什么呢？<br>其实事实上，这时候的世界已经发生了本质的变化。还记得《Reload》里面的印度小姑娘Sati么？在从前，一个在系统中本应该被删除的，没有既定目标的冗余程序，现在竟然可以在Architecture眼皮底下自由地玩耍，并且可以完成一项似乎并没有“实用”功能性的代码改写——让夕阳变得美丽——来纪念逝去的人类朋友Neo。这意味着看似恢复原样的Matrix系统其实已经在不经意间完成了一次根本上变化，整个Matrix中，开始允许因为“爱”产生的冗余程序的存在。这是一个近乎根本性的有颠覆意义的改变。<br>也就是说，Revolution并不仅仅指的是在人类的角度上，Neo通过自我牺牲完成了对Zion的拯救，改变了脱离Matrix的人类宿命一样的被屠杀的命运；在另一个层面上，也指的是在Oracle的指引与Neo的协助之下，整个Matrix系统进行了一次根本性的“革命”。<br>更确切的对应到软件体系中，我们应该可以说，在电影中Matrix系统进行了一次大规模的系统热升级，在这次升级中，对整个系统的内存回收机制做出了根本上的修改，以使得系统更好的完成承载作为“电池”的人类思维的需求！<br>在影片中，从Merovingian、Architecture和Oracle的口中，直接间接的，我们可以知道，整个Matrix系统已经先后进行过六次这样的“升级”。这种开发模式，细细想来，与面向对象、敏捷开发中经常应用的迭代式的开发方式，有着异曲同工之处。<br>但是，一个系统要应用迭代开发方式，那么这个系统一定要满足特定的条件。在敏捷系统中，迭代开发需要满足<br>1、在项目开发早期需求可能有所变化<br>2、分析设计人员对应用领域很熟悉<br>3、高风险项目<br>4、用户可不同程度地参与整个项目的开发过程<br>5、使用面向对象的语言或统一建模语言<br>6、使用CASE工具<br>7、具有高素质的项目管理者和软件研发团队<br>其中，面向对象是使用迭代开发方式的必要条件之一。接下来，就来分析一下《The Matrix》世界对应到面向对象方式中的设计。</p>
@@ -1103,7 +1162,7 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <link href="http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part2/"/>
     <id>http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part2/</id>
     <published>2014-02-06T06:09:21.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<p>在完成<a href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part1/" title="set-hadoop-hbase-part1" target="_blank" rel="external">Hadoop配置</a>后，我们可以开始HBase的安装和配置了。<br>对于HBase，我只想说走对了路就成功了一半，选对了版本就省事好多。之前下载的是0.94版，按照官方的配置，连Standalone都跑不通，纠结了半天，放弃治疗，选用0.96版本，一切顺利。</p>
 <h3 id="配置HBase_Standalone模式">配置HBase Standalone模式</h3><p>1. 前提条件<br>MacOS 10.9<br>Java安装好<br>Standalone模式是单机的，基于Local FileSystem，不需要Hadoop，用于开发或测试。<br>[more…]<br>2. 下载HBase<br><a href="http://apache.fayea.com/apache-mirror/hbase/hbase-0.96.1/" target="_blank" rel="external">hbase-0.96.1-hadoop2-bin.tar.gz </a></p>
 <p>3. 解压安装<br>[shell]<br>$ tar xzvf hbase-0.96.1-hadoop2-bin.tar.gz<br>$ mv hbase-0.96.1-hadoop2 hbase<br>[/shell]<br>同样需要把hbase安装到Home目录下~/hbase, 对于我是/Users/lgrcyanny/hbase</p>
@@ -1146,7 +1205,7 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <link href="http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part1/"/>
     <id>http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part1/</id>
     <published>2014-02-06T03:27:54.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<p>过完春节，新年开始了，闲暇的时光弄了一下Hadoop和HBase，之前也配置过Hadoop，不过是1.x的版本和现在2.2的版本不一样了，HBase的官网推荐使用Hadoop2.x，配置HBase确实花费了点时间，网上的各种教程相似但各异，自己遇到的问题和方法也值得记下来，下次再配置时也可以查看一下。<br><a href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SingleCluster.html" target="_blank" rel="external">Hadoop官方Guide</a>的配置不够详细，需要参考各种博客，以下是我个人配置的方法：</p>
 <h3 id="配置Hadoop">配置Hadoop</h3><p>1. 操作系统<br>我用的是MacOS 10.9， 尽量在配置时使用Linux系统如Ubuntu，用Windows需要下载安装Cygwin，可能会麻烦些。<br>[more…]<br>2. 下载Java<br>到Oracle下载J2SE，1.6版本以上，下载最新版1.7即可。<br>在Mac下安装后，Java的Home路径是：<br>“/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/“<br>而不是很多博客中用的：<br>“/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK”<br>应该是MacOS10.8后有更新了。</p>
 <p>3. 下载Hadoop 2.X<br>我用的版本是Hadoop2.2.0<br><a href="http://apache.fayea.com/apache-mirror/hadoop/common/stable2/" title="Download Hadoop 2.2.0" target="_blank" rel="external">点击下载 hadoop-2.2.0.tar.gz</a></p>
@@ -1198,7 +1257,7 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
     <link href="http://www.cyanny.com/2013/12/18/node-express-mysql-scaffolding/"/>
     <id>http://www.cyanny.com/2013/12/18/node-express-mysql-scaffolding/</id>
     <published>2013-12-18T15:29:11.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
+    <updated>2016-09-27T01:03:08.000Z</updated>
     <content type="html"><![CDATA[<h3 id="Node_Express_MySQL_Scaffolding_Overview">Node Express MySQL Scaffolding Overview</h3><p>There are many node scaffoldings based on Mongoddb, but MySQL is rare. This is a simple scaffolding built on express and mysql.</p>
 <p><a href="https://github.com/lgrcyanny/node-express-mysql-scaffolding" title="node-express-mysql-scaffolding" target="_blank" rel="external">node-express-mysql-scaffolding</a><br>[more…]</p>
 <h3 id="Features">Features</h3><p>1. Register with fullname,username, email, passord, very simple<br>2. Login with <a href="https://npmjs.org/package/passport-local" target="_blank" rel="external">passport-local</a> strategy<br>3. Twitter Bootstrap Support<br>Note: I just want keep the scaffolding clean, no more complex function, and keep it flexible.</p>
@@ -1221,108 +1280,6 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
       <category term="Node.js" scheme="http://www.cyanny.com/tags/node-js/"/>
     
       <category term="Nodejs" scheme="http://www.cyanny.com/categories/nodejs/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Hadoop isn’t Silver Bullet]]></title>
-    <link href="http://www.cyanny.com/2013/12/05/hadoop-isnt-silver-bullet/"/>
-    <id>http://www.cyanny.com/2013/12/05/hadoop-isnt-silver-bullet/</id>
-    <published>2013-12-05T10:28:45.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
-    <content type="html"><![CDATA[<p>Hadoop is a great framework for distributed large data computing. But Hadoop is not the silver bullet. Hadoop fits not very well in such cases as follow:</p>
-<h4 id="1-_Low-latency_Data_Access">1. Low-latency Data Access</h4><p>Applications that require real-time query, and low-latency access to data in tens of milliseconds will not work well with Hadoop.<br>Hadoop is not a substitute for a database. Database index records that will gains low-latency and fast response.<br>But if you really want to replace the database for real time needs, try HBase, which is a column-oriented database for random and real time read/write.[more…]</p>
-<h4 id="2-_Structured_Data">2. Structured Data</h4><p>Hadoop is not fit for structured data with strong relationship. Hadoop works well for semi-structured and unstructured data. It stores data in files, doesn’t index them like RDBMS. Therefore, each ad hoc query for Hadoop is processed by MapReduce job which will bring the latency cost. </p>
-<h4 id="3-_When_data_isn’t_that_big">3. When data isn’t that big</h4><p>How big the data is big enough for Hadoop? The answer is TB or PB. When your analytics data is only tens of GB, Hadoop is heavy. Don’t follow the fashion and use Hadoop, just follow your requirements. </p>
-<h4 id="4-_Too_many_small_files">4. Too many small files</h4><p>When there are too many small files, the NameNode will hit its memory limit where the block map and the metadata are hosted. And to handle the NameNode bottleneck, Hadoop introduces HDFS Federation.</p>
-<h4 id="5-_Too_many_writers_and_too_much_file_updates">5. Too many writers and too much file updates</h4><p>HDFS is in write-once-and-read-many-times way. When there is too much files update needs, Hadoop won’t support that.</p>
-<h4 id="6-_MapReduce_may_not_the_best_choice">6. MapReduce may not the best choice</h4><p>MapReduce is a simple programming model in parallel. But for MapReduce parallelism, you need to make sure each MR job and the data where the job runs on is independent from all the others. Every MR shouldn’t have dependencies.<br>But if you want to do some data sharing during MR, you can do like this:</p>
-<ul>
-<li>Iteration: run multiple MR jobs, with the output of one being the input of the next MR.</li>
-<li>Shared state information. But don’t share information in memory, since each MR job is run on single JVM. </li>
-</ul>
-<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>Hadoop is a great framework for distributed large data computing. But Hadoop is not the silver bullet. Hadoop fits not very well in such ]]>
-    </summary>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
-    
-      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
-    
-      <category term="Research" scheme="http://www.cyanny.com/tags/research/"/>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Hadoop MapReduce 2 (YARN)]]></title>
-    <link href="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-2-yarn/"/>
-    <id>http://www.cyanny.com/2013/12/05/hadoop-mapreduce-2-yarn/</id>
-    <published>2013-12-05T08:57:01.000Z</published>
-    <updated>2015-06-30T15:28:30.000Z</updated>
-    <content type="html"><![CDATA[<p>For large clusters with more than 4000 nodes, the classic MapReduce framework hit the scalability problems.<br><strong>Therefore, a group in Yahoo began to design the next generation MapReduce in 2010, and in 2013 Hadoop 2.x releases MapReduce 2, Yet Another Resource Negotiator (YARN) to remedy the sociability shortcoming.</strong><br>The fundamental idea of YARN is to split up the two major functionalities of the JobTracker: resource management (job scheduling) and job monitoring into separate daemons. YARN has a global Resource Manager (RM) and per-application Application Master(AM).[more…]</p>
-<h3 id="YARN_High-level_Overview">YARN High-level Overview</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.1.png" alt="hd7.1">Figure1 YARN High-level Overview</a><br>As shown in Figure1, the YARN involves more entities than classic MapReduce 1 :</p>
-<ul>
-<li>Client, the same as classic MapReduce which submits the MapReduce job.</li>
-<li>Resource Manager, which has the ultimate authority that arbitrates resources among all the applications in the cluster, it coordinates the allocation of compute resources on the cluster.</li>
-<li>Node Manager, which is in charge of resource containers, monitoring resource usage (cpu, memory, disk , network) on the node , and reporting to the Resource Manager.</li>
-<li>Application Master, which is in charge of the life cycle an application, like a MapReduce Job. It will negotiates with the Resource Manager of cluster resources—-in YARN called containers. The Application Master and the MapReduce task in the containers are scheduled by the Resource Manager. And both of them are managed by the Node Manager. Application Mater is also responsible for keeping track of task progress and status. </li>
-<li>HDFS, the same as classic MapReduce, for files sharing between different entities.</li>
-</ul>
-<p>Resource Manager consists of two components: Scheduler and ApplicationsManager.</p>
-<p>Scheduler is in charge of allocating resources. The resource Container incorporates elements such as memory, cup, disk, network etc. Scheduler just has the resource allocation function, has no responsible for job status monitoring. And the scheduler is pluggable, can be replaced by other scheduler plugin-in.</p>
-<p>The ApplicationsManager is responsible for accepting job-submissions, negotiating the first container for executing the application specific Application Master, and it provides restart service when the container fails.<br>The MapReduce job is just one type of application in YARN. Different application can run on the same cluster with YARN framework. That’s the beauty of YARN.</p>
-<h3 id="YARN_MapReduce">YARN MapReduce</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.2.png" alt="hd7.2">Figure2 MapReduce with YARN</a><br>As shown in Figure2, it is the MapReduce process with YARN, there are 11 steps, and we will explain it in 6 steps the same as the MapReduce 1 framework. They are Job Submission, Job Initialization, Task Assignment, Task Execution, Progress and Status Updates, and Job Completion.</p>
-<h4 id="Job_Submission">Job Submission</h4><p>Clients can submit jobs with the same API as MapReduce 1 in YARN. YARN implements its ClientProtocol, the submission process is similar to MapReduce 1.</p>
-<ul>
-<li>The client calls the submit() method, which will initiate the JobSubmmitter object and call submitJobInternel().</li>
-<li>Resource Manager will allocate a new application ID and response it to client.</li>
-<li>The job client checks the output specification of the job</li>
-<li>The job client computes the input splits</li>
-<li>The job client copies resources, including the splits data, configuration information, the job JAR into HDFS</li>
-<li>Finally, the job client notify Resource Manager it is ready by calling submitApplication() on the Resource Manager.</li>
-</ul>
-<h4 id="Job_Initialization">Job Initialization</h4><p> When the Resource Manager(RM) receives the call submitApplication(), RM will hands off the job to its scheduler. The job initialization is as follows:</p>
-<ul>
-<li>The scheduler allocates a resource container for the job, </li>
-<li>The RM launches the Application Master under the Node Manager’s management. </li>
-<li>Application Master initialize the job. Application Master is a Java class named MRAppMaster, which initializes the job by creating a number of bookkeeping objects to keep track of the job progress. It will receive the progress and the completion reports from the tasks. </li>
-<li>Application Master retrieves the input splits from HDFS, and creates a map task object for each split. It will create a number of reduce task objects determined by the mapreduce.job.reduces configuration property.</li>
-<li>Application Master then decides how to run the job. </li>
-</ul>
-<p>For small job, called uber job, which is the one has less than 10 mappers and only one reducer, or the input split size is smaller than a HDFS block, the Application Manager will run the job on its own JVM sequentially. This policy is different from MapReduce 1 which will ignore the small jobs on a single TaskTracker.</p>
-<p>For large job, the Application Master will launches a new node with new NodeManager and new container, in which run the task. This can run job in parallel and gain more performance. </p>
-<p>Application Master calls the job setup method to create the job’s output directory. That’s different from MapReduce 1, where the setup task is called by each task’s TaskTracker.</p>
-<h4 id="Task_Assignment">Task Assignment</h4><p>When the job is very large so that it can’t be run on the same node as the Application Master. The Application Master will make request to the Resource Manager to negotiate more resource container which is in piggybacked on heartbeat calls. The task assignment is as follows:</p>
-<ul>
-<li>The Application Master make request to the Resource Manager in heartbeat call. The request includes the data locality information, like hosts and corresponding racks that the input splits resides on. </li>
-<li>The Recourse Manager hand over the request to the Scheduler. The Scheduler makes decisions based on these information. It attempts to place the task as close the data as possible. The data-local nodes is great, if this is not possible , the rack-local the preferred to nolocal node.</li>
-<li>The request also specific the memory requirements, which is between the minimum allocation (1GB by default) and the maximum allocation (10GB). The Scheduler will schedule a container with multiples of 1GB memory to the task, based on the mapreduce.map.memory.mb and mapreduce.reduce.memory.mb property set by the task.</li>
-</ul>
-<p>This way is more flexible than MapReduce 1. In MapReduce 1, the TaskTrackers have a fixed number of slots and each task runs in a slot. Each slot has fixed memory allowance which results in two problems. For small task, it will waste of memory, and for large task which need more memeory, it will lack of memory.<br>In YARN, the memory allocation is more fine-grained, which is also the beauty of YARE resides in.</p>
-<h4 id="Task_Execution">Task Execution</h4><p>After the task has been assigned the container by the Resource Manger’s scheduler, the Application Master will contact the NodeManger which will launch the task JVM.<br>The task execution is as follows:</p>
-<ul>
-<li>The Java Application whose class name is YarnChild localizes the resources that the task needs. YarnChild retrieves job resources including the job jar, configuration file, and any needed files from the HDFS and the distributed cache on the local disk.</li>
-<li>YarnChild run the map or the reduce task<br>Each YarnChild runs on a dedicated JVM, which isolates user code from the long running system daemons like NodeManager and the Application Master. Different from MapReduce 1, <strong>YARN doesn’t support JVM reuse</strong>, hence each task must run on new JVM.<br>The streaming and the pipeline processs and communication in the same as MapReduce 1.</li>
-</ul>
-<h4 id="Progress_and_Status_Updates">Progress and Status Updates</h4><p>When the job is running under YARN, the mapper or reducer will report its status and progress to its Application Master every 3 seconds over the umbilical interface. The Application Master will aggregate these status reports into a view of the task status and progress. While in MapReduce 1, the TaskTracker reports status to JobTracker which is responsible for aggregating status into a global view.<br>Moreover, the Node Manger will send heartbeats to the Resource Manager every few seconds. The Node Manager will monitoring the Application Master and the recourse container usage like cpu, memeory and network, and make reports to the Resource Manager. When the Node Manager fails and stops heartbeat the Resource Manager, the Resource Manager will remove the node from its available resource nodes pool.<br>The client pulls the status by calling getStatus() every 1 second to receive the progress updates, which are printed on the user console. User can also check the status from the web UI. The Resource Manager web UI will display all the running applications with links to the web UI where displays task status and progress in detail.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.3.png" alt="hd7.3">Figure 3  YARN Progress and Status Updates</a></p>
-<h4 id="Job_Completion">Job Completion</h4><p>Every 5 second the client will check the job completion over the HTTP ClientProtocol by calling waitForCompletion(). When the job is done, the Application Master and the task containers clean up their working state and the outputCommitter’s job cleanup method is called. And the job information is archived as history for later interrogation by user.</p>
-<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>For large clusters with more than 4000 nodes, the classic MapReduce framework hit the scalability problems.<br><strong>Therefore, a group]]>
-    </summary>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
-    
-      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
-    
-      <category term="Research" scheme="http://www.cyanny.com/tags/research/"/>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
   </entry>
   

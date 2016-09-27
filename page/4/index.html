@@ -109,11 +109,11 @@ ga('send', 'pageview');
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        48
+        50
         <span>posts</span>
       </div>
       <div class="article-info-block">
-        29
+        30
         <span>tags</span>
       </div>
     </div>
@@ -138,6 +138,147 @@ ga('send', 'pageview');
 </aside>
       
       <section id="main">
+      <article id="post-set-hadoop-hbase-part1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/02/06/set-hadoop-hbase-part1/">Set up Hadoop 2.2 and HBase 0.96 part1</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/02/06/set-hadoop-hbase-part1/">
+    <time datetime="2014-02-06T03:27:54.000Z" itemprop="datePublished">2014-02-06</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>过完春节，新年开始了，闲暇的时光弄了一下Hadoop和HBase，之前也配置过Hadoop，不过是1.x的版本和现在2.2的版本不一样了，HBase的官网推荐使用Hadoop2.x，配置HBase确实花费了点时间，网上的各种教程相似但各异，自己遇到的问题和方法也值得记下来，下次再配置时也可以查看一下。<br><a href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SingleCluster.html" target="_blank" rel="external">Hadoop官方Guide</a>的配置不够详细，需要参考各种博客，以下是我个人配置的方法：</p>
+<h3 id="配置Hadoop">配置Hadoop</h3><p>1. 操作系统<br>我用的是MacOS 10.9， 尽量在配置时使用Linux系统如Ubuntu，用Windows需要下载安装Cygwin，可能会麻烦些。<br>[more…]<br>2. 下载Java<br>到Oracle下载J2SE，1.6版本以上，下载最新版1.7即可。<br>在Mac下安装后，Java的Home路径是：<br>“/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/“<br>而不是很多博客中用的：<br>“/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK”<br>应该是MacOS10.8后有更新了。</p>
+<p>3. 下载Hadoop 2.X<br>我用的版本是Hadoop2.2.0<br><a href="http://apache.fayea.com/apache-mirror/hadoop/common/stable2/" title="Download Hadoop 2.2.0" target="_blank" rel="external">点击下载 hadoop-2.2.0.tar.gz</a></p>
+<p>[shell]<br>$ tar xzvf  hadoop-2.2.0.tar.gz<br>$ mv hadoop-2.2.0 hadoop<br>[/shell]<br>我安装hadoop到路径/Users/lgrcyanny/hadoop，即当前Mac用户的Home目录下，为了方便没有创建新的用户hadoop，在配置时可以自己将“lgrcyanny”替换为自己的用户名。</p>
+<p>4. 配置ssh localhost<br>Hadoop的Master和Slave的通信采用ssh，单机版的Hadoop也需要ssh。<br>Ubuntu用户可以”apt-get install ssh”， mac用户自带ssh<br>[shell]<br>$ ssh-keygen -t rsa # 如果之前配置过GitHub，rsa key是存在的，请不要覆盖即可<br>$ ssh lgrcyanny@localhost mkdir -p .ssh<br>$ cat .ssh/id_rsa.pub | ssh lgrcyanny@localhost ‘cat &gt;&gt; .ssh/authorized_keys’<br>$ ssh lgrcyanny@localhost &quot;chmod 700 .ssh; chmod 640 .ssh/authorized_keys&quot;<br>$ ssh localhost<br>Last login: Thu Feb  6 10:22:40 2014<br>[/shell]</p>
+<p>5. 配置环境变量<br>[shell]<br>$ cd ~<br>$ vim .bashrc</p>
+<h1 id="Java_properties">Java properties</h1><p>export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/<br>export JRE_HOME=$JAVA_HOME/jre<br>export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH<br>export PATH=.:$JAVA_HOME/bin:$JRE_HOME/bin:$PATH</p>
+<h1 id="Hadoop_variables">Hadoop variables</h1><p>export HADOOP_INSTALL=/Users/lgrcyanny/hadoop  # Please change to your installation path<br>export PATH=$PATH:$HADOOP_INSTALL/bin<br>export PATH=$PATH:$HADOOP_INSTALL/sbin<br>export HADOOP_MAPRED_HOME=$HADOOP_INSTALL<br>export HADOOP_COMMON_HOME=$HADOOP_INSTALL<br>export HADOOP_HDFS_HOME=$HADOOP_INSTALL<br>export HADOOP_YARN_HOME=$HADOOP_INSTALL<br>$ source .bashrc<br>[/shell]</p>
+<p>6. 编辑hadoop-env.sh<br>[shell]<br>$ cd ~/hadoop/etc/hadoop<br>$vim hadoop-env.sh</p>
+<h1 id="config_JAVA_HOME_and_HADOOP_OPTS">config JAVA_HOME and HADOOP_OPTS</h1><p>export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/</p>
+<h1 id="HADOOP_OPTS_is_to_get_rid_of_warning_message_&quot;Unable_to_load_realm_info_from_SCDynamicStore_&quot;">HADOOP_OPTS is to get rid of warning message &quot;Unable to load realm info from SCDynamicStore &quot;</h1><p>export HADOOP_OPTS=&quot;-Djava.security.krb5.realm= -Djava.security.krb5.kdc= -Djava.security.krb5.conf=/dev/null&quot;<br>[/shell]</p>
+<p>7. 查看hadoop version<br>[shell]<br>$ hadoop version<br>Hadoop 2.2.0<br>Subversion <a href="https://svn.apache.org/repos/asf/hadoop/common" target="_blank" rel="external">https://svn.apache.org/repos/asf/hadoop/common</a> -r 1529768<br>Compiled by hortonmu on 2013-10-07T06:28Z<br>Compiled with protoc 2.5.0<br>From source with checksum 79e53ce7994d1628b240f09af91e1af4<br>This command was run using /Users/lgrcyanny/hadoop/share/hadoop/common/hadoop-common-2.2.0.jar<br>[/shell]</p>
+<p>8. 编辑core-site.xml<br>[shell]<br>$ cd ~/hadoop<br>$ mkdir -p mydata/tmp<br>$ vim etc/hadoop/core-site.xml</p>
+<h1 id="config_as_following">config as following</h1><p>&lt;configuration&gt;<br>  &lt;property&gt;<br>     &lt;name&gt;fs.default.name&lt;/name&gt;<br>     &lt;value&gt;hdfs://localhost:9000&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hadoop/mydata/tmp&lt;/value&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>9. 编辑yarn-site.xml<br>Hadoop 2.x的特点就是引入了YARN框架，这是和之前Hadoop 1.x不同的方面<br>[shell]<br>$ cd ~/hadoop<br>$ vim etc/hadoop/yarn-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>     &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;<br>     &lt;value&gt;mapreduce_shuffle&lt;/value&gt;<br>  &lt;/property&gt;<br>  &lt;property&gt;<br>     &lt;name&gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&lt;/name&gt;<br>     &lt;value&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;/value&gt;<br>  &lt;/property&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;yarn.nodemanager.resource.memory-mb&lt;/name&gt;<br>    &lt;value&gt;10240&lt;/value&gt;<br>    &lt;description&gt;the amount of memory on the NodeManager in GB&lt;/description&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>10. 编辑mapred-site.xml<br>[shell]<br>$ cd ~/hadoop<br>$ mkdir -p mydata/mapred/temp<br>$ mkdir -p mydata/mapred/local<br>$ mv etc/hadoop/mapred-site.xml.template etc/hadoop/mapred-site.xml<br>$ vim etc/hadoop/mapred-site.xml<br>&lt;configuration&gt;</p>
+<p>  &lt;property&gt;<br>     &lt;name&gt;mapreduce.framework.name&lt;/name&gt;<br>     &lt;value&gt;yarn&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;mapreduce.cluster.temp.dir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hadoop/mydata/mapred/temp&lt;/value&gt;<br>    &lt;description&gt;The temp dir for map reduce&lt;/description&gt;<br>    &lt;final&gt;true&lt;/final&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;mapreduce.cluster.local.dir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hadoop/mydata/mapred/local&lt;/value&gt;<br>    &lt;description&gt;The local dir for map reduce&lt;/description&gt;<br>    &lt;final&gt;true&lt;/final&gt;<br>  &lt;/property&gt;</p>
+<p>&lt;/configuration&gt;<br>[/shell]</p>
+<p>11. 编辑hdfs-site.xml<br>[shell]<br>$ cd ~/hadoop<br>$ mkdir -p mydata/hdfs/namenode<br>$ mkdir -p mydata/hdfs/datanode<br>$ vim etc/hadoop/hdfs-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>     &lt;name&gt;dfs.replication&lt;/name&gt;<br>     &lt;value&gt;1&lt;/value&gt;<br>   &lt;/property&gt;<br>   &lt;property&gt;<br>     &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;<br>     &lt;value&gt;file:/Users/lgrcyanny/hadoop/mydata/hdfs/namenode&lt;/value&gt;<br>   &lt;/property&gt;<br>   &lt;property&gt;<br>     &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;<br>     &lt;value&gt;file:/Users/lgrcyanny/hadoop/mydata/hdfs/datanode&lt;/value&gt;<br>   &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>12. Format HDFS<br>[shell]<br>$ hadoop namenode -format<br>……<br>14/02/06 13:22:41 INFO namenode.NameNode: SHUTDOWN_MSG:<br>/<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br>SHUTDOWN_MSG: Shutting down NameNode at Cyanny-MacBook-Air.local/192.168.1.103<br><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>/<br>[/shell]</p>
+<p>13. 启动Hadoop<br>[shell]<br>$ start-dfs.sh<br>$ start-yarn.sh<br>$ jps #  Java Virtual Machine Process Status Tool<br>10377 Jps<br>10224 NodeManager<br>10146 ResourceManager<br>9155 SecondaryNameNode<br>9064 DataNode<br>8990 NameNode<br>[/shell]<br>Hadoop 1.x采用start-all.sh启动，而Hadoop2.x拆分为start-dfs.sh, start-yarn.sh，我想是因为如果使用HBase时，只需要HDFS的服务，而一般不需要YARN的服务，这样就不会占用太多的内存。</p>
+<p>14. Web查看Hadoop<br>查看HDFS的状态：<a href="http://localhost:50070" target="_blank" rel="external">http://localhost:50070</a><br>查看YARN的状态: <a href="http://localhost:8088" target="_blank" rel="external">http://localhost:8088</a></p>
+<p>15. 测试Hadoop，使用Hadoop的WordCount example<br>[shell]<br>$ cd ~/hadoop<br>$ hadoop jar ./share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar pi 2 5<br>Number of Maps  = 2<br>Samples per Map = 5<br>14/02/06 13:28:39 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform… using builtin-java classes where applicable<br>Wrote input for Map #0<br>Wrote input for Map #1<br>Starting Job<br>14/02/06 13:28:40 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032<br>14/02/06 13:28:41 INFO input.FileInputFormat: Total input paths to process : 2<br>14/02/06 13:28:41 INFO mapreduce.JobSubmitter: number of splits:2<br>………<br>[/shell]<br>你可以通过<a href="http://localhost:8088/cluster" target="_blank" rel="external">http://localhost:8088/cluster</a> 查看MapReduce的运行状态</p>
+<p>Congratulations, Hadoop 2.2.0安装完毕，接下来我们就要开始安装HBase了。</p>
+<h3 id="Trouble_Shooting">Trouble Shooting</h3><p>1. 当启动Hadoop，jps查看后没有datanode怎么办？<br>某一天我遇到这个问题，方法是将datanode和namenode, 以及tmp文件夹删除，重新format，再重启Hadoop。<br>[shell]<br>$ cd ~/hadoop<br>$ stop-dfs.sh<br>$ stop-yarn.sh<br>$ rm -r mydata/hdfs/datanode<br>$ rm -r mydata/hdfs/namenode<br>$ rm -r mydata/tmp<br>$ mkdir -p mydata/tmp<br>$ hadoop namenode -format<br>$ start-dfs.sh<br>$ start-yarn.sh<br>[/shell]</p>
+<h4 id="参考资料">参考资料</h4><p><a href="http://javatute.com/javatute/faces/post/hadoop/2014/setting-hadoop-2.2.0-on-ubuntu-12-lts.xhtml" target="_blank" rel="external">[1] setting-hadoop-2.2.0-on-ubuntu-12-lts</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part1/" data-id="citktnrk6001hee6r3g1gyty8" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part1/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-node-express-mysql-scaffolding" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/18/node-express-mysql-scaffolding/">Node Express Mysql Scaffolding</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/18/node-express-mysql-scaffolding/">
+    <time datetime="2013-12-18T15:29:11.000Z" itemprop="datePublished">2013-12-18</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/nodejs/">Nodejs</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Node_Express_MySQL_Scaffolding_Overview">Node Express MySQL Scaffolding Overview</h3><p>There are many node scaffoldings based on Mongoddb, but MySQL is rare. This is a simple scaffolding built on express and mysql.</p>
+<p><a href="https://github.com/lgrcyanny/node-express-mysql-scaffolding" title="node-express-mysql-scaffolding" target="_blank" rel="external">node-express-mysql-scaffolding</a><br>[more…]</p>
+<h3 id="Features">Features</h3><p>1. Register with fullname,username, email, passord, very simple<br>2. Login with <a href="https://npmjs.org/package/passport-local" target="_blank" rel="external">passport-local</a> strategy<br>3. Twitter Bootstrap Support<br>Note: I just want keep the scaffolding clean, no more complex function, and keep it flexible.</p>
+<h3 id="Install">Install</h3><p><strong>NOTE:</strong> You need to have node.js, MySQL Server installed </p>
+<p>1. Clone the project<br>[shell]<br>  $ git clone <a href="https://github.com/lgrcyanny/node-express-mysql-scaffolding.git" target="_blank" rel="external">https://github.com/lgrcyanny/node-express-mysql-scaffolding.git</a><br>  $ npm install<br>  $ cp config/config.disk.js config/config.js<br>[/shell]<br>Please config your MySQL in the <code>config.js</code>;</p>
+<p>2. Install <a href="http://dev.mysql.com/downloads/" target="_blank" rel="external">MySQL server</a></p>
+<p>3. Start MySQL service</p>
+<p>4. Build the database<br>[shell]<br>  $ mysql -u root -p<br>  &gt; create database scaffolding<br>  &gt; quit<br>  $ mysql -u root -pyourpassword scaffolding &lt; scaffolding.sql<br>[/shell]</p>
+<p>5. Start Node.js Server<br>[shell]<br>  $ npm start<br>[/shell]</p>
+<p>6. Then visit <a href="http://localhost:3000/" target="_blank" rel="external">http://localhost:3000/</a></p>
+<h3 id="Related_modules">Related modules</h3><p>Thanks to <a href="https://github.com/madhums/node-express-mongoose-demo" title="node-express-mongoose-demo" target="_blank" rel="external">node-express-mongoose-demo</a>, it’s a great scaffolding, but it still took me 2 days to migrate from MongoDB based scaffolding to MySQL scaffolding, and the node-express-mongoose-demo has too many Login Support which is too complicated.</p>
+<h3 id="Directory_structure">Directory structure</h3><p>-app/<br>  |<strong>controllers/<br>  |</strong>models/<br>  |<strong>mailer/<br>  |</strong>views/<br>-config/<br>  |<strong>routes.js<br>  |</strong>config.js<br>  |<strong>passport.js (auth config)<br>  |</strong>express.js (express.js configs)<br>  |__middlewares/ (custom middlewares)<br>-public/</p>
+<h3 id="Tests">Tests</h3><p>Tests are not shipped now, I will write tests later.<br>[shell]<br>$ npm test<br>[/shell]</p>
+<h3 id="License">License</h3><p>(The MIT License)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/12/18/node-express-mysql-scaffolding/" data-id="citktnrl80022ee6rewm8xgyt" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/12/18/node-express-mysql-scaffolding/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/">Node.js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
       <article id="post-hadoop-isnt-silver-bullet" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -185,7 +326,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-isnt-silver-bullet/" data-id="cin4nww37004fmfsetragoki6" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-isnt-silver-bullet/" data-id="citktnrq2004fee6rdl7u6h01" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-isnt-silver-bullet/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -282,7 +423,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-2-yarn/" data-id="cin4nww320045mfsemqyc9hya" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-2-yarn/" data-id="citktnrpj0045ee6rxlojsol6" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-2-yarn/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -387,7 +528,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-1-framework/" data-id="cin4nww35004amfsekdci55fv" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-1-framework/" data-id="citktnrpq004aee6r0sbl95s6" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-1-framework/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -448,7 +589,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-overview/" data-id="cin4nww300043mfsed2nkx0z9" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-overview/" data-id="citktnrpc0043ee6rccv2n6y0" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2013/12/05/hadoop-mapreduce-overview/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -460,128 +601,8 @@ ga('send', 'pageview');
 
 
     
-      <article id="post-hadoop-hdfs-high-availability" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/12/05/hadoop-hdfs-high-availability/">Hadoop HDFS High Availability(HA)</a>
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/12/05/hadoop-hdfs-high-availability/">
-    <time datetime="2013-12-05T06:54:59.000Z" itemprop="datePublished">2013-12-05</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
-  </div>
-
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Reliability, Scalability and Availability are the most important three features for a distributed file system. In HDFS, persistent metadata, using the Secondary NameNode to create checkpoint against data loss, using block replication across the cluster against DataNode failure, all of these brings HDFS high reliability. And the master slave architecture wins HDFS great scalability. [more…]<br>However, HDFS has always had a well-known Single Point of Failure (SPOF) which impacts HDFS’s availability. HDFS fits well for ETL or batch-processing workflows, but in the past few years HDFS begin to be used for real time job, such as HBase. To recover a single NameNode, an administrator starts a new primary NameNode with FsImage and replays its EditLog, waits for Blockreport from DataNodes to leave safe mode. On large clusters with many files and blocks, it will take 30 minutes or more time to recovery. Long time recovery will impact the productivity of internal users and perhaps results in downtime visible to external users.<br>For these reasons, Hadoop community began a new feature for HDFS called High Availability Name Node (HA Name Node) in 2011. The HA makes use of an active and a standby NameNode. When the active NameNode fails, the hot standby NameNode will take over serving the role of an active NameNode without a significant interruption. </p>
-<h3 id="HA_Architecture">HA Architecture</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd5.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd5.1.png" alt="hd5.1">Figure1 HDFS High Availability Architecture</a><br>As shown in Figure 1, HA architecture has several changes</p>
-<ul>
-<li>The NameNodes must use highly available shared storage to share EditLog, such as Network File System (NFS), or BookKeeper. The active NameNode will write its EditLog on the Shared dir, and the Standby NameNode polls the shared log frequently and then applies to its in-memory so as to has the most complete and up-to-date file system state in memory.</li>
-<li>DataNodes must send Blockreports with block locations to both active and standy NameNodes. Because the block mappings are stored in a NameNode’s memory and not on a disk to increase data access performance.</li>
-<li>Clients must be configured to handle NameNode failover, using a mechanism that is transparent to users.<br>The HA guarantees if the active NameNode fails, the standby one will take over quickly in tens of seconds, since it has the latest state available in memory: the latest EditLog entries and an up-to-date block mapping.</li>
-</ul>
-<h3 id="Failover">Failover</h3><p>The transition from the active NameNode to the standby NameNode is controlled by the failover controller. Each NameNode runs a failover controller to monitor its namenode failure, which is a heartbeating mechanism. Failover is triggered when a NameNode fails.  </p>
-<p>After NameNode failover, the Client must be informed which is active NameNode now. Client Failover is handled transparently by the client library. The HDFS client supports the configuration for multiple network addresses, one for each NameNode. The NameNode is identified by a single logical URI which is mapped the two network addresses of the HA Name Nodes via client-side configuration. The client will retry the two addresses until the active NameNode is found. </p>
-<h3 id="Fencing">Fencing</h3><p>After Failover, HDFS makes use of the fencing technique to make sure that the previous died active NameNode is prevented from doing any damage and causing corruption. These mechanisms includes killing the NameNode’s process, revoking its access to the shared storage directory and disabling its network port via a remote management command. If these techniques fail, HDFS will use STONITH, that is “shoot the other node in the head”, which uses a specialized power distribution unit to forcibly power down the host machine. </p>
-<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/" data-id="cin4nww3d004pmfseovg0isl4" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-high-availability/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-    
-      <article id="post-hadoop-hdfs-federation" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/12/05/hadoop-hdfs-federation/">Hadoop HDFS Federation </a>
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/12/05/hadoop-hdfs-federation/">
-    <time datetime="2013-12-05T06:48:10.000Z" itemprop="datePublished">2013-12-05</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
-  </div>
-
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>In traditional HDFS architecture, there is only one NameNode in a cluster, which maintains all of the namespace and block map. Regarding that Hadoop cluster is becoming larger and larger one enterprise platform and every file and block information is in NameNode RAM, when there are more than 4000 nodes with many files, the NameNode memory will reach its limit and it becomes the limiting factor for cluster scaling. In Hadoop 2.x release series, Hadoop introduces HDFS Federation, which allows a cluster to scale by adding NameNodes, each of which manages a portion of the filesystem namespace.[more…]<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd4.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd4.1.png" alt="hd4.1">Figure1 HDFS Federation</a><br>As shown in Figure1, there are many federated NameNodes which manages its own namespace. The NameNodes are independent and don’t require coordination with each other. The DataNodes are used as common storage for blocks. Each DataNode registers with all the NameNodes in the cluster and send periodic heartbeats and block report and handles commands from the NameNodes.<br>Each NameNode is responsible for two tasks: Namespace management and Block Management. For the two tasks, mange NameNode manages its own Namespace Volume, which consists of two parts:</p>
-<ul>
-<li>Namespace: the metadata for each file and block</li>
-<li>Block Pool: it is a set of blocks that belong to a single namespace. The Block Pool is in charge of block management task, including processing block reports and maintaining location of blocks.<br>Block pool storage is not partitioned , so DataNodes register with each NameNode in the cluster and store blocks from multiple block pools. The NameNode namespace must to generate block ID for new blocks.<br>A NameSpace Volume is a self-contained uinit . Each NameNode has no need to contact other NameNode and it’s failure will not influence other NameNode.<br>To access a federated HDFS, clients use client-side mount tables to map file paths to NameNodes. A new identifier ClusterID is added to all the nodes in the cluser. Federated NameNodes is configured by ViewFileSystem and the viewfs://URIs.<br>The HDFS Federation brings several benefits:</li>
-</ul>
-<ul>
-<li>NameSpace Scalability: It will support large clusters with many files, just add more NameNode to scale namespace.</li>
-<li>Performance: Break the limitation of single node, more NameNodes means more read/write operations and the throughput is improved.</li>
-<li>Isolation: A single NameNode has no isolation in multi user environment. While multiple NameNodes can provide isolated NameSpace for both production and experiment application. </li>
-</ul>
-<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-hdfs-federation/" data-id="cin4nww3m004umfseanmy5x5h" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/12/05/hadoop-hdfs-federation/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-    
       <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
       </nav>
     </section>
       
@@ -592,6 +613,24 @@ ga('send', 'pageview');
     <h3 class="widget-title">recents</h3>
     <div class="widget">
       <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2016/09/27/春江花月夜/" class="title">春江花月夜</a></p>
+              <p class="item-date"><time datetime="2016-09-27T01:35:59.000Z" itemprop="datePublished">2016-09-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/learning/">Learning</a></p>
+              <p class="item-title"><a href="/2016/09/27/eight-queens-problem-in-scala/" class="title">eight-queens-problem-in-scala</a></p>
+              <p class="item-date"><time datetime="2016-09-27T01:15:28.000Z" itemprop="datePublished">2016-09-27</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -620,24 +659,6 @@ ga('send', 'pageview');
             </div>
           </li>
         
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/learning/">Learning</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/learning/scala/">Scala</a></p>
-              <p class="item-title"><a href="/2016/03/06/programming-in-scala-overview-key-note/" class="title">Programming In Scala Overview Key Note</a></p>
-              <p class="item-date"><time datetime="2016-03-06T10:01:42.000Z" itemprop="datePublished">2016-03-06</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/learning/">Learning</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/learning/akka/">Akka</a></p>
-              <p class="item-title"><a href="/2015/10/07/learning-akka/" class="title">Learning Akka</a></p>
-              <p class="item-date"><time datetime="2015-10-07T13:54:48.000Z" itemprop="datePublished">2015-10-07</time></p>
-            </div>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -647,7 +668,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -656,7 +677,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">tag cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 12.86px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 12.86px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 11.43px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a>
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 12.86px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 12.86px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 12.86px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a> <a href="/tags/诗话/" style="font-size: 10px;">诗话</a>
     </div>
   </div>
 
