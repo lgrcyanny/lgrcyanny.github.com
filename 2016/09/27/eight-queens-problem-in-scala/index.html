@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>eight-queens-problem-in-scala | CyannyLive</title>
+  <title>Eight Queens Problem In Scala | CyannyLive</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="I have deciacated in Programming in Scala for about 4 months. My work is busy, but I can’t give up reading more books.Scala is a fabulous language, both object oriented and functional.Eight qeens prob">
+  <meta name="description" content="I have dedicated in Programming in Scala for about 4 months. My work is busy, but I can’t give up reading more books.Scala is a fabulous language, both object oriented and functional.Eight qeens probl">
 <meta property="og:type" content="article">
-<meta property="og:title" content="eight-queens-problem-in-scala">
+<meta property="og:title" content="Eight Queens Problem In Scala">
 <meta property="og:url" content="http://www.cyanny.com/2016/09/27/eight-queens-problem-in-scala/index.html">
 <meta property="og:site_name" content="CyannyLive">
-<meta property="og:description" content="I have deciacated in Programming in Scala for about 4 months. My work is busy, but I can’t give up reading more books.Scala is a fabulous language, both object oriented and functional.Eight qeens prob">
-<meta property="og:updated_time" content="2016-09-27T01:43:11.000Z">
+<meta property="og:description" content="I have dedicated in Programming in Scala for about 4 months. My work is busy, but I can’t give up reading more books.Scala is a fabulous language, both object oriented and functional.Eight qeens probl">
+<meta property="og:updated_time" content="2016-09-27T01:53:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="eight-queens-problem-in-scala">
-<meta name="twitter:description" content="I have deciacated in Programming in Scala for about 4 months. My work is busy, but I can’t give up reading more books.Scala is a fabulous language, both object oriented and functional.Eight qeens prob">
+<meta name="twitter:title" content="Eight Queens Problem In Scala">
+<meta name="twitter:description" content="I have dedicated in Programming in Scala for about 4 months. My work is busy, but I can’t give up reading more books.Scala is a fabulous language, both object oriented and functional.Eight qeens probl">
 <meta name="twitter:creator" content="@lgrcyanny">
 <link rel="publisher" href="lgrcyanny">
 <meta property="fb:admins" content="lgrcyanny">
@@ -104,7 +104,7 @@ ga('send', 'pageview');
   	<div class="base-info profile-block">
 		  <img id="avatar" src="/css/images/avatar.png">
       <h2 id="name">Cyanny Liang</h2>
-      <h3 id="title">Big Data &amp; Distributed Computing</h3>
+      <h3 id="title">Big Data &amp; Spark</h3>
       <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
       <a id="follow" href="https://github.com/lgrcyanny/">FOLLOW</a>
   	</div>
@@ -147,7 +147,7 @@ ga('send', 'pageview');
         
   
     <h1 class="article-title" itemprop="name">
-      eight-queens-problem-in-scala
+      Eight Queens Problem In Scala
     </h1>
   
 
@@ -169,7 +169,7 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>I have deciacated in <strong>Programming in Scala</strong> for about 4 months. My work is busy, but I can’t give up reading more books.<br>Scala is a fabulous language, both object oriented and functional.<br>Eight qeens problem can be expressed in scala easily and concise.<br><a id="more"></a></p>
+        <p>I have dedicated in <strong>Programming in Scala</strong> for about 4 months. My work is busy, but I can’t give up reading more books.<br>Scala is a fabulous language, both object oriented and functional.<br>Eight qeens problem can be expressed in scala easily and concise.<br><a id="more"></a></p>
 <h2 id="Eight_Queens_Problem">Eight Queens Problem</h2><p>Given a standard chess-board, place eight queens such that no queen is in check from any other (a queen can check another piece if they are on the same column, row, or diagonal)</p>
 <h2 id="Solutions">Solutions</h2><p>The problem in scala is recursively.</p>
 <ol>
@@ -183,12 +183,12 @@ ga('send', 'pageview');
 </ol>
 <h2 id="Lets_run_the_code">Lets run the code</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * the coordinates of the queen in row k comes first in each List[(ROW, Column)], followed</span><br><span class="line">    * by k -1, k - 2, ..., 0 and so on</span><br><span class="line">    *</span><br><span class="line">    * @param n</span><br><span class="line">    * @return</span><br><span class="line">    */</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">queens</span>(</span>n: <span class="type">Int</span>): <span class="type">Set</span>[<span class="type">List</span>[(<span class="type">Row</span>, <span class="type">Column</span>)]] = &#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">placeQueen</span>(</span>k: <span class="type">Int</span>): <span class="type">Set</span>[<span class="type">List</span>[(<span class="type">Row</span>, <span class="type">Column</span>)]] = &#123;</span><br><span class="line">      <span class="keyword">if</span> (k &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="type">Set</span>(<span class="type">List</span>())</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> &#123;</span><br><span class="line">          queens &lt;- placeQueen(k - <span class="number">1</span>)</span><br><span class="line">          column &lt;- <span class="number">0</span> until n</span><br><span class="line">          queen = (k, column)</span><br><span class="line">          <span class="keyword">if</span> isSafe(queen, queens)</span><br><span class="line">        &#125; <span class="keyword">yield</span> queen :: queens</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isSafe</span>(</span>queen: (<span class="type">Row</span>, <span class="type">Column</span>), queens: <span class="type">List</span>[(<span class="type">Row</span>, <span class="type">Column</span>)]): <span class="type">Boolean</span> = &#123;</span><br><span class="line">      queens.forall &#123; placedQueen =&gt;</span><br><span class="line">        placedQueen._1 != queen._1 &amp;&amp;</span><br><span class="line">          placedQueen._2 != queen._2 &amp;&amp;</span><br><span class="line">          (<span class="type">Math</span>.abs(placedQueen._1 - queen._1) !=</span><br><span class="line">            <span class="type">Math</span>.abs(placedQueen._2 - queen._2))</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    placeQueen(n - <span class="number">1</span>)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 <h2 id="Github_Link">Github Link</h2><p><a href="https://github.com/lgrcyanny/ScalaPractice/blob/master/ProgrammingInScala/src/main/scala/com/chapter23/EightQueens.scala" target="_blank" rel="external">Eight Queens</a></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/lgrcyanny/ScalaPractice.git&#10;mvn clean package&#10;cd ProgrammingInScala&#10;scala -cp</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/lgrcyanny/ScalaPractice.git&#10;&#10;mvn clean package&#10;&#10;cd ProgrammingInScala&#10;&#10;scala -cp target/programming-in-scala-1.0-SNAPSHOT.jar com.chapter23.EightQueens</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2016/09/27/eight-queens-problem-in-scala/" data-id="citktnrs7006jee6rhdjj3cms" class="article-share-link">Share</a>
+      <a data-url="http://www.cyanny.com/2016/09/27/eight-queens-problem-in-scala/" data-id="citkv0781006jkj6rb0iwt8q7" class="article-share-link">Share</a>
       
         <a href="http://www.cyanny.com/2016/09/27/eight-queens-problem-in-scala/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -250,7 +250,7 @@ ga('send', 'pageview');
             
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/learning/">Learning</a></p>
-              <p class="item-title"><a href="/2016/09/27/eight-queens-problem-in-scala/" class="title">eight-queens-problem-in-scala</a></p>
+              <p class="item-title"><a href="/2016/09/27/eight-queens-problem-in-scala/" class="title">Eight Queens Problem In Scala</a></p>
               <p class="item-date"><time datetime="2016-09-27T01:15:28.000Z" itemprop="datePublished">2016-09-27</time></p>
             </div>
           </li>
