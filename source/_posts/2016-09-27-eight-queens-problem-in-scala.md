@@ -20,7 +20,7 @@ Given a standard chess-board, place eight queens such that no queen is in check 
 The problem in scala is recursively.
 
 1. First each solution is a List[(Row, Column)]
-		
+
 		- Each element is a coordinated, the queen position in each row
 		- The coordicate for row k comes first, followed by row `k-1`, `k-2`, ... 0
 
@@ -70,11 +70,11 @@ The problem in scala is recursively.
 
 ```shell
 	git clone https://github.com/lgrcyanny/ScalaPractice.git
-	
+
 	mvn clean package
-	
+
 	cd ProgrammingInScala
-	
+
 	scala -cp target/programming-in-scala-1.0-SNAPSHOT.jar com.chapter23.EightQueens
 ```
 
