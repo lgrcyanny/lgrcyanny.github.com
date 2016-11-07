@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://www.cyanny.com//"/>
-  <updated>2016-09-27T01:42:47.000Z</updated>
+  <updated>2016-11-07T02:34:03.000Z</updated>
   <id>http://www.cyanny.com//</id>
   
   <author>
@@ -14,6 +14,167 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Scala Collections]]></title>
+    <link href="http://www.cyanny.com/2016/11/07/scala-collections/"/>
+    <id>http://www.cyanny.com/2016/11/07/scala-collections/</id>
+    <published>2016-11-07T02:09:10.000Z</published>
+    <updated>2016-11-07T02:34:03.000Z</updated>
+    <content type="html"><![CDATA[<p>In scala there are many fancy collections with great utilities. Here are some key notes for scala collections which did a great help to me.<br><a id="more"></a></p>
+<h1 id="Collections_Hierarchy">Collections Hierarchy</h1><p><img src="http://ww1.sinaimg.cn/mw1024/761b7938jw1f9jbrdeugkj20ku0q041j.jpg" alt="collection hierarchy"></p>
+<h1 id="Description">Description</h1><p>Collections have two kinds:</p>
+<pre><code>-<span class="ruby"> mutable collections
+</span>-<span class="ruby"> immutable collections</span>
+</code></pre><h2 id="Immutable_Collections">Immutable Collections</h2><ul>
+<li><p>Lists are finite immutable sequences. They provide constant-time access to their first element as well as the rest of the list</p>
+</li>
+<li><p>A stream is like a list except that its elements are computed lazily. Because of this, a stream can be infinitely long. for example:</p>
+</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">val</span> <span class="title">s</span> =</span> <span class="number">1</span> #:: <span class="number">2</span> #:: <span class="number">3</span> #:: <span class="type">Stream</span>.empty</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span>(</span>m: <span class="type">Int</span>, n: <span class="type">Int</span>): <span class="type">Stream</span>[<span class="type">Int</span>] = m #:: fib(n, m + n)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Vectors are a new collection type in Scala 2.8 that give efficient access to elements beyond the head.</p>
+<ul>
+<li>Access to any elements of a vector take only “effectively constant time,” as defined below.</li>
+<li>shallow trees</li>
+<li>when only one level, store 32 elements in an array</li>
+<li>if lager than 32, grow to 2 levels, each node in level 2 has 32 elements, and level 1 store 32 pointers, now level 2 has 2^10 elements</li>
+<li>level 3 has 2^ 15 elements</li>
+<li>to access an element, the complexity is log32(N)</li>
+<li>Vector have very decent random access performance</li>
+<li>The default implementation to immutable IndexedSeq</li>
+</ul>
+</li>
+<li><p>Stack</p>
+<ul>
+<li>first-in-last-out</li>
+<li>you can use ArrayBuffer to implement a Stack <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">val</span> <span class="title">emtpyStack</span> =</span> <span class="type">Stack</span>.empty</span><br><span class="line"><span class="function"><span class="keyword">val</span> <span class="title">hasOne</span> =</span> emptyStack.push(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Immutable queues</p>
+</li>
+<li><p>Ranges</p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">val</span> <span class="title">range</span> =</span> <span class="number">1</span> to <span class="number">10</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>Hash Tries</p>
+<ul>
+<li>Hash tries4 are a standard way to implement immutable sets and maps efficiently.</li>
+</ul>
+</li>
+<li><p>RedBlackTrees</p>
+<ul>
+<li>Red-black trees are a form of balanced binary trees where some nodes are designated “red” and others “black.”</li>
+<li>TreeSet</li>
+<li>TreeMap</li>
+<li>default implementation for SortedSet</li>
+</ul>
+</li>
+<li><p>Immutable bit sets<br><img src="http://ww2.sinaimg.cn/mw690/761b7938jw1f9jc4ydow0j20r208276p.jpg" alt="bit set example"></p>
+<ul>
+<li>Operations on bit sets are very fast. Testing for inclusion takes constant time. Adding an item to the set takes time proportional to the number of Longs in the bit set’s array, which is typically a small number.</li>
+</ul>
+</li>
+<li><p>ListMap</p>
+<ul>
+<li>The only possible difference is if the map is for some reason constructed in such a way that the first elements in the list are selected much more often than the other elements.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Mutable_Collections">Mutable Collections</h2><ul>
+<li><p>Array buffer: operations simply access and modify the underlying array.</p>
+</li>
+<li><p>List Buffer: A list buffer is like an array buffer except that it uses a linked list internally instead of an array.</p>
+<ul>
+<li>you plan to convert the buffer to a list once it is built up, use a list buffer instead of an array buffer.</li>
+</ul>
+</li>
+<li><p>StringBuilder:  a string builder is useful for building strings</p>
+</li>
+<li><p>LinkedList: Linked lists are mutable sequences that consist of nodes that are linked with next pointer</p>
+<ul>
+<li>use  LinkedList.empty.isEmpty for empty list</li>
+<li>linked lists are best operated on sequen- tially. In addition, linked lists make it easy to insert an element or linked list into another linked list.</li>
+</ul>
+</li>
+<li><p>Double Linked List: The main benefit of that additional link is that it makes element removal very fast</p>
+</li>
+<li><p>Mutable List:</p>
+<ul>
+<li>A MutableList consists of a single linked list together with a pointer that refers to the terminal empty node of that list.</li>
+<li>The default implementation for LinearSeq</li>
+</ul>
+</li>
+<li><p>Queue</p>
+<ul>
+<li>the dequeue method will just remove the head element from the queue and return it</li>
+</ul>
+</li>
+<li><p>Array Sequences</p>
+<ul>
+<li>A class for polymorphic arrays of elements that’s represented internally by an array of objects</li>
+<li>Array sequences are mutable sequences of fixed size that store their elements internally in an Array[AnyRef]</li>
+</ul>
+</li>
+<li><p>Stack</p>
+<ul>
+<li>It works exactly the same as the immutable version except that modifications happen in place</li>
+</ul>
+</li>
+<li><p>ArrayStack</p>
+<ul>
+<li>ArrayStack is an alternative implementation of a mutable stack, which is backed by an Array that gets resized as needed</li>
+<li>It provides fast indexing and is generally slightly more efficient for most operations than a normal mutable stack.</li>
+</ul>
+</li>
+<li><p>HashTable</p>
+<ul>
+<li>A hash table stores its elements in an underlying array, placing each item at a position in the array determined by the hash code of that item.</li>
+<li>As a result, the default mutable map and set types in Scala are based on hash tables.</li>
+<li>HashMap, HashSet implements with hash tables in array</li>
+<li>Iteration over a hash table is not guaranteed to occur in any particular order.<ul>
+<li>To get a guaranteed iteration order, use a linked hash map or set instead of a regular one.</li>
+<li>Iteration over such a collection is always in the same order that the elements were initially added.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Weak Hash Maps</p>
+<ul>
+<li>A weak hash map is a special kind of hash map in which the garbage collector does not follow links from the map to the keys stored in it</li>
+<li>This means that a key and its associated value will disappear from the map if there is no other reference to that key</li>
+<li>Weak hash maps are useful for tasks such as caching, where you want to re-use an expensive function’s result if the function is called again on the same key</li>
+<li>Weak hash maps in Scala are implemented as a wrapper of an underlying Java implementation, java.util.WeakHashMap.</li>
+</ul>
+</li>
+<li><p>Concurrent Maps</p>
+<ul>
+<li>A concurrent map can be accessed by several threads at once.</li>
+<li>Currently, its only implementation is Java’s java.util.concurrent.ConcurrentMap</li>
+</ul>
+</li>
+<li><p>BitSet</p>
+<ul>
+<li>Mutable bit sets are slightly more efficient at updating than immutable ones, because they don’t have to copy around Longs that haven’t changed.</li>
+</ul>
+</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>In scala there are many fancy collections with great utilities. Here are some key notes for scala collections which did a great help to me.<br>]]>
+    
+    </summary>
+    
+      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
+    
+      <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
+    
+      <category term="Learning" scheme="http://www.cyanny.com/categories/learning/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[春江花月夜]]></title>
@@ -44,7 +205,7 @@
     <link href="http://www.cyanny.com/2016/09/27/eight-queens-problem-in-scala/"/>
     <id>http://www.cyanny.com/2016/09/27/eight-queens-problem-in-scala/</id>
     <published>2016-09-27T01:15:28.000Z</published>
-    <updated>2016-09-27T01:53:02.000Z</updated>
+    <updated>2016-11-07T02:11:19.000Z</updated>
     <content type="html"><![CDATA[<p>I have dedicated in <strong>Programming in Scala</strong> for about 4 months. My work is busy, but I can’t give up reading more books.<br>Scala is a fabulous language, both object oriented and functional.<br>Eight qeens problem can be expressed in scala easily and concise.<br><a id="more"></a></p>
 <h2 id="Eight_Queens_Problem">Eight Queens Problem</h2><p>Given a standard chess-board, place eight queens such that no queen is in check from any other (a queen can check another piece if they are on the same column, row, or diagonal)</p>
 <h2 id="Solutions">Solutions</h2><p>The problem in scala is recursively.</p>
@@ -1249,37 +1410,6 @@ public <span class="keyword">static</span> <span class="type">void</span> main(<
       <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
     
       <category term="HBase" scheme="http://www.cyanny.com/categories/hadoop/hbase/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Node Express Mysql Scaffolding]]></title>
-    <link href="http://www.cyanny.com/2013/12/18/node-express-mysql-scaffolding/"/>
-    <id>http://www.cyanny.com/2013/12/18/node-express-mysql-scaffolding/</id>
-    <published>2013-12-18T15:29:11.000Z</published>
-    <updated>2016-09-27T01:03:08.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="Node_Express_MySQL_Scaffolding_Overview">Node Express MySQL Scaffolding Overview</h3><p>There are many node scaffoldings based on Mongoddb, but MySQL is rare. This is a simple scaffolding built on express and mysql.</p>
-<p><a href="https://github.com/lgrcyanny/node-express-mysql-scaffolding" title="node-express-mysql-scaffolding" target="_blank" rel="external">node-express-mysql-scaffolding</a><br>[more…]</p>
-<h3 id="Features">Features</h3><p>1. Register with fullname,username, email, passord, very simple<br>2. Login with <a href="https://npmjs.org/package/passport-local" target="_blank" rel="external">passport-local</a> strategy<br>3. Twitter Bootstrap Support<br>Note: I just want keep the scaffolding clean, no more complex function, and keep it flexible.</p>
-<h3 id="Install">Install</h3><p><strong>NOTE:</strong> You need to have node.js, MySQL Server installed </p>
-<p>1. Clone the project<br>[shell]<br>  $ git clone <a href="https://github.com/lgrcyanny/node-express-mysql-scaffolding.git" target="_blank" rel="external">https://github.com/lgrcyanny/node-express-mysql-scaffolding.git</a><br>  $ npm install<br>  $ cp config/config.disk.js config/config.js<br>[/shell]<br>Please config your MySQL in the <code>config.js</code>;</p>
-<p>2. Install <a href="http://dev.mysql.com/downloads/" target="_blank" rel="external">MySQL server</a></p>
-<p>3. Start MySQL service</p>
-<p>4. Build the database<br>[shell]<br>  $ mysql -u root -p<br>  &gt; create database scaffolding<br>  &gt; quit<br>  $ mysql -u root -pyourpassword scaffolding &lt; scaffolding.sql<br>[/shell]</p>
-<p>5. Start Node.js Server<br>[shell]<br>  $ npm start<br>[/shell]</p>
-<p>6. Then visit <a href="http://localhost:3000/" target="_blank" rel="external">http://localhost:3000/</a></p>
-<h3 id="Related_modules">Related modules</h3><p>Thanks to <a href="https://github.com/madhums/node-express-mongoose-demo" title="node-express-mongoose-demo" target="_blank" rel="external">node-express-mongoose-demo</a>, it’s a great scaffolding, but it still took me 2 days to migrate from MongoDB based scaffolding to MySQL scaffolding, and the node-express-mongoose-demo has too many Login Support which is too complicated.</p>
-<h3 id="Directory_structure">Directory structure</h3><p>-app/<br>  |<strong>controllers/<br>  |</strong>models/<br>  |<strong>mailer/<br>  |</strong>views/<br>-config/<br>  |<strong>routes.js<br>  |</strong>config.js<br>  |<strong>passport.js (auth config)<br>  |</strong>express.js (express.js configs)<br>  |__middlewares/ (custom middlewares)<br>-public/</p>
-<h3 id="Tests">Tests</h3><p>Tests are not shipped now, I will write tests later.<br>[shell]<br>$ npm test<br>[/shell]</p>
-<h3 id="License">License</h3><p>(The MIT License)</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h3 id="Node_Express_MySQL_Scaffolding_Overview">Node Express MySQL Scaffolding Overview</h3><p>There are many node scaffoldings based on Mo]]>
-    </summary>
-    
-      <category term="Node.js" scheme="http://www.cyanny.com/tags/node-js/"/>
-    
-      <category term="Nodejs" scheme="http://www.cyanny.com/categories/nodejs/"/>
     
   </entry>
   
