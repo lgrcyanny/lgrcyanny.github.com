@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <title>分布式系统总结part2 | CyannyLive</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Lamport逻辑和向量时间戳1.Lamport逻辑时钟
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Cyanny Liang" />
+
+
+
+<meta name="description" content="Lamport逻辑和向量时间戳1.Lamport逻辑时钟
 Lamport认为，重要的不是所有进程在时间上完全一致，而是它们在事件的发生顺序上要达成一致。
 先发生的定义： a → b 表示a在b之前发生，此时 C(a) &amp;lt; C(b), a b可以是同一个进程中的两个事件或进程间的消息发送事件。并发事件没有先后关系。
 Lamport算法：[more…]
@@ -31,132 +41,251 @@ Lamport认为，重要的不是所有进程在时间上完全一致，而是它�
 Lamport算法：[more…]
 
 遵循事件的先发生关系，每个消息都应携带根">
-<meta name="twitter:creator" content="@lgrcyanny">
-<link rel="publisher" href="lgrcyanny">
-<meta property="fb:admins" content="lgrcyanny">
-<meta property="fb:app_id" content="lgrcyanny">
-  
-  
-    <link rel="icon" href="favicon.ico">
-  
-  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
-  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
-  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
-  
-<!-- Google Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+<meta name="twitter:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System01-580x308.png">
 
-ga('create', 'UA-40624708-1', 'auto');
-ga('send', 'pageview');
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
+
+    <link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>分布式系统总结part2 | CyannyLive</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
 </script>
-<!-- End Google Analytics -->
 
 
-  
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
 </head>
 <body>
   <div id="container">
-    <header id="header">
-  <div id="header-main" class="header-inner">
-    <div class="outer">
-      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
-      <nav id="main-nav">
-        
-          <a class="main-nav-link" href="/.">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-          <a class="main-nav-link" href="/categories">Categories</a>
-        
-          <a class="main-nav-link" href="/tags">Tags</a>
-        
-          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
-        
-      </nav>
-      
-      <nav id="sub-nav">
-        <div class="profile" id="profile-nav">
-          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
-        </div>
-      </nav>
-      
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
-      </div>
-    </div>
-  </div>
-  <div id="main-nav-mobile" class="header-sub header-inner">
-    <table class="menu outer">
-      <tr>
-      
-        <td><a class="main-nav-link" href="/.">Home</a></td>
-      
-        <td><a class="main-nav-link" href="/archives">Archives</a></td>
-      
-        <td><a class="main-nav-link" href="/categories">Categories</a></td>
-      
-        <td><a class="main-nav-link" href="/tags">Tags</a></td>
-      
-        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
-      
-      <td>
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
-      </td>
-      </tr>
-    </table>
-  </div>
-</header>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Cyanny Liang</a></h1>
+        </hgroup>
 
-    <div class="outer">
-      
-        <aside id="profile">
-  <div class="inner profile-inner">
-  	<div class="base-info profile-block">
-		  <img id="avatar" src="/css/images/avatar.png">
-      <h2 id="name">Cyanny Liang</h2>
-      <h3 id="title">Big Data &amp; Spark</h3>
-      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
-      <a id="follow" href="https://github.com/lgrcyanny/">FOLLOW</a>
-  	</div>
-    <div class="article-info profile-block">
-      <div class="article-info-block">
-        51
-        <span>posts</span>
-      </div>
-      <div class="article-info-block">
-        30
-        <span>tags</span>
-      </div>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>Menu</li>
+                        <li>Tags</li>
+                        
+                        
+                        <li>About Me</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="/lgrcyanny@gmail.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://www.weibo.com/1981511992" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/lgrcyanny" title="GitHub"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/lgrcyanny" title="Twitter"></a>
+                            
+                                <a class="fa Facebook" href="https://www.facebook.com/CyannyLIANG" title="Facebook"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/agile/">Agile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/akka/">Akka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/big-data/">Big Data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coursera/">Coursera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design/">Design</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hbase/">HBase</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/language/">Language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/learn/">Learn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/learning/">Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/machine-learning/">Machine Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mapreduce/">MapReduce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/methodology/">Methodology</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/network/">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/">Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/">Research</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resource/">Resource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scrum/">Scrum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemanalysis/">SystemAnalysis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vps/">VPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/math/">math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort/">sort</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/诗话/">诗话</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">Big Data, Spark and AI</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
     </div>
-    
-    <div class="contact-info profile-block">
-      <table class="contact-list">
-        <tr>
-        
-          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-        
-          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-        
-          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-        
-          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-        
-        </tr>
-      </table>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Cyanny Liang</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Cyanny Liang</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="/lgrcyanny@gmail.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://www.weibo.com/1981511992" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/lgrcyanny" title="GitHub"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/lgrcyanny" title="Twitter"></a>
+                            
+                                <a class="fa Facebook" target="_blank" href="https://www.facebook.com/CyannyLIANG" title="Facebook"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
     </div>
-    
-  </div>
-</aside>
-      
-      <section id="main"><article id="post-distributed-system-review-part2" class="article article-type-post" itemscope itemprop="blogPost">
+    <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
+</nav>
+      <div class="body-wrap"><article id="post-distributed-system-review-part2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/11/24/distributed-system-review-part2/" class="article-date">
+      <time datetime="2013-11-24T05:19:34.000Z" itemprop="datePublished">2013-11-24</time>
+</a>
+
+
+    </div>
+  
   <div class="article-inner">
     
+      <input type="hidden" class="isFancy" />
     
     
       <header class="article-header">
@@ -167,25 +296,28 @@ ga('send', 'pageview');
     </h1>
   
 
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/11/24/distributed-system-review-part2/">
-    <time datetime="2013-11-24T05:19:34.000Z" itemprop="datePublished">2013-11-24</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/distributed-system/">Distributed System</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/distributed-system/life/">Life</a>
-  </div>
-
-        </div>
       </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/distributed-system/">Distributed System</a><a class="article-category-link" href="/categories/distributed-system/life/">Life</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="Lamport逻辑和向量时间戳">Lamport逻辑和向量时间戳</h3><p><strong>1.Lamport逻辑时钟</strong></p>
+          
+        <h3 id="Lamport逻辑和向量时间戳"><a href="#Lamport逻辑和向量时间戳" class="headerlink" title="Lamport逻辑和向量时间戳"></a>Lamport逻辑和向量时间戳</h3><p><strong>1.Lamport逻辑时钟</strong></p>
 <p>Lamport认为，重要的不是所有进程在时间上完全一致，而是它们在事件的发生顺序上要达成一致。</p>
 <p>先发生的定义： a → b 表示a在b之前发生，此时 C(a) &lt; C(b), a b可以是同一个进程中的两个事件或进程间的消息发送事件。并发事件没有先后关系。</p>
 <p>Lamport算法：[more…]</p>
@@ -207,7 +339,7 @@ ga('send', 'pageview');
 <p>接收者可以通过消息m的时间戳知道其他进程中有多少事件发生在它之前，消息m在因果上可能依赖于这些事件。</p>
 <p>当Pj收到消息m，调整自己的向量，将每项Vj[k]设置为<strong>max{Vj[k], vt[k]}</strong>, 然后  <strong>Vj[i]增加1</strong>。</p>
 <p>需要会看图计算向量时间戳：<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System01.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System01-580x308.png" alt="Distributed System01"></a><br>向量时间戳中只有各个分量都是小于关系时存在因果关系，而平行关系是并发关系。</p>
-<h3 id="选举算法">选举算法</h3><p><strong>1. 欺负算法(Bully Algorithm)</strong></p>
+<h3 id="选举算法"><a href="#选举算法" class="headerlink" title="选举算法"></a>选举算法</h3><p><strong>1. 欺负算法(Bully Algorithm)</strong></p>
 <p>算法：当一个进程发现协调者不再响应请求时，它就发起一个选举：</p>
 <p>P向所有编号比它大的进程发送一个election消息； </p>
 <p>如果无人响应，P获胜成为协调者； </p>
@@ -220,7 +352,7 @@ ga('send', 'pageview');
 <p>如果后继者崩溃了，发送者沿着此环跳过它的后继者发送给下一个进程，或者再下一个，直到找到一个正在运行进程。</p>
 <p>在每一步中，发送者都将自己的进程号加到该消息列表中，以使自己成为协调者的候选人之一。 </p>
 <p>最终，消息返回到发起此次选举的进程。当发起者进程接收到一个包含自己进程号的消息时，它识别出这个事件。此时，消息类型变成coordinator消息，并再一次绕环运行，向所有进程通知谁是协调者(成员列表中进程号最大的那个)以及新环中的成员都有谁。这个消息再循环一周后被删除，随后每个进程都恢复原来的工作。</p>
-<h3 id="互斥算法">互斥算法</h3><h4 id="1-_集中式算法">1. 集中式算法</h4><p>(1).算法</p>
+<h3 id="互斥算法"><a href="#互斥算法" class="headerlink" title="互斥算法"></a>互斥算法</h3><h4 id="1-集中式算法"><a href="#1-集中式算法" class="headerlink" title="1. 集中式算法"></a>1. 集中式算法</h4><p>(1).算法</p>
 <p>选举一个进程作为协调者，如最大网络地址号的机器上的进程。</p>
 <p>无论何时一个进程要进入临界区，它都要向协调者发送一个请求消息，说明它想要进入哪个临界区并请求允许。</p>
 <p>如果没有进程在临界区就发送“允许”应答，该进程进入临界区，如果有进程在临界区，就把该消息放入请求队列，发送“拒绝请求”的应答。</p>
@@ -232,12 +364,12 @@ ga('send', 'pageview');
 <p>可以管理临界区或更一般的资源<br>(3).缺点</p>
 <p>协调者是单点故障，在规模较大的系统中，单个协调者会成为性能瓶颈.</p>
 <p>如果进程在发出请求之后阻塞，那么请求者就不能区分“拒绝进入”和协调者已经崩溃的两种情况。</p>
-<h4 id="2-分布式算法">2.分布式算法</h4><p>1)Lamport算法</p>
+<h4 id="2-分布式算法"><a href="#2-分布式算法" class="headerlink" title="2.分布式算法"></a>2.分布式算法</h4><p>1)Lamport算法</p>
 <ul>
 <li>当进程Si想进入临界区，向其他n-1个进程广播请求REQUEST(tsi, i), 并把请求放入自己请求队列request_queuei。</li>
 <li>其他n-1个进程受到请求REQUEST(tsi, i)后，把该请求放入各自的请求队列request_queuej， 并向进程Si响应一个带时间戳的REPLY消息。</li>
 <li><p>进程Si进入临界区，当且仅当满足以下两个条件：</p>
-<pre><code>*   Si从其他进程收到的消息的时间戳都大于自己的请求时间戳<span class="comment">(tsi, i)</span>
+<pre><code>*   Si从其他进程收到的消息的时间戳都大于自己的请求时间戳(tsi, i)
 </code></pre><ul>
 <li>Si的请求是请求队列request_queuei的第一个请求</li>
 </ul>
@@ -254,7 +386,7 @@ ga('send', 'pageview');
 </ul>
 <p>算法优点：不会饥饿，死锁；每次进入临界区仅需要2(n-1)条消息；没有单点故障</p>
 <p>算法缺点：第一，单点故障变成了n点故障，如果任何一个进程崩溃，不能应答OK，这种不应答被错误的解释为拒绝请求，阻塞了所有进程进入任何一个临界区。第二，网络通信开销多于集中式算法；第三，要么必须使用组通信原语，要么每个进程必须维护组成员清单；第四，要求所有进程参与做出与进入临界区有关的所有决定，强迫每个进程都承担这样的负载是不可能的，可以在得到大多数进程OK的情况下进入临界区，但实现复杂。</p>
-<h4 id="3-令牌环算法">3.令牌环算法</h4><p>(1)算法</p>
+<h4 id="3-令牌环算法"><a href="#3-令牌环算法" class="headerlink" title="3.令牌环算法"></a>3.令牌环算法</h4><p>(1)算法</p>
 <ul>
 <li>假设：总线式的网络中，进程没有固定的顺序，环中为每个进程分配了一个位置，每个进程都直到谁在它的下一个位置。</li>
 <li>当环初始化时，进程0得到一个令牌token。该令牌绕着环运行，用点对点发送消息的方式把它从进程k传递到进程k+1(以环大小为模)。进程从它邻近的进程得到令牌后，检查自己是否要进入临界区。如果自己要进入临界区，那么它就进入临界区，做它要做的工作，然后离开临界区。在该进程退出临界区后，它沿着环继续传递令牌。不允许使用同一个令牌进入另一个临界区。</li>
@@ -266,7 +398,7 @@ ga('send', 'pageview');
 <p>如果令牌丢失，必须重新生成令牌.</p>
 <p>检测令牌丢失很困难，网络中令牌出现两次的时间间隔不确定，没有发现令牌可能是丢失，也可能是某个进程在占用。</p>
 <p>如果有进程崩溃，该算法会有问题。(恢复方法： 要求每个进程维护进程环的配置信息， 每个进程收到令牌后发出确认信息，当它尝试把令牌传递给它的邻近进程时，如果没有收到确认，该进程就崩溃了，从组中删除该进程，继续传递令牌。)</p>
-<h4 id="三种互斥算法的比较">三种互斥算法的比较</h4><p>（1）程进入临界区，需要发送的消息数目不同</p>
+<h4 id="三种互斥算法的比较"><a href="#三种互斥算法的比较" class="headerlink" title="三种互斥算法的比较"></a>三种互斥算法的比较</h4><p>（1）程进入临界区，需要发送的消息数目不同</p>
 <p>集中式算法: 3条消息，请求，允许，释放，简单而有效.</p>
 <p>分布式算法：2(n-1)条</p>
 <p>令牌环算法: 1~(n-1)条</p>
@@ -274,166 +406,186 @@ ga('send', 'pageview');
 <p>分布式算法：2(n-1)条</p>
 <p>令牌环算法: 0~(n-1)条</p>
 <p>（3）三种算法在这三种算法在进程崩溃的情况下都损失惨重。为了避免进程崩溃造成的系统瘫痪，必须引入专门的措施和额外的复杂性。</p>
-<h3 id="资源">资源</h3><p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part1/" title="分布式系统总结part1" target="_blank" rel="external">分布式系统总结part1 中间件，进程迁移，移动通信失效，名称解析，移动实体定位</a></p>
+<h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part1/" title="分布式系统总结part1" target="_blank" rel="external">分布式系统总结part1 中间件，进程迁移，移动通信失效，名称解析，移动实体定位</a></p>
 <p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part2/" title="分布式系统总结part2" target="_blank" rel="external">分布式系统总结part2 Lamport同步与向量时间戳，两大选举算法，三大互斥算法</a></p>
 <p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part3/" title="分布式系统总结part3" target="_blank" rel="external">分布式系统总结part3 复制和一致性(以数据和以客户为中心的一致性)，容错（拜占庭将军问题，两阶段与三阶段提交）</a></p>
 <p><a href="http://cyanny/myblog/2013/11/24/distributed-system-review-part4/" title="分布式系统总结part4" target="_blank" rel="external">分布式系统总结part4 Petri网解决哲学家问题和生产者、消费者问题</a></p>
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part2/" data-id="civ7gf6i5005so56r11z4drm4" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/11/24/distributed-system-review-part2/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li></ul>
-
-    </footer>
+    
   </div>
   
     
-<nav id="article-nav">
-  
-    <a href="/2013/11/24/distributed-system-review-part3/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
+
+
+    <nav id="article-nav">
         
-          分布式系统总结part3
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2013/11/24/distributed-system-review-part3/">
+                    分布式系统总结part3
+                </a>
+            </div>
         
-      </div>
-    </a>
-  
-  
-    <a href="/2013/11/24/distributed-system-review-part1/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">分布式系统总结part1</div>
-    </a>
-  
-</nav>
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2013/11/24/distributed-system-review-part1/">
+                    分布式系统总结part1
+                </a>
+            </div>
+        
+    </nav>
 
   
 </article>
 
 
-<section id="comments">
-  <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"分布式系统总结part2　| CyannyLive　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://www.cyanny.com/2013/11/24/distributed-system-review-part2/';
+            this.page.identifier = '2013/11/24/distributed-system-review-part2/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//lgrcyanny.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
 </section>
-</section>
-      
-        <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">recents</h3>
-    <div class="widget">
-      <ul id="recent-post" class="no-thumbnail">
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/learning/">Learning</a></p>
-              <p class="item-title"><a href="/2016/11/07/scala-collections/" class="title">Scala Collections</a></p>
-              <p class="item-date"><time datetime="2016-11-07T02:09:10.000Z" itemprop="datePublished">2016-11-07</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"></p>
-              <p class="item-title"><a href="/2016/09/27/春江花月夜/" class="title">春江花月夜</a></p>
-              <p class="item-date"><time datetime="2016-09-27T01:35:59.000Z" itemprop="datePublished">2016-09-27</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/learning/">Learning</a></p>
-              <p class="item-title"><a href="/2016/09/27/eight-queens-problem-in-scala/" class="title">Eight Queens Problem In Scala</a></p>
-              <p class="item-date"><time datetime="2016-09-27T01:15:28.000Z" itemprop="datePublished">2016-09-27</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a></p>
-              <p class="item-title"><a href="/2016/04/17/machine-learning-neural-networks/" class="title">Machine Learning Neural Networks</a></p>
-              <p class="item-date"><time datetime="2016-04-17T13:29:20.000Z" itemprop="datePublished">2016-04-17</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a></p>
-              <p class="item-title"><a href="/2016/04/10/machine-learning-logistic-regression/" class="title">Machine Learning Logistic Regression</a></p>
-              <p class="item-date"><time datetime="2016-04-10T13:48:51.000Z" itemprop="datePublished">2016-04-10</time></p>
-            </div>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
-    </div>
-  </div>
 
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">tag cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 12.86px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 12.86px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 14.29px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a> <a href="/tags/诗话/" style="font-size: 10px;">诗话</a>
-    </div>
-  </div>
 
-  
-  <div id="toTop" class="fa fa-chevron-up"></div>
-</aside>
-      
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2013/11/24/distributed-system-review-part3/" title="Pre: 分布式系统总结part3">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2013/11/24/distributed-system-review-part1/" title="Next: 分布式系统总结part1">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
     </div>
-    <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2016 Cyanny Liang
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/11/07/scala-collections/">Scala Collections</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/27/春江花月夜/">春江花月夜</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/27/eight-queens-problem-in-scala/">Eight Queens Problem In Scala</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/machine-learning-neural-networks/">Machine Learning Neural Networks</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/10/machine-learning-logistic-regression/">Machine Learning Logistic Regression</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/04/machine-learning-linear-regression/">Machine Learning Linear Regression</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/programming-in-scala-overview-key-note/">Programming In Scala Overview Key Note</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/07/learning-akka/">Learning Akka</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/04/bitsort-ant-qsort/">位排序和快排</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/03/find-median-for-two-sorted-array/">查找两个排序数组的中位数</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/16/hive-architecture/">Hive架构笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/04/12/dijkstra-algorithm-in-java/">Dijkstra Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/">HBase MapReduce排序Secondary Sort</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/">HBase Architecture Analysis Part 3 Pros and Cons</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/">HBase Architecture Analysis Part2(Process Architecture)</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/">HBase Architecture Analysis Part1(Logical Architecture)</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/">Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/">Revolution——面向对象看黑客帝国</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/06/set-hadoop-hbase-part2/">Set up Hadoop 2.2 and HBase 0.96 part2</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/06/set-hadoop-hbase-part1/">Set up Hadoop 2.2 and HBase 0.96 part1</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/18/node-express-mysql-scaffolding/">Node Express Mysql Scaffolding</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-isnt-silver-bullet/">Hadoop isn’t Silver Bullet</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-mapreduce-2-yarn/">Hadoop MapReduce 2 (YARN)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-mapreduce-1-framework/">Hadoop MapReduce 1 Framework</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-mapreduce-overview/">Hadoop MapReduce Overview</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-hdfs-high-availability/">Hadoop HDFS High Availability(HA)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-hdfs-federation/">Hadoop HDFS Federation </a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-hdfs-review/">Hadoop HDFS Review</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-overview/">Hadoop Overview</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/02/graph-dfs-bfs/">Graph DFS and BFS</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/">System Analysis and Design (Kenneth Kendall) Review Part4</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/">System Analysis and Design (Kenneth Kendall) Review Part3</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/">System Analysis and Design (Kenneth Kendall) Review Part2</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/">System Analysis and Design (Kenneth Kendall) Review Part1</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part4/">分布式系统总结part4</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part3/">分布式系统总结part3</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part2/">分布式系统总结part2</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part1/">分布式系统总结part1</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/16/netkit-filesystem-custom-cutting/">Netkit Filesystem 定制和裁剪</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/13/ipsec-architecture/">IPsec之IP层安全架构</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/">如何配置VPS并发布WordPress Blog?(第一篇)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/">如何配置VPS并发布WordPress Blog?(第二篇)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/10/how-to-start-learning-node-js/">How to start learning Node.js</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/01/agile-advantages-and-disadvantages/">“吐槽”敏捷软件开发</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/talk-about-open-source-software/">谈谈开源软件，谈谈质量</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/">统计学的基本概念和方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/09/12/select-second-smallest-element/">找一个数组中第2小的元素</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/09/09/warshall-algorithm-cycle-dectection/">Warshall's Algorithm for Cycle Dectection</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/08/18/the-usage-of-counting-sort/">计数排序的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/08/10/learning-heap-sort/">再叙堆排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/05/25/good-resources-for-js-learning/">Good Resources for JavaScript</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i>
+                2016-2017 Cyanny Liang
+            </div>
+            <div class="footer-right">
+                <a>Best wishes for everyday~</a>
+            </div>
+        </div>
+        
     </div>
-  </div>
 </footer>
+    </div>
     
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="Back to Top"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="Comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="Go to Bottom"><i class="fa fa-arrow-down"></i></a>
+</div>
 <script>
-  var disqus_shortname = 'lgrcyanny';
-  (function(){
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
+    // Open in New Window
+    
+        $("a").attr("target", "_blank");
+        $("#scroll a, #toc a").removeAttr("target");
+    
 </script>
 
-
-<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
-
-
-<script src="/js/script.js" type="text/javascript"></script>
-
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
   </div>
 </body>
 </html>

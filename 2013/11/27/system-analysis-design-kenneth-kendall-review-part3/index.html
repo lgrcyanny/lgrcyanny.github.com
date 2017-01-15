@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <title>System Analysis and Design (Kenneth Kendall) Review Part3 | CyannyLive</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="6. 设计有效的输出6.1.输出设计目标1.设计满足特定用途或组织目标的输出输出要面向用户，考虑用户的年龄、收入和文化层次。
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Cyanny Liang" />
+
+
+
+<meta name="description" content="6. 设计有效的输出6.1.输出设计目标1.设计满足特定用途或组织目标的输出输出要面向用户，考虑用户的年龄、收入和文化层次。
 2.制作对用户有意义的输出设计要满足特定用户的需求，决定什么是内容，什么是途径。考虑输出的时间和地点 [more…]
 3.交付合适数量的输出决定要给用户多少信息，根据对用户的调查来决定，根据对象的重要性，数量和个数来决定如：搜索后的结果
 4.合理分配输出，确保重要信息是必不">
@@ -25,19 +35,489 @@
 2.制作对用户有意义的输出设计要满足特定用户的需求，决定什么是内容，什么是途径。考虑输出的时间和地点 [more…]
 3.交付合适数量的输出决定要给用户多少信息，根据对用户的调查来决定，根据对象的重要性，数量和个数来决定如：搜索后的结果
 4.合理分配输出，确保重要信息是必不">
-<meta name="twitter:creator" content="@lgrcyanny">
-<link rel="publisher" href="lgrcyanny">
-<meta property="fb:admins" content="lgrcyanny">
-<meta property="fb:app_id" content="lgrcyanny">
+<meta name="twitter:image" content="http://i44.tinypic.com/2q9cthc.jpg">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>System Analysis and Design (Kenneth Kendall) Review Part3 | CyannyLive</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Cyanny Liang</a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>Menu</li>
+                        <li>Tags</li>
+                        
+                        
+                        <li>About Me</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="/lgrcyanny@gmail.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://www.weibo.com/1981511992" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/lgrcyanny" title="GitHub"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/lgrcyanny" title="Twitter"></a>
+                            
+                                <a class="fa Facebook" href="https://www.facebook.com/CyannyLIANG" title="Facebook"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/agile/">Agile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/akka/">Akka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/big-data/">Big Data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coursera/">Coursera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design/">Design</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hbase/">HBase</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/language/">Language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/learn/">Learn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/learning/">Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/machine-learning/">Machine Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mapreduce/">MapReduce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/methodology/">Methodology</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/network/">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/">Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/">Research</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resource/">Resource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scrum/">Scrum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemanalysis/">SystemAnalysis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vps/">VPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/math/">math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort/">sort</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/诗话/">诗话</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">Big Data, Spark and AI</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Cyanny Liang</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Cyanny Liang</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="/lgrcyanny@gmail.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://www.weibo.com/1981511992" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/lgrcyanny" title="GitHub"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/lgrcyanny" title="Twitter"></a>
+                            
+                                <a class="fa Facebook" target="_blank" href="https://www.facebook.com/CyannyLIANG" title="Facebook"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
+</nav>
+      <div class="body-wrap"><article id="post-system-analysis-design-kenneth-kendall-review-part3" class="article article-type-post" itemscope itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" class="article-date">
+      <time datetime="2013-11-27T09:20:43.000Z" itemprop="datePublished">2013-11-27</time>
+</a>
+
+
+    </div>
   
-    <link rel="icon" href="favicon.ico">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
   
-  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
-  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
-  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+    <h1 class="article-title" itemprop="name">
+      System Analysis and Design (Kenneth Kendall) Review Part3
+    </h1>
   
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/design/">Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/systemanalysis/">SystemAnalysis</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="6-设计有效的输出"><a href="#6-设计有效的输出" class="headerlink" title="6. 设计有效的输出"></a>6. 设计有效的输出</h2><h3 id="6-1-输出设计目标"><a href="#6-1-输出设计目标" class="headerlink" title="6.1.输出设计目标"></a>6.1.输出设计目标</h3><p>1.设计满足特定用途或组织目标的输出<br>输出要面向用户，考虑用户的年龄、收入和文化层次。</p>
+<p>2.制作对用户有意义的输出<br>设计要满足特定用户的需求，决定什么是内容，什么是途径。<br>考虑输出的时间和地点 [more…]</p>
+<p>3.交付合适数量的输出<br>决定要给用户多少信息，根据对用户的调查来决定，根据对象的重要性，数量和个数来决定<br>如：搜索后的结果</p>
+<p>4.合理分配输出，确保重要信息是必不可少的<br>如商店的门户网站，分类信息要展示<br>对必不可少的信息进行版本化，如计算器的科学性和普通型</p>
+<p>5.按时提供输出<br>In-Time 按时，及时的展现，考虑输出的时效性<br>如每年南大的主页在高考时很重要<br>如滴滴打车，采用语音输出</p>
+<p>6.选择最有效的输出方式：报表，屏幕输出，音频或视频输出。</p>
+<h3 id="6-2-选择输出技术时需要考虑"><a href="#6-2-选择输出技术时需要考虑" class="headerlink" title="6.2.选择输出技术时需要考虑"></a>6.2.选择输出技术时需要考虑</h3><p>1)谁将使用，看到输出。<br>2)多少人需要输出<br>3)哪里需要输出，如配送部门和后勤部门<br>4)输出的目的<br>5)输出的速度是多少<br>6)访问输出的频率如何<br>7)输出将必须存储多长时间<br>8)产生、存储和分发输出必须遵循的特殊规则是什么<br>9)维护和供应的最初与后续的成本是什么<br>10)输出技术的环境需求是什么：易接近性、噪声吸收、温度控制、设备空间、电缆架设以及WiFi发射机的接近程度。 例如：打印输出噪声很大。</p>
+<h3 id="6-3-常见的输出技术"><a href="#6-3-常见的输出技术" class="headerlink" title="6.3.常见的输出技术"></a>6.3.常见的输出技术</h3><p><img src="http://i44.tinypic.com/2q9cthc.jpg" alt=""><br>补充如下：<br>1. 打印机输出：如报表行程单、化验单、信用卡账单、财务单，具有持久性，需要考虑浪费纸张的成本，噪声，采用合适的表格形式<br>2. 视频输出：<br>补充静态的打印输出。<br>远程协作，将那些不能经常见面的人联系在一起<br>教学，帮助，培训视频<br>记录当前事件，方便以后的输出<br>保存一个重要情节，收藏，存档</p>
+<p>3. 动画输出：增强web站点的演示效果；比抽象的图像带来更好地决策支持。<br>4.电子邮件输出：可以用于私密信息。<br>5. 输出技术两种分类：<br>推技术：向用户推送信息，如推送流量统计，可以采用短信或电子邮件的方式。<br>拉技术：用户主动发起请求数据，如web上点击链接</p>
+<h3 id="6-4-避免输出的偏差"><a href="#6-4-避免输出的偏差" class="headerlink" title="6.4.避免输出的偏差"></a>6.4.避免输出的偏差</h3><p>1.偏差的来源<br>a)信息排序的方式<br>b)可接受的边界值引入的偏差<br>c)使用图形引入的偏差</p>
+<p>2.如何避免偏差<br>a)明确偏差来源<br>b)在测试Web文档的外观过程中，设计交互式输出，让各种用户参与测试，并使用各种不同的系统配置测试输出。<br>c)让用户参与输出设计，使它们认识到输出信息中可能存在的偏差<br>d)创建灵活的输出，使得用户能修改边界值和范围。<br>e)训练用户依靠多种输出对系统输出执行“逼真测试”</p>
+<h3 id="6-5-印制报表的设计原则"><a href="#6-5-印制报表的设计原则" class="headerlink" title="6.5.印制报表的设计原则"></a>6.5.印制报表的设计原则</h3><p>1.确定报表设计约定<br>设计表单时要遵循的约定包括：每个位置上出现的数据类型，表单大小，以及表明连续表上数据延续部分的方式。<br>2.纸张质量、类型和大小<br>3.功能、风格和美观程度<br>4.报表的功能属性：标题、页码、准备日期、列标题、相关数据项的集合、控制分割行的使用</p>
+<h3 id="6-6-设计屏幕输出"><a href="#6-6-设计屏幕输出" class="headerlink" title="6.6.设计屏幕输出"></a>6.6.设计屏幕输出</h3><p>1.原则<br>a)保持屏幕简单<br>b)保持屏幕显示的一致性<br>c)方便用户在屏幕间移动<br>d)创建吸引人的屏幕</p>
+<p>2.在屏幕输出时使用图形要考虑<br>a)图形的用途<br>b)需要显示什么样的数据<br>c)读者对象<br>d)不同图形输出对读者的影响</p>
+<p>3.选择仪表盘输出时考虑：<br>a)确保数据有上下文<br>b)显示合理的汇总的精度<br>c)选择合适的工作指标进行显示<br>d)公正地表现数据<br>e)选择正确的图表样式进行显示<br>f)使用精心设计的显示媒体：大小、图片、颜色、标签<br>g)限制项目类型的多样性<br>h)突出显示重要数据<br>i)将数据按有意义的小组进行编排<br>j)保持屏幕简洁<br>k)使整个仪表板保持在一个单独的屏幕上</p>
+<p>4.Wedget和Gadeget输出<br>a)窗口小部件，可以个性化桌面<br>b)证券报价机、天气预报、RSS反馈可以采用widget<br>c)但widget会分散用户对系统支持的任务的注意力。</p>
+<h2 id="7-设计有效的输入"><a href="#7-设计有效的输入" class="headerlink" title="7.设计有效的输入"></a>7.设计有效的输入</h2><h3 id="7-1-对输入的质量要求"><a href="#7-1-对输入的质量要求" class="headerlink" title="7.1.对输入的质量要求"></a>7.1.对输入的质量要求</h3><p>1.输入的质量<br>1)有效性：输入表单、输入屏幕和Web上的输入窗体在信息系统中服务于具体的目的。<br>2)准确性：所作出的设计能保证用户准确输入数据。<br>3)易用性：表单和屏幕简单易懂<br>4)一致性：所有输入窗体，在不同的程序中按类似的方式组织数据。<br>5)简单性：设计简洁，让用户集中注意力输入数据。<br>6)有吸引力：精心设计表单，让用户喜欢</p>
+<p>2.输入还需要保证<br>完整性<br>输入顺序要合理：从主体到客体，重要到次要<br>如简历：先基本信息，再个人获奖，个人工作经历</p>
+<h3 id="7-2-良好的表单设计-纸质表单"><a href="#7-2-良好的表单设计-纸质表单" class="headerlink" title="7.2.良好的表单设计(纸质表单)"></a>7.2.良好的表单设计(纸质表单)</h3><p>1.设计原则<br>a)使表单容易填写<br>b)满足用户的需求<br>c)保证输入的完整性，准确性<br>d)有吸引力</p>
+<p>2.使表单容易填写<br>a)表单流：从左到右，从上到下<br>b)表单的7个部分<br>i.标题<br>ii.标识和访问控制<br>iii.用法说明<br>iv.主体<br>v.签名和确认<br>vi.总结<br>vii.评论</p>
+<p>c)加标题：行标题，行下标题，加框标题，垂直选择标记，水平选择标记。<br>标题要有相关注释。<br>标题风格保持一致。</p>
+<p>3.满足用户的需求<br>创建表单目的：记录、处理、保存和获取商业所需信息。</p>
+<p>4.确保完整性和输入的准确性<br>这样可以让与收集数据相关的错误率大幅度降低。</p>
+<p>5.表单设计要有吸引力<br>按预期顺序组织信息：姓名、街道地址、城市、州(省)、邮政编码<br>吸引力来自于正确的表单布局和流向。<br>字体样式和线条粗细也是有用的设计元素。</p>
+<p>6.表单设计软件：如scansoft</p>
+<p>7.业务表单控制：<br>a)确保表单的输入是为了达到特定的需求，并且该需求是组织功能不可分割的。<br>b)避免重复信息，避免使用重复表单。<br>c)设计高效的表单。<br>d)以尽可能低的成本制作表单</p>
+<h3 id="7-3-良好的Web屏幕和Web窗体设计"><a href="#7-3-良好的Web屏幕和Web窗体设计" class="headerlink" title="7.3 良好的Web屏幕和Web窗体设计"></a>7.3 良好的Web屏幕和Web窗体设计</h3><h4 id="7-3-1-屏幕设计原则"><a href="#7-3-1-屏幕设计原则" class="headerlink" title="7.3.1.屏幕设计原则"></a>7.3.1.屏幕设计原则</h4><p>1.电子、web表单与静态表单的区别：<br>有光标，指示当前的数据输入位置<br>可以在上下文加入相关帮助</p>
+<p>2.设计原则<br>a)保持简洁<br>b)一致性<br>c)易于用户在屏幕间移动<br>d)创建有吸引力和满意的屏幕</p>
+<p>3.保持屏幕的简洁<br>屏幕输出的三个部分：<br>•标题：文件名称、下拉菜单和执行某些任务的图标<br>•主体：输入数据，从左到右，从上到下<br>•评论和用法说明<br>另一种保持简洁的方法是：使用上下文相关帮助和其他弹出窗口，利用超链接</p>
+<p>4.保持屏幕一致性：<br>a)与相关的纸质表单保持一致性<br>b)每次访问新屏幕时信息出现在同一个区域<br>c)逻辑上不可分割的信息始终组织在一起</p>
+<p>5.易于用户在屏幕间移动<br>a)易于用户从在不用web页之间移动<br>b)“三次单击”规则：用户应能在三次单击鼠标或按键之内，转到他们所需的屏幕。<br>c)使用向下箭头滚动屏幕<br>d)上下文相关的弹出窗口<br>e)屏幕对话</p>
+<p>6.设计有吸引力的屏幕<br>a)足够的留白，让用户集中注意力到数据上<br>b)使用逻辑流计划屏幕信息，按用户处理问题的方式组织屏幕信息，让他们容易找到所需信息<br>c)将信息划分为3个部分，参见简洁性，划分遵循一致性原则<br>d)采用粗细不同的线条划分不同的类目<br>e)反转影像，闪烁光标，但要慎用。<br>f)使用不同的字体</p>
+<p>7.屏幕设计中使用图标<br>a)每个应用程序使用的图标控制在20个之内<br>b)相关图标要一起出现，保持连续性和易懂性<br>c)图标含义越丰富，越有用。</p>
+<h4 id="7-3-2-GUI元素的设计"><a href="#7-3-2-GUI元素的设计" class="headerlink" title="7.3.2.GUI元素的设计"></a>7.3.2.GUI元素的设计</h4><p>1.文本框：大小要能容纳所有的字符。要有标题。<br>2.复选框：标签放在复选框的右边；如果超过10个，要将他们组成一个组，并框起来。<br>3.单选按钮：选项文本放在右边；如果选项按钮超过6个，考虑下拉菜单。<br>4.下拉菜单和列表框<br>5.滑动块按钮和旋转按钮<br>6.图像映射<br>7.文本区<br>8.消息框<br>9.命令按钮</p>
+<p>10.表单控件和数值：GUI界面包括的每个控件必须有某种方法来存储与控件相关的数据。 Web页面上，可以采用名称和值对来实现。 每个Web表单控件获取数值的方法是不同的。<br>11.隐藏字段：表单中，对用户不可见，但需发送到服务器的数值<br>12.事件响应图：当GUI交互很复杂时，可以采用事件响应图列出各种可能发生的事件，概要的建立商业事件和响应的模型。<br>13.动态web网页：根据用户操作改变网页内容，基于JavaScript，可以用来显示临时的信息。但对需要加密，提供安全保护的数据，不要采用动态web的形式。而缺点是用户禁用JavaScript后，网页不可用。<br>14.Ajax，异步更新，web运行更快，更流畅。缺点是JavaScript必须启用，安全性问题。</p>
+<p>15.选项卡控件对话框设计原则：<br>a)为每个独特的特性创建一个分离的选项卡<br>b)将最常用的选项卡放在前面，并首先显示<br>c)可以考虑在设计的选项卡控件对话框中包含三个基本按钮：OK，Cancel，Help</p>
+<p>16.Web中使用色彩<br>a)色彩搭配要协调：对比前景和背景，突出表单上重要字段，显示错误。</p>
+<p>b)容易辨认的搭配：前景明亮，背景用不太明亮的。<br>i.黑底文字在黄色背景上<br>ii.绿色文字在白色背景上<br>iii.蓝色文字在白色背景上<br>iv.白色的文字在蓝色的背景上<br>v.黄色的文字在黑色的背景上</p>
+<p>c)色彩不宜超过4种，对于有经验的用户，不要超过7种。</p>
+<h3 id="7-4-内联网和互联网页设计"><a href="#7-4-内联网和互联网页设计" class="headerlink" title="7.4.内联网和互联网页设计"></a>7.4.内联网和互联网页设计</h3><p>指导原则<br>1)提供清楚的用法说明<br>2)演示窗体的逻辑填写顺序，特别是因为用户滚动而看不到的部分<br>3)为特殊功能增加窗体的吸引力，使用各种文本框，按钮，下拉菜单、复选框和单选按钮<br>4)如果我们不能确定用户响应某个问题时将在字段中输入多少个字符，或者不能确定用户使用什么语言、结构或窗体输入数据，提供一个可滚动的文本框<br>5)为每个Web输入窗体准备两个基本按钮：Submit 和 Clear Form<br>6)如果窗体很长，且用户进行滚动之外别无它法，那么最好将窗体分成几个简单地窗体，放在不同的网页上<br>7)创建一个错误反馈屏幕<br>对于电子商务应用程序还需要达到目标：阐明有关信任、隐私和退货方面公司的任务和价值；建立高效的事务处理过程；建立良好的客户关系。</p>
+<h2 id="8-HCI人机交互"><a href="#8-HCI人机交互" class="headerlink" title="8. HCI人机交互"></a>8. HCI人机交互</h2><h3 id="8-1-基本概念"><a href="#8-1-基本概念" class="headerlink" title="8.1.基本概念"></a>8.1.基本概念</h3><p>1.HCI是指确保系统的功能和可用性，提供有效的用户交互与支持，以及增强用户快乐体验。总体目标是实现组织和个人用户的效率和有效性。<br>2.主要策略：不断引出用户对原型设计（屏幕、表单、界面等）的使用经验反馈，根据修改建议提炼设计，然后再让用户试用，直到用户满意，最后由分析员固定下来。面谈就是一种获得HCI反馈的重要方式。<br>3.技术接受模型：感知有用性和感知易用性<br>4.可用性：包括产品使用的有效性、效率和在特定环境下使用的满意度、用户界面交互，开发产品的过程，组织应用以用户为中心的设计的能力<br>5.HCI设计中考虑用户的身体因素：视觉，听觉，触觉，考虑人的缺陷、残障和意图。</p>
+<p>6.良好的HCI进行系统设计的指导原则<br>1)界面与任务相匹配<br>2)提高界面效率<br>3)提供适当的反馈<br>4)生成有用的查询<br>5)提高工作者的效率</p>
+<p>7.评价UI的原则<br>1)较短的学习时间<br>2)用户不用多加考虑或者不用查阅手册和帮助菜单，就可以输入指令<br>3)界面应该与实际功能“无缝”连接，确保出出错概率小<br>4)用户和系统出错后恢复时间尽可能短<br>5)偶尔使用的用户重新学习系统时要尽可能快<br>6)界面提供信息准确，界面友好</p>
+<h3 id="8-2-对话设计的指导原则"><a href="#8-2-对话设计的指导原则" class="headerlink" title="8.2.对话设计的指导原则"></a>8.2.对话设计的指导原则</h3><p>1.交流要让用户和计算机都能理解，意义明确</p>
+<p>2.最小化用户的行为，减少不必要的操作，可以采用以下方式：<br>1)输入时用代码代替词组<br>2)只输入系统中没有存储的数据<br>3)提供缺省信息<br>4)提供help信息，不要让用户乱操作<br>5)提供符合常规的快捷键</p>
+<p>3.操作的规范化和一致性<br>1)界面的标题、日期、时间、操作提示和反馈信息固定在相同位置<br>2)使用相同的键位或者菜单退出程序<br>3)采用一致的方法取消事务<br>4)用标准化的方法获得帮助，如F1<br>5)屏幕采用标准化的色彩<br>6)GUI中使用标准化的图标<br>7)网站中术语要一致<br>8)提供一致的方法实现对话导航<br>9)文字大小、颜色和对齐方式保持一致</p>
+<h3 id="8-3-用户界面类型"><a href="#8-3-用户界面类型" class="headerlink" title="8.3.用户界面类型"></a>8.3.用户界面类型</h3><p>1.自然语言界面：实现复杂，如ask.com自然语言查询，对资源有特殊要求<br>2.问答式界面，对话框，适用于不熟悉特定应用或不了解某个主体的用户</p>
+<p>3.菜单：<br>优点：分类显示，不杂乱；减少界面无关信息；嵌套菜单可以提高用户的操作速度。<br>指导原则：<br>•层次和分类要清晰，不能混淆，<br>•主菜总是单停留在导航栏<br>•子菜单的层数不要超过3层<br>•下拉菜单按功能特征分区或者分组<br>•元素不要太拥挤，不重复，不遗漏，先主后次。<br>•选中主菜单的词后，弹出下拉菜单。<br>•不可用的选项灰色表示</p>
+<p>4.Form表单<br>用于输入和输出<br>•原则：<br>屏幕窗体要说明应该输入什么信息，以及在哪里输出。<br>在空白字段中输入数据时，输入内容应该反白或闪烁显示。<br>为简化窗体数据的输入，可预先给出默认值。<br>•优点：打印出的表单内容是极好的文档<br>•缺点：让有经验的用户厌烦，总希望找到一种更有效的数据输入方法。</p>
+<p>5.命令行:专业、学习难</p>
+<p>6.对话框<br>采用标准的操作，保证一致性，交流要有意义，提供最少的操作交互和行为。</p>
+<p>7.其他类型的用户界面<br>指示笔、触摸屏、语音识别与合成、触摸屏<br>语音交互的优点：让用户能腾出手来完成其他事项的同时，如驾驶，可以极大的提高数据输入速度。为有视觉或行为障碍的用户提供方便。</p>
+<h3 id="8-4-为用户提供反馈"><a href="#8-4-为用户提供反馈" class="headerlink" title="8.4.为用户提供反馈"></a>8.4.为用户提供反馈</h3><p>1.反馈类型<br>a)确认接受了输入数据<br>b)确认输入格式正确</p>
+<p>c)提示输入格式不正确<br>反馈可以是新的界面、消息框、音频反馈<br>反馈要保证效率和准确性</p>
+<p>d)解释系统运行中的延迟<br>e)确认请求完成<br>f)提示用户请求无法完成<br>g)为用户提供更详细的反馈</p>
+<p>2.在系统设计中包含反馈<br>a)提供各种帮助选项，F1，<br>b)下拉菜单帮助<br>c)鼠标悬停的提示文本<br>d)帮助向导<br>e)帮助热线</p>
+<h3 id="8-5-电子商务网站的设计原则"><a href="#8-5-电子商务网站的设计原则" class="headerlink" title="8.5.电子商务网站的设计原则"></a>8.5.电子商务网站的设计原则</h3><p>1.在网站上采用各种方法从客户处获得反馈<br>在用户启动电子邮件程序的同时，自动把公司的邮件地址放在“收件人”处<br>添加反馈按钮，点击后打开信息模板</p>
+<p>2.采用4种方法提供一次点击的导航，以确保用户容易地在网站中导航，并易于返回原来的网页。<br>1)建立卷滚菜单<br>2)在主页上按分层关系建立网站链接集，显示关键主题框架。<br>3)把网站地图放在主页上，并突出到该地图的链接，提高导航效率。<br>4)在网站内每一个页面上设置导航条，重复首页上的条目。</p>
+<div style="color: #EF4808"><br>两个好用的Chrome插件，小伙伴们看完复习资料支持一下吧：<br><a href="https://chrome.google.com/webstore/detail/剪影截图/gkloklemhahnoipikedmafefilidffko" title="剪影截图" target="_blank" rel="external">剪影截图：好用的网页截图，一键人人分享工具，快捷键ctrl+shift+z, 双击确定!</a><br><a href="https://chrome.google.com/webstore/detail/tss下载助手/odhkpoplnhfnhhhkgphckabboemiifle" title="TSS下载助手" target="_blank" rel="external">TSS下载助手：让你方便一键批量下载</a><br></div>
+
+<p>资源：<br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" title="System Analysis and Design (Kenneth Kendall) Review Part1" target="_blank" rel="external">系统分析与设计part1</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" title="System Analysis and Design (Kenneth Kendall) Review Part2" target="_blank" rel="external">系统分析与设计part2</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" title="System Analysis and Design (Kenneth Kendall) Review Part3" target="_blank" rel="external">系统分析与设计part3</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" title="System Analysis and Design (Kenneth Kendall) Review Part4" target="_blank" rel="external">系统分析与设计part4</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/">
+                    System Analysis and Design (Kenneth Kendall) Review Part4
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/">
+                    System Analysis and Design (Kenneth Kendall) Review Part2
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"System Analysis and Design (Kenneth Kendall) Review Part3　| CyannyLive　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/';
+            this.page.identifier = '2013/11/27/system-analysis-design-kenneth-kendall-review-part3/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//lgrcyanny.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" title="Pre: System Analysis and Design (Kenneth Kendall) Review Part4">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" title="Next: System Analysis and Design (Kenneth Kendall) Review Part2">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/11/07/scala-collections/">Scala Collections</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/27/春江花月夜/">春江花月夜</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/27/eight-queens-problem-in-scala/">Eight Queens Problem In Scala</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/machine-learning-neural-networks/">Machine Learning Neural Networks</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/10/machine-learning-logistic-regression/">Machine Learning Logistic Regression</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/04/machine-learning-linear-regression/">Machine Learning Linear Regression</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/programming-in-scala-overview-key-note/">Programming In Scala Overview Key Note</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/07/learning-akka/">Learning Akka</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/04/bitsort-ant-qsort/">位排序和快排</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/03/find-median-for-two-sorted-array/">查找两个排序数组的中位数</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/16/hive-architecture/">Hive架构笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/04/12/dijkstra-algorithm-in-java/">Dijkstra Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/">HBase MapReduce排序Secondary Sort</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/">HBase Architecture Analysis Part 3 Pros and Cons</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/">HBase Architecture Analysis Part2(Process Architecture)</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/">HBase Architecture Analysis Part1(Logical Architecture)</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/">Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/">Revolution——面向对象看黑客帝国</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/06/set-hadoop-hbase-part2/">Set up Hadoop 2.2 and HBase 0.96 part2</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/06/set-hadoop-hbase-part1/">Set up Hadoop 2.2 and HBase 0.96 part1</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/18/node-express-mysql-scaffolding/">Node Express Mysql Scaffolding</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-isnt-silver-bullet/">Hadoop isn’t Silver Bullet</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-mapreduce-2-yarn/">Hadoop MapReduce 2 (YARN)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-mapreduce-1-framework/">Hadoop MapReduce 1 Framework</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-mapreduce-overview/">Hadoop MapReduce Overview</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-hdfs-high-availability/">Hadoop HDFS High Availability(HA)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-hdfs-federation/">Hadoop HDFS Federation </a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-hdfs-review/">Hadoop HDFS Review</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-overview/">Hadoop Overview</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/02/graph-dfs-bfs/">Graph DFS and BFS</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/">System Analysis and Design (Kenneth Kendall) Review Part4</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/">System Analysis and Design (Kenneth Kendall) Review Part3</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/">System Analysis and Design (Kenneth Kendall) Review Part2</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/">System Analysis and Design (Kenneth Kendall) Review Part1</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part4/">分布式系统总结part4</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part3/">分布式系统总结part3</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part2/">分布式系统总结part2</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part1/">分布式系统总结part1</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/16/netkit-filesystem-custom-cutting/">Netkit Filesystem 定制和裁剪</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/13/ipsec-architecture/">IPsec之IP层安全架构</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/">如何配置VPS并发布WordPress Blog?(第一篇)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/">如何配置VPS并发布WordPress Blog?(第二篇)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/10/how-to-start-learning-node-js/">How to start learning Node.js</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/01/agile-advantages-and-disadvantages/">“吐槽”敏捷软件开发</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/talk-about-open-source-software/">谈谈开源软件，谈谈质量</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/">统计学的基本概念和方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/09/12/select-second-smallest-element/">找一个数组中第2小的元素</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/09/09/warshall-algorithm-cycle-dectection/">Warshall's Algorithm for Cycle Dectection</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/08/18/the-usage-of-counting-sort/">计数排序的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/08/10/learning-heap-sort/">再叙堆排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/05/25/good-resources-for-js-learning/">Good Resources for JavaScript</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i>
+                2016-2017 Cyanny Liang
+            </div>
+            <div class="footer-right">
+                <a>Best wishes for everyday~</a>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
 <!-- Google Analytics -->
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -52,350 +532,22 @@ ga('send', 'pageview');
 <!-- End Google Analytics -->
 
 
-  
-</head>
-<body>
-  <div id="container">
-    <header id="header">
-  <div id="header-main" class="header-inner">
-    <div class="outer">
-      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
-      <nav id="main-nav">
-        
-          <a class="main-nav-link" href="/.">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-          <a class="main-nav-link" href="/categories">Categories</a>
-        
-          <a class="main-nav-link" href="/tags">Tags</a>
-        
-          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
-        
-      </nav>
-      
-      <nav id="sub-nav">
-        <div class="profile" id="profile-nav">
-          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
-        </div>
-      </nav>
-      
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
-      </div>
-    </div>
-  </div>
-  <div id="main-nav-mobile" class="header-sub header-inner">
-    <table class="menu outer">
-      <tr>
-      
-        <td><a class="main-nav-link" href="/.">Home</a></td>
-      
-        <td><a class="main-nav-link" href="/archives">Archives</a></td>
-      
-        <td><a class="main-nav-link" href="/categories">Categories</a></td>
-      
-        <td><a class="main-nav-link" href="/tags">Tags</a></td>
-      
-        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
-      
-      <td>
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
-      </td>
-      </tr>
-    </table>
-  </div>
-</header>
 
-    <div class="outer">
-      
-        <aside id="profile">
-  <div class="inner profile-inner">
-  	<div class="base-info profile-block">
-		  <img id="avatar" src="/css/images/avatar.png">
-      <h2 id="name">Cyanny Liang</h2>
-      <h3 id="title">Big Data &amp; Spark</h3>
-      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
-      <a id="follow" href="https://github.com/lgrcyanny/">FOLLOW</a>
-  	</div>
-    <div class="article-info profile-block">
-      <div class="article-info-block">
-        51
-        <span>posts</span>
-      </div>
-      <div class="article-info-block">
-        30
-        <span>tags</span>
-      </div>
-    </div>
-    
-    <div class="contact-info profile-block">
-      <table class="contact-list">
-        <tr>
-        
-          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-        
-          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-        
-          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-        
-          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-        
-        </tr>
-      </table>
-    </div>
-    
-  </div>
-</aside>
-      
-      <section id="main"><article id="post-system-analysis-design-kenneth-kendall-review-part3" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      System Analysis and Design (Kenneth Kendall) Review Part3
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/">
-    <time datetime="2013-11-27T09:20:43.000Z" itemprop="datePublished">2013-11-27</time>
-  </a>
+<div class="scroll" id="scroll">
+    <a href="#" title="Back to Top"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="Comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="Go to Bottom"><i class="fa fa-arrow-down"></i></a>
 </div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a>
-  </div>
-
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="6-_设计有效的输出">6. 设计有效的输出</h2><h3 id="6-1-输出设计目标">6.1.输出设计目标</h3><p>1.设计满足特定用途或组织目标的输出<br>输出要面向用户，考虑用户的年龄、收入和文化层次。</p>
-<p>2.制作对用户有意义的输出<br>设计要满足特定用户的需求，决定什么是内容，什么是途径。<br>考虑输出的时间和地点 [more…]</p>
-<p>3.交付合适数量的输出<br>决定要给用户多少信息，根据对用户的调查来决定，根据对象的重要性，数量和个数来决定<br>如：搜索后的结果</p>
-<p>4.合理分配输出，确保重要信息是必不可少的<br>如商店的门户网站，分类信息要展示<br>对必不可少的信息进行版本化，如计算器的科学性和普通型</p>
-<p>5.按时提供输出<br>In-Time 按时，及时的展现，考虑输出的时效性<br>如每年南大的主页在高考时很重要<br>如滴滴打车，采用语音输出</p>
-<p>6.选择最有效的输出方式：报表，屏幕输出，音频或视频输出。</p>
-<h3 id="6-2-选择输出技术时需要考虑">6.2.选择输出技术时需要考虑</h3><p>1)谁将使用，看到输出。<br>2)多少人需要输出<br>3)哪里需要输出，如配送部门和后勤部门<br>4)输出的目的<br>5)输出的速度是多少<br>6)访问输出的频率如何<br>7)输出将必须存储多长时间<br>8)产生、存储和分发输出必须遵循的特殊规则是什么<br>9)维护和供应的最初与后续的成本是什么<br>10)输出技术的环境需求是什么：易接近性、噪声吸收、温度控制、设备空间、电缆架设以及WiFi发射机的接近程度。 例如：打印输出噪声很大。</p>
-<h3 id="6-3-常见的输出技术">6.3.常见的输出技术</h3><p><img src="http://i44.tinypic.com/2q9cthc.jpg" alt=""><br>补充如下：<br>1. 打印机输出：如报表行程单、化验单、信用卡账单、财务单，具有持久性，需要考虑浪费纸张的成本，噪声，采用合适的表格形式<br>2. 视频输出：<br>补充静态的打印输出。<br>远程协作，将那些不能经常见面的人联系在一起<br>教学，帮助，培训视频<br>记录当前事件，方便以后的输出<br>保存一个重要情节，收藏，存档</p>
-<p>3. 动画输出：增强web站点的演示效果；比抽象的图像带来更好地决策支持。<br>4.电子邮件输出：可以用于私密信息。<br>5. 输出技术两种分类：<br>推技术：向用户推送信息，如推送流量统计，可以采用短信或电子邮件的方式。<br>拉技术：用户主动发起请求数据，如web上点击链接</p>
-<h3 id="6-4-避免输出的偏差">6.4.避免输出的偏差</h3><p>1.偏差的来源<br>a)信息排序的方式<br>b)可接受的边界值引入的偏差<br>c)使用图形引入的偏差</p>
-<p>2.如何避免偏差<br>a)明确偏差来源<br>b)在测试Web文档的外观过程中，设计交互式输出，让各种用户参与测试，并使用各种不同的系统配置测试输出。<br>c)让用户参与输出设计，使它们认识到输出信息中可能存在的偏差<br>d)创建灵活的输出，使得用户能修改边界值和范围。<br>e)训练用户依靠多种输出对系统输出执行“逼真测试”</p>
-<h3 id="6-5-印制报表的设计原则">6.5.印制报表的设计原则</h3><p>1.确定报表设计约定<br>设计表单时要遵循的约定包括：每个位置上出现的数据类型，表单大小，以及表明连续表上数据延续部分的方式。<br>2.纸张质量、类型和大小<br>3.功能、风格和美观程度<br>4.报表的功能属性：标题、页码、准备日期、列标题、相关数据项的集合、控制分割行的使用</p>
-<h3 id="6-6-设计屏幕输出">6.6.设计屏幕输出</h3><p>1.原则<br>a)保持屏幕简单<br>b)保持屏幕显示的一致性<br>c)方便用户在屏幕间移动<br>d)创建吸引人的屏幕</p>
-<p>2.在屏幕输出时使用图形要考虑<br>a)图形的用途<br>b)需要显示什么样的数据<br>c)读者对象<br>d)不同图形输出对读者的影响</p>
-<p>3.选择仪表盘输出时考虑：<br>a)确保数据有上下文<br>b)显示合理的汇总的精度<br>c)选择合适的工作指标进行显示<br>d)公正地表现数据<br>e)选择正确的图表样式进行显示<br>f)使用精心设计的显示媒体：大小、图片、颜色、标签<br>g)限制项目类型的多样性<br>h)突出显示重要数据<br>i)将数据按有意义的小组进行编排<br>j)保持屏幕简洁<br>k)使整个仪表板保持在一个单独的屏幕上</p>
-<p>4.Wedget和Gadeget输出<br>a)窗口小部件，可以个性化桌面<br>b)证券报价机、天气预报、RSS反馈可以采用widget<br>c)但widget会分散用户对系统支持的任务的注意力。</p>
-<h2 id="7-设计有效的输入">7.设计有效的输入</h2><h3 id="7-1-对输入的质量要求">7.1.对输入的质量要求</h3><p>1.输入的质量<br>1)有效性：输入表单、输入屏幕和Web上的输入窗体在信息系统中服务于具体的目的。<br>2)准确性：所作出的设计能保证用户准确输入数据。<br>3)易用性：表单和屏幕简单易懂<br>4)一致性：所有输入窗体，在不同的程序中按类似的方式组织数据。<br>5)简单性：设计简洁，让用户集中注意力输入数据。<br>6)有吸引力：精心设计表单，让用户喜欢</p>
-<p>2.输入还需要保证<br>完整性<br>输入顺序要合理：从主体到客体，重要到次要<br>如简历：先基本信息，再个人获奖，个人工作经历</p>
-<h3 id="7-2-良好的表单设计(纸质表单)">7.2.良好的表单设计(纸质表单)</h3><p>1.设计原则<br>a)使表单容易填写<br>b)满足用户的需求<br>c)保证输入的完整性，准确性<br>d)有吸引力</p>
-<p>2.使表单容易填写<br>a)表单流：从左到右，从上到下<br>b)表单的7个部分<br>i.标题<br>ii.标识和访问控制<br>iii.用法说明<br>iv.主体<br>v.签名和确认<br>vi.总结<br>vii.评论</p>
-<p>c)加标题：行标题，行下标题，加框标题，垂直选择标记，水平选择标记。<br>标题要有相关注释。<br>标题风格保持一致。</p>
-<p>3.满足用户的需求<br>创建表单目的：记录、处理、保存和获取商业所需信息。</p>
-<p>4.确保完整性和输入的准确性<br>这样可以让与收集数据相关的错误率大幅度降低。</p>
-<p>5.表单设计要有吸引力<br>按预期顺序组织信息：姓名、街道地址、城市、州(省)、邮政编码<br>吸引力来自于正确的表单布局和流向。<br>字体样式和线条粗细也是有用的设计元素。</p>
-<p>6.表单设计软件：如scansoft</p>
-<p>7.业务表单控制：<br>a)确保表单的输入是为了达到特定的需求，并且该需求是组织功能不可分割的。<br>b)避免重复信息，避免使用重复表单。<br>c)设计高效的表单。<br>d)以尽可能低的成本制作表单</p>
-<h3 id="7-3_良好的Web屏幕和Web窗体设计">7.3 良好的Web屏幕和Web窗体设计</h3><h4 id="7-3-1-屏幕设计原则">7.3.1.屏幕设计原则</h4><p>1.电子、web表单与静态表单的区别：<br>有光标，指示当前的数据输入位置<br>可以在上下文加入相关帮助</p>
-<p>2.设计原则<br>a)保持简洁<br>b)一致性<br>c)易于用户在屏幕间移动<br>d)创建有吸引力和满意的屏幕</p>
-<p>3.保持屏幕的简洁<br>屏幕输出的三个部分：<br>•标题：文件名称、下拉菜单和执行某些任务的图标<br>•主体：输入数据，从左到右，从上到下<br>•评论和用法说明<br>另一种保持简洁的方法是：使用上下文相关帮助和其他弹出窗口，利用超链接</p>
-<p>4.保持屏幕一致性：<br>a)与相关的纸质表单保持一致性<br>b)每次访问新屏幕时信息出现在同一个区域<br>c)逻辑上不可分割的信息始终组织在一起</p>
-<p>5.易于用户在屏幕间移动<br>a)易于用户从在不用web页之间移动<br>b)“三次单击”规则：用户应能在三次单击鼠标或按键之内，转到他们所需的屏幕。<br>c)使用向下箭头滚动屏幕<br>d)上下文相关的弹出窗口<br>e)屏幕对话</p>
-<p>6.设计有吸引力的屏幕<br>a)足够的留白，让用户集中注意力到数据上<br>b)使用逻辑流计划屏幕信息，按用户处理问题的方式组织屏幕信息，让他们容易找到所需信息<br>c)将信息划分为3个部分，参见简洁性，划分遵循一致性原则<br>d)采用粗细不同的线条划分不同的类目<br>e)反转影像，闪烁光标，但要慎用。<br>f)使用不同的字体</p>
-<p>7.屏幕设计中使用图标<br>a)每个应用程序使用的图标控制在20个之内<br>b)相关图标要一起出现，保持连续性和易懂性<br>c)图标含义越丰富，越有用。</p>
-<h4 id="7-3-2-GUI元素的设计">7.3.2.GUI元素的设计</h4><p>1.文本框：大小要能容纳所有的字符。要有标题。<br>2.复选框：标签放在复选框的右边；如果超过10个，要将他们组成一个组，并框起来。<br>3.单选按钮：选项文本放在右边；如果选项按钮超过6个，考虑下拉菜单。<br>4.下拉菜单和列表框<br>5.滑动块按钮和旋转按钮<br>6.图像映射<br>7.文本区<br>8.消息框<br>9.命令按钮</p>
-<p>10.表单控件和数值：GUI界面包括的每个控件必须有某种方法来存储与控件相关的数据。 Web页面上，可以采用名称和值对来实现。 每个Web表单控件获取数值的方法是不同的。<br>11.隐藏字段：表单中，对用户不可见，但需发送到服务器的数值<br>12.事件响应图：当GUI交互很复杂时，可以采用事件响应图列出各种可能发生的事件，概要的建立商业事件和响应的模型。<br>13.动态web网页：根据用户操作改变网页内容，基于JavaScript，可以用来显示临时的信息。但对需要加密，提供安全保护的数据，不要采用动态web的形式。而缺点是用户禁用JavaScript后，网页不可用。<br>14.Ajax，异步更新，web运行更快，更流畅。缺点是JavaScript必须启用，安全性问题。</p>
-<p>15.选项卡控件对话框设计原则：<br>a)为每个独特的特性创建一个分离的选项卡<br>b)将最常用的选项卡放在前面，并首先显示<br>c)可以考虑在设计的选项卡控件对话框中包含三个基本按钮：OK，Cancel，Help</p>
-<p>16.Web中使用色彩<br>a)色彩搭配要协调：对比前景和背景，突出表单上重要字段，显示错误。</p>
-<p>b)容易辨认的搭配：前景明亮，背景用不太明亮的。<br>i.黑底文字在黄色背景上<br>ii.绿色文字在白色背景上<br>iii.蓝色文字在白色背景上<br>iv.白色的文字在蓝色的背景上<br>v.黄色的文字在黑色的背景上</p>
-<p>c)色彩不宜超过4种，对于有经验的用户，不要超过7种。</p>
-<h3 id="7-4-内联网和互联网页设计">7.4.内联网和互联网页设计</h3><p>指导原则<br>1)提供清楚的用法说明<br>2)演示窗体的逻辑填写顺序，特别是因为用户滚动而看不到的部分<br>3)为特殊功能增加窗体的吸引力，使用各种文本框，按钮，下拉菜单、复选框和单选按钮<br>4)如果我们不能确定用户响应某个问题时将在字段中输入多少个字符，或者不能确定用户使用什么语言、结构或窗体输入数据，提供一个可滚动的文本框<br>5)为每个Web输入窗体准备两个基本按钮：Submit 和 Clear Form<br>6)如果窗体很长，且用户进行滚动之外别无它法，那么最好将窗体分成几个简单地窗体，放在不同的网页上<br>7)创建一个错误反馈屏幕<br>对于电子商务应用程序还需要达到目标：阐明有关信任、隐私和退货方面公司的任务和价值；建立高效的事务处理过程；建立良好的客户关系。</p>
-<h2 id="8-_HCI人机交互">8. HCI人机交互</h2><h3 id="8-1-基本概念">8.1.基本概念</h3><p>1.HCI是指确保系统的功能和可用性，提供有效的用户交互与支持，以及增强用户快乐体验。总体目标是实现组织和个人用户的效率和有效性。<br>2.主要策略：不断引出用户对原型设计（屏幕、表单、界面等）的使用经验反馈，根据修改建议提炼设计，然后再让用户试用，直到用户满意，最后由分析员固定下来。面谈就是一种获得HCI反馈的重要方式。<br>3.技术接受模型：感知有用性和感知易用性<br>4.可用性：包括产品使用的有效性、效率和在特定环境下使用的满意度、用户界面交互，开发产品的过程，组织应用以用户为中心的设计的能力<br>5.HCI设计中考虑用户的身体因素：视觉，听觉，触觉，考虑人的缺陷、残障和意图。</p>
-<p>6.良好的HCI进行系统设计的指导原则<br>1)界面与任务相匹配<br>2)提高界面效率<br>3)提供适当的反馈<br>4)生成有用的查询<br>5)提高工作者的效率</p>
-<p>7.评价UI的原则<br>1)较短的学习时间<br>2)用户不用多加考虑或者不用查阅手册和帮助菜单，就可以输入指令<br>3)界面应该与实际功能“无缝”连接，确保出出错概率小<br>4)用户和系统出错后恢复时间尽可能短<br>5)偶尔使用的用户重新学习系统时要尽可能快<br>6)界面提供信息准确，界面友好</p>
-<h3 id="8-2-对话设计的指导原则">8.2.对话设计的指导原则</h3><p>1.交流要让用户和计算机都能理解，意义明确</p>
-<p>2.最小化用户的行为，减少不必要的操作，可以采用以下方式：<br>1)输入时用代码代替词组<br>2)只输入系统中没有存储的数据<br>3)提供缺省信息<br>4)提供help信息，不要让用户乱操作<br>5)提供符合常规的快捷键</p>
-<p>3.操作的规范化和一致性<br>1)界面的标题、日期、时间、操作提示和反馈信息固定在相同位置<br>2)使用相同的键位或者菜单退出程序<br>3)采用一致的方法取消事务<br>4)用标准化的方法获得帮助，如F1<br>5)屏幕采用标准化的色彩<br>6)GUI中使用标准化的图标<br>7)网站中术语要一致<br>8)提供一致的方法实现对话导航<br>9)文字大小、颜色和对齐方式保持一致</p>
-<h3 id="8-3-用户界面类型">8.3.用户界面类型</h3><p>1.自然语言界面：实现复杂，如ask.com自然语言查询，对资源有特殊要求<br>2.问答式界面，对话框，适用于不熟悉特定应用或不了解某个主体的用户</p>
-<p>3.菜单：<br>优点：分类显示，不杂乱；减少界面无关信息；嵌套菜单可以提高用户的操作速度。<br>指导原则：<br>•层次和分类要清晰，不能混淆，<br>•主菜总是单停留在导航栏<br>•子菜单的层数不要超过3层<br>•下拉菜单按功能特征分区或者分组<br>•元素不要太拥挤，不重复，不遗漏，先主后次。<br>•选中主菜单的词后，弹出下拉菜单。<br>•不可用的选项灰色表示</p>
-<p>4.Form表单<br>用于输入和输出<br>•原则：<br>屏幕窗体要说明应该输入什么信息，以及在哪里输出。<br>在空白字段中输入数据时，输入内容应该反白或闪烁显示。<br>为简化窗体数据的输入，可预先给出默认值。<br>•优点：打印出的表单内容是极好的文档<br>•缺点：让有经验的用户厌烦，总希望找到一种更有效的数据输入方法。</p>
-<p>5.命令行:专业、学习难</p>
-<p>6.对话框<br>采用标准的操作，保证一致性，交流要有意义，提供最少的操作交互和行为。</p>
-<p>7.其他类型的用户界面<br>指示笔、触摸屏、语音识别与合成、触摸屏<br>语音交互的优点：让用户能腾出手来完成其他事项的同时，如驾驶，可以极大的提高数据输入速度。为有视觉或行为障碍的用户提供方便。</p>
-<h3 id="8-4-为用户提供反馈">8.4.为用户提供反馈</h3><p>1.反馈类型<br>a)确认接受了输入数据<br>b)确认输入格式正确</p>
-<p>c)提示输入格式不正确<br>反馈可以是新的界面、消息框、音频反馈<br>反馈要保证效率和准确性</p>
-<p>d)解释系统运行中的延迟<br>e)确认请求完成<br>f)提示用户请求无法完成<br>g)为用户提供更详细的反馈</p>
-<p>2.在系统设计中包含反馈<br>a)提供各种帮助选项，F1，<br>b)下拉菜单帮助<br>c)鼠标悬停的提示文本<br>d)帮助向导<br>e)帮助热线</p>
-<h3 id="8-5-电子商务网站的设计原则">8.5.电子商务网站的设计原则</h3><p>1.在网站上采用各种方法从客户处获得反馈<br>在用户启动电子邮件程序的同时，自动把公司的邮件地址放在“收件人”处<br>添加反馈按钮，点击后打开信息模板</p>
-<p>2.采用4种方法提供一次点击的导航，以确保用户容易地在网站中导航，并易于返回原来的网页。<br>1)建立卷滚菜单<br>2)在主页上按分层关系建立网站链接集，显示关键主题框架。<br>3)把网站地图放在主页上，并突出到该地图的链接，提高导航效率。<br>4)在网站内每一个页面上设置导航条，重复首页上的条目。</p>
-<div style="color: #EF4808"><br>两个好用的Chrome插件，小伙伴们看完复习资料支持一下吧：<br><a href="https://chrome.google.com/webstore/detail/剪影截图/gkloklemhahnoipikedmafefilidffko" title="剪影截图" target="_blank" rel="external">剪影截图：好用的网页截图，一键人人分享工具，快捷键ctrl+shift+z, 双击确定!</a><br><a href="https://chrome.google.com/webstore/detail/tss下载助手/odhkpoplnhfnhhhkgphckabboemiifle" title="TSS下载助手" target="_blank" rel="external">TSS下载助手：让你方便一键批量下载</a><br></div>
-
-<p>资源：<br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" title="System Analysis and Design (Kenneth Kendall) Review Part1" target="_blank" rel="external">系统分析与设计part1</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" title="System Analysis and Design (Kenneth Kendall) Review Part2" target="_blank" rel="external">系统分析与设计part2</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" title="System Analysis and Design (Kenneth Kendall) Review Part3" target="_blank" rel="external">系统分析与设计part3</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" title="System Analysis and Design (Kenneth Kendall) Review Part4" target="_blank" rel="external">系统分析与设计part4</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" data-id="civ7gf6f8000to56rvdg98ac4" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/design/">Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/systemanalysis/">SystemAnalysis</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          System Analysis and Design (Kenneth Kendall) Review Part4
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">System Analysis and Design (Kenneth Kendall) Review Part2</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-<section id="comments">
-  <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
-</section>
-</section>
-      
-        <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">recents</h3>
-    <div class="widget">
-      <ul id="recent-post" class="no-thumbnail">
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/learning/">Learning</a></p>
-              <p class="item-title"><a href="/2016/11/07/scala-collections/" class="title">Scala Collections</a></p>
-              <p class="item-date"><time datetime="2016-11-07T02:09:10.000Z" itemprop="datePublished">2016-11-07</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"></p>
-              <p class="item-title"><a href="/2016/09/27/春江花月夜/" class="title">春江花月夜</a></p>
-              <p class="item-date"><time datetime="2016-09-27T01:35:59.000Z" itemprop="datePublished">2016-09-27</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/learning/">Learning</a></p>
-              <p class="item-title"><a href="/2016/09/27/eight-queens-problem-in-scala/" class="title">Eight Queens Problem In Scala</a></p>
-              <p class="item-date"><time datetime="2016-09-27T01:15:28.000Z" itemprop="datePublished">2016-09-27</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a></p>
-              <p class="item-title"><a href="/2016/04/17/machine-learning-neural-networks/" class="title">Machine Learning Neural Networks</a></p>
-              <p class="item-date"><time datetime="2016-04-17T13:29:20.000Z" itemprop="datePublished">2016-04-17</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a></p>
-              <p class="item-title"><a href="/2016/04/10/machine-learning-logistic-regression/" class="title">Machine Learning Logistic Regression</a></p>
-              <p class="item-date"><time datetime="2016-04-10T13:48:51.000Z" itemprop="datePublished">2016-04-10</time></p>
-            </div>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">tag cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 12.86px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 12.86px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 14.29px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a> <a href="/tags/诗话/" style="font-size: 10px;">诗话</a>
-    </div>
-  </div>
-
-  
-  <div id="toTop" class="fa fa-chevron-up"></div>
-</aside>
-      
-    </div>
-    <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2016 Cyanny Liang
-    </div>
-  </div>
-</footer>
-    
-
 <script>
-  var disqus_shortname = 'lgrcyanny';
-  (function(){
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
+    // Open in New Window
+    
+        $("a").attr("target", "_blank");
+        $("#scroll a, #toc a").removeAttr("target");
+    
 </script>
 
-
-<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
-
-
-<script src="/js/script.js" type="text/javascript"></script>
-
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
   </div>
 </body>
 </html>

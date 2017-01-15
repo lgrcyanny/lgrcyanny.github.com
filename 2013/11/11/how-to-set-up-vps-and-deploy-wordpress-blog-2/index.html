@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <title>如何配置VPS并发布WordPress Blog?(第二篇) | CyannyLive</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="完成了VPS的LAMP环境的配置，接下来的工作就是要将WordPress Blog部署到VPS上。方法多种多样，例如可以在VPS上配置FTP，用FTP将文件传输到VPS上，以后就可以直接在VPS上写博客了，一次性的买卖，方便，听起来很不错，但是不安全，如果哪天VPS Down了数据就没了。
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Cyanny Liang" />
+
+
+
+<meta name="description" content="完成了VPS的LAMP环境的配置，接下来的工作就是要将WordPress Blog部署到VPS上。方法多种多样，例如可以在VPS上配置FTP，用FTP将文件传输到VPS上，以后就可以直接在VPS上写博客了，一次性的买卖，方便，听起来很不错，但是不安全，如果哪天VPS Down了数据就没了。
 我采取的办法是在本地写博客，然后发布到GitHub,然后VPS端Clone到本地，这样做的原因如下：
 [mo">
 <meta property="og:type" content="article">
@@ -21,19 +31,473 @@
 <meta name="twitter:description" content="完成了VPS的LAMP环境的配置，接下来的工作就是要将WordPress Blog部署到VPS上。方法多种多样，例如可以在VPS上配置FTP，用FTP将文件传输到VPS上，以后就可以直接在VPS上写博客了，一次性的买卖，方便，听起来很不错，但是不安全，如果哪天VPS Down了数据就没了。
 我采取的办法是在本地写博客，然后发布到GitHub,然后VPS端Clone到本地，这样做的原因如下：
 [mo">
-<meta name="twitter:creator" content="@lgrcyanny">
-<link rel="publisher" href="lgrcyanny">
-<meta property="fb:admins" content="lgrcyanny">
-<meta property="fb:app_id" content="lgrcyanny">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>如何配置VPS并发布WordPress Blog?(第二篇) | CyannyLive</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Cyanny Liang</a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>Menu</li>
+                        <li>Tags</li>
+                        
+                        
+                        <li>About Me</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="/lgrcyanny@gmail.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://www.weibo.com/1981511992" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/lgrcyanny" title="GitHub"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/lgrcyanny" title="Twitter"></a>
+                            
+                                <a class="fa Facebook" href="https://www.facebook.com/CyannyLIANG" title="Facebook"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/agile/">Agile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/akka/">Akka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/big-data/">Big Data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coursera/">Coursera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design/">Design</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hbase/">HBase</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/language/">Language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/learn/">Learn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/learning/">Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/machine-learning/">Machine Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mapreduce/">MapReduce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/methodology/">Methodology</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/network/">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/">Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/">Research</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resource/">Resource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scrum/">Scrum</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemanalysis/">SystemAnalysis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vps/">VPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/math/">math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort/">sort</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/诗话/">诗话</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">Big Data, Spark and AI</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Cyanny Liang</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Cyanny Liang</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="/lgrcyanny@gmail.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://www.weibo.com/1981511992" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/lgrcyanny" title="GitHub"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/lgrcyanny" title="Twitter"></a>
+                            
+                                <a class="fa Facebook" target="_blank" href="https://www.facebook.com/CyannyLIANG" title="Facebook"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
+</nav>
+      <div class="body-wrap"><article id="post-how-to-set-up-vps-and-deploy-wordpress-blog-2" class="article article-type-post" itemscope itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" class="article-date">
+      <time datetime="2013-11-11T12:00:14.000Z" itemprop="datePublished">2013-11-11</time>
+</a>
+
+
+    </div>
   
-    <link rel="icon" href="favicon.ico">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
   
-  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
-  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
-  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css" type="text/css">
+    <h1 class="article-title" itemprop="name">
+      如何配置VPS并发布WordPress Blog?(第二篇)
+    </h1>
   
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/linux/">Linux</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vps/">VPS</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>完成了VPS的LAMP环境的配置，接下来的工作就是要将WordPress Blog部署到VPS上。方法多种多样，例如可以在VPS上配置FTP，用FTP将文件传输到VPS上，以后就可以直接在VPS上写博客了，一次性的买卖，方便，听起来很不错，但是不安全，如果哪天VPS Down了数据就没了。</p>
+<p>我采取的办法是在本地写博客，然后发布到GitHub,然后VPS端Clone到本地，这样做的原因如下：</p>
+<p>[more…]</p>
+<ul>
+<li>WordPress Blog作为轻量的博客，主要发布文字，图片是用第三方的图床，博客本身的数据量不大。</li>
+<li>FTP传输速度不理想。</li>
+<li>GitHub在VPS端运行很快，VPS毕竟是服务器，网速快，因此部署Blog很快。</li>
+<li>版本控制，本地有数据备份，以后要迁移VPS也可以轻松搞定。</li>
+<li>WordPress的Blog数据是写入MySQL的，因此发布WordPress时的一个大问题就是要处理MySQL的数据，其实基本的mysqldump就可以了。</li>
+</ul>
+<h3 id="VPS-配置GIT"><a href="#VPS-配置GIT" class="headerlink" title="VPS 配置GIT"></a>VPS 配置GIT</h3><p>[bash]<br>rpm -Uvh <a href="http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm</a> // 这个在前面的php安装时输入过了，可以忽略<br>rpm -Uvh <a href="http://rpms.famillecollet.com/enterprise/remi-release-5.rpm" target="_blank" rel="external">http://rpms.famillecollet.com/enterprise/remi-release-5.rpm</a> // 这个在前面的php安装时输入过了，可以忽略<br>yum install git-core -y<br>git –version<br>[/bash]<br>一定配置一下SSH，这样不会在git clone时报错，当然建立github repository和使用github都是默认掌握了。<br><a href="https://help.github.com/articles/set-up-git#platform-linux" title="Set up Git for linux" target="_blank" rel="external">Set up git</a> </p>
+<p><a href="https://help.github.com/articles/generating-ssh-keys" title="Generate ssh key" target="_blank" rel="external">Enable SSH Git</a></p><p></p>
+<h3 id="VPS-MySQL权限配置"><a href="#VPS-MySQL权限配置" class="headerlink" title="VPS MySQL权限配置"></a>VPS MySQL权限配置</h3><p>刚装MySQL时运行过mysql_secure_installation，如果所有选项都yes了，那么VPS的mysql只能是本地的root可以访问，blog访问不了，这一步很关键，也让我头疼了很久。</p>
+<p>进入MySQL<br>[bash]<br>mysql -u root -p<br>[/bash]<br>[sql]<br>CREATE USER ‘monty’@’localhost’ IDENTIFIED BY ‘some_password’;<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘monty’@’localhost’;<br>CREATE USER ‘monty’@’%’ IDENTIFIED BY ‘some_password’;<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘monty’@’%;<br>[/sql]<br><strong>watch out</strong></p>
+<p>我在这一步遇到了问题：当运行<br>[sql]<br>GRANTALL PRIVILEGES ON <em>.</em> TO ‘monty’@’localhost’;<br>[/sql]<br>报错：Access denied for user ‘root’@’localhost’。后来在stackoverflow上找到了答案：<a href="http://stackoverflow.com/questions/8484722/access-denied-for-user-rootlocalhost-while-attempting-to-grant-privileges" target="_blank" rel="external">access-denied-for-user-rootlocalhost-while-attempting-to-grant-privileges</a></p>
+<p>我采用了二楼的方法如下就可以了：<br>[bash]<br>$ su - mysql<br>$ rm -rf /var/lib/mysql/*<br>$ mysql_install_db<br>$ /etc/init.d/mysql restart<br>[/bash]<br>然后再重置root密码：<br>[bash]<br>mysqladmin -u root password<br>[/bash]</p>
+<h3 id="VPS-MySQL-CharSet配置"><a href="#VPS-MySQL-CharSet配置" class="headerlink" title="VPS MySQL CharSet配置"></a>VPS MySQL CharSet配置</h3><p>为了防止中文乱码，将VPS的MySQL的CharSet设置为utf8，当然WordPress的mysqldump的SQL文件中的每一个表都强制指定了CharSet为utf8，如果略去这一步也是可以的。<br>[bash]<br>vim /etc/my.cnf<br>[/bash]<br>在文本中的相应位置添加<br>[text]<br>[mysqld]<br>init_connect=’SET collation_connection = utf8_unicode_ci’<br>character-set-server = utf8<br>collation-server = utf8_unicode_ci<br>[client]<br>default-character-set = utf8<br>[mysql]<br>default-character-set = utf8<br>[/text]<br>验证，进入MySQL输入：<br>[sql]<br>SHOW VARIABLES LIKE ‘character%’;<br>SHOW VARIABLES LIKE ‘collation%’;<br>[/sql]</p>
+<h3 id="创建博客数据库"><a href="#创建博客数据库" class="headerlink" title="创建博客数据库"></a>创建博客数据库</h3><p>进入mysql，创建数据库<br>[bash]<br>mysql -u root -p<br>[/bash]<br>[sql]<br>mysql&gt; create database yourblogdatabase;<br>[/sql]</p>
+<h3 id="本地Blog-GitHub-Set-Up"><a href="#本地Blog-GitHub-Set-Up" class="headerlink" title="本地Blog GitHub Set Up"></a>本地Blog GitHub Set Up</h3><p>首先在GitHub网站上创建一个Repository，<a href="https://github.com/lgrcyanny/CyannyLive" title="GitHub of Cyanny Live Blog" target="_blank" rel="external">GitHub of Cyanny Live Blog</a><br>在本地的Blog中：<br>[bash]<br>cd ~/Sites/Blog //打开文件夹<br>git init<br>git remote add origin git@github.com:lgrcyanny/CyannyLive.git  // github的ssh地址<br>git pull origin master<br>[/bash]</p>
+<h3 id="本地Blog-MySQL数据导出备份"><a href="#本地Blog-MySQL数据导出备份" class="headerlink" title="本地Blog MySQL数据导出备份"></a>本地Blog MySQL数据导出备份</h3><p>我直接写了一个脚本，备份MySQL的数据，脚本backup.sh如下:<br>[shell]</p>
+<h1 id="bin-bash"><a href="#bin-bash" class="headerlink" title="!/bin/bash"></a>!/bin/bash</h1><p>export DATABASE_DIR=~/Sites/myblog/wp-content/backup-db<br>cd $DATABASE_DIR<br>mysqldump -u root -pyourpassword dbname &gt; temp-db.sql</p>
+<h1 id="sed-命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，"><a href="#sed-命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，" class="headerlink" title="sed 命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，"></a>sed 命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，</h1><h1 id="原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的"><a href="#原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的" class="headerlink" title="原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的"></a>原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的</h1><p>sed ‘s%<a href="http://cyanny/myblog%http://www.cyanny.com%g" target="_blank" rel="external">http://cyanny/myblog%http://www.cyanny.com%g</a>‘ temp-db.sql \&gt; db.sql</p>
+<h1 id="数据压缩一下，会从上百KB变成几十个KB"><a href="#数据压缩一下，会从上百KB变成几十个KB" class="headerlink" title="数据压缩一下，会从上百KB变成几十个KB"></a>数据压缩一下，会从上百KB变成几十个KB</h1><p>tar -czvf db.tar.gz db.sql</p>
+<h1 id="删除中间文件"><a href="#删除中间文件" class="headerlink" title="删除中间文件"></a>删除中间文件</h1><p>rm db.sql<br>rm temp-db.sql<br>[/shell]<br>运行backup.sh<br>[bash]<br>sh backup.sh<br>[/bash]</p>
+<h3 id="本地Blog-htaccess配置"><a href="#本地Blog-htaccess配置" class="headerlink" title="本地Blog htaccess配置"></a>本地Blog htaccess配置</h3><p>博客的访问地址，如果设置过Permalinks，这一步就很重要，否则在VPS端地址找不到<br>[bash]<br>cp .htaccess htaccess.prod<br>[/bash]<br>编辑htaccess.prod<br>[text]<br>&lt;IfModule mod_rewrite.c&gt;<br>RewriteEngine On<br>RewriteBase /<br>RewriteRule ^index&amp;#46;php$ - [L]<br>RewriteCond %{REQUEST_FILENAME} !-f<br>RewriteCond %{REQUEST_FILENAME} !-d<br>RewriteRule . /index.php [L]<br>&lt;/IfModule&gt;<br>[/text]</p>
+<h3 id="本地Blog的其他配置"><a href="#本地Blog的其他配置" class="headerlink" title="本地Blog的其他配置"></a>本地Blog的其他配置</h3><p>编辑.gitignore<br>[text]<br>wp-config.php<br>uploads/&amp;#42;<br>wp-cache/&amp;#42;<br>wp-content/cache<br>.htaccess<br>[/text]</p>
+<p>wp-config.php配置<br>[bash]<br>cp wp-config.php wp-config-prod.php  //本地的数据库配置和VPS上的不一样，因此要在wp-config-prod.php中设置VPS的DB信息<br>[/bash]</p>
+<h3 id="本地Blog-发布到-GitHub"><a href="#本地Blog-发布到-GitHub" class="headerlink" title="本地Blog 发布到 GitHub"></a>本地Blog 发布到 GitHub</h3><p>[bash]<br>git add .<br>git commit -a -m ‘message’<br>git push origin master<br>[/bash]</p>
+<h3 id="VPS端-Enable-htaccess-overwirte"><a href="#VPS端-Enable-htaccess-overwirte" class="headerlink" title="VPS端 Enable htaccess overwirte"></a>VPS端 Enable htaccess overwirte</h3><p>因为Blog的Post地址会被overwrite，所以需要VPS端具有htaccess overwrite的功能，这个Bug让我抓狂很久。</p>
+<p>进入VPS<br>[bash]<br>vim /etc/httpd/conf/httpd.conf<br>[/bash]<br>编辑httpd.conf<br>[text]<br>// 找到下面这一段<br>&lt;Directory /var/www/html&gt;<br>  Options Indexes FollowSymLinks MultiViews<br>  // 更改为 AllowOverride All<br>  AllowOverride None<br>  Order allow,deny<br>  allow from all<br>&lt;/Directory&gt;<br>[/text]</p>
+<h3 id="VPS端的发布脚本"><a href="#VPS端的发布脚本" class="headerlink" title="VPS端的发布脚本"></a>VPS端的发布脚本</h3><p>为了方便VPS端将WordPress从GitHub Clone到本地, 设置文件权限，DB数据导入，我创建了一个简单地发布脚本</p>
+<p>deploy.sh, 这个脚本放在VPS上<br>[bash]</p>
+<h1 id="bin-bash-1"><a href="#bin-bash-1" class="headerlink" title="!/bin/bash"></a>!/bin/bash</h1><p>export BLOG_ROOT_DIR=/var/www/html/cyannyblog<br>export BLOG_DATABASES_DIR=$BLOG_ROOT_DIR/wp-content/backup-db</p>
+<h1 id="Git-update"><a href="#Git-update" class="headerlink" title="Git update"></a>Git update</h1><p>rm -Rf cyannyblog<br>git clone git@github.com:lgrcyanny/CyannyLive.git cyannyblog  # 更换为自己的GitHub的地址</p>
+<h1 id="Change-mod-grant-access-right"><a href="#Change-mod-grant-access-right" class="headerlink" title="Change mod, grant access right"></a>Change mod, grant access right</h1><p>chmod -R 755 $BLOG_ROOT_DIR<br>chmod -R 777 $BLOG_ROOT_DIR/wp-content</p>
+<h1 id="Add-config"><a href="#Add-config" class="headerlink" title="Add config"></a>Add config</h1><p>rm -f $BLOG_ROOT_DIR/wp-config.php<br>cp $BLOG_ROOT_DIR/wp-config-prod.php $BLOG_ROOT_DIR/wp-config.php</p>
+<h1 id="Add-htaccess"><a href="#Add-htaccess" class="headerlink" title="Add .htaccess"></a>Add .htaccess</h1><p>cd $BLOG_ROOT_DIR<br>rm -f .htaccess<br>cp htaccess.prod .htaccess</p>
+<h1 id="Import-data-to-mysql-不用担心数据冲突，因为mysqldump出来的表都会先drop再导入"><a href="#Import-data-to-mysql-不用担心数据冲突，因为mysqldump出来的表都会先drop再导入" class="headerlink" title="Import data to mysql 不用担心数据冲突，因为mysqldump出来的表都会先drop再导入"></a>Import data to mysql 不用担心数据冲突，因为mysqldump出来的表都会先drop再导入</h1><p>cd $BLOG_DATABASES_DIR<br>tar -xvf db.tar.gz<br>mysql -u yourdbuser -pyourpassword -h localhost dbname &lt; db.sql<br>[/bash]</p>
+<p>在VPS上运行deploy.sh<br>[bash]<br>sh deploy.sh<br>[/bash]</p>
+<h3 id="VPS端将DocumentRoot指向Blog文件夹"><a href="#VPS端将DocumentRoot指向Blog文件夹" class="headerlink" title="VPS端将DocumentRoot指向Blog文件夹"></a>VPS端将DocumentRoot指向Blog文件夹</h3><p>[bash]<br>vim /etc/httpd/conf/httpd.conf<br>[/bash]<br>编辑httpd.conf:<br>[text]<br>DocumentRoot &quot;/var/www/html/blog&quot;<br>[/text]<br>我想这不是一个好办法，不过先将就一下。如果要在VPS上放置多个网站，DocumentRoot当然不能只是Blog，应该可以有一些Virtual的方法的，之后我会改进。目前这样是因为DNS不能解析到某一个路径</p>
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>Okay, 发布流程部署结束，接下来就可以访问啦。<br>以后每写一遍Post，或者本地有什么更新只需三个步骤就可以完成发布：</p>
+<p>1. 本地 run backup.sh</p>
+<p>2. GitHub Commit</p>
+<p>3. VPS run deploy.sh, 当然未来还可以用cronjob，这样VPS端的发布问题就不用手工了，鉴于不是频繁发布Post，手工操作也无妨。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>1. 2014-08-17<br>VPS版本换了Centos7, MySQL替换为MariaDB, 但是DB不稳定,今天终于挂了<br>[bash]<br>systemctl restart mariadb<br>[/bash]<br>启动失败,最后修复如下:<br>[bash]<br>systemctl stop mariadb<br>rm -rf /var/lib/mysql<br>rm -rf /var/log/mariadb/<br>yum list mariadb<br>yum remove maridadb mariadb-server</p>
+<h1 id="yum-remove-all-list-about-mariadb"><a href="#yum-remove-all-list-about-mariadb" class="headerlink" title="yum remove all list about mariadb"></a>yum remove all list about mariadb</h1><p>yum install mariadb mariadb-server<br>reboot<br>systemctl enable mariadb<br>mkdir -p /var/lib/mysql<br>chown -R mysql:mysql /var/lib/mysql<br>systemctl start mariadb<br>yum install php-mysql<br>systemctl restart httpd.service<br>[/bash]</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/">
+                    如何配置VPS并发布WordPress Blog?(第一篇)
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2013/11/10/how-to-start-learning-node-js/">
+                    How to start learning Node.js
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"如何配置VPS并发布WordPress Blog?(第二篇)　| CyannyLive　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/';
+            this.page.identifier = '2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//lgrcyanny.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/" title="Pre: 如何配置VPS并发布WordPress Blog?(第一篇)">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2013/11/10/how-to-start-learning-node-js/" title="Next: How to start learning Node.js">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/11/07/scala-collections/">Scala Collections</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/27/春江花月夜/">春江花月夜</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/27/eight-queens-problem-in-scala/">Eight Queens Problem In Scala</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/machine-learning-neural-networks/">Machine Learning Neural Networks</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/10/machine-learning-logistic-regression/">Machine Learning Logistic Regression</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/04/machine-learning-linear-regression/">Machine Learning Linear Regression</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/programming-in-scala-overview-key-note/">Programming In Scala Overview Key Note</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/07/learning-akka/">Learning Akka</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/04/bitsort-ant-qsort/">位排序和快排</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/03/find-median-for-two-sorted-array/">查找两个排序数组的中位数</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/16/hive-architecture/">Hive架构笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/04/12/dijkstra-algorithm-in-java/">Dijkstra Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/">HBase MapReduce排序Secondary Sort</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/">HBase Architecture Analysis Part 3 Pros and Cons</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/">HBase Architecture Analysis Part2(Process Architecture)</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/">HBase Architecture Analysis Part1(Logical Architecture)</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/">Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/">Revolution——面向对象看黑客帝国</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/06/set-hadoop-hbase-part2/">Set up Hadoop 2.2 and HBase 0.96 part2</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/06/set-hadoop-hbase-part1/">Set up Hadoop 2.2 and HBase 0.96 part1</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/18/node-express-mysql-scaffolding/">Node Express Mysql Scaffolding</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-isnt-silver-bullet/">Hadoop isn’t Silver Bullet</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-mapreduce-2-yarn/">Hadoop MapReduce 2 (YARN)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-mapreduce-1-framework/">Hadoop MapReduce 1 Framework</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-mapreduce-overview/">Hadoop MapReduce Overview</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-hdfs-high-availability/">Hadoop HDFS High Availability(HA)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-hdfs-federation/">Hadoop HDFS Federation </a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-hdfs-review/">Hadoop HDFS Review</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-overview/">Hadoop Overview</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/02/graph-dfs-bfs/">Graph DFS and BFS</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/">System Analysis and Design (Kenneth Kendall) Review Part4</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/">System Analysis and Design (Kenneth Kendall) Review Part3</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/">System Analysis and Design (Kenneth Kendall) Review Part2</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/">System Analysis and Design (Kenneth Kendall) Review Part1</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part4/">分布式系统总结part4</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part3/">分布式系统总结part3</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part2/">分布式系统总结part2</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part1/">分布式系统总结part1</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/16/netkit-filesystem-custom-cutting/">Netkit Filesystem 定制和裁剪</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/13/ipsec-architecture/">IPsec之IP层安全架构</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/">如何配置VPS并发布WordPress Blog?(第一篇)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/">如何配置VPS并发布WordPress Blog?(第二篇)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/10/how-to-start-learning-node-js/">How to start learning Node.js</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/01/agile-advantages-and-disadvantages/">“吐槽”敏捷软件开发</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/talk-about-open-source-software/">谈谈开源软件，谈谈质量</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/">统计学的基本概念和方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/09/12/select-second-smallest-element/">找一个数组中第2小的元素</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/09/09/warshall-algorithm-cycle-dectection/">Warshall's Algorithm for Cycle Dectection</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/08/18/the-usage-of-counting-sort/">计数排序的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/08/10/learning-heap-sort/">再叙堆排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/05/25/good-resources-for-js-learning/">Good Resources for JavaScript</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i>
+                2016-2017 Cyanny Liang
+            </div>
+            <div class="footer-right">
+                <a>Best wishes for everyday~</a>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
 <!-- Google Analytics -->
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -48,335 +512,22 @@ ga('send', 'pageview');
 <!-- End Google Analytics -->
 
 
-  
-</head>
-<body>
-  <div id="container">
-    <header id="header">
-  <div id="header-main" class="header-inner">
-    <div class="outer">
-      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
-      <nav id="main-nav">
-        
-          <a class="main-nav-link" href="/.">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-          <a class="main-nav-link" href="/categories">Categories</a>
-        
-          <a class="main-nav-link" href="/tags">Tags</a>
-        
-          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
-        
-      </nav>
-      
-      <nav id="sub-nav">
-        <div class="profile" id="profile-nav">
-          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
-        </div>
-      </nav>
-      
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
-      </div>
-    </div>
-  </div>
-  <div id="main-nav-mobile" class="header-sub header-inner">
-    <table class="menu outer">
-      <tr>
-      
-        <td><a class="main-nav-link" href="/.">Home</a></td>
-      
-        <td><a class="main-nav-link" href="/archives">Archives</a></td>
-      
-        <td><a class="main-nav-link" href="/categories">Categories</a></td>
-      
-        <td><a class="main-nav-link" href="/tags">Tags</a></td>
-      
-        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
-      
-      <td>
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
-      </td>
-      </tr>
-    </table>
-  </div>
-</header>
 
-    <div class="outer">
-      
-        <aside id="profile">
-  <div class="inner profile-inner">
-  	<div class="base-info profile-block">
-		  <img id="avatar" src="/css/images/avatar.png">
-      <h2 id="name">Cyanny Liang</h2>
-      <h3 id="title">Big Data &amp; Spark</h3>
-      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
-      <a id="follow" href="https://github.com/lgrcyanny/">FOLLOW</a>
-  	</div>
-    <div class="article-info profile-block">
-      <div class="article-info-block">
-        51
-        <span>posts</span>
-      </div>
-      <div class="article-info-block">
-        30
-        <span>tags</span>
-      </div>
-    </div>
-    
-    <div class="contact-info profile-block">
-      <table class="contact-list">
-        <tr>
-        
-          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-        
-          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-        
-          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-        
-          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-        
-        </tr>
-      </table>
-    </div>
-    
-  </div>
-</aside>
-      
-      <section id="main"><article id="post-how-to-set-up-vps-and-deploy-wordpress-blog-2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      如何配置VPS并发布WordPress Blog?(第二篇)
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/">
-    <time datetime="2013-11-11T12:00:14.000Z" itemprop="datePublished">2013-11-11</time>
-  </a>
+<div class="scroll" id="scroll">
+    <a href="#" title="Back to Top"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="Comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="Go to Bottom"><i class="fa fa-arrow-down"></i></a>
 </div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/linux/">Linux</a>
-  </div>
-
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>完成了VPS的LAMP环境的配置，接下来的工作就是要将WordPress Blog部署到VPS上。方法多种多样，例如可以在VPS上配置FTP，用FTP将文件传输到VPS上，以后就可以直接在VPS上写博客了，一次性的买卖，方便，听起来很不错，但是不安全，如果哪天VPS Down了数据就没了。</p>
-<p>我采取的办法是在本地写博客，然后发布到GitHub,然后VPS端Clone到本地，这样做的原因如下：</p>
-<p>[more…]</p>
-<ul>
-<li>WordPress Blog作为轻量的博客，主要发布文字，图片是用第三方的图床，博客本身的数据量不大。</li>
-<li>FTP传输速度不理想。</li>
-<li>GitHub在VPS端运行很快，VPS毕竟是服务器，网速快，因此部署Blog很快。</li>
-<li>版本控制，本地有数据备份，以后要迁移VPS也可以轻松搞定。</li>
-<li>WordPress的Blog数据是写入MySQL的，因此发布WordPress时的一个大问题就是要处理MySQL的数据，其实基本的mysqldump就可以了。</li>
-</ul>
-<h3 id="VPS_配置GIT">VPS 配置GIT</h3><p>[bash]<br>rpm -Uvh <a href="http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm</a> // 这个在前面的php安装时输入过了，可以忽略<br>rpm -Uvh <a href="http://rpms.famillecollet.com/enterprise/remi-release-5.rpm" target="_blank" rel="external">http://rpms.famillecollet.com/enterprise/remi-release-5.rpm</a> // 这个在前面的php安装时输入过了，可以忽略<br>yum install git-core -y<br>git —version<br>[/bash]<br>一定配置一下SSH，这样不会在git clone时报错，当然建立github repository和使用github都是默认掌握了。<br><a href="https://help.github.com/articles/set-up-git#platform-linux" title="Set up Git for linux" target="_blank" rel="external">Set up git</a> </p>
-<p><a href="https://help.github.com/articles/generating-ssh-keys" title="Generate ssh key" target="_blank" rel="external">Enable SSH Git</a></p><p></p>
-<h3 id="VPS_MySQL权限配置">VPS MySQL权限配置</h3><p>刚装MySQL时运行过mysql_secure_installation，如果所有选项都yes了，那么VPS的mysql只能是本地的root可以访问，blog访问不了，这一步很关键，也让我头疼了很久。</p>
-<p>进入MySQL<br>[bash]<br>mysql -u root -p<br>[/bash]<br>[sql]<br>CREATE USER ‘monty’@’localhost’ IDENTIFIED BY ‘some_password’;<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘monty’@’localhost’;<br>CREATE USER ‘monty’@’%’ IDENTIFIED BY ‘some_password’;<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘monty’@’%;<br>[/sql]<br><strong>watch out</strong></p>
-<p>我在这一步遇到了问题：当运行<br>[sql]<br>GRANTALL PRIVILEGES ON <em>.</em> TO ‘monty’@’localhost’;<br>[/sql]<br>报错：Access denied for user ‘root’@’localhost’。后来在stackoverflow上找到了答案：<a href="http://stackoverflow.com/questions/8484722/access-denied-for-user-rootlocalhost-while-attempting-to-grant-privileges" target="_blank" rel="external">access-denied-for-user-rootlocalhost-while-attempting-to-grant-privileges</a></p>
-<p>我采用了二楼的方法如下就可以了：<br>[bash]<br>$ su - mysql<br>$ rm -rf /var/lib/mysql/*<br>$ mysql_install_db<br>$ /etc/init.d/mysql restart<br>[/bash]<br>然后再重置root密码：<br>[bash]<br>mysqladmin -u root password<br>[/bash]</p>
-<h3 id="VPS_MySQL_CharSet配置">VPS MySQL CharSet配置</h3><p>为了防止中文乱码，将VPS的MySQL的CharSet设置为utf8，当然WordPress的mysqldump的SQL文件中的每一个表都强制指定了CharSet为utf8，如果略去这一步也是可以的。<br>[bash]<br>vim /etc/my.cnf<br>[/bash]<br>在文本中的相应位置添加<br>[text]<br>[mysqld]<br>init_connect=’SET collation_connection = utf8_unicode_ci’<br>character-set-server = utf8<br>collation-server = utf8_unicode_ci<br>[client]<br>default-character-set = utf8<br>[mysql]<br>default-character-set = utf8<br>[/text]<br>验证，进入MySQL输入：<br>[sql]<br>SHOW VARIABLES LIKE ‘character%’;<br>SHOW VARIABLES LIKE ‘collation%’;<br>[/sql]</p>
-<h3 id="创建博客数据库">创建博客数据库</h3><p>进入mysql，创建数据库<br>[bash]<br>mysql -u root -p<br>[/bash]<br>[sql]<br>mysql&gt; create database yourblogdatabase;<br>[/sql]</p>
-<h3 id="本地Blog_GitHub_Set_Up">本地Blog GitHub Set Up</h3><p>首先在GitHub网站上创建一个Repository，<a href="https://github.com/lgrcyanny/CyannyLive" title="GitHub of Cyanny Live Blog" target="_blank" rel="external">GitHub of Cyanny Live Blog</a><br>在本地的Blog中：<br>[bash]<br>cd ~/Sites/Blog //打开文件夹<br>git init<br>git remote add origin git@github.com:lgrcyanny/CyannyLive.git  // github的ssh地址<br>git pull origin master<br>[/bash]</p>
-<h3 id="本地Blog_MySQL数据导出备份">本地Blog MySQL数据导出备份</h3><p>我直接写了一个脚本，备份MySQL的数据，脚本backup.sh如下:<br>[shell]</p>
-<h1 id="!/bin/bash">!/bin/bash</h1><p>export DATABASE_DIR=~/Sites/myblog/wp-content/backup-db<br>cd $DATABASE_DIR<br>mysqldump -u root -pyourpassword dbname &gt; temp-db.sql</p>
-<h1 id="sed_命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，">sed 命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，</h1><h1 id="原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的">原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的</h1><p>sed ‘s%<a href="http://cyanny/myblog%http://www.cyanny.com%g" target="_blank" rel="external">http://cyanny/myblog%http://www.cyanny.com%g</a>‘ temp-db.sql \&gt; db.sql</p>
-<h1 id="数据压缩一下，会从上百KB变成几十个KB">数据压缩一下，会从上百KB变成几十个KB</h1><p>tar -czvf db.tar.gz db.sql</p>
-<h1 id="删除中间文件">删除中间文件</h1><p>rm db.sql<br>rm temp-db.sql<br>[/shell]<br>运行backup.sh<br>[bash]<br>sh backup.sh<br>[/bash]</p>
-<h3 id="本地Blog_htaccess配置">本地Blog htaccess配置</h3><p>博客的访问地址，如果设置过Permalinks，这一步就很重要，否则在VPS端地址找不到<br>[bash]<br>cp .htaccess htaccess.prod<br>[/bash]<br>编辑htaccess.prod<br>[text]<br>&lt;IfModule mod_rewrite.c&gt;<br>RewriteEngine On<br>RewriteBase /<br>RewriteRule ^index&amp;#46;php$ - [L]<br>RewriteCond %{REQUEST_FILENAME} !-f<br>RewriteCond %{REQUEST_FILENAME} !-d<br>RewriteRule . /index.php [L]<br>&lt;/IfModule&gt;<br>[/text]</p>
-<h3 id="本地Blog的其他配置">本地Blog的其他配置</h3><p>编辑.gitignore<br>[text]<br>wp-config.php<br>uploads/&amp;#42;<br>wp-cache/&amp;#42;<br>wp-content/cache<br>.htaccess<br>[/text]</p>
-<p>wp-config.php配置<br>[bash]<br>cp wp-config.php wp-config-prod.php  //本地的数据库配置和VPS上的不一样，因此要在wp-config-prod.php中设置VPS的DB信息<br>[/bash]</p>
-<h3 id="本地Blog_发布到_GitHub">本地Blog 发布到 GitHub</h3><p>[bash]<br>git add .<br>git commit -a -m ‘message’<br>git push origin master<br>[/bash]</p>
-<h3 id="VPS端_Enable_htaccess_overwirte">VPS端 Enable htaccess overwirte</h3><p>因为Blog的Post地址会被overwrite，所以需要VPS端具有htaccess overwrite的功能，这个Bug让我抓狂很久。</p>
-<p>进入VPS<br>[bash]<br>vim /etc/httpd/conf/httpd.conf<br>[/bash]<br>编辑httpd.conf<br>[text]<br>// 找到下面这一段<br>&lt;Directory /var/www/html&gt;<br>  Options Indexes FollowSymLinks MultiViews<br>  // 更改为 AllowOverride All<br>  AllowOverride None<br>  Order allow,deny<br>  allow from all<br>&lt;/Directory&gt;<br>[/text]</p>
-<h3 id="VPS端的发布脚本">VPS端的发布脚本</h3><p>为了方便VPS端将WordPress从GitHub Clone到本地, 设置文件权限，DB数据导入，我创建了一个简单地发布脚本</p>
-<p>deploy.sh, 这个脚本放在VPS上<br>[bash]</p>
-<h1 id="!/bin/bash-1">!/bin/bash</h1><p>export BLOG_ROOT_DIR=/var/www/html/cyannyblog<br>export BLOG_DATABASES_DIR=$BLOG_ROOT_DIR/wp-content/backup-db</p>
-<h1 id="Git_update">Git update</h1><p>rm -Rf cyannyblog<br>git clone git@github.com:lgrcyanny/CyannyLive.git cyannyblog  # 更换为自己的GitHub的地址</p>
-<h1 id="Change_mod,_grant_access_right">Change mod, grant access right</h1><p>chmod -R 755 $BLOG_ROOT_DIR<br>chmod -R 777 $BLOG_ROOT_DIR/wp-content</p>
-<h1 id="Add_config">Add config</h1><p>rm -f $BLOG_ROOT_DIR/wp-config.php<br>cp $BLOG_ROOT_DIR/wp-config-prod.php $BLOG_ROOT_DIR/wp-config.php</p>
-<h1 id="Add_-htaccess">Add .htaccess</h1><p>cd $BLOG_ROOT_DIR<br>rm -f .htaccess<br>cp htaccess.prod .htaccess</p>
-<h1 id="Import_data_to_mysql_不用担心数据冲突，因为mysqldump出来的表都会先drop再导入">Import data to mysql 不用担心数据冲突，因为mysqldump出来的表都会先drop再导入</h1><p>cd $BLOG_DATABASES_DIR<br>tar -xvf db.tar.gz<br>mysql -u yourdbuser -pyourpassword -h localhost dbname &lt; db.sql<br>[/bash]</p>
-<p>在VPS上运行deploy.sh<br>[bash]<br>sh deploy.sh<br>[/bash]</p>
-<h3 id="VPS端将DocumentRoot指向Blog文件夹">VPS端将DocumentRoot指向Blog文件夹</h3><p>[bash]<br>vim /etc/httpd/conf/httpd.conf<br>[/bash]<br>编辑httpd.conf:<br>[text]<br>DocumentRoot &quot;/var/www/html/blog&quot;<br>[/text]<br>我想这不是一个好办法，不过先将就一下。如果要在VPS上放置多个网站，DocumentRoot当然不能只是Blog，应该可以有一些Virtual的方法的，之后我会改进。目前这样是因为DNS不能解析到某一个路径</p>
-<h3 id="结束">结束</h3><p>Okay, 发布流程部署结束，接下来就可以访问啦。<br>以后每写一遍Post，或者本地有什么更新只需三个步骤就可以完成发布：</p>
-<p>1. 本地 run backup.sh</p>
-<p>2. GitHub Commit</p>
-<p>3. VPS run deploy.sh, 当然未来还可以用cronjob，这样VPS端的发布问题就不用手工了，鉴于不是频繁发布Post，手工操作也无妨。</p>
-<h3 id="后记">后记</h3><p>1. 2014-08-17<br>VPS版本换了Centos7, MySQL替换为MariaDB, 但是DB不稳定,今天终于挂了<br>[bash]<br>systemctl restart mariadb<br>[/bash]<br>启动失败,最后修复如下:<br>[bash]<br>systemctl stop mariadb<br>rm -rf /var/lib/mysql<br>rm -rf /var/log/mariadb/<br>yum list mariadb<br>yum remove maridadb mariadb-server</p>
-<h1 id="yum_remove_all_list_about_mariadb">yum remove all list about mariadb</h1><p>yum install mariadb mariadb-server<br>reboot<br>systemctl enable mariadb<br>mkdir -p /var/lib/mysql<br>chown -R mysql:mysql /var/lib/mysql<br>systemctl start mariadb<br>yum install php-mysql<br>systemctl restart httpd.service<br>[/bash]</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" data-id="civ7gf6gf002po56rhz0pjj9k" class="article-share-link">Share</a>
-      
-        <a href="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vps/">VPS</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          如何配置VPS并发布WordPress Blog?(第一篇)
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2013/11/10/how-to-start-learning-node-js/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">How to start learning Node.js</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-<section id="comments">
-  <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
-</section>
-</section>
-      
-        <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">recents</h3>
-    <div class="widget">
-      <ul id="recent-post" class="no-thumbnail">
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/learning/">Learning</a></p>
-              <p class="item-title"><a href="/2016/11/07/scala-collections/" class="title">Scala Collections</a></p>
-              <p class="item-date"><time datetime="2016-11-07T02:09:10.000Z" itemprop="datePublished">2016-11-07</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"></p>
-              <p class="item-title"><a href="/2016/09/27/春江花月夜/" class="title">春江花月夜</a></p>
-              <p class="item-date"><time datetime="2016-09-27T01:35:59.000Z" itemprop="datePublished">2016-09-27</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/learning/">Learning</a></p>
-              <p class="item-title"><a href="/2016/09/27/eight-queens-problem-in-scala/" class="title">Eight Queens Problem In Scala</a></p>
-              <p class="item-date"><time datetime="2016-09-27T01:15:28.000Z" itemprop="datePublished">2016-09-27</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a></p>
-              <p class="item-title"><a href="/2016/04/17/machine-learning-neural-networks/" class="title">Machine Learning Neural Networks</a></p>
-              <p class="item-date"><time datetime="2016-04-17T13:29:20.000Z" itemprop="datePublished">2016-04-17</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/machine-learning/">Machine Learning</a></p>
-              <p class="item-title"><a href="/2016/04/10/machine-learning-logistic-regression/" class="title">Machine Learning Logistic Regression</a></p>
-              <p class="item-date"><time datetime="2016-04-10T13:48:51.000Z" itemprop="datePublished">2016-04-10</time></p>
-            </div>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/">Agile</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/agile/life/">Life</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">Learning</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/">Akka</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/learning/akka/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/scala/">Scala</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">Machine Learning</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/linear-regression/">Linear Regression</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">tag cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/big-data/" style="font-size: 12.86px;">Big Data</a> <a href="/tags/coursera/" style="font-size: 12.86px;">Coursera</a> <a href="/tags/design/" style="font-size: 14.29px;">Design</a> <a href="/tags/hbase/" style="font-size: 15.71px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.57px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 12.86px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 17.14px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 14.29px;">Scala</a> <a href="/tags/scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/systemanalysis/" style="font-size: 14.29px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.43px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 17.14px;">algorithm</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.43px;">sort</a> <a href="/tags/诗话/" style="font-size: 10px;">诗话</a>
-    </div>
-  </div>
-
-  
-  <div id="toTop" class="fa fa-chevron-up"></div>
-</aside>
-      
-    </div>
-    <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2016 Cyanny Liang
-    </div>
-  </div>
-</footer>
-    
-
 <script>
-  var disqus_shortname = 'lgrcyanny';
-  (function(){
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
+    // Open in New Window
+    
+        $("a").attr("target", "_blank");
+        $("#scroll a, #toc a").removeAttr("target");
+    
 </script>
 
-
-<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
-
-
-<script src="/js/script.js" type="text/javascript"></script>
-
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
   </div>
 </body>
 </html>
