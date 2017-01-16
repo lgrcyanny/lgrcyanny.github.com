@@ -159,13 +159,13 @@
                     <nav class="header-menu">
                         <ul>
                         
-                            <li><a href="/">主页</a></li>
+                            <li><a href="/">Home</a></li>
                         
-                            <li><a href="/archives/">所有文章</a></li>
+                            <li><a href="/archives/">All Blogs</a></li>
                         
-                            <li><a href="/tags/">标签云</a></li>
+                            <li><a href="/tags/">Tags</a></li>
                         
-                            <li><a href="/about/">关于我</a></li>
+                            <li><a href="/about/">About</a></li>
                         
                         </ul>
                     </nav>
@@ -228,13 +228,13 @@
             <nav class="header-menu">
                 <ul>
                 
-                    <li><a href="/">主页</a></li>
+                    <li><a href="/">Home</a></li>
                 
-                    <li><a href="/archives/">所有文章</a></li>
+                    <li><a href="/archives/">All Blogs</a></li>
                 
-                    <li><a href="/tags/">标签云</a></li>
+                    <li><a href="/tags/">Tags</a></li>
                 
-                    <li><a href="/about/">关于我</a></li>
+                    <li><a href="/about/">About</a></li>
                 
                 <div class="clearfix"></div>
                 </ul>
@@ -262,11 +262,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-node-express-mysql-scaffolding" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/" class="article-date">
-      <time datetime="2014-03-20T10:51:08.000Z" itemprop="datePublished">2014-03-20</time>
+      <a href="/2013/12/18/node-express-mysql-scaffolding/" class="article-date">
+      <time datetime="2013-12-18T15:29:11.000Z" itemprop="datePublished">2013-12-18</time>
 </a>
 
 
@@ -281,7 +281,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/">HBase MapReduce排序Secondary Sort</a>
+      <a class="article-title" href="/2013/12/18/node-express-mysql-scaffolding/">Node Express Mysql Scaffolding</a>
     </h1>
   
 
@@ -291,9 +291,21 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <p>MapReduce是Hadoop中处理大数据的方法，是一个处理大数据的简单算法、编程泛型。虽然思想简单，但其实真正用起来还是有很多问题，不是所有的问题都可以像WordCount那样典型和直观, 有很多需要trick的地方。MapReduce的中心思想是分而治之，数据要松耦合，可以划分为小数据集并行处理，如果数据本身在计算上存在很强的依赖关系，就不要赶鸭子上架，用MapReduce了。<br>MapReduce编程中，最重要的是要抓住Map和Reduce的input和output，好的input和output可以降低实现的复杂度。最近，写了很多关于MapReduce的job，有倒排索引，统计，排序等。其中，对排序花费了一番功夫，MapReduce做WordCount很好理解,<br>Map input:[offset, text],  output: [word, 1],</p>
-<p>Reduce input: [word, 1], output: [word, totalcount],还可以设置Combiner进行优化。</p>
-          
+        <h3 id="Node-Express-MySQL-Scaffolding-Overview"><a href="#Node-Express-MySQL-Scaffolding-Overview" class="headerlink" title="Node Express MySQL Scaffolding Overview"></a>Node Express MySQL Scaffolding Overview</h3><p>There are many node scaffoldings based on Mongoddb, but MySQL is rare. This is a simple scaffolding built on express and mysql.</p>
+<p><a href="https://github.com/lgrcyanny/node-express-mysql-scaffolding" title="node-express-mysql-scaffolding" target="_blank" rel="external">node-express-mysql-scaffolding</a><br>[more…]</p>
+<h3 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h3><p>1. Register with fullname,username, email, passord, very simple<br>2. Login with <a href="https://npmjs.org/package/passport-local" target="_blank" rel="external">passport-local</a> strategy<br>3. Twitter Bootstrap Support<br>Note: I just want keep the scaffolding clean, no more complex function, and keep it flexible.</p>
+<h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><p><strong>NOTE:</strong> You need to have node.js, MySQL Server installed </p>
+<p>1. Clone the project<br>[shell]<br>  $ git clone <a href="https://github.com/lgrcyanny/node-express-mysql-scaffolding.git" target="_blank" rel="external">https://github.com/lgrcyanny/node-express-mysql-scaffolding.git</a><br>  $ npm install<br>  $ cp config/config.disk.js config/config.js<br>[/shell]<br>Please config your MySQL in the <code>config.js</code>;</p>
+<p>2. Install <a href="http://dev.mysql.com/downloads/" target="_blank" rel="external">MySQL server</a></p>
+<p>3. Start MySQL service</p>
+<p>4. Build the database<br>[shell]<br>  $ mysql -u root -p<br>  &gt; create database scaffolding<br>  &gt; quit<br>  $ mysql -u root -pyourpassword scaffolding &lt; scaffolding.sql<br>[/shell]</p>
+<p>5. Start Node.js Server<br>[shell]<br>  $ npm start<br>[/shell]</p>
+<p>6. Then visit <a href="http://localhost:3000/" target="_blank" rel="external">http://localhost:3000/</a></p>
+<h3 id="Related-modules"><a href="#Related-modules" class="headerlink" title="Related modules"></a>Related modules</h3><p>Thanks to <a href="https://github.com/madhums/node-express-mongoose-demo" title="node-express-mongoose-demo" target="_blank" rel="external">node-express-mongoose-demo</a>, it’s a great scaffolding, but it still took me 2 days to migrate from MongoDB based scaffolding to MySQL scaffolding, and the node-express-mongoose-demo has too many Login Support which is too complicated.</p>
+<h3 id="Directory-structure"><a href="#Directory-structure" class="headerlink" title="Directory structure"></a>Directory structure</h3><p>-app/<br>  |<strong>controllers/<br>  |</strong>models/<br>  |<strong>mailer/<br>  |</strong>views/<br>-config/<br>  |<strong>routes.js<br>  |</strong>config.js<br>  |<strong>passport.js (auth config)<br>  |</strong>express.js (express.js configs)<br>  |__middlewares/ (custom middlewares)<br>-public/</p>
+<h3 id="Tests"><a href="#Tests" class="headerlink" title="Tests"></a>Tests</h3><p>Tests are not shipped now, I will write tests later.<br>[shell]<br>$ npm test<br>[/shell]</p>
+<h3 id="License"><a href="#License" class="headerlink" title="License"></a>License</h3><p>(The MIT License)</p>
+
       
     </div>
     
@@ -301,19 +313,15 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+    <a class="article-category-link" href="/categories/nodejs/">Nodejs</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mapreduce/">MapReduce</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/">Node.js</a></li></ul>
     </div>
 
-      
-        <p class="article-more-link">
-          <a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/#more">more >></a>
-        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -331,11 +339,11 @@
 
 
   
-    <article id="post-hbase-architecture-analysis-part-3-pros-cons" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-hadoop-isnt-silver-bullet" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/" class="article-date">
-      <time datetime="2014-03-13T14:13:20.000Z" itemprop="datePublished">2014-03-13</time>
+      <a href="/2013/12/05/hadoop-isnt-silver-bullet/" class="article-date">
+      <time datetime="2013-12-05T10:28:45.000Z" itemprop="datePublished">2013-12-05</time>
 </a>
 
 
@@ -350,7 +358,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/">HBase Architecture Analysis Part 3 Pros and Cons</a>
+      <a class="article-title" href="/2013/12/05/hadoop-isnt-silver-bullet/">Hadoop isn’t Silver Bullet</a>
     </h1>
   
 
@@ -360,9 +368,19 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h2 id="5-HBase-Physical-Architecture"><a href="#5-HBase-Physical-Architecture" class="headerlink" title="5. HBase Physical Architecture"></a>5. HBase Physical Architecture</h2><p>Figure 5.1 shows the deployment view for HBase cluster:<br>HBase is the master-slave cluster on top of HDFS. The classic deployment is as follows:<br>➢<strong> Master node:</strong> one HMaster and one NameNode running on a machine as the master node.<br>➢ <strong>Slave node:</strong> Each node is running one HRegionServer and one DataNode. And each node report status to the master node and Zookeeper.<br>➢<strong> Zookeeper:</strong> HBase is shipped with ensemble Zookeeper, but for large clusters, using existing Zookeeper is better. Zookeeper is crucial, the HMaster and HRegionServers will register on Zookeeper.<br>➢ <strong>Client</strong>: There can be many clients to access HRegionServer, like Java Client, Shell Client, Thrift Client and Avro Client</p>
-<p>
-          
+        <p>Hadoop is a great framework for distributed large data computing. But Hadoop is not the silver bullet. Hadoop fits not very well in such cases as follow:</p>
+<h4 id="1-Low-latency-Data-Access"><a href="#1-Low-latency-Data-Access" class="headerlink" title="1. Low-latency Data Access"></a>1. Low-latency Data Access</h4><p>Applications that require real-time query, and low-latency access to data in tens of milliseconds will not work well with Hadoop.<br>Hadoop is not a substitute for a database. Database index records that will gains low-latency and fast response.<br>But if you really want to replace the database for real time needs, try HBase, which is a column-oriented database for random and real time read/write.[more…]</p>
+<h4 id="2-Structured-Data"><a href="#2-Structured-Data" class="headerlink" title="2. Structured Data"></a>2. Structured Data</h4><p>Hadoop is not fit for structured data with strong relationship. Hadoop works well for semi-structured and unstructured data. It stores data in files, doesn’t index them like RDBMS. Therefore, each ad hoc query for Hadoop is processed by MapReduce job which will bring the latency cost. </p>
+<h4 id="3-When-data-isn’t-that-big"><a href="#3-When-data-isn’t-that-big" class="headerlink" title="3. When data isn’t that big"></a>3. When data isn’t that big</h4><p>How big the data is big enough for Hadoop? The answer is TB or PB. When your analytics data is only tens of GB, Hadoop is heavy. Don’t follow the fashion and use Hadoop, just follow your requirements. </p>
+<h4 id="4-Too-many-small-files"><a href="#4-Too-many-small-files" class="headerlink" title="4. Too many small files"></a>4. Too many small files</h4><p>When there are too many small files, the NameNode will hit its memory limit where the block map and the metadata are hosted. And to handle the NameNode bottleneck, Hadoop introduces HDFS Federation.</p>
+<h4 id="5-Too-many-writers-and-too-much-file-updates"><a href="#5-Too-many-writers-and-too-much-file-updates" class="headerlink" title="5. Too many writers and too much file updates"></a>5. Too many writers and too much file updates</h4><p>HDFS is in write-once-and-read-many-times way. When there is too much files update needs, Hadoop won’t support that.</p>
+<h4 id="6-MapReduce-may-not-the-best-choice"><a href="#6-MapReduce-may-not-the-best-choice" class="headerlink" title="6. MapReduce may not the best choice"></a>6. MapReduce may not the best choice</h4><p>MapReduce is a simple programming model in parallel. But for MapReduce parallelism, you need to make sure each MR job and the data where the job runs on is independent from all the others. Every MR shouldn’t have dependencies.<br>But if you want to do some data sharing during MR, you can do like this:</p>
+<ul>
+<li>Iteration: run multiple MR jobs, with the output of one being the input of the next MR.</li>
+<li>Shared state information. But don’t share information in memory, since each MR job is run on single JVM. </li>
+</ul>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
       
     </div>
     
@@ -370,19 +388,15 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/big-data/">Big Data</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
     </div>
 
-      
-        <p class="article-more-link">
-          <a href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/#more">more >></a>
-        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -400,11 +414,11 @@
 
 
   
-    <article id="post-hbase-architecture-analysis-part2-process-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-hadoop-mapreduce-2-yarn" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/" class="article-date">
-      <time datetime="2014-03-13T14:00:11.000Z" itemprop="datePublished">2014-03-13</time>
+      <a href="/2013/12/05/hadoop-mapreduce-2-yarn/" class="article-date">
+      <time datetime="2013-12-05T08:57:01.000Z" itemprop="datePublished">2013-12-05</time>
 </a>
 
 
@@ -419,7 +433,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/">HBase Architecture Analysis Part2(Process Architecture)</a>
+      <a class="article-title" href="/2013/12/05/hadoop-mapreduce-2-yarn/">Hadoop MapReduce 2 (YARN)</a>
     </h1>
   
 
@@ -429,8 +443,55 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h2 id="4-Process-Architecture"><a href="#4-Process-Architecture" class="headerlink" title="4. Process Architecture"></a>4. Process Architecture</h2><h3 id="4-1-HBase-Write-Path"><a href="#4-1-HBase-Write-Path" class="headerlink" title="4.1 HBase Write Path"></a>4.1 HBase Write Path</h3><p>The client doesn’t write data directly into HFile on HDFS. Firstly it writes data to WAL(Write Ahead Log), and Secondly, writes to MemStore shared by a HStore in memory.<br>
-          
+        <p>For large clusters with more than 4000 nodes, the classic MapReduce framework hit the scalability problems.<br><strong>Therefore, a group in Yahoo began to design the next generation MapReduce in 2010, and in 2013 Hadoop 2.x releases MapReduce 2, Yet Another Resource Negotiator (YARN) to remedy the sociability shortcoming.</strong><br>The fundamental idea of YARN is to split up the two major functionalities of the JobTracker: resource management (job scheduling) and job monitoring into separate daemons. YARN has a global Resource Manager (RM) and per-application Application Master(AM).[more…]</p>
+<h3 id="YARN-High-level-Overview"><a href="#YARN-High-level-Overview" class="headerlink" title="YARN High-level Overview"></a>YARN High-level Overview</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.1.png" alt="hd7.1">Figure1 YARN High-level Overview</a><br>As shown in Figure1, the YARN involves more entities than classic MapReduce 1 :</p>
+<ul>
+<li>Client, the same as classic MapReduce which submits the MapReduce job.</li>
+<li>Resource Manager, which has the ultimate authority that arbitrates resources among all the applications in the cluster, it coordinates the allocation of compute resources on the cluster.</li>
+<li>Node Manager, which is in charge of resource containers, monitoring resource usage (cpu, memory, disk , network) on the node , and reporting to the Resource Manager.</li>
+<li>Application Master, which is in charge of the life cycle an application, like a MapReduce Job. It will negotiates with the Resource Manager of cluster resources—in YARN called containers. The Application Master and the MapReduce task in the containers are scheduled by the Resource Manager. And both of them are managed by the Node Manager. Application Mater is also responsible for keeping track of task progress and status. </li>
+<li>HDFS, the same as classic MapReduce, for files sharing between different entities.</li>
+</ul>
+<p>Resource Manager consists of two components: Scheduler and ApplicationsManager.</p>
+<p>Scheduler is in charge of allocating resources. The resource Container incorporates elements such as memory, cup, disk, network etc. Scheduler just has the resource allocation function, has no responsible for job status monitoring. And the scheduler is pluggable, can be replaced by other scheduler plugin-in.</p>
+<p>The ApplicationsManager is responsible for accepting job-submissions, negotiating the first container for executing the application specific Application Master, and it provides restart service when the container fails.<br>The MapReduce job is just one type of application in YARN. Different application can run on the same cluster with YARN framework. That’s the beauty of YARN.</p>
+<h3 id="YARN-MapReduce"><a href="#YARN-MapReduce" class="headerlink" title="YARN MapReduce"></a>YARN MapReduce</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.2.png" alt="hd7.2">Figure2 MapReduce with YARN</a><br>As shown in Figure2, it is the MapReduce process with YARN, there are 11 steps, and we will explain it in 6 steps the same as the MapReduce 1 framework. They are Job Submission, Job Initialization, Task Assignment, Task Execution, Progress and Status Updates, and Job Completion.</p>
+<h4 id="Job-Submission"><a href="#Job-Submission" class="headerlink" title="Job Submission"></a>Job Submission</h4><p>Clients can submit jobs with the same API as MapReduce 1 in YARN. YARN implements its ClientProtocol, the submission process is similar to MapReduce 1.</p>
+<ul>
+<li>The client calls the submit() method, which will initiate the JobSubmmitter object and call submitJobInternel().</li>
+<li>Resource Manager will allocate a new application ID and response it to client.</li>
+<li>The job client checks the output specification of the job</li>
+<li>The job client computes the input splits</li>
+<li>The job client copies resources, including the splits data, configuration information, the job JAR into HDFS</li>
+<li>Finally, the job client notify Resource Manager it is ready by calling submitApplication() on the Resource Manager.</li>
+</ul>
+<h4 id="Job-Initialization"><a href="#Job-Initialization" class="headerlink" title="Job Initialization"></a>Job Initialization</h4><p> When the Resource Manager(RM) receives the call submitApplication(), RM will hands off the job to its scheduler. The job initialization is as follows:</p>
+<ul>
+<li>The scheduler allocates a resource container for the job, </li>
+<li>The RM launches the Application Master under the Node Manager’s management. </li>
+<li>Application Master initialize the job. Application Master is a Java class named MRAppMaster, which initializes the job by creating a number of bookkeeping objects to keep track of the job progress. It will receive the progress and the completion reports from the tasks. </li>
+<li>Application Master retrieves the input splits from HDFS, and creates a map task object for each split. It will create a number of reduce task objects determined by the mapreduce.job.reduces configuration property.</li>
+<li>Application Master then decides how to run the job. </li>
+</ul>
+<p>For small job, called uber job, which is the one has less than 10 mappers and only one reducer, or the input split size is smaller than a HDFS block, the Application Manager will run the job on its own JVM sequentially. This policy is different from MapReduce 1 which will ignore the small jobs on a single TaskTracker.</p>
+<p>For large job, the Application Master will launches a new node with new NodeManager and new container, in which run the task. This can run job in parallel and gain more performance. </p>
+<p>Application Master calls the job setup method to create the job’s output directory. That’s different from MapReduce 1, where the setup task is called by each task’s TaskTracker.</p>
+<h4 id="Task-Assignment"><a href="#Task-Assignment" class="headerlink" title="Task Assignment"></a>Task Assignment</h4><p>When the job is very large so that it can’t be run on the same node as the Application Master. The Application Master will make request to the Resource Manager to negotiate more resource container which is in piggybacked on heartbeat calls. The task assignment is as follows:</p>
+<ul>
+<li>The Application Master make request to the Resource Manager in heartbeat call. The request includes the data locality information, like hosts and corresponding racks that the input splits resides on. </li>
+<li>The Recourse Manager hand over the request to the Scheduler. The Scheduler makes decisions based on these information. It attempts to place the task as close the data as possible. The data-local nodes is great, if this is not possible , the rack-local the preferred to nolocal node.</li>
+<li>The request also specific the memory requirements, which is between the minimum allocation (1GB by default) and the maximum allocation (10GB). The Scheduler will schedule a container with multiples of 1GB memory to the task, based on the mapreduce.map.memory.mb and mapreduce.reduce.memory.mb property set by the task.</li>
+</ul>
+<p>This way is more flexible than MapReduce 1. In MapReduce 1, the TaskTrackers have a fixed number of slots and each task runs in a slot. Each slot has fixed memory allowance which results in two problems. For small task, it will waste of memory, and for large task which need more memeory, it will lack of memory.<br>In YARN, the memory allocation is more fine-grained, which is also the beauty of YARE resides in.</p>
+<h4 id="Task-Execution"><a href="#Task-Execution" class="headerlink" title="Task Execution"></a>Task Execution</h4><p>After the task has been assigned the container by the Resource Manger’s scheduler, the Application Master will contact the NodeManger which will launch the task JVM.<br>The task execution is as follows:</p>
+<ul>
+<li>The Java Application whose class name is YarnChild localizes the resources that the task needs. YarnChild retrieves job resources including the job jar, configuration file, and any needed files from the HDFS and the distributed cache on the local disk.</li>
+<li>YarnChild run the map or the reduce task<br>Each YarnChild runs on a dedicated JVM, which isolates user code from the long running system daemons like NodeManager and the Application Master. Different from MapReduce 1, <strong>YARN doesn’t support JVM reuse</strong>, hence each task must run on new JVM.<br>The streaming and the pipeline processs and communication in the same as MapReduce 1.</li>
+</ul>
+<h4 id="Progress-and-Status-Updates"><a href="#Progress-and-Status-Updates" class="headerlink" title="Progress and Status Updates"></a>Progress and Status Updates</h4><p>When the job is running under YARN, the mapper or reducer will report its status and progress to its Application Master every 3 seconds over the umbilical interface. The Application Master will aggregate these status reports into a view of the task status and progress. While in MapReduce 1, the TaskTracker reports status to JobTracker which is responsible for aggregating status into a global view.<br>Moreover, the Node Manger will send heartbeats to the Resource Manager every few seconds. The Node Manager will monitoring the Application Master and the recourse container usage like cpu, memeory and network, and make reports to the Resource Manager. When the Node Manager fails and stops heartbeat the Resource Manager, the Resource Manager will remove the node from its available resource nodes pool.<br>The client pulls the status by calling getStatus() every 1 second to receive the progress updates, which are printed on the user console. User can also check the status from the web UI. The Resource Manager web UI will display all the running applications with links to the web UI where displays task status and progress in detail.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.3.png" alt="hd7.3">Figure 3  YARN Progress and Status Updates</a></p>
+<h4 id="Job-Completion"><a href="#Job-Completion" class="headerlink" title="Job Completion"></a>Job Completion</h4><p>Every 5 second the client will check the job completion over the HTTP ClientProtocol by calling waitForCompletion(). When the job is done, the Application Master and the task containers clean up their working state and the outputCommitter’s job cleanup method is called. And the job information is archived as history for later interrogation by user.</p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
       
     </div>
     
@@ -438,19 +499,15 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/big-data/">Big Data</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
     </div>
 
-      
-        <p class="article-more-link">
-          <a href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/#more">more >></a>
-        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -468,11 +525,11 @@
 
 
   
-    <article id="post-hbase-architecture-analysis-part1-logical-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-hadoop-mapreduce-1-framework" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/" class="article-date">
-      <time datetime="2014-03-13T13:18:32.000Z" itemprop="datePublished">2014-03-13</time>
+      <a href="/2013/12/05/hadoop-mapreduce-1-framework/" class="article-date">
+      <time datetime="2013-12-05T08:11:12.000Z" itemprop="datePublished">2013-12-05</time>
 </a>
 
 
@@ -487,7 +544,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/">HBase Architecture Analysis Part1(Logical Architecture)</a>
+      <a class="article-title" href="/2013/12/05/hadoop-mapreduce-1-framework/">Hadoop MapReduce 1 Framework</a>
     </h1>
   
 
@@ -497,8 +554,63 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h2 id="1-Overview"><a href="#1-Overview" class="headerlink" title="1. Overview"></a>1. Overview</h2><p>Apache HBase is an open source column-oriented database. <strong>It is often described as a sparse, consistent, distributed, multi-dimensional sorted map.</strong> HBase is modeled after Google’s “Bigtable: A distributed Storage System for Structured Data”, which can host very large tables with billions of rows, X millions of columns.<br>
-          
+        <p>For MapReduce programming, a developer can run a MapReduce job by simply calling submit() or waitForCompletion() on a job object. This method abstracts the job processing details away from developer. But there is a great of job processing behind the scene that we will consider in this section.<br>Hadoop 2.x has released new MapReduce framework implementation called YARN or MapReduce 2, for traditional MapReduce is the classic framework which is also called MapReduce 1. YARN is compatible with MapReduce 1. [more…]</p>
+<h3 id="MapReduce-1-high-level-overview"><a href="#MapReduce-1-high-level-overview" class="headerlink" title="MapReduce 1 high level overview"></a>MapReduce 1 high level overview</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.2.png" alt="hd6.2">Figure1 Classic MapReduce Framework</a><br>As shown in Figure 1, there are four independent entities in the framework:</p>
+<ul>
+<li>Client, which submits the MapReduce Job</li>
+<li>JobTracker, which coordinates and controls the job run. It is a Java class called JobTracker.</li>
+<li>TaskerTrackers, which run the task that is split job, control the specific map or reduce task, and make reports to JobTracker. They are Java class as well.</li>
+<li>HDFS, which provides distributed data storage and is used to share job files between other entities.</li>
+</ul>
+<p>As the Figure 1 show, a MapReduce processing including 10 steps, and in short, that is:</p>
+<ul>
+<li>The clients submit MapReduce jobs to the JobTracker. </li>
+<li>The JobTracker assigns Map and Reduce tasks to other nodes in the cluser</li>
+<li>These nodes each run a software daemon TaskTracker on separate JVM.</li>
+<li>Each TaskTracker actually initiates the Map or Reduce tasks and reports progress back to the JobTracker</li>
+</ul>
+<h3 id="Job-Submission"><a href="#Job-Submission" class="headerlink" title="Job Submission"></a>Job Submission</h3><p>When the client call submit() on job object. An internal JobSubmmitter Java Object is initiated and submitJobInternal() is called. If the clients calls the waiForCompletion(), the job progresss will begin and it will response to the client with process results to clients until the job completion.<br>JobSubmmiter do the following work:</p>
+<ul>
+<li>Ask the JobTracker for a new job ID.</li>
+<li>Checks the output specification of the job.</li>
+<li>Computes the input splits for the job.</li>
+<li>Copy the resources needed to run the job. Resources include the job jar file, the configuration file and the computed input splits. These resources will be copied to HDFS in a directory named after the job id. The job jar will be copied more than 3 times across the cluster so that TaskTrackers can access it quickly.</li>
+<li>Tell the JobTracker that the job is ready for execution by calling submitJob() on JobTracker.</li>
+</ul>
+<h3 id="Job-Initialization"><a href="#Job-Initialization" class="headerlink" title="Job Initialization"></a>Job Initialization</h3><p>When the JobTracker receives the call submitJob(), it will put the call into an internal queue from where the job scheduler will pick it up and initialize it. The initialization is done as follow:</p>
+<ul>
+<li>An job object is created to represent the job being run. It encapsulates its tasks and bookkeeping information so as to keep track the task progress and status.</li>
+<li>Retrieves the input splits from HDFS and create the list of tasks, each of which has task ID. JobTracker creates one map task for each split, and the number of reduce tasks according to configuration.</li>
+<li>JobTracker will create the setup task and cleanup task. Setup task is to create the final output directory for the job and the temporary working space for the task output. Cleanup task is to delete the temporary working space for the task ouput.</li>
+<li>JobTracker will assign tasks to free TaskTrackers</li>
+</ul>
+<h3 id="Task-Assignment"><a href="#Task-Assignment" class="headerlink" title="Task Assignment"></a>Task Assignment</h3><p>TaskTrackers send heartbeat periodically to JobTracker Node to tell it if it is alive or ready to get a new task. The JobTracker will allocate a new task to the ready TaskTracker. Task assignment is as follows:</p>
+<ul>
+<li>The JobTracker will choose a job to select the task from according to scheduling algorithm, a simple way is chosen on a priority list of job. After chose the job, the JobTracker will choose a task from the job.</li>
+<li>TaskTrackers has a fixed number of slots for map tasks and for reduces tasks which are set independently, the scheduler will fits the empty map task slots before reduce task slots.</li>
+<li>To choose a reduce task, the JobTracker simply takes next in its list of yet-to-be-run reduce task, because there is no data locality consideration. But map task chosen depends on the data locality and TaskTracker’s network location.</li>
+</ul>
+<h3 id="Task-Execution"><a href="#Task-Execution" class="headerlink" title="Task Execution"></a>Task Execution</h3><p>When the TaskTracker has been assigned a task. The task execution will be run as follows:</p>
+<ul>
+<li>Copy jar file from HDFS, copy needed files from the distributed cache on the local disk.</li>
+<li>Creates a local working directory for the task and ‘un-jars’ the jar file contents to the direcoty</li>
+<li>Creates a TaskRunner to run the task. The TaskRunner will lauch a new JVM to run each task.. TaskRunner fails by bugs will not affect TaskTracker. And multiple tasks on the node can reuse the JVM created by TaskRunner.</li>
+<li>Each task on the same JVM created by TaskRunner will run setup task and cleanup task.</li>
+<li>The child process created by TaskRunner will informs the parent process of the task’s progress every few seconds until the task is complete.</li>
+</ul>
+<h3 id="Progress-and-Status-Updates"><a href="#Progress-and-Status-Updates" class="headerlink" title="Progress and Status Updates"></a>Progress and Status Updates</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.3.png" alt="hd6.3">Figure 2 Classic MapReduce Framework Progress and Status Updates</a><br>After clients submit a job. The MapReduce job is a long time batching job. Hence the job progress report is important. What consists of the Hadoop task progress is as follows:</p>
+<ul>
+<li>Reading an input record in a mapper or reducer</li>
+<li>Writing an output record in a mapper or a reducer</li>
+<li>Setting the status description on a reporter, using the Reporter’s setStatus() method</li>
+<li>Incrementing a counter</li>
+<li>Calling Reporter’s progress()</li>
+</ul>
+<p><strong>As shown in Figure 2, when a task is running, the TaskTracker will notify the JobTracker its task progress by heartbeat every 5 seconds.</strong></p>
+<p>And mapper and reducer on the child JVM will report to TaskTracker with it’s progress status every few seconds. The mapper or reducers will set a flag to indicate the status change that should be sent to the TaskTracker. The flag is checked in a separated thread every 3 seconds. If the flag sets, it will notify the TaskTracker of current task status.<br>The JobTracker combines all of the updates to produce a global view, and the Client can use getStatus() to get the job progress status.</p>
+<h3 id="Job-Completion"><a href="#Job-Completion" class="headerlink" title="Job Completion"></a>Job Completion</h3><p>When the JobTracker receives a report that the last task for a job is complete, it will change its status to successful. Then the JobTracker will send a HTTP notification to the client which calls the waitForCompletion(). The job statistics and the counter information will be printed to the client console. Finally the JobTracker and the TaskTracker will do clean up action for the job.</p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
       
     </div>
     
@@ -506,19 +618,15 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/big-data/">Big Data</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
     </div>
 
-      
-        <p class="article-more-link">
-          <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/#more">more >></a>
-        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -536,11 +644,11 @@
 
 
   
-    <article id="post-nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-hadoop-mapreduce-overview" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/" class="article-date">
-      <time datetime="2014-02-27T08:00:42.000Z" itemprop="datePublished">2014-02-27</time>
+      <a href="/2013/12/05/hadoop-mapreduce-overview/" class="article-date">
+      <time datetime="2013-12-05T07:20:25.000Z" itemprop="datePublished">2013-12-05</time>
 </a>
 
 
@@ -555,7 +663,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/">Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用</a>
+      <a class="article-title" href="/2013/12/05/hadoop-mapreduce-overview/">Hadoop MapReduce Overview</a>
     </h1>
   
 
@@ -565,8 +673,19 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <p>项目如果没有采用Java开发，难道就不能用HBase了么？程序猿不会善罢甘休的，有什么语言就会有什么API存在，我还觉得用Java配置时各种缺包错误很烦呢，记得《数学之美》中曾说道：“做技术有术和道两个层面”，知道HBase的架构和一些底层细节是”道”，而使用各种配置和API开发应用则是”术”，而我们就来试试非Java连接HBase。<br>HBase的第三方接口有Shell, Java, REST和Thrift，可以参考《HBase in Action》chapter 6, REST接口比较慢，使用起来并没有Thrift好。而你可能疑惑什么是Thrift:<br>
-          
+        <h3 id="MapReduce-Introduction"><a href="#MapReduce-Introduction" class="headerlink" title="MapReduce Introduction"></a>MapReduce Introduction</h3><p><strong>MapReduce is a parallel programming model and an associated implementation for processing and generating large data sets. The MapReduce model consists of two phrases: map and reduce.</strong> A map task is to process a key/value pair to generate a set of intermediate key/value pairs, and a reduce task is to merge all intermediate values associated with the same intermediated key.[more…]</p>
+<p>Hadoop MapReduce is based on the MapReduce paper in 2006. This processing model is automatic parallelization and distribution. It provides a clean abstraction for programmers. MapReduce programs are usually written in java, and can be written in any scripting language like Ruby, Python, PHP using Hadoop Streaming, or in C++ using Hadoop Pipes. MapReduce abstracts all the ‘housekeeping’ away from the developer. Developer can concentrate simply on writing the Map and Reduce functions.</p>
+<h3 id="MapReduce-Data-Flow"><a href="#MapReduce-Data-Flow" class="headerlink" title="MapReduce Data Flow"></a>MapReduce Data Flow</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd6.1.png" alt="hd6.1">Figure1 MapReduce Data Flow</a><br>As shown in Figure1, A MapReduce process consists of two phrases: map phrase and the reduce phrase. Let’s consider them in detail.</p>
+<h4 id="The-Mapper"><a href="#The-Mapper" class="headerlink" title="The Mapper"></a>The Mapper</h4><p>A MapReduce job is a unit of work that the client wants to be run, including the input data, the MapReduce program and the configuration information. Hadoop runs the job by dividing it into tasks: map tasks and reduce tasks.<br>Hadoop divides the input data into fixed-size pieces call input splits or splits. Each map task runs on each split, which runs the user-defined map function. All of the map tasks runs in parallel. Usually, the split size is a HDFS block, 64MB or 128MB.<br><strong>If the file is less than 64MB or 128MB, it will not be split. And the file will occupy one block, results in a waste of storage.</strong><br>Map tasks usually runs on its local HDFS data, or the data near the node that runs the map task. Data Locality saves bandwidth and decreases dependencies.<br>The input value for map task is key/value pair. For example, in the WordCount example by Hadoop, the input value for map task: the key is the line offset whining the file, which we can ignore in our map function, the value is the line in the file.<br>In the map function, developers will process the value of each line, make sure the output is key/value pair, WorkCount again, the output for map function is like ‘<apple, 1="">, <pear, 1="">…’, key is the word, value is 1.<br><strong>Map tasks output is written to the local disk, not to HDFS, then the reduce task will use these intermediate output to do merge work.</strong> Because storing these intermediate data to HDFS with replication would be overkill. And if the map task fails before the reduce task consume the output, Hadoop will automatically start another map task on another node that will re-create the output. </pear,></apple,></p>
+<h4 id="The-Reducer"><a href="#The-Reducer" class="headerlink" title="The Reducer"></a>The Reducer</h4><p>After map tasks done, the job tracker will start the reduce task. The reducer input is the intermediate mapper output.<br>Between the map task and the reduce task is the well known shuffle and sort. Hadoop will sort the intermediate map output by key. And each reduce task will run on map output with the same key. In WordCount example, the same key means the same word, like ‘<apple, 1=""> … <apple, 1="">’, will be assigned to a reduce task, the reduce function just sum up the value and calculate the word count for ‘apple’.<br>Reduce tasks don’t have the advantage of data locality, the sorted map output have to be transferred across the network to the node where the reduce task is running.<br>Then the reduce task will merge the data with the user-defined reduce function. The reduce output is normally stored in HDFS for reliability. For each reduce output block, the first replica is stored on the local node, while the other two replicas are stored on off-rack nodes.<br><strong>We can see that no reduce task can start until every map task has finished. Will the mapper become a bottleneck? Hadoop uses the ‘Speculative execution’ to mitigate against this:</strong></apple,></apple,></p>
+<ul>
+<li>If a Mapper appears to be running significantly more slowly than the others, a new instance of the Mapper will be started on another node, operating on the same data.</li>
+<li>The results of the first Mapper to finish will be used</li>
+<li>Hadoop will kill off the Mapper which is still running</li>
+</ul>
+<h4 id="The-Combiner"><a href="#The-Combiner" class="headerlink" title="The Combiner"></a>The Combiner</h4><p>Often, Mappers produce large amounts of intermediate data, which have to be transferred to Reducers that will result in a lot of network traffic.<br>To minimize the data transferred between Mapper and Reducer, Hadoop introduces the combiner function to be run on the map output, and combine the Mapper output and generate the Reducer Input.<br>Combiner is like a ‘Mini-Reducer’, runs locally on a the same node as Mapper. The output from the combiner is sent to the Reducers. Combiners decrease the amount of the network traffic required during the shuffle and sort phase. </p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
       
     </div>
     
@@ -574,19 +693,11 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
     </div>
 
 
       
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learn/">Learn</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/#more">more >></a>
-        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -604,11 +715,11 @@
 
 
   
-    <article id="post-revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-hadoop-hdfs-high-availability" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/" class="article-date">
-      <time datetime="2014-02-27T02:41:52.000Z" itemprop="datePublished">2014-02-27</time>
+      <a href="/2013/12/05/hadoop-hdfs-high-availability/" class="article-date">
+      <time datetime="2013-12-05T06:54:59.000Z" itemprop="datePublished">2013-12-05</time>
 </a>
 
 
@@ -623,7 +734,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/">Revolution——面向对象看黑客帝国</a>
+      <a class="article-title" href="/2013/12/05/hadoop-hdfs-high-availability/">Hadoop HDFS High Availability(HA)</a>
     </h1>
   
 
@@ -633,21 +744,17 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>作者: Thomas Zhang</p>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>清楚地记得，第一次看《The Matrix》这部电影是在小学六年级，在一个英语班上，同小伙伴们一起，围着一个20英寸的小电视，一知半解地看完了一部完全没有中文字幕的英文版本。虽然那时的自己，对这个繁复庞杂的世界架构必然一知半解，但纵然如此，惊喜与震撼已经随着剧终Neo手中听筒的落地，而深埋内心。我开始像Mopheus一样的问自己。What is real? How to define real? 我开始问自己，这个世界是否真的有可能是一个Matrix中的映像，周遭的生活，是否真的有可能是镜花水月，空中楼台。转眼十几年过去了。这十几年中，《The Matrix》三部曲一直珍藏在我的硬盘中，时不时翻出来重新品味，每次又都有不一样的体验。[more…]<br>十年后的今天，我已经从一个懵懂的少年，成为一个软件工程专业的学生。不得不说，直到接触了软件，接触了计算机体系结构，接触了面向对象的设计思想，对于这部电影，我才有了一个更深刻，更不一样的理解和体会。而经过这一整个学期对面向对象技术的实papapa践与深入了解，对这部经典的理解，似乎又深入了许多。<br>对于这三部曲，《The Matrix》是开创性的，如疾风骤雨办将一个残酷的真相——现实劈头盖脸的丢到你面前，只留下目瞪口呆的你独自回味着扑面而来的震撼和冲击；《The Matrix ——Reload》是颠覆性的，将你冥思苦想，以为理解了的世界一把推翻，告诉你，真相，其实远远没有那么简单；《The Matrix —— Revolution》是整个三部曲的高潮与结尾，却更是一个开端，那一夜雨战之后，一切都恢复了原装，但是一切，又都变得不同了起来。这篇文章当然不是描述对电影艺术表现抑或情节内容的感受与分析，但是我们仍然要找一个切入点，一个面向对象世界中，和那个电影中的波澜壮阔的世界能够微妙的联系在一起的点。我选择了，Revolution——革命。</p>
-<h3 id="Recolution"><a href="#Recolution" class="headerlink" title="Recolution"></a>Recolution</h3><p>在那个雨夜大战之后，Neo和Smith这一对系统中的异常，终于被抹平，Matrix中的世界，似乎又恢复昔日的平静，一切都回到了原点。但，事实真的是这样么？Revolution，革命，究竟又指的是什么呢？<br>其实事实上，这时候的世界已经发生了本质的变化。还记得《Reload》里面的印度小姑娘Sati么？在从前，一个在系统中本应该被删除的，没有既定目标的冗余程序，现在竟然可以在Architecture眼皮底下自由地玩耍，并且可以完成一项似乎并没有“实用”功能性的代码改写——让夕阳变得美丽——来纪念逝去的人类朋友Neo。这意味着看似恢复原样的Matrix系统其实已经在不经意间完成了一次根本上变化，整个Matrix中，开始允许因为“爱”产生的冗余程序的存在。这是一个近乎根本性的有颠覆意义的改变。<br>也就是说，Revolution并不仅仅指的是在人类的角度上，Neo通过自我牺牲完成了对Zion的拯救，改变了脱离Matrix的人类宿命一样的被屠杀的命运；在另一个层面上，也指的是在Oracle的指引与Neo的协助之下，整个Matrix系统进行了一次根本性的“革命”。<br>更确切的对应到软件体系中，我们应该可以说，在电影中Matrix系统进行了一次大规模的系统热升级，在这次升级中，对整个系统的内存回收机制做出了根本上的修改，以使得系统更好的完成承载作为“电池”的人类思维的需求！<br>在影片中，从Merovingian、Architecture和Oracle的口中，直接间接的，我们可以知道，整个Matrix系统已经先后进行过六次这样的“升级”。这种开发模式，细细想来，与面向对象、敏捷开发中经常应用的迭代式的开发方式，有着异曲同工之处。<br>但是，一个系统要应用迭代开发方式，那么这个系统一定要满足特定的条件。在敏捷系统中，迭代开发需要满足<br>1、在项目开发早期需求可能有所变化<br>2、分析设计人员对应用领域很熟悉<br>3、高风险项目<br>4、用户可不同程度地参与整个项目的开发过程<br>5、使用面向对象的语言或统一建模语言<br>6、使用CASE工具<br>7、具有高素质的项目管理者和软件研发团队<br>其中，面向对象是使用迭代开发方式的必要条件之一。接下来，就来分析一下《The Matrix》世界对应到面向对象方式中的设计。</p>
-<h3 id="The-Desert-of-the-Real"><a href="#The-Desert-of-the-Real" class="headerlink" title="The Desert of the Real"></a>The Desert of the Real</h3><p>Mopheus第一次试图向Neo介绍the Matrix的真相时候告诉他，由于历史信息的缺失，对整个世界的构成和来由并不完全清楚，通过推测，才得以窥知这个世界的秘密，他称之为，the desert of the real。可以想见，如果到了一个人工智能发展如此强大的时代，编程语言的类别或许应该一定会超越目前人类的认知和理解。但是从矩阵世界中发生的故事中，我们其实还是可以管中窥豹，发现很多面向对象的蛛丝马迹。下面，就来一一剖析。</p>
-<p><a href="http://tinypic.com?ref=t4z978" target="_blank" rel="external"><img src="http://i58.tinypic.com/t4z978.jpg" alt="Image and video hosting by TinyPic"></a></p>
-<p>在PB Kruchten经典的论文中可以知道，我们可以通过4+1视对面向对象设计的架构进行描述。部署视图显示的是系统的实际部署情况，它是为了便于理解系统在一组处理节点上的物理分布。所以，这里就先从高层次上，与物理世界关系方面，对矩阵世界的部署视图进行尝试性的描述。<br>上图就是矩阵世界中地球上各个系统的部署视图，可以看出，地表上，机器城维护者作为能源的巨大的分布式电力供应系统，而这个电力系统以人供电，每个人又通过统一的接口连接在Matrix则个虚拟现实系统之中，为系统统一管理、控制。人类反抗组织以地下的Zion为基地，通过庞大的地下管道系统进行反抗机器城的活动，从电池组合Matrix中解救出有意愿脱离Matrix的人类。通过电影中可以得知，上面各个系统之间存在着繁复的交互关系，接下来就用4+1视图中逻辑视图中的类图，来形象的展示各个系统和各个部件之间的关系。</p>
-<p><a href="http://tinypic.com?ref=2monnyf" target="_blank" rel="external"><img src="http://i57.tinypic.com/2monnyf.jpg" alt="Image and video hosting by TinyPic"></a></p>
-<p>上图可见，Matrix系统由两部分组成，接入系统的人，以及保证系统正常运行的各类程序。Architecture与Oracle均是系统程序的一部分，拥有相对于其他程序高得多的权限，并且拥有与机器城交互的能力。每隔一定时间，系统中不稳定的人群中会由Oracle指引和选择出现The One，The One多重继承了程序和人的属性，帮助Matrix完成每一次的系统更新。<br>以上就是从The Matrix电影有限的信息中——the desert of real——中推测出来的，关于Matrix面向对象层次上抽象出来的设计描述。满足了这个前提条件，接下来，让我们回归正题，来讨论Matrix中对于“迭代式开发”技术的应用。</p>
-<h3 id="宿命的迭代"><a href="#宿命的迭代" class="headerlink" title="宿命的迭代"></a>宿命的迭代</h3><p>迭代开发，是面向对象以及目前流行的敏捷开发方式中最常用的一种开发方式。迭代，是快速原型与面向对象技术的结合。在迭代式开发方法中，整个开发工作被组织为一系列的短小的、固定长度的小项目，被称为一系列的迭代。每一次迭代都包括了需求分析、设计、实现与测试。采用这种方法，开发工作可以在需求被完整地确定之前启动，并在一次迭代中完成系统的一部分功能或业务逻辑的开发工作。再通过客户的反馈来细化需求，并开始新一轮的迭代。下面是迭代开发的流程示意图。</p>
-<p><a href="http://tinypic.com?ref=344fkgw" target="_blank" rel="external"><img src="http://i60.tinypic.com/344fkgw.jpg" alt="Image and video hosting by TinyPic"></a><br>暂且不做说明，同时放上the Matrix中系统升级的时间线如下图。</p>
-<p><a href="http://tinypic.com?ref=2csc64p" target="_blank" rel="external"><img src="http://i62.tinypic.com/2csc64p.jpg" alt="Image and video hosting by TinyPic"></a></p>
-<p>图中可以很明显的看出，第一个有着完美世界架构的矩阵很快失败了，正如迭代开发中第一个原型，通常都是抛弃原型，是快速搭建起来的，以获取用户需求为目的的原型。通常，在使用过后，由于修改变更的可能性极大，所以通常会被抛弃而重新设计。而接下来的五次矩阵升级，都是同一版本的提升性升级，the One选择了重建Zion，新版本的矩阵仅仅是清楚了之前的Bug数据，便继续运行。但是Neo，第六次的选择，作出了不同的选择，选择相信爱，拯救Trinity和Zion。最终Neo牺牲了自己，挽救了矩阵世界和人类世界。同时，系统终于加入了决定性的变更——类似人类的情感——爱以及全新的内存回收机制。<br>多么典型的迭代开发流程！<br>由此可以发现，不论是标准的迭代开发的图示，抑或定义，抑或矩阵的升级流程图，FeedBack都起到了极其重要的作用。而Feedback的来源，正是每一任the One，从Zion，这些排斥现有矩阵的反抗者那里获取的。所以，其实一切的一切，不论是从矩阵中的逃脱、Zion中的自由还是最终Zion的获救，其实都是Machine City，为了更好地设计Matrix系统，进行的宿命办的迭代。<br>When some see coincidence, I see consequence. When other see chance, I see cost.<br>其实每次变更，都是一次选择，一次一次机遇，也一定会付出一定的代价。<br>在迭代中，代价由于快速迭代，所以只会影响这一次迭代的原型。<br>而同样的优点，在矩阵中，则被计算机所完美的利用。正如Architecture所说的，我们能够承受每一次系统迭代升级的代价，也随时准备承受这样的代价。<br>机器的精明，确实人类宿命的悲哀。</p>
-<h3 id="接口，机遇"><a href="#接口，机遇" class="headerlink" title="接口，机遇"></a>接口，机遇</h3><p>那么，再这样完善的系统精巧的设计中，人类是不是真的就没有机会完成复兴呢？其实人类反击的机遇也恰恰蕴含在这近乎完美的设计之中。<br>在这样一个世界中，Matrix的世界中，人类与机器其实遵循同样的定律生活在一个虚拟的空间中。也就是说，机器和人类的思维，其实共享着同样的接口。面向接口设计的完美实例！这也就意味着，如果信息隐藏做的足够好，那么，既然人无法分辨机器，那么反过来，在Matrix中，自然可以做到让机器无法分辨出人！这不正是人的机遇么~？！<br>在《The Matrix》的动画版《Animatrix》中，描述了这样一幕，人类反抗组织通过私有Matrix，成功的与机器交流，并“招安了”许多机器作为保护自己的助手。同样的枷锁，蕴含在面向对象中的精灵，原来同样可以加诸机器头上！</p>
-<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>Architecture：You play a dangerous game!<br>Oracle: Change is always dangerous.<br>Architecture：Just how long,  do you think this peace can last.<br>Oracle: As long as  it can.</p>
-<p>May so be the software system!</p>
+        <p>Reliability, Scalability and Availability are the most important three features for a distributed file system. In HDFS, persistent metadata, using the Secondary NameNode to create checkpoint against data loss, using block replication across the cluster against DataNode failure, all of these brings HDFS high reliability. And the master slave architecture wins HDFS great scalability. [more…]<br>However, HDFS has always had a well-known Single Point of Failure (SPOF) which impacts HDFS’s availability. HDFS fits well for ETL or batch-processing workflows, but in the past few years HDFS begin to be used for real time job, such as HBase. To recover a single NameNode, an administrator starts a new primary NameNode with FsImage and replays its EditLog, waits for Blockreport from DataNodes to leave safe mode. On large clusters with many files and blocks, it will take 30 minutes or more time to recovery. Long time recovery will impact the productivity of internal users and perhaps results in downtime visible to external users.<br>For these reasons, Hadoop community began a new feature for HDFS called High Availability Name Node (HA Name Node) in 2011. The HA makes use of an active and a standby NameNode. When the active NameNode fails, the hot standby NameNode will take over serving the role of an active NameNode without a significant interruption. </p>
+<h3 id="HA-Architecture"><a href="#HA-Architecture" class="headerlink" title="HA Architecture"></a>HA Architecture</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd5.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd5.1.png" alt="hd5.1">Figure1 HDFS High Availability Architecture</a><br>As shown in Figure 1, HA architecture has several changes</p>
+<ul>
+<li>The NameNodes must use highly available shared storage to share EditLog, such as Network File System (NFS), or BookKeeper. The active NameNode will write its EditLog on the Shared dir, and the Standby NameNode polls the shared log frequently and then applies to its in-memory so as to has the most complete and up-to-date file system state in memory.</li>
+<li>DataNodes must send Blockreports with block locations to both active and standy NameNodes. Because the block mappings are stored in a NameNode’s memory and not on a disk to increase data access performance.</li>
+<li>Clients must be configured to handle NameNode failover, using a mechanism that is transparent to users.<br>The HA guarantees if the active NameNode fails, the standby one will take over quickly in tens of seconds, since it has the latest state available in memory: the latest EditLog entries and an up-to-date block mapping.</li>
+</ul>
+<h3 id="Failover"><a href="#Failover" class="headerlink" title="Failover"></a>Failover</h3><p>The transition from the active NameNode to the standby NameNode is controlled by the failover controller. Each NameNode runs a failover controller to monitor its namenode failure, which is a heartbeating mechanism. Failover is triggered when a NameNode fails.  </p>
+<p>After NameNode failover, the Client must be informed which is active NameNode now. Client Failover is handled transparently by the client library. The HDFS client supports the configuration for multiple network addresses, one for each NameNode. The NameNode is identified by a single logical URI which is mapped the two network addresses of the HA Name Nodes via client-side configuration. The client will retry the two addresses until the active NameNode is found. </p>
+<h3 id="Fencing"><a href="#Fencing" class="headerlink" title="Fencing"></a>Fencing</h3><p>After Failover, HDFS makes use of the fencing technique to make sure that the previous died active NameNode is prevented from doing any damage and causing corruption. These mechanisms includes killing the NameNode’s process, revoking its access to the shared storage directory and disabling its network port via a remote management command. If these techniques fail, HDFS will use STONITH, that is “shoot the other node in the head”, which uses a specialized power distribution unit to forcibly power down the host machine. </p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
 
       
     </div>
@@ -656,13 +763,458 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/life/">Life</a>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/life/">life</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-hadoop-hdfs-federation" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/12/05/hadoop-hdfs-federation/" class="article-date">
+      <time datetime="2013-12-05T06:48:10.000Z" itemprop="datePublished">2013-12-05</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/05/hadoop-hdfs-federation/">Hadoop HDFS Federation </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>In traditional HDFS architecture, there is only one NameNode in a cluster, which maintains all of the namespace and block map. Regarding that Hadoop cluster is becoming larger and larger one enterprise platform and every file and block information is in NameNode RAM, when there are more than 4000 nodes with many files, the NameNode memory will reach its limit and it becomes the limiting factor for cluster scaling. In Hadoop 2.x release series, Hadoop introduces HDFS Federation, which allows a cluster to scale by adding NameNodes, each of which manages a portion of the filesystem namespace.[more…]<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd4.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd4.1.png" alt="hd4.1">Figure1 HDFS Federation</a><br>As shown in Figure1, there are many federated NameNodes which manages its own namespace. The NameNodes are independent and don’t require coordination with each other. The DataNodes are used as common storage for blocks. Each DataNode registers with all the NameNodes in the cluster and send periodic heartbeats and block report and handles commands from the NameNodes.<br>Each NameNode is responsible for two tasks: Namespace management and Block Management. For the two tasks, mange NameNode manages its own Namespace Volume, which consists of two parts:</p>
+<ul>
+<li>Namespace: the metadata for each file and block</li>
+<li>Block Pool: it is a set of blocks that belong to a single namespace. The Block Pool is in charge of block management task, including processing block reports and maintaining location of blocks.<br>Block pool storage is not partitioned , so DataNodes register with each NameNode in the cluster and store blocks from multiple block pools. The NameNode namespace must to generate block ID for new blocks.<br>A NameSpace Volume is a self-contained uinit . Each NameNode has no need to contact other NameNode and it’s failure will not influence other NameNode.<br>To access a federated HDFS, clients use client-side mount tables to map file paths to NameNodes. A new identifier ClusterID is added to all the nodes in the cluser. Federated NameNodes is configured by ViewFileSystem and the viewfs://URIs.<br>The HDFS Federation brings several benefits:</li>
+</ul>
+<ul>
+<li>NameSpace Scalability: It will support large clusters with many files, just add more NameNode to scale namespace.</li>
+<li>Performance: Break the limitation of single node, more NameNodes means more read/write operations and the throughput is improved.</li>
+<li>Isolation: A single NameNode has no isolation in multi user environment. While multiple NameNodes can provide isolated NameSpace for both production and experiment application. </li>
+</ul>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-hadoop-hdfs-review" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/12/05/hadoop-hdfs-review/" class="article-date">
+      <time datetime="2013-12-05T04:00:32.000Z" itemprop="datePublished">2013-12-05</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/05/hadoop-hdfs-review/">Hadoop HDFS Review</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="HDFS-Basic-Concepts"><a href="#HDFS-Basic-Concepts" class="headerlink" title="HDFS Basic Concepts"></a>HDFS Basic Concepts</h3><p>Hadoop Distributed File System, know as HDFS, is a distributed file system designed to store large data sets and streaming data sets on commodity hardware with high scalability, reliability and availability. </p>
+<p>HDFS is written in Java based on the Google File System (GFS). HDFS has many advantages compared with other distributed file systems:</p>
+<p><strong>1. Highly fault-tolerant</strong></p>
+<p>Fault-tolerant is the core architecture for HDFS. Since HDFS can run on low-cost and unreliable hardware, the hardware has a non-trivial probability of failures. HDFS is designed to carry on working without a noticeable interruption to the user in the face of such failure. HDFS provides redundant storage for massive amounts of data and Heartbeat for failure detection.<br>When one node fails, the master will detect it and re-assign the work to a different node. Restarting a node doesn’t need communicating with other data node. When failed node restart it will be added the system automatically. If a node appears to run slowly, the master can redundantly execute another instance of the same task, know as ‘speculative execution’.[more…]</p>
+<p><strong>2. Streaming Data Access</strong></p>
+<p>HDFS is designed with the most efficient data processing pattern: a write once, read-many times pattern. HDFS split large files into blocks, usually 64MB or 128MB. HDFS performs best with a modest number of large files. It prefers millions, rather than billions of files, and each of which is 100MB or more. No random writes to files is allowed. Also HDFS is optimized for large, steaming reads of files. No Random reads is allowed. </p>
+<p>A data set is generated and copied from source and replicated spread the HDFS system. It is efficient to load data from HDFS for big data analysis.</p>
+<p><strong>3. Large data sets</strong></p>
+<p>Large data means files that are MB, GB or TB in size. There are Hadoop clusters today that store PB data. HDFS support high aggregate data bandwidth and scale to hundreds of nodes in a single cluster. It also supports tens of millions of files processing.</p>
+<h3 id="HDFS-NameNode-and-DataNodes-Architecture"><a href="#HDFS-NameNode-and-DataNodes-Architecture" class="headerlink" title="HDFS NameNode and DataNodes Architecture"></a>HDFS NameNode and DataNodes Architecture</h3><p>HDFS has a master/slave architecture. As shown in Figure1. </p>
+<p>The <strong>master node</strong> is the NameNode, which managers the file system namespace, file metadata and regulates the access interface for files by clients. A cluster has only one NameNode, which maintain the map of file metadata and  the location of blocks. </p>
+<p>The <strong>slave nodes</strong> are the DataNodes. A cluster has many DataNodes, which holds the actual data blocks.</p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.1.png" alt="hd3.1">Figure1 HDFS Architecture</a></p>
+<h3 id="NameNode"><a href="#NameNode" class="headerlink" title="NameNode"></a>NameNode</h3><p>NameNode maintains the namespace tree, which is logical location and the mapping of file blocks to DataNodes, which is the physical location.</p>
+<p>The NameNode executes file system namespace operations like opening, closing, and renaming files and directories. It provides POSIX interface for client, so that user can access HDFS data with Unix like commands and no need to know about the function of NameNode and DataNodes. It is kind of abstraction which decrease the complexity for data access. </p>
+<p>The NameNode is the pivot in a cluster. A single NameNode greatly simplifies the architecture of HDFS. NameNode holds all of its metadata in RAM for fast access. It keeps a record of change on disk for crash recovery.</p>
+<p>However, once the NameNode fails, the cluster fails. The Single Point of Failure, known as SPOF is really a bottleneck for NameNode. Hadoop 2.0 introduces NameNode Federation and High Availability to solve the problem. We will discuss these in later section.</p>
+<h3 id="NameNode-Data-Persistent"><a href="#NameNode-Data-Persistent" class="headerlink" title="NameNode Data Persistent"></a>NameNode Data Persistent</h3><p>In case of NameNode crash, the namespace information and metadata updates are stored persistently on the local disk in the form of two files: the namespace image called <strong>FsImage</strong> and the <strong>EditLog</strong>.</p>
+<p>FsImage is an image file persistently stores the file system namespace, including the file system tree and the metadata for all the files and the directories in the tree, the mapping of blocks to files and file system properties.</p>
+<p>EditLog is a transaction log to persistently record every change that occurs to file system metadata.</p>
+<p>However, we have to know there is one thing that is not persistent. The block locations we can call it Blockmap, which is stored in NameNode in-memory, not persistent on the local disk. Blockmap is reconstructed from DataNodes when the system starts by the Blockreport of DataNodes.</p>
+<p>When the system starts up, NameNode will load FsImage and EditLog from the local disk, applies the transactions from the EditLog to the in-memory representation of the FsImage, and flushes out the new version of FsImage on disk. Then it truncates the old EditLog since its transactions has been applied to the FsImage. This process is called a <strong>checkpoint</strong>.</p>
+<h3 id="Secondary-NameNode"><a href="#Secondary-NameNode" class="headerlink" title="Secondary NameNode"></a>Secondary NameNode</h3><p>To increase the reliability and availability of the NameNode, a separate daemon known as the Secondary NameNode takes care of some <strong>housekeeping</strong> tasks for the NameNode. Be careful that the Secondary NameNode is not a backup or a hot standby NameNode.</p>
+<p>The housekeeping wok is to periodically merge the namespace image FsImage with the EditLog to prevent the EditLog becoming to large. The Secondary NameNode runs on a single Node, which is a separate physical machine with as much memory and CPU requirements as the NameNode.</p>
+<p>The Secondary NameNode keeps a copy of the merged namespace image in case of the NameNode fails. But the time lags will result in data loss certainly. And during the NameNode recovery, the reconstruction of the Blockmap will cost too much time. So Hadoop works out the problem with Hadoop High Availability solution.</p>
+<h3 id="DataNodes"><a href="#DataNodes" class="headerlink" title="DataNodes"></a>DataNodes</h3><p>The DataNodes holds all the actual data blocks. In sum up, it has three functions: </p>
+<ul>
+<li>Serves read and requests from the file system clients.</li>
+<li>Provides block operations, like creation, deletion and replication upon instruction from the NameNode.</li>
+<li>Make data Blockreport to NameNode periodically with lists of blocks that they are storing.</li>
+</ul>
+<p>In enterprise Hadoop deployment, each DataNode is a java program run on a separate JVM, and one instance of DataNode on one machine. </p>
+<p>In addition, NameNode is a java program run on a single machine. Written in java provides Hadoop good portability.</p>
+<h3 id="The-Communication-Protocols"><a href="#The-Communication-Protocols" class="headerlink" title="The Communication Protocols"></a>The Communication Protocols</h3><p>HDFS client, NameNode and DataNodes communication protocols are TCP/IP. Client Protocol is TCP connection between a client and NameNode. The DataNode Protocol is the connection between the NameNode and the DataNodes. HDFS makes an abstraction wraps for the Client Protocol and the DataNode Protocol, which called Remote Procedure Call (RPC). NameNode never initiates any RPCs, only responds to RPC requests from clients or DataNodes.</p>
+<h3 id="HDFS-Files-Organization"><a href="#HDFS-Files-Organization" class="headerlink" title="HDFS Files Organization"></a>HDFS Files Organization</h3><p>In traditional concepts, a disk has a block size, which is the minimum amount of data that it can read or write. Disk blocks are normally 512 bytes. While HDFS has the concept of block as well, which is a much larger unit – 64MB by default.</p>
+<p>HDFS large files are chopped up into 64MB or 128MB blocks. This brings several benefits:</p>
+<ul>
+<li>It can take advantage of any of the disks in the cluster, when the file is larger than any single disk.</li>
+<li>Making the unit of abstraction of a block simplifies the storage subsystem. HDFS will deal with blocks, rather than a file. Since blocks are a fixed size, it’s easy to calculate how many can be stored on a give disk and eliminate metadata concerns.</li>
+<li>Normally, a map task will operate on one local block at a time. Bocks spare the complexity of dealing with files.</li>
+<li>It’s easy to do data replication with blocks for providing fault tolerance and availability. Each block is replicated multiple times. Default is to replicate each block 3 times. Replicas are stored on different nodes.</li>
+<li>Block data fits well for streaming data. Files are written once and read many times. Blocks minimize the cost of seeking files.</li>
+</ul>
+<p>Although files are split into 64MB or 128MB blocks ， if a file is smaller than this full 64MB/128MB will not be split.</p>
+<h3 id="HDFS-Data-Replication"><a href="#HDFS-Data-Replication" class="headerlink" title="HDFS Data Replication"></a>HDFS Data Replication</h3><p>HDFS each data block has a replica factor, which indicates how many times it should be replicated. Normally, the replica factor is three. Each block is replicated three times and spread on three different machines across the cluster. This provides efficient MapReduce processing because of good data locality.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.2.png" alt="hd3.2">Figure2 Block Replication</a><br>As shown in Figure2, the NameNode holds the metadata for each map of file and blocks, including filename, replica factor and block-id etc. Block data are spread on different DataNodes.</p>
+<h3 id="Data-Replica-Placement"><a href="#Data-Replica-Placement" class="headerlink" title="Data Replica Placement"></a>Data Replica Placement</h3><p>Block replica placement is not random. Regarding of the reliability and the performance, HDFS policy is to put one replica on one node in the local rack, the second one on a node in a different remote rack and the third one on a different node in the same remote rack.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.3.png" alt="hd3.3">Figure 3 HDFS Racks</a><br>As shown in Figure 3, different DataNodes on different racks, Rack 0 and Rack1. Large HDFS instance run on a cluster of machines that commonly spread across many racks. Network bandwidth for intra-racks is greater than inter-racks. So the HDFS replica policy cuts the inter-rack write traffic and improves write performance. One third of replicas are on one node, two third of replicas are on one rack, the other third are distributed across the remaining racks. This policy guarantees the reliability.</p>
+<h3 id="Data-Replication-Pipeline"><a href="#Data-Replication-Pipeline" class="headerlink" title="Data Replication Pipeline"></a>Data Replication Pipeline</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.4.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.4.png" alt="hd3.4">Figure 4 Data Replication Pipeline</a><br>As shown in Figure 4, it is the data flow of writing data to HDFS. A client request to request a file does not reach the NameNode immediately. It will follow the steps:<br>Step 1, the HDFS client caches the file data into a temporary local file until the local file accumulates data worth over one HDFS block size.<br>Step 2, the client contacts the NameNode, requests add a File.<br>Step 3, the NameNode inserts the file name into the file system tree and allocates a data block for it. Then responds to the client request with the identity of the DataNodes and the destination data block.<br>Step 4, suppose the HDFS file has a replication factor of three. The client retrieves a list of DataNodes, which contains that will host a replica of that block. The clients flushes the block of data from the local temporary file to the first DataNode.<br>Step 5,.the first DataNode starts receiving the data in small portions like 4KB, writes each portion to its local repository and transfers that portion to the second DataNode. Then the second DataNode retrieves the data portion, stores it and transfers to the third DataNode. Data is pipelined from the first DataNode to the third one.<br>Step 6, when a file is closed, the remaining un-flushed data in temporary local file is transferred to the DataNode. Then the client tells the NameNode that the file is closed.<br>Step 7, the NameNode commits the file creation operation into a persistent one. Be careful if the NameNode dies before the file is closed, the file is lost.<br>So far, we can see that file caching policy improves the writing performance. HDFS is write-once-read-many-times. When a client wants to read a file: It should contacts the NameNode to retrieves the file block map, including block id, block physical location. Then it communicates directly with the DataNodes to read data. The NameNode will not be a bottleneck for data transfer.</p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-hadoop-overview" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/12/05/hadoop-overview/" class="article-date">
+      <time datetime="2013-12-05T03:36:08.000Z" itemprop="datePublished">2013-12-05</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/05/hadoop-overview/">Hadoop Overview</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="The-motivation-for-Hadoop"><a href="#The-motivation-for-Hadoop" class="headerlink" title="The motivation for Hadoop"></a>The motivation for Hadoop</h3><p>Apache Hadoop is an open source distributed computing framework for large-scale data sets processing. Doug Cutting, who is the creator of Apache Lucene Project, creates it. </p>
+<p>The name of Hadoop is a made-up name, which is the nickname of a stuffed yellow elephant of the kid of Doug. Hadoop has its origins in Apache Nutch, an open source web search engine, and it is built based on work done by Google in early 2000s, specifically on Google papers describing the Google File System (GFS) published in 2003, and MapReduce published in 2004. </p>
+<p>Hadoop moved out of Nutch to form an independent in Feb. 2006. Up to now, Hadoop has been powered by many companies, such as Yahoo who claims it has the biggest Hadoop cluster in the world with more than 42000 nodes, LinkedIn who has 4100 nodes, Facebook who has 1400 nodes, Taobao who has the biggest cluster in China with more than 2000 nodes. [more…]</p>
+<h3 id="The-problems-for-traditional-big-data-processing"><a href="#The-problems-for-traditional-big-data-processing" class="headerlink" title="The problems for traditional big data processing"></a>The problems for traditional big data processing</h3><p>Why these companies adopt Hadoop? The reason is simple, that we live in a big data age. We are flooded with big data every day on the Internet. Consider that: Facebook hosts approximately 10 billion photos, taken up on PB storage. Every second on eBay, a total merchandise value of 1400 dollars is traded and 10 million new items are listed on eBay every day. Ancestry.com, the genealogy site, store around 2.5 PB of Data.</p>
+<p>How to make use of these big data to make analysis? For traditional methods, use only one machine to process computation, which needs faster processor and RAM. Even though the CPU power doubles every 18 months according to Moores’s Law, it hasn’t meet the big data analysis needs. Yet distributed system evolved to allow developers to use multiple machines for a single job, like MPI, PVM and Condor. However, programing for these traditional distributed systems is complex, you have to deal with these problems:</p>
+<ul>
+<li>It’s difficult to deal with partial failures of the system. Developers spend more time designing for failure than they do actually working on the problem itself.</li>
+<li>Finite and precious bandwidth must be available to combine data from different disks and transfer time is very slow for big data volume.</li>
+<li>Data exchange requires synchronization.</li>
+<li>Temporal dependencies are complicated.</li>
+</ul>
+<h3 id="How-can-Hadoop-save-big-data-analysis"><a href="#How-can-Hadoop-save-big-data-analysis" class="headerlink" title="How can Hadoop save big data analysis"></a>How can Hadoop save big data analysis</h3><p>What really counts is big data. Traditional distributed computing can’t handle big data in a decent way, but Hadoop can. Lets see what Hadoop brings to us: </p>
+<ul>
+<li>Hadoop provide partial failure support. Hadoop Distributed File System (HDFS) can store large data sets with high reliability and scalability.</li>
+<li>HDFS provide great fault tolerance. Partial Failure will not result in the failure of the entire system. And HDFS provide data recoverability for partial failure.</li>
+<li>Hadoop introduce MapReduce, which spares programmers from low-level details, like partial failure. The MapReduce framework will detect failed tasks and reschedule them automatically.</li>
+<li>Hadoop provide data locality. The MapReduce framework tries to collocate data with the compute nodes. Data is local, and tasks are separated with no dependence on each other. So the shared-nothing and data locality architecture can save more bandwidth and solve the complicated dependence problem</li>
+</ul>
+<p>In summary, Hadoop is a great big data processing tool.</p>
+<h3 id="Hadoop-Basic-Concepts-and-Core-Concepts"><a href="#Hadoop-Basic-Concepts-and-Core-Concepts" class="headerlink" title="Hadoop Basic Concepts and Core Concepts"></a>Hadoop Basic Concepts and Core Concepts</h3><p>The core concepts for Hadoop are to distribute the data as it is initially stored in the system. That is data locality, individual nodes can work on data local to these nodes, and no data transfer over the network is required for initial processing.<br>Here are the basic concepts for Hadoop:</p>
+<ul>
+<li>Applications are written in high-level code. Developers don’t worry about network programming, temporal dependencies etc.</li>
+<li>Nodes talk to each other as little as possible. Developers should not write code which communicates between nodes, that is ‘Shared-Nothing’ architecture.</li>
+<li>Data is spread among machines in advance. Computation happens where the data is stored, wherever possible, just as near the node as possible. Data is replicated multiple times on the system for increased availability and reliability.</li>
+</ul>
+<h3 id="Hadoop-High-Level-Overview"><a href="#Hadoop-High-Level-Overview" class="headerlink" title="Hadoop High-Level Overview"></a>Hadoop High-Level Overview</h3><p>Hadoop consists of two important components: HDFS and MapReduce.<br>HDFS is Hadoop Distributed File System, which is a distributed file system designed to store large data sets and streaming data sets on commodity hardware with high scalability, reliability and availability.</p>
+<p>MapReduce is a distributed processing framework designed to operate on large data stored on HDFS, which provides a clean interface for developers.</p>
+<p>A set of machines running HDFS and MapReduce is known as a Hadoop Cluster. An individual machine in a cluster is known as nodes. The nodes play different roles. There are two kind important nodes: Master Nodes and Slave Nodes.</p>
+<p>There are 5 important daemons on these nodes. </p>
+<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png" alt="hd2.1">Figure1 Hadoop High-Level Architecture</a></p>
+<p>As shown in Figure, Hadoop is comprised of 5 separate daemons:</p>
+<ul>
+<li>NameNode, which holds the metadata for HDFS.</li>
+<li>Secondary NameNode, which performs housekeeping functions for NameNode, and isn’t a backup or hot standby for the NameNode.</li>
+<li>DataNode, which stores actual HDFS data blocks. In Hadoop, a large file is split into 64M or 128M blocks.</li>
+<li>JobTracker, which manages MapReduce jobs, distributes individual tasks to machines running.</li>
+<li>TaskTracker, which initiates and monitors each individual Map and Reduce tasks.</li>
+</ul>
+<p>Each daemon runs on its own Java Virtual Machine (JVM), no Nodes can run 5 daemons at the same time.  </p>
+<p>Master Nodes runs the NameNode, Secondary NameNode, JobTracker daemons. And only one of each of these daemons runs on the cluster.<br>Slave Nodes run the DataNode and TaskTracker daemons. A slave node will run both of these daemons. All of these Slave Nodes run in parallel, each on their own part of the overall dataset locally.</p>
+<p>Just for very small clusters, the NameNode, JobTracker and the Secondary NameNode run on a single machine. However, when there are beyond 20-30 nodes. It’s better to run each of them on individual nodes. </p>
+<h3 id="Hadoop-Ecosystem"><a href="#Hadoop-Ecosystem" class="headerlink" title="Hadoop Ecosystem"></a>Hadoop Ecosystem</h3><p>Hadoop has a family of related projects based on the infrastructure for distributed computing and large-scale data processing. The core projects are apache open source projects. Except for HDFS and MapReduce, some hadoop related projects are:</p>
+<ul>
+<li>Ambari, a Hadoop management and cluster monitoring system.</li>
+<li>Avro, a serialization system for efficient, cross-language RPC and persistent data storage.</li>
+<li>Pig, a data flow language and execution environment for exploring very large datasets, which runs on HDFS and MapReduce clusters.</li>
+<li>HBase, provide random, realtime read/write access to BigData. The project built a column-oriented database, host very large tables —- billions of rows X millions of columns. The project is based on Google’s paper BigTable: A Distributed Storage System for Structured Data.</li>
+<li>Hive, which is distributed data warehouse. Hive manages data stored in HDFS and provides a query language based on SQL, which is translated by runtime engine to MapReduce Job.</li>
+<li>Zookeeper, a distributed, highly available coordination service. It provides centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services, which make build distributed applications more efficient.</li>
+<li>Oozie, a service for running and scheduling workflows of Hadoop jobs, which includes MapReduce, Pig, Hive and sqoop jobs.</li>
+<li>Mahout, a scalable machine learning libraries based on Hadoop HDFS and MapReduce.</li>
+</ul>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-graph-dfs-bfs" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/12/02/graph-dfs-bfs/" class="article-date">
+      <time datetime="2013-12-02T14:26:47.000Z" itemprop="datePublished">2013-12-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/02/graph-dfs-bfs/">Graph DFS and BFS</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>图论是一个重要的部分，以前数据结构课上过，没有作为考试要求，所以很不太熟悉，尤其是没有实现。考完试，无聊中重新看了看，想起以前在eBay，某帅哥突然开玩笑说DFS和BFS嘛，当然要会呀，Cyanny你会的吧，我说忘了，其实细细想起来，还真没有写过代码。In my view，没有实现过，就等于不会，今天实现了BFS和DFS，深深赞一个算导，说得明白和透彻，现在的算法书太多，这算是一本很不错的经典，厚了点，但要是能厚着脸皮看完确实受益匪浅。</p>
+<h3 id="广度优先搜索BFS"><a href="#广度优先搜索BFS" class="headerlink" title="广度优先搜索BFS"></a>广度优先搜索BFS</h3><p>其算法思想简介：<br>1. 利用队列<br>2. 每一个Vertex引入三个变量<br>color：WHITE 表示没有访问过，GREY 表示发现，BLACK 表示完成访问<br>parent: 父亲<br>d: 表示从root到该顶点的长度<br>3. 为了实现方便，我采用int来标识每一个顶点，采用邻接表来表示graph<br>深度优先搜索可以生成深度优先树，生成单源最短路径，即从root到每一个顶点的长度是最短路径。[more…]<br>BFS可以采用邻接矩阵表示，其复杂度较高为O(n^2)<br>如果采用邻接表表示，其复杂度为O(E+V),即顶点个数+边的个数<br>[java]<br>public void BFS(int root) {<br>    vertexes = new Vertex[n];<br>    // Initialize each vertex,<br>    // Each vertex has three segment: parent, d, color<br>    for (int i = 0; i &lt; n; i++) {<br>        vertexes[i] = new Vertex(i);<br>    }</p>
+<pre><code>Vertex rootv = vertexes[root];
+rootv.d = 0;
+rootv.color = Color.GREY;
+queue.add(rootv);
+
+while (!queue.isEmpty()) {
+    Vertex u = queue.remove(0);
+    ArrayList&amp;lt;Integer&amp;gt; list = graph.get(u.vertex);
+    for (int i = 0; i &amp;lt; list.size(); i++) {
+        Vertex temp = vertexes[list.get(i)];
+        // Make sure each vertex enqueue only once
+        if (temp.color == Color.WHITE) {
+            temp.parent = u;
+            temp.d = u.d + 1;
+            temp.color = Color.GREY;
+            queue.add(temp);
+        }                
+    }
+        u.color = Color.BLACK;
+    res.add(u);
+}
+</code></pre><p>}<br>[/java]<br><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/graph/GraphBFS.java" title="BFS Source" target="_blank" rel="external">BFS Source Code</a></p>
+<h3 id="深度优先搜索DFS"><a href="#深度优先搜索DFS" class="headerlink" title="深度优先搜索DFS"></a>深度优先搜索DFS</h3><p>广度优先搜索DFS，基本算法思想<br>1. 采用递归，或stack来实现<br>2. 每一个Vertex引入四个变量<br>color：WHITE 表示没有访问过，GREY 表示发现，BLACK 表示完成访问<br>parent: 父亲<br>timestamp1: 表示第一次访问该顶点的时间戳<br>timestamp2:表示访问结束时的时间戳<br>3. 为了实现方便，我采用int来标识每一个顶点，采用邻接表来表示graph</p>
+<p>DFS采用邻接表表示Graph来实现，复杂度O(V+E), 矩阵复杂度依然不好，为O（n^2）<br>DFS是从多个源开始，最终会生成由多个源作为root的森林，即深度优先树（深度优先森林）。<br>同时引入时间戳，是为了获得DFS的进展情况，如果不需要时间戳，只是想简单地打印每一个顶点，可以不用。</p>
+<p>以下是递归的实现方法：<br>[java]<br>    public void DFS() {<br>        int i = 0;<br>        for (i = 0; i &lt; n; i++) {<br>            vertexes[i] = new Vertex(i);<br>        }<br>        for (i = 0; i &lt; n; i++) {<br>            Vertex u = vertexes[i];<br>            if (u.color == Color.WHITE) {<br>                visitDFS(u);<br>            }<br>        }<br>    }</p>
+<pre><code>private void visitDFS(Vertex u) {
+    res.add(u);
+    u.color = Color.GREY;
+    timer++;
+    u.timestamp1 = timer;
+    ArrayList&amp;lt;Integer&amp;gt; adjList = graph.get(u.vertex);
+    for (int i = 0; i &amp;lt; adjList.size(); i++) {
+        Vertex v = vertexes[adjList.get(i)];
+        if (v.color == Color.WHITE) {
+            v.parent = u;
+            visitDFS(v);
+        }
+    }
+    u.color = Color.BLACK;
+    timer++;
+    u.timestamp2 = timer;
+}
+</code></pre><p>[/java]</p>
+<p>以下是采用栈的实现方法改写 “visitDFS”：<br>[java]<br>    /**</p>
+<pre><code> * DFS with iterative method 
+ * Make use of stack
+ * @param u
+ */
+private void visitDFSIterative(Vertex u) {
+    res.add(u);
+    u.color = Color.GREY;
+    timer++;
+    u.timestamp1 = timer;
+    stack.add(u);
+    while(!stack.isEmpty()) {
+        Vertex v = stack.remove(stack.size() - 1);
+        ArrayList&amp;lt;Integer&amp;gt; adjList = graph.get(v.vertex);
+        for (int i = 0; i &amp;lt; adjList.size(); i++) {
+            Vertex temp = vertexes[adjList.get(i)];
+            if (temp.color == Color.WHITE) {
+                temp.parent = v;
+                temp.color = Color.GREY;
+                timer++;
+                temp.timestamp1 = timer;
+                res.add(temp);
+                stack.add(temp);
+            }
+        }
+        v.color = Color.BLACK;
+        timer++;
+        v.timestamp2 = timer;
+    }
+    u.color = Color.BLACK;
+    timer++;
+    u.timestamp2 = timer;
+}
+</code></pre><p>[/java]</p>
+<p><a href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/graph/GraphDFS.java" title="DFS Source" target="_blank" rel="external">DFS Source Code</a></p>
+<p>最终发现，起始实现起来代码不多，重在想法。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/algorithm/">Algorithm</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
     </div>
 
       
@@ -684,7 +1236,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 </div>

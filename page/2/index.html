@@ -159,13 +159,13 @@
                     <nav class="header-menu">
                         <ul>
                         
-                            <li><a href="/">主页</a></li>
+                            <li><a href="/">Home</a></li>
                         
-                            <li><a href="/archives/">所有文章</a></li>
+                            <li><a href="/archives/">All Blogs</a></li>
                         
-                            <li><a href="/tags/">标签云</a></li>
+                            <li><a href="/tags/">Tags</a></li>
                         
-                            <li><a href="/about/">关于我</a></li>
+                            <li><a href="/about/">About</a></li>
                         
                         </ul>
                     </nav>
@@ -228,13 +228,13 @@
             <nav class="header-menu">
                 <ul>
                 
-                    <li><a href="/">主页</a></li>
+                    <li><a href="/">Home</a></li>
                 
-                    <li><a href="/archives/">所有文章</a></li>
+                    <li><a href="/archives/">All Blogs</a></li>
                 
-                    <li><a href="/tags/">标签云</a></li>
+                    <li><a href="/tags/">Tags</a></li>
                 
-                    <li><a href="/about/">关于我</a></li>
+                    <li><a href="/about/">About</a></li>
                 
                 <div class="clearfix"></div>
                 </ul>
@@ -261,288 +261,6 @@
     <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
 </nav>
       <div class="body-wrap">
-  
-    <article id="post-programming-in-scala-overview-key-note" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/06/programming-in-scala-overview-key-note/" class="article-date">
-      <time datetime="2016-03-06T10:01:42.000Z" itemprop="datePublished">2016-03-06</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/06/programming-in-scala-overview-key-note/">Programming In Scala Overview Key Note</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>过去半年里，都在忙着spark相关的项目，主要的编程语言是scala，前些年主要用的是c++，刚转到scala上时，有点不适应函数式编程语言的思想，现在已经半年多过去了，觉得scala真的是awesome，简洁有力的表达，整合了functional programming和object programming，并且设计良好。<br>去年上了Martin Odersky的编程课<i>Functional Programming In Scala</i>, 觉得挺感兴趣，学习了很多，想在scala语言上看得更多，更深入些，我选择了Scala的权威著作<a href="http://www.artima.com/shop/programming_in_scala_2ed">Programming In Scala</a>, 虽然这书有快900页，但我想挑战下，与其每天泡在各种新闻资讯里，还不如看看书泡在书里。每天都看看书，觉得挺好，有些笔记和心得就写在博客里，毕竟工作忙，写博客的时间很少，但我想还是应该多总结和留下写想法。之后阅读Spark的源码，我也会坚持写下些东西，看过了和写下来总还是不一样嘛。<br>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/learning/">Learning</a><a class="article-category-link" href="/categories/learning/scala/">Scala</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/language/">Language</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scala/">Scala</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2016/03/06/programming-in-scala-overview-key-note/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-learning-akka" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/10/07/learning-akka/" class="article-date">
-      <time datetime="2015-10-07T13:54:48.000Z" itemprop="datePublished">2015-10-07</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/07/learning-akka/">Learning Akka</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>最近学习了scala，主要是跟着<strong>Functional Programming in Scala</strong>的课程学习的，scala主要的用处还是在spark上，关于spark也看了一些源码，处于继续探索中。</p>
-<p>并发时的消息通信是处理spark这样的分布式系统的关键。spark主要依赖scala社区的akka进行消息通讯。在spark1.2的代码中可以看到很多actor的影子，然而spark1.4中，都是封装为EndPoint，但Actor的思想和模式还在。</p>
-<p>基于Actor的消息通讯模型是akka的核心。Akka为处理并发、容错和可扩展性的分布式问题提供了一套基于Actor模型的库。并发的消息通讯中，抽象是关键的方面。Actor模型是1973年由Carl Hewitt在论文”Actor Model of Computation- Scalable Robust Information Systems”中提出, 后被应用于爱立信公司研发的Elang语言，爱立信公司应用Actor模型开发了高并发和可靠的通信系统。</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/learning/">Learning</a><a class="article-category-link" href="/categories/learning/akka/">Akka</a><a class="article-category-link" href="/categories/learning/akka/scala/">Scala</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/akka/">Akka</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scala/">Scala</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2015/10/07/learning-akka/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-bitsort-ant-qsort" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/05/04/bitsort-ant-qsort/" class="article-date">
-      <time datetime="2015-05-04T13:57:53.000Z" itemprop="datePublished">2015-05-04</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/04/bitsort-ant-qsort/">位排序和快排</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>这已经不是一个新话题了，但是从开始实现一个C++位排序和快排，我还是花费了2个多小时，这里就记下自己的一点点体会啦。</p>
-<p>首先，题目来自《编程珠玑》第一章，主要是做位排序，同时和快排做比较：</p>
-<p>1. 实现位逻辑运算，实现位向量，并用该位向量实现1,000,000个数字的排序，数字最大是10,000,000</p>
-<p>2. 实现1000,000个数字的快排序</p>
-<p>3. 实现生成小于n且没有重复的k个整数，这里n=10,000,000, k = 1,000,000</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/algorithm/">Algorithm</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2015/05/04/bitsort-ant-qsort/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-find-median-for-two-sorted-array" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/04/03/find-median-for-two-sorted-array/" class="article-date">
-      <time datetime="2015-04-03T14:07:01.000Z" itemprop="datePublished">2015-04-03</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/03/find-median-for-two-sorted-array/">查找两个排序数组的中位数</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>题目是：求两个排序数组的中位数。<br>设：两个排序的数组a[m], b[n]，求a和b数组的中位数。<br>算法是：<br>mid_a是数组a的中位数index，同理mid_b是数组b的中位数索引<br>1. 如果a[mid_a] == b[mid_b] 中位数为a[mid_a]</p>
-<p>2. 如果a[mid_a] &lt; b[mid_b], 递归查找a(mid_a + 1, m - 1), b(0, mid_b)，因为a[mid_a]比较小，不可能作为下一次查询的中位数</p>
-<p>3. 如果a[mid_a] &gt; b[mid_b], 递归查找a(0, mid_a), b(mid_b + 1, n - 1)，因为b[mid_b]比较小，不可能作为下一次查询的中位数</p>
-<p>4. 当只少于4个元素需要查找时递归停止，merge这少于4的元素，求出中位数。这里需要考虑奇偶数的情况，只剩下2个或3个元素，不如只考虑4个简单。</p>
-<p>注意：这里求上中位数，当n为奇数时，中位数是唯一的，出现位置为n/2；当n为偶数时候，存在两个中位数，数组index从0开始，位置分别为n/2 - 1（上中位数）和n/2（下中位数）。</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/algorithm/">Algorithm</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2015/04/03/find-median-for-two-sorted-array/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
   
     <article id="post-hive-architecture" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -680,9 +398,606 @@
 
 
   
+    <article id="post-hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/" class="article-date">
+      <time datetime="2014-03-20T10:51:08.000Z" itemprop="datePublished">2014-03-20</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/">HBase MapReduce排序Secondary Sort</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>MapReduce是Hadoop中处理大数据的方法，是一个处理大数据的简单算法、编程泛型。虽然思想简单，但其实真正用起来还是有很多问题，不是所有的问题都可以像WordCount那样典型和直观, 有很多需要trick的地方。MapReduce的中心思想是分而治之，数据要松耦合，可以划分为小数据集并行处理，如果数据本身在计算上存在很强的依赖关系，就不要赶鸭子上架，用MapReduce了。<br>MapReduce编程中，最重要的是要抓住Map和Reduce的input和output，好的input和output可以降低实现的复杂度。最近，写了很多关于MapReduce的job，有倒排索引，统计，排序等。其中，对排序花费了一番功夫，MapReduce做WordCount很好理解,<br>Map input:[offset, text],  output: [word, 1],</p>
+<p>Reduce input: [word, 1], output: [word, totalcount],还可以设置Combiner进行优化。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mapreduce/">MapReduce</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-hbase-architecture-analysis-part-3-pros-cons" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/" class="article-date">
+      <time datetime="2014-03-13T14:13:20.000Z" itemprop="datePublished">2014-03-13</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/">HBase Architecture Analysis Part 3 Pros and Cons</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h2 id="5-HBase-Physical-Architecture"><a href="#5-HBase-Physical-Architecture" class="headerlink" title="5. HBase Physical Architecture"></a>5. HBase Physical Architecture</h2><p>Figure 5.1 shows the deployment view for HBase cluster:<br>HBase is the master-slave cluster on top of HDFS. The classic deployment is as follows:<br>➢<strong> Master node:</strong> one HMaster and one NameNode running on a machine as the master node.<br>➢ <strong>Slave node:</strong> Each node is running one HRegionServer and one DataNode. And each node report status to the master node and Zookeeper.<br>➢<strong> Zookeeper:</strong> HBase is shipped with ensemble Zookeeper, but for large clusters, using existing Zookeeper is better. Zookeeper is crucial, the HMaster and HRegionServers will register on Zookeeper.<br>➢ <strong>Client</strong>: There can be many clients to access HRegionServer, like Java Client, Shell Client, Thrift Client and Avro Client</p>
+<p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/big-data/">Big Data</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-hbase-architecture-analysis-part2-process-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/" class="article-date">
+      <time datetime="2014-03-13T14:00:11.000Z" itemprop="datePublished">2014-03-13</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/">HBase Architecture Analysis Part2(Process Architecture)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h2 id="4-Process-Architecture"><a href="#4-Process-Architecture" class="headerlink" title="4. Process Architecture"></a>4. Process Architecture</h2><h3 id="4-1-HBase-Write-Path"><a href="#4-1-HBase-Write-Path" class="headerlink" title="4.1 HBase Write Path"></a>4.1 HBase Write Path</h3><p>The client doesn’t write data directly into HFile on HDFS. Firstly it writes data to WAL(Write Ahead Log), and Secondly, writes to MemStore shared by a HStore in memory.<br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/big-data/">Big Data</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-hbase-architecture-analysis-part1-logical-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/" class="article-date">
+      <time datetime="2014-03-13T13:18:32.000Z" itemprop="datePublished">2014-03-13</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/">HBase Architecture Analysis Part1(Logical Architecture)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h2 id="1-Overview"><a href="#1-Overview" class="headerlink" title="1. Overview"></a>1. Overview</h2><p>Apache HBase is an open source column-oriented database. <strong>It is often described as a sparse, consistent, distributed, multi-dimensional sorted map.</strong> HBase is modeled after Google’s “Bigtable: A distributed Storage System for Structured Data”, which can host very large tables with billions of rows, X millions of columns.<br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/big-data/">Big Data</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/" class="article-date">
+      <time datetime="2014-02-27T08:00:42.000Z" itemprop="datePublished">2014-02-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/">Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>项目如果没有采用Java开发，难道就不能用HBase了么？程序猿不会善罢甘休的，有什么语言就会有什么API存在，我还觉得用Java配置时各种缺包错误很烦呢，记得《数学之美》中曾说道：“做技术有术和道两个层面”，知道HBase的架构和一些底层细节是”道”，而使用各种配置和API开发应用则是”术”，而我们就来试试非Java连接HBase。<br>HBase的第三方接口有Shell, Java, REST和Thrift，可以参考《HBase in Action》chapter 6, REST接口比较慢，使用起来并没有Thrift好。而你可能疑惑什么是Thrift:<br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learn/">Learn</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/" class="article-date">
+      <time datetime="2014-02-27T02:41:52.000Z" itemprop="datePublished">2014-02-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/">Revolution——面向对象看黑客帝国</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>作者: Thomas Zhang</p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>清楚地记得，第一次看《The Matrix》这部电影是在小学六年级，在一个英语班上，同小伙伴们一起，围着一个20英寸的小电视，一知半解地看完了一部完全没有中文字幕的英文版本。虽然那时的自己，对这个繁复庞杂的世界架构必然一知半解，但纵然如此，惊喜与震撼已经随着剧终Neo手中听筒的落地，而深埋内心。我开始像Mopheus一样的问自己。What is real? How to define real? 我开始问自己，这个世界是否真的有可能是一个Matrix中的映像，周遭的生活，是否真的有可能是镜花水月，空中楼台。转眼十几年过去了。这十几年中，《The Matrix》三部曲一直珍藏在我的硬盘中，时不时翻出来重新品味，每次又都有不一样的体验。[more…]<br>十年后的今天，我已经从一个懵懂的少年，成为一个软件工程专业的学生。不得不说，直到接触了软件，接触了计算机体系结构，接触了面向对象的设计思想，对于这部电影，我才有了一个更深刻，更不一样的理解和体会。而经过这一整个学期对面向对象技术的实papapa践与深入了解，对这部经典的理解，似乎又深入了许多。<br>对于这三部曲，《The Matrix》是开创性的，如疾风骤雨办将一个残酷的真相——现实劈头盖脸的丢到你面前，只留下目瞪口呆的你独自回味着扑面而来的震撼和冲击；《The Matrix ——Reload》是颠覆性的，将你冥思苦想，以为理解了的世界一把推翻，告诉你，真相，其实远远没有那么简单；《The Matrix —— Revolution》是整个三部曲的高潮与结尾，却更是一个开端，那一夜雨战之后，一切都恢复了原装，但是一切，又都变得不同了起来。这篇文章当然不是描述对电影艺术表现抑或情节内容的感受与分析，但是我们仍然要找一个切入点，一个面向对象世界中，和那个电影中的波澜壮阔的世界能够微妙的联系在一起的点。我选择了，Revolution——革命。</p>
+<h3 id="Recolution"><a href="#Recolution" class="headerlink" title="Recolution"></a>Recolution</h3><p>在那个雨夜大战之后，Neo和Smith这一对系统中的异常，终于被抹平，Matrix中的世界，似乎又恢复昔日的平静，一切都回到了原点。但，事实真的是这样么？Revolution，革命，究竟又指的是什么呢？<br>其实事实上，这时候的世界已经发生了本质的变化。还记得《Reload》里面的印度小姑娘Sati么？在从前，一个在系统中本应该被删除的，没有既定目标的冗余程序，现在竟然可以在Architecture眼皮底下自由地玩耍，并且可以完成一项似乎并没有“实用”功能性的代码改写——让夕阳变得美丽——来纪念逝去的人类朋友Neo。这意味着看似恢复原样的Matrix系统其实已经在不经意间完成了一次根本上变化，整个Matrix中，开始允许因为“爱”产生的冗余程序的存在。这是一个近乎根本性的有颠覆意义的改变。<br>也就是说，Revolution并不仅仅指的是在人类的角度上，Neo通过自我牺牲完成了对Zion的拯救，改变了脱离Matrix的人类宿命一样的被屠杀的命运；在另一个层面上，也指的是在Oracle的指引与Neo的协助之下，整个Matrix系统进行了一次根本性的“革命”。<br>更确切的对应到软件体系中，我们应该可以说，在电影中Matrix系统进行了一次大规模的系统热升级，在这次升级中，对整个系统的内存回收机制做出了根本上的修改，以使得系统更好的完成承载作为“电池”的人类思维的需求！<br>在影片中，从Merovingian、Architecture和Oracle的口中，直接间接的，我们可以知道，整个Matrix系统已经先后进行过六次这样的“升级”。这种开发模式，细细想来，与面向对象、敏捷开发中经常应用的迭代式的开发方式，有着异曲同工之处。<br>但是，一个系统要应用迭代开发方式，那么这个系统一定要满足特定的条件。在敏捷系统中，迭代开发需要满足<br>1、在项目开发早期需求可能有所变化<br>2、分析设计人员对应用领域很熟悉<br>3、高风险项目<br>4、用户可不同程度地参与整个项目的开发过程<br>5、使用面向对象的语言或统一建模语言<br>6、使用CASE工具<br>7、具有高素质的项目管理者和软件研发团队<br>其中，面向对象是使用迭代开发方式的必要条件之一。接下来，就来分析一下《The Matrix》世界对应到面向对象方式中的设计。</p>
+<h3 id="The-Desert-of-the-Real"><a href="#The-Desert-of-the-Real" class="headerlink" title="The Desert of the Real"></a>The Desert of the Real</h3><p>Mopheus第一次试图向Neo介绍the Matrix的真相时候告诉他，由于历史信息的缺失，对整个世界的构成和来由并不完全清楚，通过推测，才得以窥知这个世界的秘密，他称之为，the desert of the real。可以想见，如果到了一个人工智能发展如此强大的时代，编程语言的类别或许应该一定会超越目前人类的认知和理解。但是从矩阵世界中发生的故事中，我们其实还是可以管中窥豹，发现很多面向对象的蛛丝马迹。下面，就来一一剖析。</p>
+<p><a href="http://tinypic.com?ref=t4z978" target="_blank" rel="external"><img src="http://i58.tinypic.com/t4z978.jpg" alt="Image and video hosting by TinyPic"></a></p>
+<p>在PB Kruchten经典的论文中可以知道，我们可以通过4+1视对面向对象设计的架构进行描述。部署视图显示的是系统的实际部署情况，它是为了便于理解系统在一组处理节点上的物理分布。所以，这里就先从高层次上，与物理世界关系方面，对矩阵世界的部署视图进行尝试性的描述。<br>上图就是矩阵世界中地球上各个系统的部署视图，可以看出，地表上，机器城维护者作为能源的巨大的分布式电力供应系统，而这个电力系统以人供电，每个人又通过统一的接口连接在Matrix则个虚拟现实系统之中，为系统统一管理、控制。人类反抗组织以地下的Zion为基地，通过庞大的地下管道系统进行反抗机器城的活动，从电池组合Matrix中解救出有意愿脱离Matrix的人类。通过电影中可以得知，上面各个系统之间存在着繁复的交互关系，接下来就用4+1视图中逻辑视图中的类图，来形象的展示各个系统和各个部件之间的关系。</p>
+<p><a href="http://tinypic.com?ref=2monnyf" target="_blank" rel="external"><img src="http://i57.tinypic.com/2monnyf.jpg" alt="Image and video hosting by TinyPic"></a></p>
+<p>上图可见，Matrix系统由两部分组成，接入系统的人，以及保证系统正常运行的各类程序。Architecture与Oracle均是系统程序的一部分，拥有相对于其他程序高得多的权限，并且拥有与机器城交互的能力。每隔一定时间，系统中不稳定的人群中会由Oracle指引和选择出现The One，The One多重继承了程序和人的属性，帮助Matrix完成每一次的系统更新。<br>以上就是从The Matrix电影有限的信息中——the desert of real——中推测出来的，关于Matrix面向对象层次上抽象出来的设计描述。满足了这个前提条件，接下来，让我们回归正题，来讨论Matrix中对于“迭代式开发”技术的应用。</p>
+<h3 id="宿命的迭代"><a href="#宿命的迭代" class="headerlink" title="宿命的迭代"></a>宿命的迭代</h3><p>迭代开发，是面向对象以及目前流行的敏捷开发方式中最常用的一种开发方式。迭代，是快速原型与面向对象技术的结合。在迭代式开发方法中，整个开发工作被组织为一系列的短小的、固定长度的小项目，被称为一系列的迭代。每一次迭代都包括了需求分析、设计、实现与测试。采用这种方法，开发工作可以在需求被完整地确定之前启动，并在一次迭代中完成系统的一部分功能或业务逻辑的开发工作。再通过客户的反馈来细化需求，并开始新一轮的迭代。下面是迭代开发的流程示意图。</p>
+<p><a href="http://tinypic.com?ref=344fkgw" target="_blank" rel="external"><img src="http://i60.tinypic.com/344fkgw.jpg" alt="Image and video hosting by TinyPic"></a><br>暂且不做说明，同时放上the Matrix中系统升级的时间线如下图。</p>
+<p><a href="http://tinypic.com?ref=2csc64p" target="_blank" rel="external"><img src="http://i62.tinypic.com/2csc64p.jpg" alt="Image and video hosting by TinyPic"></a></p>
+<p>图中可以很明显的看出，第一个有着完美世界架构的矩阵很快失败了，正如迭代开发中第一个原型，通常都是抛弃原型，是快速搭建起来的，以获取用户需求为目的的原型。通常，在使用过后，由于修改变更的可能性极大，所以通常会被抛弃而重新设计。而接下来的五次矩阵升级，都是同一版本的提升性升级，the One选择了重建Zion，新版本的矩阵仅仅是清楚了之前的Bug数据，便继续运行。但是Neo，第六次的选择，作出了不同的选择，选择相信爱，拯救Trinity和Zion。最终Neo牺牲了自己，挽救了矩阵世界和人类世界。同时，系统终于加入了决定性的变更——类似人类的情感——爱以及全新的内存回收机制。<br>多么典型的迭代开发流程！<br>由此可以发现，不论是标准的迭代开发的图示，抑或定义，抑或矩阵的升级流程图，FeedBack都起到了极其重要的作用。而Feedback的来源，正是每一任the One，从Zion，这些排斥现有矩阵的反抗者那里获取的。所以，其实一切的一切，不论是从矩阵中的逃脱、Zion中的自由还是最终Zion的获救，其实都是Machine City，为了更好地设计Matrix系统，进行的宿命办的迭代。<br>When some see coincidence, I see consequence. When other see chance, I see cost.<br>其实每次变更，都是一次选择，一次一次机遇，也一定会付出一定的代价。<br>在迭代中，代价由于快速迭代，所以只会影响这一次迭代的原型。<br>而同样的优点，在矩阵中，则被计算机所完美的利用。正如Architecture所说的，我们能够承受每一次系统迭代升级的代价，也随时准备承受这样的代价。<br>机器的精明，确实人类宿命的悲哀。</p>
+<h3 id="接口，机遇"><a href="#接口，机遇" class="headerlink" title="接口，机遇"></a>接口，机遇</h3><p>那么，再这样完善的系统精巧的设计中，人类是不是真的就没有机会完成复兴呢？其实人类反击的机遇也恰恰蕴含在这近乎完美的设计之中。<br>在这样一个世界中，Matrix的世界中，人类与机器其实遵循同样的定律生活在一个虚拟的空间中。也就是说，机器和人类的思维，其实共享着同样的接口。面向接口设计的完美实例！这也就意味着，如果信息隐藏做的足够好，那么，既然人无法分辨机器，那么反过来，在Matrix中，自然可以做到让机器无法分辨出人！这不正是人的机遇么~？！<br>在《The Matrix》的动画版《Animatrix》中，描述了这样一幕，人类反抗组织通过私有Matrix，成功的与机器交流，并“招安了”许多机器作为保护自己的助手。同样的枷锁，蕴含在面向对象中的精灵，原来同样可以加诸机器头上！</p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>Architecture：You play a dangerous game!<br>Oracle: Change is always dangerous.<br>Architecture：Just how long,  do you think this peace can last.<br>Oracle: As long as  it can.</p>
+<p>May so be the software system!</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/life/">Life</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/life/">life</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-set-hadoop-hbase-part2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/02/06/set-hadoop-hbase-part2/" class="article-date">
+      <time datetime="2014-02-06T06:09:21.000Z" itemprop="datePublished">2014-02-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/02/06/set-hadoop-hbase-part2/">Set up Hadoop 2.2 and HBase 0.96 part2</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>在完成<a href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part1/" title="set-hadoop-hbase-part1" target="_blank" rel="external">Hadoop配置</a>后，我们可以开始HBase的安装和配置了。<br>对于HBase，我只想说走对了路就成功了一半，选对了版本就省事好多。之前下载的是0.94版，按照官方的配置，连Standalone都跑不通，纠结了半天，放弃治疗，选用0.96版本，一切顺利。</p>
+<h3 id="配置HBase-Standalone模式"><a href="#配置HBase-Standalone模式" class="headerlink" title="配置HBase Standalone模式"></a>配置HBase Standalone模式</h3><p>1. 前提条件<br>MacOS 10.9<br>Java安装好<br>Standalone模式是单机的，基于Local FileSystem，不需要Hadoop，用于开发或测试。<br>[more…]<br>2. 下载HBase<br><a href="http://apache.fayea.com/apache-mirror/hbase/hbase-0.96.1/" target="_blank" rel="external">hbase-0.96.1-hadoop2-bin.tar.gz </a></p>
+<p>3. 解压安装<br>[shell]<br>$ tar xzvf hbase-0.96.1-hadoop2-bin.tar.gz<br>$ mv hbase-0.96.1-hadoop2 hbase<br>[/shell]<br>同样需要把hbase安装到Home目录下~/hbase, 对于我是/Users/lgrcyanny/hbase</p>
+<p>4. 配置环境变量<br>[shell]<br>$ vim ~/.bashrc</p>
+<p>#Config HBase<br>export HBASE_HOME=/Users/lgrcyanny/hbase<br>export PATH=$PATH:$HBASE_HOME/bin<br>[/shell]</p>
+<p>5. 编辑hbase-site.xml<br>[shell]<br>$ cd ~/hbase<br>$ mkdir -p mydata/hbase<br>$ mkdir -p mydata/zookeeper<br>$ vim conf/hbase-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.rootdir&lt;/name&gt;<br>    &lt;value&gt;file:///Users/lgrcyanny/hbase/mydata/hbase&lt;/value&gt;<br>  &lt;/property&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.dataDir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hbase/mydata/zookeeper&lt;/value&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>6. 编辑hbase-env.sh<br>[shell]<br>$ cd ~/hbase<br>$ vim conf/hbase-env.sh<br>export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/<br>export HBASE_OPTS=&quot;-Djava.security.krb5.realm= -Djava.security.krb5.kdc= -Djava.security.krb5.conf=/dev/null&quot;<br>[/shell]</p>
+<p>7. 关于/etc/hosts<br>对于Ubuntu的用户，需要修改/etc/hosts，将127.0.1.1改为127.0.0.1，因为HBase的环回地址默认是127.0.0.1，但官方的quikstart中提到0.96以后的版本不需要修改，MacOS中确实不用修改，之前用0.94的版本，因为环回地址的问题总是报错也无法修复，这是0.94的bug。如果是Ubuntu用户，可以尝试不修改hosts看能不能跑通。</p>
+<p>8. 启动并测试HBase<br>[shell]<br>$ start-hbase.sh<br>starting master, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-master-Cyanny-MacBook-Air.local.out<br>$ hbase shell<br>&gt; status<br>SLF4J: Class path contains multiple SLF4J bindings.<br>SLF4J: Found binding in [jar:file:/Users/lgrcyanny/hbase/lib/slf4j-log4j12-1.6.4.jar!/org/slf4j/impl/StaticLoggerBinder.class]<br>SLF4J: Found binding in [jar:file:/Users/lgrcyanny/hadoop/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]<br>SLF4J: See <a href="http://www.slf4j.org/codes.html#multiple_bindings" target="_blank" rel="external">http://www.slf4j.org/codes.html#multiple_bindings</a> for an explanation.<br>2014-02-06 14:27:29,472 WARN  [main] util.NativeCodeLoader: Unable to load native-hadoop library for your platform… using builtin-java classes where applicable<br>1 servers, 0 dead, 3.0000 average load<br>&gt; create ‘test’, ‘cf’<br>&gt; put ‘test’, ‘row1’, ‘cf:a’, ‘value1’<br>&gt; list<br>TABLE<br>test<br>1 row(s) in 0.1060 seconds</p>
+<p>=&gt; [&quot;test&quot;]<br>&gt; scan ‘test’<br>ROW                                      COLUMN+CELL<br> row1                                    column=cf:a, timestamp=1391653468438, value=value1<br>1 row(s) in 0.0650 seconds<br>&gt; exit<br>$ stop-hbase.sh<br>stopping hbase……………..<br>[/shell]</p>
+<p>如果上面的步骤完成，HBase的Standalone模式就安装成功。</p>
+<h3 id="配置HBase单机伪分布式"><a href="#配置HBase单机伪分布式" class="headerlink" title="配置HBase单机伪分布式"></a>配置HBase单机伪分布式</h3><p>1. 修改hbase-site.xml<br>[shell]<br>$ cd ~/hbase<br>$ vim conf/hbase-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.rootdir&lt;/name&gt;<br>    &lt;value&gt;hdfs://localhost:9000/hbase&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;<br>    &lt;value&gt;true&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt;<br>    &lt;value&gt;localhost&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;dfs.replication&lt;/name&gt;<br>    &lt;value&gt;1&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.clientPort&lt;/name&gt;<br>    &lt;value&gt;2181&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.dataDir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hbase/mydata/zookeeper&lt;/value&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>2. 启动Hadoop和HBase<br>[shell]<br>$ start-dfs.sh<br>$ start-hbase.sh<br>localhost: starting zookeeper, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-zookeeper-Cyanny-MacBook-Air.local.out<br>starting master, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-master-Cyanny-MacBook-Air.local.out<br>localhost: starting regionserver, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-regionserver-Cyanny-MacBook-Air.local.out<br>$ jps<br>11107 HQuorumPeer<br>11427 Jps<br>11180 HMaster<br>11276 HRegionServer<br>9155 SecondaryNameNode<br>9064 DataNode<br>8990 NameNode<br>[/shell]<br>不需要启动yarn, 启动HDFS即可，我们可以看到HBase的伪分布式模式中，启动了内嵌的Zookeeper，启动了Master和RegionServer。</p>
+<p>3. 查看状态<br>查看Master Status： <a href="http://localhost:60010/master-status" target="_blank" rel="external">http://localhost:60010/master-status</a><br>查看Region Server Status： <a href="http://localhost:60030/rs-status" target="_blank" rel="external">http://localhost:60030/rs-status</a></p>
+<p>4. 测试HBase<br>可以按照Standalone模式中的第8步，打开hbase shell进行测试。</p>
+<p>到这里，如果顺利那么就一切都配置好了，可能花费了你1~2个小时，还是要恭喜，我前后花费了2天。<br>Anyway，探索的过程还是很愉快，Good Luck！</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="http://hbase.apache.org/book/quickstart.html" target="_blank" rel="external">HBase Quick Start</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-set-hadoop-hbase-part1" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/02/06/set-hadoop-hbase-part1/" class="article-date">
+      <time datetime="2014-02-06T03:27:54.000Z" itemprop="datePublished">2014-02-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/02/06/set-hadoop-hbase-part1/">Set up Hadoop 2.2 and HBase 0.96 part1</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>过完春节，新年开始了，闲暇的时光弄了一下Hadoop和HBase，之前也配置过Hadoop，不过是1.x的版本和现在2.2的版本不一样了，HBase的官网推荐使用Hadoop2.x，配置HBase确实花费了点时间，网上的各种教程相似但各异，自己遇到的问题和方法也值得记下来，下次再配置时也可以查看一下。<br><a href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SingleCluster.html" target="_blank" rel="external">Hadoop官方Guide</a>的配置不够详细，需要参考各种博客，以下是我个人配置的方法：</p>
+<h3 id="配置Hadoop"><a href="#配置Hadoop" class="headerlink" title="配置Hadoop"></a>配置Hadoop</h3><p>1. 操作系统<br>我用的是MacOS 10.9， 尽量在配置时使用Linux系统如Ubuntu，用Windows需要下载安装Cygwin，可能会麻烦些。<br>[more…]<br>2. 下载Java<br>到Oracle下载J2SE，1.6版本以上，下载最新版1.7即可。<br>在Mac下安装后，Java的Home路径是：<br>“/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/“<br>而不是很多博客中用的：<br>“/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK”<br>应该是MacOS10.8后有更新了。</p>
+<p>3. 下载Hadoop 2.X<br>我用的版本是Hadoop2.2.0<br><a href="http://apache.fayea.com/apache-mirror/hadoop/common/stable2/" title="Download Hadoop 2.2.0" target="_blank" rel="external">点击下载 hadoop-2.2.0.tar.gz</a></p>
+<p>[shell]<br>$ tar xzvf  hadoop-2.2.0.tar.gz<br>$ mv hadoop-2.2.0 hadoop<br>[/shell]<br>我安装hadoop到路径/Users/lgrcyanny/hadoop，即当前Mac用户的Home目录下，为了方便没有创建新的用户hadoop，在配置时可以自己将“lgrcyanny”替换为自己的用户名。</p>
+<p>4. 配置ssh localhost<br>Hadoop的Master和Slave的通信采用ssh，单机版的Hadoop也需要ssh。<br>Ubuntu用户可以”apt-get install ssh”， mac用户自带ssh<br>[shell]<br>$ ssh-keygen -t rsa # 如果之前配置过GitHub，rsa key是存在的，请不要覆盖即可<br>$ ssh lgrcyanny@localhost mkdir -p .ssh<br>$ cat .ssh/id_rsa.pub | ssh lgrcyanny@localhost ‘cat &gt;&gt; .ssh/authorized_keys’<br>$ ssh lgrcyanny@localhost &quot;chmod 700 .ssh; chmod 640 .ssh/authorized_keys&quot;<br>$ ssh localhost<br>Last login: Thu Feb  6 10:22:40 2014<br>[/shell]</p>
+<p>5. 配置环境变量<br>[shell]<br>$ cd ~<br>$ vim .bashrc</p>
+<p>#Java properties<br>export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/<br>export JRE_HOME=$JAVA_HOME/jre<br>export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH<br>export PATH=.:$JAVA_HOME/bin:$JRE_HOME/bin:$PATH</p>
+<p>#Hadoop variables<br>export HADOOP_INSTALL=/Users/lgrcyanny/hadoop  # Please change to your installation path<br>export PATH=$PATH:$HADOOP_INSTALL/bin<br>export PATH=$PATH:$HADOOP_INSTALL/sbin<br>export HADOOP_MAPRED_HOME=$HADOOP_INSTALL<br>export HADOOP_COMMON_HOME=$HADOOP_INSTALL<br>export HADOOP_HDFS_HOME=$HADOOP_INSTALL<br>export HADOOP_YARN_HOME=$HADOOP_INSTALL<br>$ source .bashrc<br>[/shell]</p>
+<p>6. 编辑hadoop-env.sh<br>[shell]<br>$ cd ~/hadoop/etc/hadoop<br>$vim hadoop-env.sh</p>
+<h1 id="config-JAVA-HOME-and-HADOOP-OPTS"><a href="#config-JAVA-HOME-and-HADOOP-OPTS" class="headerlink" title="config JAVA_HOME and HADOOP_OPTS"></a>config JAVA_HOME and HADOOP_OPTS</h1><p>export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/</p>
+<h1 id="HADOOP-OPTS-is-to-get-rid-of-warning-message-quot-Unable-to-load-realm-info-from-SCDynamicStore-quot"><a href="#HADOOP-OPTS-is-to-get-rid-of-warning-message-quot-Unable-to-load-realm-info-from-SCDynamicStore-quot" class="headerlink" title="HADOOP_OPTS is to get rid of warning message &quot;Unable to load realm info from SCDynamicStore &quot;"></a>HADOOP_OPTS is to get rid of warning message &quot;Unable to load realm info from SCDynamicStore &quot;</h1><p>export HADOOP_OPTS=&quot;-Djava.security.krb5.realm= -Djava.security.krb5.kdc= -Djava.security.krb5.conf=/dev/null&quot;<br>[/shell]</p>
+<p>7. 查看hadoop version<br>[shell]<br>$ hadoop version<br>Hadoop 2.2.0<br>Subversion <a href="https://svn.apache.org/repos/asf/hadoop/common" target="_blank" rel="external">https://svn.apache.org/repos/asf/hadoop/common</a> -r 1529768<br>Compiled by hortonmu on 2013-10-07T06:28Z<br>Compiled with protoc 2.5.0<br>From source with checksum 79e53ce7994d1628b240f09af91e1af4<br>This command was run using /Users/lgrcyanny/hadoop/share/hadoop/common/hadoop-common-2.2.0.jar<br>[/shell]</p>
+<p>8. 编辑core-site.xml<br>[shell]<br>$ cd ~/hadoop<br>$ mkdir -p mydata/tmp<br>$ vim etc/hadoop/core-site.xml</p>
+<h1 id="config-as-following"><a href="#config-as-following" class="headerlink" title="config as following"></a>config as following</h1><p>&lt;configuration&gt;<br>  &lt;property&gt;<br>     &lt;name&gt;fs.default.name&lt;/name&gt;<br>     &lt;value&gt;hdfs://localhost:9000&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hadoop/mydata/tmp&lt;/value&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>9. 编辑yarn-site.xml<br>Hadoop 2.x的特点就是引入了YARN框架，这是和之前Hadoop 1.x不同的方面<br>[shell]<br>$ cd ~/hadoop<br>$ vim etc/hadoop/yarn-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>     &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;<br>     &lt;value&gt;mapreduce_shuffle&lt;/value&gt;<br>  &lt;/property&gt;<br>  &lt;property&gt;<br>     &lt;name&gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&lt;/name&gt;<br>     &lt;value&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;/value&gt;<br>  &lt;/property&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;yarn.nodemanager.resource.memory-mb&lt;/name&gt;<br>    &lt;value&gt;10240&lt;/value&gt;<br>    &lt;description&gt;the amount of memory on the NodeManager in GB&lt;/description&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>10. 编辑mapred-site.xml<br>[shell]<br>$ cd ~/hadoop<br>$ mkdir -p mydata/mapred/temp<br>$ mkdir -p mydata/mapred/local<br>$ mv etc/hadoop/mapred-site.xml.template etc/hadoop/mapred-site.xml<br>$ vim etc/hadoop/mapred-site.xml<br>&lt;configuration&gt;</p>
+<p>  &lt;property&gt;<br>     &lt;name&gt;mapreduce.framework.name&lt;/name&gt;<br>     &lt;value&gt;yarn&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;mapreduce.cluster.temp.dir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hadoop/mydata/mapred/temp&lt;/value&gt;<br>    &lt;description&gt;The temp dir for map reduce&lt;/description&gt;<br>    &lt;final&gt;true&lt;/final&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;mapreduce.cluster.local.dir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hadoop/mydata/mapred/local&lt;/value&gt;<br>    &lt;description&gt;The local dir for map reduce&lt;/description&gt;<br>    &lt;final&gt;true&lt;/final&gt;<br>  &lt;/property&gt;</p>
+<p>&lt;/configuration&gt;<br>[/shell]</p>
+<p>11. 编辑hdfs-site.xml<br>[shell]<br>$ cd ~/hadoop<br>$ mkdir -p mydata/hdfs/namenode<br>$ mkdir -p mydata/hdfs/datanode<br>$ vim etc/hadoop/hdfs-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>     &lt;name&gt;dfs.replication&lt;/name&gt;<br>     &lt;value&gt;1&lt;/value&gt;<br>   &lt;/property&gt;<br>   &lt;property&gt;<br>     &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;<br>     &lt;value&gt;file:/Users/lgrcyanny/hadoop/mydata/hdfs/namenode&lt;/value&gt;<br>   &lt;/property&gt;<br>   &lt;property&gt;<br>     &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;<br>     &lt;value&gt;file:/Users/lgrcyanny/hadoop/mydata/hdfs/datanode&lt;/value&gt;<br>   &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>12. Format HDFS<br>[shell]<br>$ hadoop namenode -format<br>……<br>14/02/06 13:22:41 INFO namenode.NameNode: SHUTDOWN_MSG:<br>/<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br>SHUTDOWN_MSG: Shutting down NameNode at Cyanny-MacBook-Air.local/192.168.1.103<br><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>/<br>[/shell]</p>
+<p>13. 启动Hadoop<br>[shell]<br>$ start-dfs.sh<br>$ start-yarn.sh<br>$ jps #  Java Virtual Machine Process Status Tool<br>10377 Jps<br>10224 NodeManager<br>10146 ResourceManager<br>9155 SecondaryNameNode<br>9064 DataNode<br>8990 NameNode<br>[/shell]<br>Hadoop 1.x采用start-all.sh启动，而Hadoop2.x拆分为start-dfs.sh, start-yarn.sh，我想是因为如果使用HBase时，只需要HDFS的服务，而一般不需要YARN的服务，这样就不会占用太多的内存。</p>
+<p>14. Web查看Hadoop<br>查看HDFS的状态：<a href="http://localhost:50070" target="_blank" rel="external">http://localhost:50070</a><br>查看YARN的状态: <a href="http://localhost:8088" target="_blank" rel="external">http://localhost:8088</a></p>
+<p>15. 测试Hadoop，使用Hadoop的WordCount example<br>[shell]<br>$ cd ~/hadoop<br>$ hadoop jar ./share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar pi 2 5<br>Number of Maps  = 2<br>Samples per Map = 5<br>14/02/06 13:28:39 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform… using builtin-java classes where applicable<br>Wrote input for Map #0<br>Wrote input for Map #1<br>Starting Job<br>14/02/06 13:28:40 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032<br>14/02/06 13:28:41 INFO input.FileInputFormat: Total input paths to process : 2<br>14/02/06 13:28:41 INFO mapreduce.JobSubmitter: number of splits:2<br>………<br>[/shell]<br>你可以通过<a href="http://localhost:8088/cluster" target="_blank" rel="external">http://localhost:8088/cluster</a> 查看MapReduce的运行状态</p>
+<p>Congratulations, Hadoop 2.2.0安装完毕，接下来我们就要开始安装HBase了。</p>
+<h3 id="Trouble-Shooting"><a href="#Trouble-Shooting" class="headerlink" title="Trouble Shooting"></a>Trouble Shooting</h3><p>1. 当启动Hadoop，jps查看后没有datanode怎么办？<br>某一天我遇到这个问题，方法是将datanode和namenode, 以及tmp文件夹删除，重新format，再重启Hadoop。<br>[shell]<br>$ cd ~/hadoop<br>$ stop-dfs.sh<br>$ stop-yarn.sh<br>$ rm -r mydata/hdfs/datanode<br>$ rm -r mydata/hdfs/namenode<br>$ rm -r mydata/tmp<br>$ mkdir -p mydata/tmp<br>$ hadoop namenode -format<br>$ start-dfs.sh<br>$ start-yarn.sh<br>[/shell]</p>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="http://javatute.com/javatute/faces/post/hadoop/2014/setting-hadoop-2.2.0-on-ubuntu-12-lts.xhtml" target="_blank" rel="external">[1] setting-hadoop-2.2.0-on-ubuntu-12-lts</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 </div>
