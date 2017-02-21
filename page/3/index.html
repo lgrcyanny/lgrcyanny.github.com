@@ -262,6 +262,91 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-set-hadoop-hbase-part2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/02/06/set-hadoop-hbase-part2/" class="article-date">
+      <time datetime="2014-02-06T06:09:21.000Z" itemprop="datePublished">2014-02-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/02/06/set-hadoop-hbase-part2/">Set up Hadoop 2.2 and HBase 0.96 part2</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>在完成<a href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part1/" title="set-hadoop-hbase-part1" target="_blank" rel="external">Hadoop配置</a>后，我们可以开始HBase的安装和配置了。<br>对于HBase，我只想说走对了路就成功了一半，选对了版本就省事好多。之前下载的是0.94版，按照官方的配置，连Standalone都跑不通，纠结了半天，放弃治疗，选用0.96版本，一切顺利。</p>
+<h3 id="配置HBase-Standalone模式"><a href="#配置HBase-Standalone模式" class="headerlink" title="配置HBase Standalone模式"></a>配置HBase Standalone模式</h3><p>1. 前提条件<br>MacOS 10.9<br>Java安装好<br>Standalone模式是单机的，基于Local FileSystem，不需要Hadoop，用于开发或测试。<br>[more…]<br>2. 下载HBase<br><a href="http://apache.fayea.com/apache-mirror/hbase/hbase-0.96.1/" target="_blank" rel="external">hbase-0.96.1-hadoop2-bin.tar.gz </a></p>
+<p>3. 解压安装<br>[shell]<br>$ tar xzvf hbase-0.96.1-hadoop2-bin.tar.gz<br>$ mv hbase-0.96.1-hadoop2 hbase<br>[/shell]<br>同样需要把hbase安装到Home目录下~/hbase, 对于我是/Users/lgrcyanny/hbase</p>
+<p>4. 配置环境变量<br>[shell]<br>$ vim ~/.bashrc</p>
+<p>#Config HBase<br>export HBASE_HOME=/Users/lgrcyanny/hbase<br>export PATH=$PATH:$HBASE_HOME/bin<br>[/shell]</p>
+<p>5. 编辑hbase-site.xml<br>[shell]<br>$ cd ~/hbase<br>$ mkdir -p mydata/hbase<br>$ mkdir -p mydata/zookeeper<br>$ vim conf/hbase-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.rootdir&lt;/name&gt;<br>    &lt;value&gt;file:///Users/lgrcyanny/hbase/mydata/hbase&lt;/value&gt;<br>  &lt;/property&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.dataDir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hbase/mydata/zookeeper&lt;/value&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>6. 编辑hbase-env.sh<br>[shell]<br>$ cd ~/hbase<br>$ vim conf/hbase-env.sh<br>export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/<br>export HBASE_OPTS=&quot;-Djava.security.krb5.realm= -Djava.security.krb5.kdc= -Djava.security.krb5.conf=/dev/null&quot;<br>[/shell]</p>
+<p>7. 关于/etc/hosts<br>对于Ubuntu的用户，需要修改/etc/hosts，将127.0.1.1改为127.0.0.1，因为HBase的环回地址默认是127.0.0.1，但官方的quikstart中提到0.96以后的版本不需要修改，MacOS中确实不用修改，之前用0.94的版本，因为环回地址的问题总是报错也无法修复，这是0.94的bug。如果是Ubuntu用户，可以尝试不修改hosts看能不能跑通。</p>
+<p>8. 启动并测试HBase<br>[shell]<br>$ start-hbase.sh<br>starting master, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-master-Cyanny-MacBook-Air.local.out<br>$ hbase shell<br>&gt; status<br>SLF4J: Class path contains multiple SLF4J bindings.<br>SLF4J: Found binding in [jar:file:/Users/lgrcyanny/hbase/lib/slf4j-log4j12-1.6.4.jar!/org/slf4j/impl/StaticLoggerBinder.class]<br>SLF4J: Found binding in [jar:file:/Users/lgrcyanny/hadoop/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]<br>SLF4J: See <a href="http://www.slf4j.org/codes.html#multiple_bindings" target="_blank" rel="external">http://www.slf4j.org/codes.html#multiple_bindings</a> for an explanation.<br>2014-02-06 14:27:29,472 WARN  [main] util.NativeCodeLoader: Unable to load native-hadoop library for your platform… using builtin-java classes where applicable<br>1 servers, 0 dead, 3.0000 average load<br>&gt; create ‘test’, ‘cf’<br>&gt; put ‘test’, ‘row1’, ‘cf:a’, ‘value1’<br>&gt; list<br>TABLE<br>test<br>1 row(s) in 0.1060 seconds</p>
+<p>=&gt; [&quot;test&quot;]<br>&gt; scan ‘test’<br>ROW                                      COLUMN+CELL<br> row1                                    column=cf:a, timestamp=1391653468438, value=value1<br>1 row(s) in 0.0650 seconds<br>&gt; exit<br>$ stop-hbase.sh<br>stopping hbase……………..<br>[/shell]</p>
+<p>如果上面的步骤完成，HBase的Standalone模式就安装成功。</p>
+<h3 id="配置HBase单机伪分布式"><a href="#配置HBase单机伪分布式" class="headerlink" title="配置HBase单机伪分布式"></a>配置HBase单机伪分布式</h3><p>1. 修改hbase-site.xml<br>[shell]<br>$ cd ~/hbase<br>$ vim conf/hbase-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.rootdir&lt;/name&gt;<br>    &lt;value&gt;hdfs://localhost:9000/hbase&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;<br>    &lt;value&gt;true&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt;<br>    &lt;value&gt;localhost&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;dfs.replication&lt;/name&gt;<br>    &lt;value&gt;1&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.clientPort&lt;/name&gt;<br>    &lt;value&gt;2181&lt;/value&gt;<br>  &lt;/property&gt;</p>
+<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.dataDir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hbase/mydata/zookeeper&lt;/value&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
+<p>2. 启动Hadoop和HBase<br>[shell]<br>$ start-dfs.sh<br>$ start-hbase.sh<br>localhost: starting zookeeper, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-zookeeper-Cyanny-MacBook-Air.local.out<br>starting master, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-master-Cyanny-MacBook-Air.local.out<br>localhost: starting regionserver, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-regionserver-Cyanny-MacBook-Air.local.out<br>$ jps<br>11107 HQuorumPeer<br>11427 Jps<br>11180 HMaster<br>11276 HRegionServer<br>9155 SecondaryNameNode<br>9064 DataNode<br>8990 NameNode<br>[/shell]<br>不需要启动yarn, 启动HDFS即可，我们可以看到HBase的伪分布式模式中，启动了内嵌的Zookeeper，启动了Master和RegionServer。</p>
+<p>3. 查看状态<br>查看Master Status： <a href="http://localhost:60010/master-status" target="_blank" rel="external">http://localhost:60010/master-status</a><br>查看Region Server Status： <a href="http://localhost:60030/rs-status" target="_blank" rel="external">http://localhost:60030/rs-status</a></p>
+<p>4. 测试HBase<br>可以按照Standalone模式中的第8步，打开hbase shell进行测试。</p>
+<p>到这里，如果顺利那么就一切都配置好了，可能花费了你1~2个小时，还是要恭喜，我前后花费了2天。<br>Anyway，探索的过程还是很愉快，Good Luck！</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="http://hbase.apache.org/book/quickstart.html" target="_blank" rel="external">HBase Quick Start</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-set-hadoop-hbase-part1" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1031,122 +1116,6 @@
 <h3 id="HDFS-Data-Replication"><a href="#HDFS-Data-Replication" class="headerlink" title="HDFS Data Replication"></a>HDFS Data Replication</h3><p>HDFS each data block has a replica factor, which indicates how many times it should be replicated. Normally, the replica factor is three. Each block is replicated three times and spread on three different machines across the cluster. This provides efficient MapReduce processing because of good data locality.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.2.png" alt="hd3.2">Figure2 Block Replication</a><br>As shown in Figure2, the NameNode holds the metadata for each map of file and blocks, including filename, replica factor and block-id etc. Block data are spread on different DataNodes.</p>
 <h3 id="Data-Replica-Placement"><a href="#Data-Replica-Placement" class="headerlink" title="Data Replica Placement"></a>Data Replica Placement</h3><p>Block replica placement is not random. Regarding of the reliability and the performance, HDFS policy is to put one replica on one node in the local rack, the second one on a node in a different remote rack and the third one on a different node in the same remote rack.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.3.png" alt="hd3.3">Figure 3 HDFS Racks</a><br>As shown in Figure 3, different DataNodes on different racks, Rack 0 and Rack1. Large HDFS instance run on a cluster of machines that commonly spread across many racks. Network bandwidth for intra-racks is greater than inter-racks. So the HDFS replica policy cuts the inter-rack write traffic and improves write performance. One third of replicas are on one node, two third of replicas are on one rack, the other third are distributed across the remaining racks. This policy guarantees the reliability.</p>
 <h3 id="Data-Replication-Pipeline"><a href="#Data-Replication-Pipeline" class="headerlink" title="Data Replication Pipeline"></a>Data Replication Pipeline</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.4.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd3.4.png" alt="hd3.4">Figure 4 Data Replication Pipeline</a><br>As shown in Figure 4, it is the data flow of writing data to HDFS. A client request to request a file does not reach the NameNode immediately. It will follow the steps:<br>Step 1, the HDFS client caches the file data into a temporary local file until the local file accumulates data worth over one HDFS block size.<br>Step 2, the client contacts the NameNode, requests add a File.<br>Step 3, the NameNode inserts the file name into the file system tree and allocates a data block for it. Then responds to the client request with the identity of the DataNodes and the destination data block.<br>Step 4, suppose the HDFS file has a replication factor of three. The client retrieves a list of DataNodes, which contains that will host a replica of that block. The clients flushes the block of data from the local temporary file to the first DataNode.<br>Step 5,.the first DataNode starts receiving the data in small portions like 4KB, writes each portion to its local repository and transfers that portion to the second DataNode. Then the second DataNode retrieves the data portion, stores it and transfers to the third DataNode. Data is pipelined from the first DataNode to the third one.<br>Step 6, when a file is closed, the remaining un-flushed data in temporary local file is transferred to the DataNode. Then the client tells the NameNode that the file is closed.<br>Step 7, the NameNode commits the file creation operation into a persistent one. Be careful if the NameNode dies before the file is closed, the file is lost.<br>So far, we can see that file caching policy improves the writing performance. HDFS is write-once-read-many-times. When a client wants to read a file: It should contacts the NameNode to retrieves the file block map, including block id, block physical location. Then it communicates directly with the DataNodes to read data. The NameNode will not be a bottleneck for data transfer.</p>
-<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/">Research</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hadoop-overview" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2013/12/05/hadoop-overview/" class="article-date">
-      <time datetime="2013-12-05T03:36:08.000Z" itemprop="datePublished">2013-12-05</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/12/05/hadoop-overview/">Hadoop Overview</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="The-motivation-for-Hadoop"><a href="#The-motivation-for-Hadoop" class="headerlink" title="The motivation for Hadoop"></a>The motivation for Hadoop</h3><p>Apache Hadoop is an open source distributed computing framework for large-scale data sets processing. Doug Cutting, who is the creator of Apache Lucene Project, creates it. </p>
-<p>The name of Hadoop is a made-up name, which is the nickname of a stuffed yellow elephant of the kid of Doug. Hadoop has its origins in Apache Nutch, an open source web search engine, and it is built based on work done by Google in early 2000s, specifically on Google papers describing the Google File System (GFS) published in 2003, and MapReduce published in 2004. </p>
-<p>Hadoop moved out of Nutch to form an independent in Feb. 2006. Up to now, Hadoop has been powered by many companies, such as Yahoo who claims it has the biggest Hadoop cluster in the world with more than 42000 nodes, LinkedIn who has 4100 nodes, Facebook who has 1400 nodes, Taobao who has the biggest cluster in China with more than 2000 nodes. [more…]</p>
-<h3 id="The-problems-for-traditional-big-data-processing"><a href="#The-problems-for-traditional-big-data-processing" class="headerlink" title="The problems for traditional big data processing"></a>The problems for traditional big data processing</h3><p>Why these companies adopt Hadoop? The reason is simple, that we live in a big data age. We are flooded with big data every day on the Internet. Consider that: Facebook hosts approximately 10 billion photos, taken up on PB storage. Every second on eBay, a total merchandise value of 1400 dollars is traded and 10 million new items are listed on eBay every day. Ancestry.com, the genealogy site, store around 2.5 PB of Data.</p>
-<p>How to make use of these big data to make analysis? For traditional methods, use only one machine to process computation, which needs faster processor and RAM. Even though the CPU power doubles every 18 months according to Moores’s Law, it hasn’t meet the big data analysis needs. Yet distributed system evolved to allow developers to use multiple machines for a single job, like MPI, PVM and Condor. However, programing for these traditional distributed systems is complex, you have to deal with these problems:</p>
-<ul>
-<li>It’s difficult to deal with partial failures of the system. Developers spend more time designing for failure than they do actually working on the problem itself.</li>
-<li>Finite and precious bandwidth must be available to combine data from different disks and transfer time is very slow for big data volume.</li>
-<li>Data exchange requires synchronization.</li>
-<li>Temporal dependencies are complicated.</li>
-</ul>
-<h3 id="How-can-Hadoop-save-big-data-analysis"><a href="#How-can-Hadoop-save-big-data-analysis" class="headerlink" title="How can Hadoop save big data analysis"></a>How can Hadoop save big data analysis</h3><p>What really counts is big data. Traditional distributed computing can’t handle big data in a decent way, but Hadoop can. Lets see what Hadoop brings to us: </p>
-<ul>
-<li>Hadoop provide partial failure support. Hadoop Distributed File System (HDFS) can store large data sets with high reliability and scalability.</li>
-<li>HDFS provide great fault tolerance. Partial Failure will not result in the failure of the entire system. And HDFS provide data recoverability for partial failure.</li>
-<li>Hadoop introduce MapReduce, which spares programmers from low-level details, like partial failure. The MapReduce framework will detect failed tasks and reschedule them automatically.</li>
-<li>Hadoop provide data locality. The MapReduce framework tries to collocate data with the compute nodes. Data is local, and tasks are separated with no dependence on each other. So the shared-nothing and data locality architecture can save more bandwidth and solve the complicated dependence problem</li>
-</ul>
-<p>In summary, Hadoop is a great big data processing tool.</p>
-<h3 id="Hadoop-Basic-Concepts-and-Core-Concepts"><a href="#Hadoop-Basic-Concepts-and-Core-Concepts" class="headerlink" title="Hadoop Basic Concepts and Core Concepts"></a>Hadoop Basic Concepts and Core Concepts</h3><p>The core concepts for Hadoop are to distribute the data as it is initially stored in the system. That is data locality, individual nodes can work on data local to these nodes, and no data transfer over the network is required for initial processing.<br>Here are the basic concepts for Hadoop:</p>
-<ul>
-<li>Applications are written in high-level code. Developers don’t worry about network programming, temporal dependencies etc.</li>
-<li>Nodes talk to each other as little as possible. Developers should not write code which communicates between nodes, that is ‘Shared-Nothing’ architecture.</li>
-<li>Data is spread among machines in advance. Computation happens where the data is stored, wherever possible, just as near the node as possible. Data is replicated multiple times on the system for increased availability and reliability.</li>
-</ul>
-<h3 id="Hadoop-High-Level-Overview"><a href="#Hadoop-High-Level-Overview" class="headerlink" title="Hadoop High-Level Overview"></a>Hadoop High-Level Overview</h3><p>Hadoop consists of two important components: HDFS and MapReduce.<br>HDFS is Hadoop Distributed File System, which is a distributed file system designed to store large data sets and streaming data sets on commodity hardware with high scalability, reliability and availability.</p>
-<p>MapReduce is a distributed processing framework designed to operate on large data stored on HDFS, which provides a clean interface for developers.</p>
-<p>A set of machines running HDFS and MapReduce is known as a Hadoop Cluster. An individual machine in a cluster is known as nodes. The nodes play different roles. There are two kind important nodes: Master Nodes and Slave Nodes.</p>
-<p>There are 5 important daemons on these nodes. </p>
-<p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png" alt="hd2.1">Figure1 Hadoop High-Level Architecture</a></p>
-<p>As shown in Figure, Hadoop is comprised of 5 separate daemons:</p>
-<ul>
-<li>NameNode, which holds the metadata for HDFS.</li>
-<li>Secondary NameNode, which performs housekeeping functions for NameNode, and isn’t a backup or hot standby for the NameNode.</li>
-<li>DataNode, which stores actual HDFS data blocks. In Hadoop, a large file is split into 64M or 128M blocks.</li>
-<li>JobTracker, which manages MapReduce jobs, distributes individual tasks to machines running.</li>
-<li>TaskTracker, which initiates and monitors each individual Map and Reduce tasks.</li>
-</ul>
-<p>Each daemon runs on its own Java Virtual Machine (JVM), no Nodes can run 5 daemons at the same time.  </p>
-<p>Master Nodes runs the NameNode, Secondary NameNode, JobTracker daemons. And only one of each of these daemons runs on the cluster.<br>Slave Nodes run the DataNode and TaskTracker daemons. A slave node will run both of these daemons. All of these Slave Nodes run in parallel, each on their own part of the overall dataset locally.</p>
-<p>Just for very small clusters, the NameNode, JobTracker and the Secondary NameNode run on a single machine. However, when there are beyond 20-30 nodes. It’s better to run each of them on individual nodes. </p>
-<h3 id="Hadoop-Ecosystem"><a href="#Hadoop-Ecosystem" class="headerlink" title="Hadoop Ecosystem"></a>Hadoop Ecosystem</h3><p>Hadoop has a family of related projects based on the infrastructure for distributed computing and large-scale data processing. The core projects are apache open source projects. Except for HDFS and MapReduce, some hadoop related projects are:</p>
-<ul>
-<li>Ambari, a Hadoop management and cluster monitoring system.</li>
-<li>Avro, a serialization system for efficient, cross-language RPC and persistent data storage.</li>
-<li>Pig, a data flow language and execution environment for exploring very large datasets, which runs on HDFS and MapReduce clusters.</li>
-<li>HBase, provide random, realtime read/write access to BigData. The project built a column-oriented database, host very large tables —- billions of rows X millions of columns. The project is based on Google’s paper BigTable: A Distributed Storage System for Structured Data.</li>
-<li>Hive, which is distributed data warehouse. Hive manages data stored in HDFS and provides a query language based on SQL, which is translated by runtime engine to MapReduce Job.</li>
-<li>Zookeeper, a distributed, highly available coordination service. It provides centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services, which make build distributed applications more efficient.</li>
-<li>Oozie, a service for running and scheduling workflows of Hadoop jobs, which includes MapReduce, Pig, Hive and sqoop jobs.</li>
-<li>Mahout, a scalable machine learning libraries based on Hadoop HDFS and MapReduce.</li>
-</ul>
 <p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
 
       

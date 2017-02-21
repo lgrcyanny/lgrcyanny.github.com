@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cyanny.com/"/>
-  <updated>2017-01-22T02:57:56.000Z</updated>
+  <updated>2017-02-21T01:42:31.000Z</updated>
   <id>http://www.cyanny.com/</id>
   
   <author>
@@ -14,6 +14,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>I look down on bineary search algorithm</title>
+    <link href="http://www.cyanny.com/2017/02/21/bineary-search-algorithm/"/>
+    <id>http://www.cyanny.com/2017/02/21/bineary-search-algorithm/</id>
+    <published>2017-02-21T01:29:49.000Z</published>
+    <updated>2017-02-21T01:42:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>One day, I wanted to use binary search in one of my feature in my project. My friends said the algorithm is not easy to implement bug free. I don’t believe that. I spent 10min to write it.</p>
+<a id="more"></a>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">search</span></span>(list: <span class="type">Array</span>[<span class="type">Int</span>], start: <span class="type">Int</span>, end: <span class="type">Int</span>, x: <span class="type">Int</span>): <span class="type">Option</span>[<span class="type">Int</span>] = &#123;</div><div class="line">   <span class="keyword">if</span> (start &lt;= end) &#123;</div><div class="line">     <span class="keyword">val</span> middle = (end - start) / <span class="number">2</span> </div><div class="line">    <span class="keyword">if</span> (list(middle) == x) &#123;</div><div class="line">       <span class="type">Some</span>(middle)</div><div class="line">     &#125; <span class="keyword">else</span> <span class="keyword">if</span> (list(middle) &gt; x) &#123;</div><div class="line">       search(list, middle + <span class="number">1</span>, end, x)</div><div class="line">     &#125; <span class="keyword">else</span> &#123;</div><div class="line">       search(list, start, middle - <span class="number">1</span>, x)</div><div class="line">     &#125;</div><div class="line">   &#125; <span class="keyword">else</span> &#123;</div><div class="line">     <span class="type">None</span></div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"> </div><div class="line"> <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</div><div class="line">   <span class="keyword">val</span> list = <span class="type">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>)</div><div class="line">   println(search(list, <span class="number">0</span>, list.size - <span class="number">1</span>, <span class="number">5</span>))</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>Ooh, definitly my code has bug, yes I admitted that it was not very easy to implement binary search bug free.<br>I revised it.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">search</span></span>(list: <span class="type">Array</span>[<span class="type">Int</span>], start: <span class="type">Int</span>, end: <span class="type">Int</span>, x: <span class="type">Int</span>): <span class="type">Option</span>[<span class="type">Int</span>] = &#123;</div><div class="line">    <span class="keyword">if</span> (start &lt;= end) &#123;</div><div class="line">      <span class="keyword">val</span> middle = (end - start) / <span class="number">2</span> + start <span class="comment">// bug 1, without plus start</span></div><div class="line">      <span class="keyword">if</span> (list(middle) == x) &#123;</div><div class="line">        <span class="type">Some</span>(middle)</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (list(middle) &gt; x) &#123;   <span class="comment">// bug2, when middle bigger than x, not search middle+1,end</span></div><div class="line">        search(list, start, middle - <span class="number">1</span>, x)</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        search(list, middle + <span class="number">1</span>, end, x)</div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="type">None</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</div><div class="line">    <span class="keyword">val</span> list = <span class="type">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>)</div><div class="line">    println(search(list, <span class="number">0</span>, list.size - <span class="number">1</span>, <span class="number">5</span>))</div><div class="line">    println(search(list, <span class="number">0</span>, list.size - <span class="number">1</span>, <span class="number">11</span>))</div><div class="line">    println(search(list, <span class="number">0</span>, list.size - <span class="number">1</span>, <span class="number">8</span>))</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">output:</div><div class="line">Some(4)</div><div class="line">None</div><div class="line">Some(7)</div></pre></td></tr></table></figure>
+<p>It was an interesting problem. I should tain my programming skills more.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;One day, I wanted to use binary search in one of my feature in my project. My friends said the algorithm is not easy to implement bug free. I don’t believe that. I spent 10min to write it.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
+    
+  </entry>
   
   <entry>
     <title>My Booklist and Reservations for 2017</title>
@@ -487,7 +514,7 @@
     <link href="http://www.cyanny.com/2016/03/06/programming-in-scala-overview-key-note/"/>
     <id>http://www.cyanny.com/2016/03/06/programming-in-scala-overview-key-note/</id>
     <published>2016-03-06T10:01:42.000Z</published>
-    <updated>2016-09-27T01:03:08.000Z</updated>
+    <updated>2017-02-21T01:30:12.000Z</updated>
     
     <content type="html"><![CDATA[<p>过去半年里，都在忙着spark相关的项目，主要的编程语言是scala，前些年主要用的是c++，刚转到scala上时，有点不适应函数式编程语言的思想，现在已经半年多过去了，觉得scala真的是awesome，简洁有力的表达，整合了functional programming和object programming，并且设计良好。<br>去年上了Martin Odersky的编程课<i>Functional Programming In Scala</i>, 觉得挺感兴趣，学习了很多，想在scala语言上看得更多，更深入些，我选择了Scala的权威著作<a href="http://www.artima.com/shop/programming_in_scala_2ed" target="_blank" rel="external">Programming In Scala</a>, 虽然这书有快900页，但我想挑战下，与其每天泡在各种新闻资讯里，还不如看看书泡在书里。每天都看看书，觉得挺好，有些笔记和心得就写在博客里，毕竟工作忙，写博客的时间很少，但我想还是应该多总结和留下写想法。之后阅读Spark的源码，我也会坚持写下些东西，看过了和写下来总还是不一样嘛。<br><a id="more"></a></p>
 <h1 id="Scala-Overview"><a href="#Scala-Overview" class="headerlink" title="Scala Overview"></a>Scala Overview</h1><h2 id="1-Scala-is-a-Scalable-Language"><a href="#1-Scala-is-a-Scalable-Language" class="headerlink" title="1. Scala is a Scalable Language"></a>1. Scala is a Scalable Language</h2><ul>
@@ -1464,54 +1491,6 @@ public static void main(String[] args) throws IOException,
     
     
       <category term="life" scheme="http://www.cyanny.com/tags/life/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Set up Hadoop 2.2 and HBase 0.96 part2</title>
-    <link href="http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part2/"/>
-    <id>http://www.cyanny.com/2014/02/06/set-hadoop-hbase-part2/</id>
-    <published>2014-02-06T06:09:21.000Z</published>
-    <updated>2016-09-27T01:03:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>在完成<a href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part1/" title="set-hadoop-hbase-part1" target="_blank" rel="external">Hadoop配置</a>后，我们可以开始HBase的安装和配置了。<br>对于HBase，我只想说走对了路就成功了一半，选对了版本就省事好多。之前下载的是0.94版，按照官方的配置，连Standalone都跑不通，纠结了半天，放弃治疗，选用0.96版本，一切顺利。</p>
-<h3 id="配置HBase-Standalone模式"><a href="#配置HBase-Standalone模式" class="headerlink" title="配置HBase Standalone模式"></a>配置HBase Standalone模式</h3><p>1. 前提条件<br>MacOS 10.9<br>Java安装好<br>Standalone模式是单机的，基于Local FileSystem，不需要Hadoop，用于开发或测试。<br>[more…]<br>2. 下载HBase<br><a href="http://apache.fayea.com/apache-mirror/hbase/hbase-0.96.1/" target="_blank" rel="external">hbase-0.96.1-hadoop2-bin.tar.gz </a></p>
-<p>3. 解压安装<br>[shell]<br>$ tar xzvf hbase-0.96.1-hadoop2-bin.tar.gz<br>$ mv hbase-0.96.1-hadoop2 hbase<br>[/shell]<br>同样需要把hbase安装到Home目录下~/hbase, 对于我是/Users/lgrcyanny/hbase</p>
-<p>4. 配置环境变量<br>[shell]<br>$ vim ~/.bashrc</p>
-<p>#Config HBase<br>export HBASE_HOME=/Users/lgrcyanny/hbase<br>export PATH=$PATH:$HBASE_HOME/bin<br>[/shell]</p>
-<p>5. 编辑hbase-site.xml<br>[shell]<br>$ cd ~/hbase<br>$ mkdir -p mydata/hbase<br>$ mkdir -p mydata/zookeeper<br>$ vim conf/hbase-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.rootdir&lt;/name&gt;<br>    &lt;value&gt;file:///Users/lgrcyanny/hbase/mydata/hbase&lt;/value&gt;<br>  &lt;/property&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.dataDir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hbase/mydata/zookeeper&lt;/value&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
-<p>6. 编辑hbase-env.sh<br>[shell]<br>$ cd ~/hbase<br>$ vim conf/hbase-env.sh<br>export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/<br>export HBASE_OPTS=&quot;-Djava.security.krb5.realm= -Djava.security.krb5.kdc= -Djava.security.krb5.conf=/dev/null&quot;<br>[/shell]</p>
-<p>7. 关于/etc/hosts<br>对于Ubuntu的用户，需要修改/etc/hosts，将127.0.1.1改为127.0.0.1，因为HBase的环回地址默认是127.0.0.1，但官方的quikstart中提到0.96以后的版本不需要修改，MacOS中确实不用修改，之前用0.94的版本，因为环回地址的问题总是报错也无法修复，这是0.94的bug。如果是Ubuntu用户，可以尝试不修改hosts看能不能跑通。</p>
-<p>8. 启动并测试HBase<br>[shell]<br>$ start-hbase.sh<br>starting master, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-master-Cyanny-MacBook-Air.local.out<br>$ hbase shell<br>&gt; status<br>SLF4J: Class path contains multiple SLF4J bindings.<br>SLF4J: Found binding in [jar:file:/Users/lgrcyanny/hbase/lib/slf4j-log4j12-1.6.4.jar!/org/slf4j/impl/StaticLoggerBinder.class]<br>SLF4J: Found binding in [jar:file:/Users/lgrcyanny/hadoop/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]<br>SLF4J: See <a href="http://www.slf4j.org/codes.html#multiple_bindings" target="_blank" rel="external">http://www.slf4j.org/codes.html#multiple_bindings</a> for an explanation.<br>2014-02-06 14:27:29,472 WARN  [main] util.NativeCodeLoader: Unable to load native-hadoop library for your platform… using builtin-java classes where applicable<br>1 servers, 0 dead, 3.0000 average load<br>&gt; create ‘test’, ‘cf’<br>&gt; put ‘test’, ‘row1’, ‘cf:a’, ‘value1’<br>&gt; list<br>TABLE<br>test<br>1 row(s) in 0.1060 seconds</p>
-<p>=&gt; [&quot;test&quot;]<br>&gt; scan ‘test’<br>ROW                                      COLUMN+CELL<br> row1                                    column=cf:a, timestamp=1391653468438, value=value1<br>1 row(s) in 0.0650 seconds<br>&gt; exit<br>$ stop-hbase.sh<br>stopping hbase……………..<br>[/shell]</p>
-<p>如果上面的步骤完成，HBase的Standalone模式就安装成功。</p>
-<h3 id="配置HBase单机伪分布式"><a href="#配置HBase单机伪分布式" class="headerlink" title="配置HBase单机伪分布式"></a>配置HBase单机伪分布式</h3><p>1. 修改hbase-site.xml<br>[shell]<br>$ cd ~/hbase<br>$ vim conf/hbase-site.xml<br>&lt;configuration&gt;<br>  &lt;property&gt;<br>    &lt;name&gt;hbase.rootdir&lt;/name&gt;<br>    &lt;value&gt;hdfs://localhost:9000/hbase&lt;/value&gt;<br>  &lt;/property&gt;</p>
-<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;<br>    &lt;value&gt;true&lt;/value&gt;<br>  &lt;/property&gt;</p>
-<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt;<br>    &lt;value&gt;localhost&lt;/value&gt;<br>  &lt;/property&gt;</p>
-<p>  &lt;property&gt;<br>    &lt;name&gt;dfs.replication&lt;/name&gt;<br>    &lt;value&gt;1&lt;/value&gt;<br>  &lt;/property&gt;</p>
-<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.clientPort&lt;/name&gt;<br>    &lt;value&gt;2181&lt;/value&gt;<br>  &lt;/property&gt;</p>
-<p>  &lt;property&gt;<br>    &lt;name&gt;hbase.zookeeper.property.dataDir&lt;/name&gt;<br>    &lt;value&gt;/Users/lgrcyanny/hbase/mydata/zookeeper&lt;/value&gt;<br>  &lt;/property&gt;<br>&lt;/configuration&gt;<br>[/shell]</p>
-<p>2. 启动Hadoop和HBase<br>[shell]<br>$ start-dfs.sh<br>$ start-hbase.sh<br>localhost: starting zookeeper, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-zookeeper-Cyanny-MacBook-Air.local.out<br>starting master, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-master-Cyanny-MacBook-Air.local.out<br>localhost: starting regionserver, logging to /Users/lgrcyanny/hbase/logs/hbase-lgrcyanny-regionserver-Cyanny-MacBook-Air.local.out<br>$ jps<br>11107 HQuorumPeer<br>11427 Jps<br>11180 HMaster<br>11276 HRegionServer<br>9155 SecondaryNameNode<br>9064 DataNode<br>8990 NameNode<br>[/shell]<br>不需要启动yarn, 启动HDFS即可，我们可以看到HBase的伪分布式模式中，启动了内嵌的Zookeeper，启动了Master和RegionServer。</p>
-<p>3. 查看状态<br>查看Master Status： <a href="http://localhost:60010/master-status" target="_blank" rel="external">http://localhost:60010/master-status</a><br>查看Region Server Status： <a href="http://localhost:60030/rs-status" target="_blank" rel="external">http://localhost:60030/rs-status</a></p>
-<p>4. 测试HBase<br>可以按照Standalone模式中的第8步，打开hbase shell进行测试。</p>
-<p>到这里，如果顺利那么就一切都配置好了，可能花费了你1~2个小时，还是要恭喜，我前后花费了2天。<br>Anyway，探索的过程还是很愉快，Good Luck！</p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="http://hbase.apache.org/book/quickstart.html" target="_blank" rel="external">HBase Quick Start</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在完成&lt;a href=&quot;http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part1/&quot; title=&quot;set-hadoop-hbase-part1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hadoop
-    
-    </summary>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
-    
-      <category term="HBase" scheme="http://www.cyanny.com/categories/hadoop/hbase/"/>
-    
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
-    
-      <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
     
   </entry>
   
