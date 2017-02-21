@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cyanny.com/"/>
-  <updated>2017-02-21T02:13:16.000Z</updated>
+  <updated>2017-02-21T02:14:27.000Z</updated>
   <id>http://www.cyanny.com/</id>
   
   <author>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>I look down on binary search algorithm</title>
-    <link href="http://www.cyanny.com/2017/02/21/bineary-search-algorithm/"/>
-    <id>http://www.cyanny.com/2017/02/21/bineary-search-algorithm/</id>
+    <link href="http://www.cyanny.com/2017/02/21/binary-search-algorithm/"/>
+    <id>http://www.cyanny.com/2017/02/21/binary-search-algorithm/</id>
     <published>2017-02-21T01:29:49.000Z</published>
-    <updated>2017-02-21T02:13:16.000Z</updated>
+    <updated>2017-02-21T02:14:27.000Z</updated>
     
     <content type="html"><![CDATA[<p>One day, I wanted to use binary search in one of my feature in my project. My friend said the algorithm was not easy to implement bug free. I did’t believe that. I spent 10min to write it.</p>
 <a id="more"></a>
