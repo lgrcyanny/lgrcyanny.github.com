@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cyanny.com/"/>
-  <updated>2017-02-21T02:14:27.000Z</updated>
+  <updated>2017-03-05T02:29:49.000Z</updated>
   <id>http://www.cyanny.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.cyanny.com/2017/02/21/binary-search-algorithm/"/>
     <id>http://www.cyanny.com/2017/02/21/binary-search-algorithm/</id>
     <published>2017-02-21T01:29:49.000Z</published>
-    <updated>2017-02-21T02:14:27.000Z</updated>
+    <updated>2017-03-05T02:29:49.000Z</updated>
     
     <content type="html"><![CDATA[<p>One day, I wanted to use binary search in one of my feature in my project. My friend said the algorithm was not easy to implement bug free. I did’t believe that. I spent 10min to write it.</p>
 <a id="more"></a>
@@ -38,7 +38,7 @@
     </summary>
     
     
-      <category term="algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
+      <category term="Algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
     
   </entry>
   
@@ -47,7 +47,7 @@
     <link href="http://www.cyanny.com/2017/01/22/booklist-for-2017/"/>
     <id>http://www.cyanny.com/2017/01/22/booklist-for-2017/</id>
     <published>2017-01-22T02:18:09.000Z</published>
-    <updated>2017-01-22T02:57:56.000Z</updated>
+    <updated>2017-03-05T02:29:43.000Z</updated>
     
     <content type="html"><![CDATA[<p>一直没有写关于2016的回顾，有很多方面吧。2016年发生很多事儿的一年，对于技术上的发展也有了新的思考，搞技术不再是死磕某种工具、算法或bug，其实本质上是为了解决问题或者做更好的产品。虽然我做的不是具体的产品而是底层的工具和平台，但这些工具的出口也是依赖”pillar application”, 多想想也是好处的。</p>
 <p>2016工作忙，读的书没有很多，但想想扎克伯克比我们还忙一年能挑战23本书确实很牛，其实自己的时间管理是不太到位的，大部分周末都懒散睡觉或者出去逛街了，回归2016年，读的书们：<a id="more"></a></p>
@@ -114,7 +114,7 @@
     </summary>
     
     
-      <category term="learning" scheme="http://www.cyanny.com/tags/learning/"/>
+      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
     
   </entry>
   
@@ -123,7 +123,7 @@
     <link href="http://www.cyanny.com/2016/11/07/scala-collections/"/>
     <id>http://www.cyanny.com/2016/11/07/scala-collections/</id>
     <published>2016-11-07T02:09:10.000Z</published>
-    <updated>2016-11-07T02:34:03.000Z</updated>
+    <updated>2017-03-05T02:28:50.000Z</updated>
     
     <content type="html"><![CDATA[<p>In scala there are many fancy collections with great utilities. Here are some key notes for scala collections which did a great help to me.<br><a id="more"></a></p>
 <h1 id="Collections-Hierarchy"><a href="#Collections-Hierarchy" class="headerlink" title="Collections Hierarchy"></a>Collections Hierarchy</h1><p><img src="http://ww1.sinaimg.cn/mw1024/761b7938jw1f9jbrdeugkj20ku0q041j.jpg" alt="collection hierarchy"></p>
@@ -153,7 +153,7 @@
 <li><p>Stack</p>
 <ul>
 <li>first-in-last-out</li>
-<li>you can use ArrayBuffer to implement a Stack <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> emtpyStack = <span class="type">Stack</span>.empty</div><div class="line"><span class="keyword">val</span> hasOne = emptyStack.push(<span class="number">1</span>)</div></pre></td></tr></table></figure>
+<li>you can use ArrayBuffer to implement a Stack<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> emtpyStack = <span class="type">Stack</span>.empty</div><div class="line"><span class="keyword">val</span> hasOne = emptyStack.push(<span class="number">1</span>)</div></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -162,8 +162,6 @@
 <li><p>Ranges</p>
   <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> range = <span class="number">1</span> to <span class="number">10</span></div></pre></td></tr></table></figure>
 </li>
-</ul>
-<ul>
 <li><p>Hash Tries</p>
 <ul>
 <li>Hash tries4 are a standard way to implement immutable sets and maps efficiently.</li>
@@ -274,12 +272,8 @@
     
     </summary>
     
-      <category term="Learning" scheme="http://www.cyanny.com/categories/learning/"/>
-    
     
       <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
-    
-      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
     
   </entry>
   
@@ -288,11 +282,10 @@
     <link href="http://www.cyanny.com/2016/09/27/%E6%98%A5%E6%B1%9F%E8%8A%B1%E6%9C%88%E5%A4%9C/"/>
     <id>http://www.cyanny.com/2016/09/27/春江花月夜/</id>
     <published>2016-09-27T01:35:59.000Z</published>
-    <updated>2016-09-27T01:42:47.000Z</updated>
+    <updated>2017-03-05T02:27:57.000Z</updated>
     
-    <content type="html"><![CDATA[<p>有人说张若虚的这首诗很值得背诵下来</p>
-<h2 id="春江花月夜"><a href="#春江花月夜" class="headerlink" title="春江花月夜"></a>春江花月夜</h2><a id="more"></a>
-<hr>
+    <content type="html"><![CDATA[<p>有人说张若虚的这首诗很值得背诵下来<br><a id="more"></a></p>
+<h2 id="春江花月夜"><a href="#春江花月夜" class="headerlink" title="春江花月夜"></a>春江花月夜</h2><hr>
 <blockquote>
 <p>春江潮水连海平，海上明月共潮生。<br>滟滟随波千万里，何处春江无月明！<br>江流宛转绕芳甸，月照花林皆似霰;<br>空里流霜不觉飞，汀上白沙看不见。<br>江天一色无纤尘，皎皎空中孤月轮。<br>江畔何人初见月？江月何年初照人？<br>人生代代无穷已，江月年年只相似。<br>不知江月待何人，但见长江送流水。<br>白云一片去悠悠，青枫浦上不胜愁。<br>谁家今夜扁舟子？何处相思明月楼？<br>可怜楼上月徘徊，应照离人妆镜台。<br>玉户帘中卷不去，捣衣砧上拂还来。<br>此时相望不相闻，愿逐月华流照君。<br>鸿雁长飞光不度，鱼龙潜跃水成文。<br>昨夜闲潭梦落花，可怜春半不还家。<br>江水流春去欲尽，江潭落月复西斜。<br>斜月沉沉藏海雾，碣石潇湘无限路。<br>不知乘月几人归，落月摇情满江树。</p>
 <hr>
@@ -301,8 +294,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;有人说张若虚的这首诗很值得背诵下来&lt;/p&gt;
-&lt;h2 id=&quot;春江花月夜&quot;&gt;&lt;a href=&quot;#春江花月夜&quot; class=&quot;headerlink&quot; title=&quot;春江花月夜&quot;&gt;&lt;/a&gt;春江花月夜&lt;/h2&gt;
+      &lt;p&gt;有人说张若虚的这首诗很值得背诵下来&lt;br&gt;
     
     </summary>
     
@@ -316,7 +308,7 @@
     <link href="http://www.cyanny.com/2016/09/27/eight-queens-problem-in-scala/"/>
     <id>http://www.cyanny.com/2016/09/27/eight-queens-problem-in-scala/</id>
     <published>2016-09-27T01:15:28.000Z</published>
-    <updated>2016-11-07T02:11:19.000Z</updated>
+    <updated>2017-03-05T02:29:36.000Z</updated>
     
     <content type="html"><![CDATA[<p>I have dedicated in <strong>Programming in Scala</strong> for about 4 months. My work is busy, but I can’t give up reading more books.<br>Scala is a fabulous language, both object oriented and functional.<br>Eight qeens problem can be expressed in scala easily and concise.<br><a id="more"></a></p>
 <h2 id="Eight-Queens-Problem"><a href="#Eight-Queens-Problem" class="headerlink" title="Eight Queens Problem"></a>Eight Queens Problem</h2><p>Given a standard chess-board, place eight queens such that no queen is in check from any other (a queen can check another piece if they are on the same column, row, or diagonal)</p>
@@ -341,12 +333,10 @@
     
     </summary>
     
-      <category term="Learning" scheme="http://www.cyanny.com/categories/learning/"/>
     
+      <category term="Algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
     
       <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
-    
-      <category term="Learning" scheme="http://www.cyanny.com/tags/learning/"/>
     
   </entry>
   
@@ -355,7 +345,7 @@
     <link href="http://www.cyanny.com/2016/04/17/machine-learning-neural-networks/"/>
     <id>http://www.cyanny.com/2016/04/17/machine-learning-neural-networks/</id>
     <published>2016-04-17T13:29:20.000Z</published>
-    <updated>2016-09-27T01:15:39.000Z</updated>
+    <updated>2017-03-05T02:27:45.000Z</updated>
     
     <content type="html"><![CDATA[<p>This week is about the mysterious Neural Networks. The courses in this week just explain the basics about Neural Networks.</p>
 <h2 id="What-is-Neural-Networks"><a href="#What-is-Neural-Networks" class="headerlink" title="What is Neural Networks"></a>What is Neural Networks</h2><p>It’s a technique to train our data based on how human brains works. A simple Neural Network has:</p>
@@ -396,12 +386,8 @@
     
     </summary>
     
-      <category term="Machine Learning" scheme="http://www.cyanny.com/categories/machine-learning/"/>
-    
     
       <category term="Machine Learning" scheme="http://www.cyanny.com/tags/machine-learning/"/>
-    
-      <category term="Coursera" scheme="http://www.cyanny.com/tags/coursera/"/>
     
   </entry>
   
@@ -410,7 +396,7 @@
     <link href="http://www.cyanny.com/2016/04/10/machine-learning-logistic-regression/"/>
     <id>http://www.cyanny.com/2016/04/10/machine-learning-logistic-regression/</id>
     <published>2016-04-10T13:48:51.000Z</published>
-    <updated>2016-09-27T01:03:41.000Z</updated>
+    <updated>2017-03-05T02:28:44.000Z</updated>
     
     <content type="html"><![CDATA[<p>Today I finished the week3 assignemnt about logistic regression.<br>Logistic Regression is for classification problem, and the predication value is fixed descrete values, such as 1 for positive or 0 for negative. I this the essence of logistic regression is:</p>
 <ul>
@@ -418,18 +404,18 @@
 <li>cost function: J(theta)</li>
 <li>gradient descent and algorithms</li>
 <li>advantanced optimization with regularization to solve overfitting problem.<a id="more"></a>
-<h2 id="Basics-about-logistic-regression"><a href="#Basics-about-logistic-regression" class="headerlink" title="Basics about logistic regression"></a>Basics about logistic regression</h2>hypothesis function = 1 / (1 + exp(-htheta(x))),<br>where htheta(x) = theta’ <em> x(theta’ is transpose theta)<br><img src="http://ww2.sinaimg.cn/mw690/761b7938jw1f2rxxio8x0j20v80nit9x.jpg" alt="Sigmoid Function or Logistic Function"><br>htheta(x) mean <em>*Probalitiy that y=1, given x parameterized by theta P(y=1 | x; theta)</em></em>, <figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> htheta(x) &gt;= <span class="number">0.5</span>, then y = <span class="number">1</span></div><div class="line"><span class="keyword">if</span> htheta(x) &lt; <span class="number">0.5</span>, then y = <span class="number">0</span></div></pre></td></tr></table></figure>
+<h2 id="Basics-about-logistic-regression"><a href="#Basics-about-logistic-regression" class="headerlink" title="Basics about logistic regression"></a>Basics about logistic regression</h2>hypothesis function = 1 / (1 + exp(-htheta(x))),<br>where htheta(x) = theta’ <em> x(theta’ is transpose theta)<br><img src="http://ww2.sinaimg.cn/mw690/761b7938jw1f2rxxio8x0j20v80nit9x.jpg" alt="Sigmoid Function or Logistic Function"><br>htheta(x) mean <em>*Probalitiy that y=1, given x parameterized by theta P(y=1 | x; theta)</em></em>,<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> htheta(x) &gt;= <span class="number">0.5</span>, then y = <span class="number">1</span></div><div class="line"><span class="keyword">if</span> htheta(x) &lt; <span class="number">0.5</span>, then y = <span class="number">0</span></div></pre></td></tr></table></figure>
 </li>
 </ul>
 <h2 id="Descision-Boundary"><a href="#Descision-Boundary" class="headerlink" title="Descision Boundary"></a>Descision Boundary</h2><p><img src="http://ww3.sinaimg.cn/mw690/761b7938jw1f2rxxhyf4ij20v00ngtbs.jpg" alt="descision boundary"><br>Our goal is the calculate theta, can classify our traing data with descision boundary.<br>In the example, the traning data can be classified into 2 categories by a straight line.<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (theta'x) &gt;= <span class="number">0</span>, then htheta(x) &gt;= <span class="number">0.5</span>, then y = <span class="number">1</span></div><div class="line"><span class="keyword">if</span> (theta'x) &lt; <span class="number">0</span>, then htheta(x) &lt; <span class="number">0.5</span>, then y = <span class="number">0</span></div></pre></td></tr></table></figure></p>
-<h2 id="Cost-function-implementation"><a href="#Cost-function-implementation" class="headerlink" title="Cost function implementation"></a>Cost function implementation</h2><p>For the assignment of week3, predicate the adimission by university with 2 exams grade data.<br>I optimize the implementation with vectoriaztion<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="params">[J, grad]</span> = <span class="title">costFunction</span><span class="params">(theta, X, y)</span></span></div><div class="line"><span class="comment">%COSTFUNCTION Compute cost and gradient for logistic regression</span></div><div class="line"><span class="comment">%   J = COSTFUNCTION(theta, X, y) computes the cost of using theta as the</span></div><div class="line"><span class="comment">%   parameter for logistic regression and the gradient of the cost</span></div><div class="line"><span class="comment">%   w.r.t. to the parameters.</span></div><div class="line"></div><div class="line"><span class="comment">% Initialize some useful values</span></div><div class="line">m = <span class="built_in">length</span>(y); <span class="comment">% number of training examples</span></div><div class="line"></div><div class="line"><span class="comment">% You need to return the following variables correctly </span></div><div class="line">J = <span class="number">0</span>;</div><div class="line">grad = <span class="built_in">zeros</span>(<span class="built_in">size</span>(theta));</div><div class="line"></div><div class="line"><span class="comment">% ====================== YOUR CODE HERE ======================</span></div><div class="line"><span class="comment">% Instructions: Compute the cost of a particular choice of theta.</span></div><div class="line"><span class="comment">%               You should set J to the cost.</span></div><div class="line"><span class="comment">%               Compute the partial derivatives and set grad to the partial</span></div><div class="line"><span class="comment">%               derivatives of the cost w.r.t. each parameter in theta</span></div><div class="line"><span class="comment">%</span></div><div class="line"><span class="comment">% Note: grad should have the same dimensions as theta</span></div><div class="line"><span class="comment">%</span></div><div class="line"><span class="comment">% Predications: h_theta(x)</span></div><div class="line">predications = sigmoid(X * theta);</div><div class="line">cost_items = y .* <span class="built_in">log</span>(predications) + (<span class="number">1</span> - y) .* <span class="built_in">log</span>(<span class="number">1</span> - predications);</div><div class="line">J = (<span class="number">-1</span> / m) * sum(cost_items);</div><div class="line"></div><div class="line">grad = (<span class="number">1</span> / m) * sum((predications - y) .* X, <span class="number">1</span>)';</div><div class="line"></div><div class="line"><span class="comment">% =============================================================</span></div><div class="line"></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure></p>
+<h2 id="Cost-function-implementation"><a href="#Cost-function-implementation" class="headerlink" title="Cost function implementation"></a>Cost function implementation</h2><p>For the assignment of week3, predicate the adimission by university with 2 exams grade data.<br>I optimize the implementation with vectoriaztion<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="params">[J, grad]</span> = <span class="title">costFunction</span><span class="params">(theta, X, y)</span></span></div><div class="line"><span class="comment">%COSTFUNCTION Compute cost and gradient for logistic regression</span></div><div class="line"><span class="comment">%   J = COSTFUNCTION(theta, X, y) computes the cost of using theta as the</span></div><div class="line"><span class="comment">%   parameter for logistic regression and the gradient of the cost</span></div><div class="line"><span class="comment">%   w.r.t. to the parameters.</span></div><div class="line"></div><div class="line"><span class="comment">% Initialize some useful values</span></div><div class="line">m = <span class="built_in">length</span>(y); <span class="comment">% number of training examples</span></div><div class="line"></div><div class="line"><span class="comment">% You need to return the following variables correctly</span></div><div class="line">J = <span class="number">0</span>;</div><div class="line">grad = <span class="built_in">zeros</span>(<span class="built_in">size</span>(theta));</div><div class="line"></div><div class="line"><span class="comment">% ====================== YOUR CODE HERE ======================</span></div><div class="line"><span class="comment">% Instructions: Compute the cost of a particular choice of theta.</span></div><div class="line"><span class="comment">%               You should set J to the cost.</span></div><div class="line"><span class="comment">%               Compute the partial derivatives and set grad to the partial</span></div><div class="line"><span class="comment">%               derivatives of the cost w.r.t. each parameter in theta</span></div><div class="line"><span class="comment">%</span></div><div class="line"><span class="comment">% Note: grad should have the same dimensions as theta</span></div><div class="line"><span class="comment">%</span></div><div class="line"><span class="comment">% Predications: h_theta(x)</span></div><div class="line">predications = sigmoid(X * theta);</div><div class="line">cost_items = y .* <span class="built_in">log</span>(predications) + (<span class="number">1</span> - y) .* <span class="built_in">log</span>(<span class="number">1</span> - predications);</div><div class="line">J = (<span class="number">-1</span> / m) * sum(cost_items);</div><div class="line"></div><div class="line">grad = (<span class="number">1</span> / m) * sum((predications - y) .* X, <span class="number">1</span>)';</div><div class="line"></div><div class="line"><span class="comment">% =============================================================</span></div><div class="line"></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure></p>
 <h2 id="Cost-function-with-regularization"><a href="#Cost-function-with-regularization" class="headerlink" title="Cost function with regularization"></a>Cost function with regularization</h2><p>Regularzation is for overfitting problem.</p>
 <ul>
-<li>underfit: not fit the training data, with high bias between predications and actual value </li>
+<li>underfit: not fit the training data, with high bias between predications and actual value</li>
 <li>Just Right: great fit</li>
 <li>Overfitting:  often with too many features, not so much traning data, fit traing data well, but with hight variance, predict new data not very well</li>
 </ul>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="params">[J, grad]</span> = <span class="title">costFunctionReg</span><span class="params">(theta, X, y, lambda)</span></span></div><div class="line"><span class="comment">%COSTFUNCTIONREG Compute cost and gradient for logistic regression with regularization</span></div><div class="line"><span class="comment">%   J = COSTFUNCTIONREG(theta, X, y, lambda) computes the cost of using</span></div><div class="line"><span class="comment">%   theta as the parameter for regularized logistic regression and the</span></div><div class="line"><span class="comment">%   gradient of the cost w.r.t. to the parameters. </span></div><div class="line"></div><div class="line"><span class="comment">% Initialize some useful values</span></div><div class="line">m = <span class="built_in">length</span>(y); <span class="comment">% number of training examples</span></div><div class="line"></div><div class="line"><span class="comment">% You need to return the following variables correctly </span></div><div class="line">J = <span class="number">0</span>;</div><div class="line">grad = <span class="built_in">zeros</span>(<span class="built_in">size</span>(theta));</div><div class="line"></div><div class="line"><span class="comment">% ====================== YOUR CODE HERE ======================</span></div><div class="line"><span class="comment">% Instructions: Compute the cost of a particular choice of theta.</span></div><div class="line"><span class="comment">%               You should set J to the cost.</span></div><div class="line"><span class="comment">%               Compute the partial derivatives and set grad to the partial</span></div><div class="line"><span class="comment">%               derivatives of the cost w.r.t. each parameter in theta</span></div><div class="line">predications = sigmoid(X * theta);</div><div class="line">cost_items = (y .* <span class="built_in">log</span>(predications)) + (<span class="number">1</span> - y) .* <span class="built_in">log</span>(<span class="number">1</span> - predications);</div><div class="line">reg_items = theta .^ <span class="number">2</span>;</div><div class="line"><span class="comment">% don't penalize theta0</span></div><div class="line">sum_reg_items = sum(reg_items) - reg_items(<span class="number">1</span>);</div><div class="line">J = (<span class="number">-1</span> / m) * sum(cost_items) + (lambda / (<span class="number">2</span> * m)) * sum_reg_items;</div><div class="line"></div><div class="line">partial_derivative_items = (<span class="number">1</span> / m) * sum((predications - y) .* X)';</div><div class="line"><span class="comment">% don't penalize theta0, so grad(1) for theta0 is as before</span></div><div class="line">grad(<span class="number">1</span>) = partial_derivative_items(<span class="number">1</span>);</div><div class="line">n = <span class="built_in">size</span>(theta, <span class="number">1</span>);</div><div class="line"><span class="keyword">for</span> <span class="built_in">j</span> = <span class="number">2</span>:n</div><div class="line">    grad(<span class="built_in">j</span>) = partial_derivative_items(<span class="built_in">j</span>) + (lambda / m) * theta(<span class="built_in">j</span>);</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">% =============================================================</span></div><div class="line"></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="params">[J, grad]</span> = <span class="title">costFunctionReg</span><span class="params">(theta, X, y, lambda)</span></span></div><div class="line"><span class="comment">%COSTFUNCTIONREG Compute cost and gradient for logistic regression with regularization</span></div><div class="line"><span class="comment">%   J = COSTFUNCTIONREG(theta, X, y, lambda) computes the cost of using</span></div><div class="line"><span class="comment">%   theta as the parameter for regularized logistic regression and the</span></div><div class="line"><span class="comment">%   gradient of the cost w.r.t. to the parameters.</span></div><div class="line"></div><div class="line"><span class="comment">% Initialize some useful values</span></div><div class="line">m = <span class="built_in">length</span>(y); <span class="comment">% number of training examples</span></div><div class="line"></div><div class="line"><span class="comment">% You need to return the following variables correctly</span></div><div class="line">J = <span class="number">0</span>;</div><div class="line">grad = <span class="built_in">zeros</span>(<span class="built_in">size</span>(theta));</div><div class="line"></div><div class="line"><span class="comment">% ====================== YOUR CODE HERE ======================</span></div><div class="line"><span class="comment">% Instructions: Compute the cost of a particular choice of theta.</span></div><div class="line"><span class="comment">%               You should set J to the cost.</span></div><div class="line"><span class="comment">%               Compute the partial derivatives and set grad to the partial</span></div><div class="line"><span class="comment">%               derivatives of the cost w.r.t. each parameter in theta</span></div><div class="line">predications = sigmoid(X * theta);</div><div class="line">cost_items = (y .* <span class="built_in">log</span>(predications)) + (<span class="number">1</span> - y) .* <span class="built_in">log</span>(<span class="number">1</span> - predications);</div><div class="line">reg_items = theta .^ <span class="number">2</span>;</div><div class="line"><span class="comment">% don't penalize theta0</span></div><div class="line">sum_reg_items = sum(reg_items) - reg_items(<span class="number">1</span>);</div><div class="line">J = (<span class="number">-1</span> / m) * sum(cost_items) + (lambda / (<span class="number">2</span> * m)) * sum_reg_items;</div><div class="line"></div><div class="line">partial_derivative_items = (<span class="number">1</span> / m) * sum((predications - y) .* X)';</div><div class="line"><span class="comment">% don't penalize theta0, so grad(1) for theta0 is as before</span></div><div class="line">grad(<span class="number">1</span>) = partial_derivative_items(<span class="number">1</span>);</div><div class="line">n = <span class="built_in">size</span>(theta, <span class="number">1</span>);</div><div class="line"><span class="keyword">for</span> <span class="built_in">j</span> = <span class="number">2</span>:n</div><div class="line">    grad(<span class="built_in">j</span>) = partial_derivative_items(<span class="built_in">j</span>) + (lambda / m) * theta(<span class="built_in">j</span>);</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">% =============================================================</span></div><div class="line"></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
 <p>An optimized implementation without for loop<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="params">[J, grad]</span> = <span class="title">costFunctionReg</span><span class="params">(theta, X, y, lambda)</span></span></div><div class="line">predications = sigmoid(X * theta);</div><div class="line"><span class="comment">% don't penalize theta0</span></div><div class="line">reg_theta = [<span class="number">0</span>; theta(<span class="number">2</span>:length(theta))];</div><div class="line">J = (<span class="number">-1</span> / m) * sum((y .* <span class="built_in">log</span>(predications)) + (<span class="number">1</span> - y) .* <span class="built_in">log</span>(<span class="number">1</span> - predications)) + (lambda / (<span class="number">2</span> * m)) * sum(reg_theta .^<span class="number">2</span>);</div><div class="line">grad = (<span class="number">1</span> / m) * X' * (predications - y) + (lambda / m) * reg_theta;</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure></p>
 <h2 id="Github-assignments"><a href="#Github-assignments" class="headerlink" title="Github assignments"></a>Github assignments</h2><p><a href="https://github.com/lgrcyanny/MachineLearningCoursera/tree/master/assignments/ex2-logistic-regression" target="_blank" rel="external">Week 3 Assignments</a></p>
 ]]></content>
@@ -445,12 +431,8 @@
     
     </summary>
     
-      <category term="Machine Learning" scheme="http://www.cyanny.com/categories/machine-learning/"/>
-    
     
       <category term="Machine Learning" scheme="http://www.cyanny.com/tags/machine-learning/"/>
-    
-      <category term="Coursera" scheme="http://www.cyanny.com/tags/coursera/"/>
     
   </entry>
   
@@ -459,10 +441,13 @@
     <link href="http://www.cyanny.com/2016/04/04/machine-learning-linear-regression/"/>
     <id>http://www.cyanny.com/2016/04/04/machine-learning-linear-regression/</id>
     <published>2016-04-04T07:55:31.000Z</published>
-    <updated>2016-09-27T01:03:41.000Z</updated>
+    <updated>2017-03-05T02:27:35.000Z</updated>
     
     <content type="html"><![CDATA[<p>I have been learning the coursera Machine Learning Course by Andrew Ng for two weeks now. Machine Learning is fun and different. For the coursera assignment1 of linear regression, I want to share something.<br><a id="more"></a></p>
-<h2 id="Octave-Install"><a href="#Octave-Install" class="headerlink" title="Octave Install"></a>Octave Install</h2><p>The course use Octave/Matlab for programming practice. I learned octave basics in two days. I don’t have too much time, can just doing these homework in weekends. For Octavel installed on mac, I encounter some problems and solve it.</p>
+<h2 id="Using-matlab"><a href="#Using-matlab" class="headerlink" title="Using matlab"></a>Using matlab</h2><p>I think matlab is better than octave, please use coursera account. <a href="https://www.coursera.org/learn/machine-learning/supplement/rANSM/installing-matlab" target="_blank" rel="external">Install matlab</a></p>
+<h2 id="Octave-Install"><a href="#Octave-Install" class="headerlink" title="Octave Install"></a>Octave Install</h2><p>The course use Octave/Matlab for programming practice. I learned octave basics in two days. I don’t have too much time, can just doing these homework in weekends. For Octavel installed on mac, I encounter some problems and solved it. Now octave is 4.2.0, I think ocatve is better now.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install octave</div></pre></td></tr></table></figure>
+<p>if you encounter some problem, you can solve it as follows:</p>
 <ul>
 <li>brew update &amp;&amp; brew upgrade</li>
 <li>brew tap –repair</li>
@@ -486,10 +471,11 @@
 </ul>
 </li>
 </ul>
-<h2 id="Gradient-Descent-Algorithm"><a href="#Gradient-Descent-Algorithm" class="headerlink" title="Gradient Descent Algorithm"></a>Gradient Descent Algorithm</h2><p>Implementing gradient desenct algorithm in vectorization style is what I am proud of. Here is my implementation:<br>No for loop looks elegant.</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="params">[theta, J_history]</span> = <span class="title">gradientDescent</span><span class="params">(X, y, theta, alpha, num_iters)</span></span></div><div class="line"><span class="comment">%GRADIENTDESCENT Performs gradient descent to learn theta</span></div><div class="line"><span class="comment">%   theta = GRADIENTDESENT(X, y, theta, alpha, num_iters) updates theta by </span></div><div class="line"><span class="comment">%   taking num_iters gradient steps with learning rate alpha</span></div><div class="line"></div><div class="line"><span class="comment">% Initialize some useful values</span></div><div class="line">m = <span class="built_in">length</span>(y); <span class="comment">% number of training examples</span></div><div class="line">J_history = <span class="built_in">zeros</span>(num_iters, <span class="number">1</span>);</div><div class="line"></div><div class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:num_iters</div><div class="line"></div><div class="line">    <span class="comment">% ====================== YOUR CODE HERE ======================</span></div><div class="line">    <span class="comment">% Instructions: Perform a single gradient step on the parameter vector</span></div><div class="line">    <span class="comment">%               theta. </span></div><div class="line">    <span class="comment">%</span></div><div class="line">    <span class="comment">% Hint: While debugging, it can be useful to print out the values</span></div><div class="line">    <span class="comment">%       of the cost function (computeCost) and gradient here.</span></div><div class="line">    <span class="comment">%</span></div><div class="line">    predications = X * theta;</div><div class="line">    errors = predications - y; <span class="comment">% m by 1 vector</span></div><div class="line">    sum_delta = (alpha / m) * sum(errors .* X, <span class="number">1</span>); <span class="comment">% sum by column, which is 1 by n + 1 matrix</span></div><div class="line">    theta = theta - sum_delta';</div><div class="line"></div><div class="line">    <span class="comment">% ============================================================</span></div><div class="line"></div><div class="line">    <span class="comment">% Save the cost J in every iteration    </span></div><div class="line">    J_history(iter) = computeCost(X, y, theta);</div><div class="line"></div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
-<p><strong>Another implementation by wwzyhao</strong><br>[by wwzyhao]<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="params">[theta, J_history]</span> = <span class="title">gradientDescent</span><span class="params">(X, y, theta, alpha, num_iters)</span></span></div><div class="line"><span class="comment">%GRADIENTDESCENT Performs gradient descent to learn theta</span></div><div class="line"><span class="comment">%   theta = GRADIENTDESENT(X, y, theta, alpha, num_iters) updates theta by </span></div><div class="line"><span class="comment">%   taking num_iters gradient steps with learning rate alpha</span></div><div class="line"></div><div class="line"><span class="comment">% Initialize some useful values</span></div><div class="line">m = <span class="built_in">length</span>(y); <span class="comment">% number of training examples</span></div><div class="line">J_history = <span class="built_in">zeros</span>(num_iters, <span class="number">1</span>);</div><div class="line"></div><div class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:num_iters</div><div class="line"></div><div class="line">    delta = <span class="built_in">zeros</span>(<span class="built_in">size</span>(X, <span class="number">2</span>), <span class="number">1</span>);</div><div class="line">    <span class="keyword">for</span> <span class="built_in">j</span> = <span class="number">1</span>:m</div><div class="line">        x = (X(<span class="built_in">j</span>,:))';</div><div class="line">        delta = delta + (<span class="number">1</span> / m) * (theta' * x - y(<span class="built_in">j</span>)) * x;</div><div class="line">    <span class="keyword">end</span>;</div><div class="line"></div><div class="line">    theta = theta - alpha * delta;</div><div class="line"></div><div class="line">    <span class="comment">% ============================================================</span></div><div class="line"></div><div class="line">    <span class="comment">% Save the cost J in every iteration    </span></div><div class="line">    J_history(iter) = computeCost(X, y, theta);</div><div class="line"></div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure></p>
-<h2 id="My-assignments-on-github"><a href="#My-assignments-on-github" class="headerlink" title="My assignments on github"></a>My assignments on github</h2><p><a href="https://github.com/lgrcyanny/MachineLearningCoursera/tree/master/assignments/ex1/ex1" target="_blank" rel="external">Assignments1</a><br>For submit errors on coursera, please to<a href="https://learner.coursera.help/hc/en-us/community/posts/204693179-linear-regression-submit-error" target="_blank" rel="external">Jacob Middag</a></p>
+<h2 id="Gradient-Descent-Algorithm"><a href="#Gradient-Descent-Algorithm" class="headerlink" title="Gradient Descent Algorithm"></a>Gradient Descent Algorithm</h2><p>Implementing gradient desenct algorithm in vectorization style was more efficient than iteration algorithm. Here is my implementation:<br>No for loop looks elegant.</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="params">[theta, J_history]</span> = <span class="title">gradientDescent</span><span class="params">(X, y, theta, alpha, num_iters)</span></span></div><div class="line"><span class="comment">%GRADIENTDESCENT Performs gradient descent to learn theta</span></div><div class="line"><span class="comment">%   theta = GRADIENTDESENT(X, y, theta, alpha, num_iters) updates theta by</span></div><div class="line"><span class="comment">%   taking num_iters gradient steps with learning rate alpha</span></div><div class="line"></div><div class="line"><span class="comment">% Initialize some useful values</span></div><div class="line">m = <span class="built_in">length</span>(y); <span class="comment">% number of training examples</span></div><div class="line">J_history = <span class="built_in">zeros</span>(num_iters, <span class="number">1</span>);</div><div class="line"></div><div class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:num_iters</div><div class="line"></div><div class="line">    <span class="comment">% ====================== YOUR CODE HERE ======================</span></div><div class="line">    <span class="comment">% Instructions: Perform a single gradient step on the parameter vector</span></div><div class="line">    <span class="comment">%               theta.</span></div><div class="line">    <span class="comment">%</span></div><div class="line">    <span class="comment">% Hint: While debugging, it can be useful to print out the values</span></div><div class="line">    <span class="comment">%       of the cost function (computeCost) and gradient here.</span></div><div class="line">    <span class="comment">%</span></div><div class="line">    predications = X * theta;</div><div class="line">    errors = predications - y; <span class="comment">% m by 1 vector</span></div><div class="line">    <span class="comment">% sum_delta = (alpha / m) * sum(errors .* X, 1); % sum by column, which is 1 by n + 1 matrix</span></div><div class="line">    <span class="comment">% transpose X, no need sum(errors .* X, 1) here</span></div><div class="line">    sum_delta = (alpha / m) .* (X' * errors);</div><div class="line">    theta = theta - sum_delta;</div><div class="line"></div><div class="line">    <span class="comment">% ============================================================</span></div><div class="line"></div><div class="line">    <span class="comment">% Save the cost J in every iteration</span></div><div class="line">    J_history(iter) = computeCost(X, y, theta);</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<p><strong>Another implementation by my wwzyhao</strong><br>[by wwzyhao]<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="params">[theta, J_history]</span> = <span class="title">gradientDescent</span><span class="params">(X, y, theta, alpha, num_iters)</span></span></div><div class="line"><span class="comment">%GRADIENTDESCENT Performs gradient descent to learn theta</span></div><div class="line"><span class="comment">%   theta = GRADIENTDESENT(X, y, theta, alpha, num_iters) updates theta by</span></div><div class="line"><span class="comment">%   taking num_iters gradient steps with learning rate alpha</span></div><div class="line"></div><div class="line"><span class="comment">% Initialize some useful values</span></div><div class="line">m = <span class="built_in">length</span>(y); <span class="comment">% number of training examples</span></div><div class="line">J_history = <span class="built_in">zeros</span>(num_iters, <span class="number">1</span>);</div><div class="line"></div><div class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:num_iters</div><div class="line"></div><div class="line">    delta = <span class="built_in">zeros</span>(<span class="built_in">size</span>(X, <span class="number">2</span>), <span class="number">1</span>);</div><div class="line">    <span class="keyword">for</span> <span class="built_in">j</span> = <span class="number">1</span>:m</div><div class="line">        x = (X(<span class="built_in">j</span>,:))';</div><div class="line">        delta = delta + (<span class="number">1</span> / m) * (theta' * x - y(<span class="built_in">j</span>)) * x;</div><div class="line">    <span class="keyword">end</span>;</div><div class="line"></div><div class="line">    theta = theta - alpha * delta;</div><div class="line"></div><div class="line">    <span class="comment">% ============================================================</span></div><div class="line"></div><div class="line">    <span class="comment">% Save the cost J in every iteration</span></div><div class="line">    J_history(iter) = computeCost(X, y, theta);</div><div class="line"></div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure></p>
+<p>Not better than me! haha~</p>
+<h2 id="My-assignments-on-github"><a href="#My-assignments-on-github" class="headerlink" title="My assignments on github"></a>My assignments on github</h2><p><a href="https://github.com/lgrcyanny/MachineLearningCoursera/tree/master/assignments/ex1/ex1" target="_blank" rel="external">Assignments1</a><br>For submition errors, please refer to<a href="https://learner.coursera.help/hc/en-us/community/posts/204693179-linear-regression-submit-error" target="_blank" rel="external">Jacob Middag</a></p>
 ]]></content>
     
     <summary type="html">
@@ -498,14 +484,8 @@
     
     </summary>
     
-      <category term="Machine Learning" scheme="http://www.cyanny.com/categories/machine-learning/"/>
-    
-      <category term="Linear Regression" scheme="http://www.cyanny.com/categories/machine-learning/linear-regression/"/>
-    
     
       <category term="Machine Learning" scheme="http://www.cyanny.com/tags/machine-learning/"/>
-    
-      <category term="Coursera" scheme="http://www.cyanny.com/tags/coursera/"/>
     
   </entry>
   
@@ -514,7 +494,7 @@
     <link href="http://www.cyanny.com/2016/03/06/programming-in-scala-overview-key-note/"/>
     <id>http://www.cyanny.com/2016/03/06/programming-in-scala-overview-key-note/</id>
     <published>2016-03-06T10:01:42.000Z</published>
-    <updated>2017-02-21T01:30:12.000Z</updated>
+    <updated>2017-03-05T02:27:30.000Z</updated>
     
     <content type="html"><![CDATA[<p>过去半年里，都在忙着spark相关的项目，主要的编程语言是scala，前些年主要用的是c++，刚转到scala上时，有点不适应函数式编程语言的思想，现在已经半年多过去了，觉得scala真的是awesome，简洁有力的表达，整合了functional programming和object programming，并且设计良好。<br>去年上了Martin Odersky的编程课<i>Functional Programming In Scala</i>, 觉得挺感兴趣，学习了很多，想在scala语言上看得更多，更深入些，我选择了Scala的权威著作<a href="http://www.artima.com/shop/programming_in_scala_2ed" target="_blank" rel="external">Programming In Scala</a>, 虽然这书有快900页，但我想挑战下，与其每天泡在各种新闻资讯里，还不如看看书泡在书里。每天都看看书，觉得挺好，有些笔记和心得就写在博客里，毕竟工作忙，写博客的时间很少，但我想还是应该多总结和留下写想法。之后阅读Spark的源码，我也会坚持写下些东西，看过了和写下来总还是不一样嘛。<br><a id="more"></a></p>
 <h1 id="Scala-Overview"><a href="#Scala-Overview" class="headerlink" title="Scala Overview"></a>Scala Overview</h1><h2 id="1-Scala-is-a-Scalable-Language"><a href="#1-Scala-is-a-Scalable-Language" class="headerlink" title="1. Scala is a Scalable Language"></a>1. Scala is a Scalable Language</h2><ul>
@@ -606,10 +586,6 @@
     
     </summary>
     
-      <category term="Learning" scheme="http://www.cyanny.com/categories/learning/"/>
-    
-      <category term="Scala" scheme="http://www.cyanny.com/categories/learning/scala/"/>
-    
     
       <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
     
@@ -622,7 +598,7 @@
     <link href="http://www.cyanny.com/2015/10/07/learning-akka/"/>
     <id>http://www.cyanny.com/2015/10/07/learning-akka/</id>
     <published>2015-10-07T13:54:48.000Z</published>
-    <updated>2016-09-27T01:03:08.000Z</updated>
+    <updated>2017-03-05T02:29:02.000Z</updated>
     
     <content type="html"><![CDATA[<p>最近学习了scala，主要是跟着<strong>Functional Programming in Scala</strong>的课程学习的，scala主要的用处还是在spark上，关于spark也看了一些源码，处于继续探索中。</p>
 <p>并发时的消息通信是处理spark这样的分布式系统的关键。spark主要依赖scala社区的akka进行消息通讯。在spark1.2的代码中可以看到很多actor的影子，然而spark1.4中，都是封装为EndPoint，但Actor的思想和模式还在。</p>
@@ -670,12 +646,6 @@
     
     </summary>
     
-      <category term="Learning" scheme="http://www.cyanny.com/categories/learning/"/>
-    
-      <category term="Akka" scheme="http://www.cyanny.com/categories/learning/akka/"/>
-    
-      <category term="Scala" scheme="http://www.cyanny.com/categories/learning/akka/scala/"/>
-    
     
       <category term="Akka" scheme="http://www.cyanny.com/tags/akka/"/>
     
@@ -688,7 +658,7 @@
     <link href="http://www.cyanny.com/2015/05/04/bitsort-ant-qsort/"/>
     <id>http://www.cyanny.com/2015/05/04/bitsort-ant-qsort/</id>
     <published>2015-05-04T13:57:53.000Z</published>
-    <updated>2016-09-27T01:03:08.000Z</updated>
+    <updated>2017-03-05T02:30:41.000Z</updated>
     
     <content type="html"><![CDATA[<p>这已经不是一个新话题了，但是从开始实现一个C++位排序和快排，我还是花费了2个多小时，这里就记下自己的一点点体会啦。</p>
 <p>首先，题目来自《编程珠玑》第一章，主要是做位排序，同时和快排做比较：</p>
@@ -713,10 +683,8 @@
     
     </summary>
     
-      <category term="Algorithm" scheme="http://www.cyanny.com/categories/algorithm/"/>
     
-    
-      <category term="algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
+      <category term="Algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
     
   </entry>
   
@@ -845,7 +813,7 @@
     <link href="http://www.cyanny.com/2014/04/12/dijkstra-algorithm-in-java/"/>
     <id>http://www.cyanny.com/2014/04/12/dijkstra-algorithm-in-java/</id>
     <published>2014-04-12T03:55:04.000Z</published>
-    <updated>2016-09-27T01:03:08.000Z</updated>
+    <updated>2017-03-05T02:31:11.000Z</updated>
     
     <content type="html"><![CDATA[<p>计算单源最短路径的算法有Bellman-Ford算法，主要是计算带负权有向图的单源最短路径。第二种算法：对于DAG图（Directed Acyclic Graph, 有向无环图）可以通过拓扑排序后再计算单源最短路径。第三，可以使用BFS(广度优先搜索)计算单源最短路径。第四，就是著名的Dijkstra算法，要求有向图的所有边的权值非负，当然图可以不是DAG图。</p>
 <a id="more"></a>
