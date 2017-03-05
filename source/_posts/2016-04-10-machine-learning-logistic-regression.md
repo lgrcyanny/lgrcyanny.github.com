@@ -2,10 +2,6 @@ title: Machine Learning Logistic Regression
 date: 2016-04-10 21:48:51
 tags:
     - Machine Learning
-    - Coursera
-id: 497
-categories:
-      - Machine Learning
 ---
 Today I finished the week3 assignemnt about logistic regression.
 Logistic Regression is for classification problem, and the predication value is fixed descrete values, such as 1 for positive or 0 for negative. I this the essence of logistic regression is:
@@ -15,10 +11,10 @@ Logistic Regression is for classification problem, and the predication value is 
 - advantanced optimization with regularization to solve overfitting problem.
 <!--more-->
 ## Basics about logistic regression
-hypothesis function = 1 / (1 + exp(-htheta(x))), 
+hypothesis function = 1 / (1 + exp(-htheta(x))),
 where htheta(x) = theta' * x(theta' is transpose theta)
 ![Sigmoid Function or Logistic Function](http://ww2.sinaimg.cn/mw690/761b7938jw1f2rxxio8x0j20v80nit9x.jpg)
-htheta(x) mean **Probalitiy that y=1, given x parameterized by theta P(y=1 | x; theta)**, 
+htheta(x) mean **Probalitiy that y=1, given x parameterized by theta P(y=1 | x; theta)**,
 ```matlab
 if htheta(x) >= 0.5, then y = 1
 if htheta(x) < 0.5, then y = 0
@@ -46,7 +42,7 @@ function [J, grad] = costFunction(theta, X, y)
 % Initialize some useful values
 m = length(y); % number of training examples
 
-% You need to return the following variables correctly 
+% You need to return the following variables correctly
 J = 0;
 grad = zeros(size(theta));
 
@@ -72,7 +68,7 @@ end
 
 ## Cost function with regularization
 Regularzation is for overfitting problem.
-- underfit: not fit the training data, with high bias between predications and actual value 
+- underfit: not fit the training data, with high bias between predications and actual value
 - Just Right: great fit
 - Overfitting:  often with too many features, not so much traning data, fit traing data well, but with hight variance, predict new data not very well
 
@@ -81,12 +77,12 @@ function [J, grad] = costFunctionReg(theta, X, y, lambda)
 %COSTFUNCTIONREG Compute cost and gradient for logistic regression with regularization
 %   J = COSTFUNCTIONREG(theta, X, y, lambda) computes the cost of using
 %   theta as the parameter for regularized logistic regression and the
-%   gradient of the cost w.r.t. to the parameters. 
+%   gradient of the cost w.r.t. to the parameters.
 
 % Initialize some useful values
 m = length(y); % number of training examples
 
-% You need to return the following variables correctly 
+% You need to return the following variables correctly
 J = 0;
 grad = zeros(size(theta));
 
@@ -117,7 +113,7 @@ end
 
 ```
 
-An optimized implementation without for loop 
+An optimized implementation without for loop
 ```matlab
 function [J, grad] = costFunctionReg(theta, X, y, lambda)
 predications = sigmoid(X * theta);

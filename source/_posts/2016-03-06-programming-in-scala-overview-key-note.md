@@ -3,10 +3,6 @@ date: 2016-03-06 18:01:42
 tags:
     - Language
     - Scala
-id: 495
-categories:
-      - Learning
-      - Scala
 ---
 
 过去半年里，都在忙着spark相关的项目，主要的编程语言是scala，前些年主要用的是c++，刚转到scala上时，有点不适应函数式编程语言的思想，现在已经半年多过去了，觉得scala真的是awesome，简洁有力的表达，整合了functional programming和object programming，并且设计良好。

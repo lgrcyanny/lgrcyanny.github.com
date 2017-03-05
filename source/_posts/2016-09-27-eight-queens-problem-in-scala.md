@@ -2,9 +2,7 @@ title: Eight Queens Problem In Scala
 date: 2016-09-27 09:15:28
 tags:
     - Scala
-    - Learning
-categories:
-      - Learning
+    - Algorithm
 ---
 
 I have dedicated in **Programming in Scala** for about 4 months. My work is busy, but I can't give up reading more books.

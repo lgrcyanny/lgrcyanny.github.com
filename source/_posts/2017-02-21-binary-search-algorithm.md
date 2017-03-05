@@ -1,6 +1,6 @@
-title: I look down on bineary search algorithm
+title: I look down on binary search algorithm
 date: 2017-02-21 09:29:49
-tags: algorithm
+tags: Algorithm
 ---
 
 

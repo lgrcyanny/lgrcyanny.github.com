@@ -38,7 +38,7 @@ dijkstraShortestPath(graph, s) {
         v.parent = u;
         queue.add(v);
       }
-    }  
+    }
   }
 }
 [/java]

@@ -1,8 +1,5 @@
 title: 位排序和快排
 tags:
-  - algorithm
-id: 723
-categories:
   - Algorithm
 date: 2015-05-04 21:57:53
 ---

@@ -2,10 +2,6 @@ title: Machine Learning Neural Networks
 date: 2016-04-17 21:29:20
 tags:
     - Machine Learning
-    - Coursera
-id: 497
-categories:
-      - Machine Learning
 ---
 
 This week is about the mysterious Neural Networks. The courses in this week just explain the basics about Neural Networks.

@@ -2,9 +2,6 @@ title: Scala Collections
 date: 2016-11-07 10:09:10
 tags:
     - Scala
-    - Learning
-categories:
-      - Learning
 ---
 
 In scala there are many fancy collections with great utilities. Here are some key notes for scala collections which did a great help to me.
@@ -19,7 +16,7 @@ Collections have two kinds:
 	- mutable collections
 	- immutable collections
 
-## Immutable Collections	
+## Immutable Collections
 
 - Lists are finite immutable sequences. They provide constant-time access to their first element as well as the rest of the list
 
@@ -39,10 +36,10 @@ Collections have two kinds:
     - to access an element, the complexity is log32(N)
     - Vector have very decent random access performance
     - The default implementation to immutable IndexedSeq
-    
+
 - Stack
 	- first-in-last-out
-	- you can use ArrayBuffer to implement a Stack 
+	- you can use ArrayBuffer to implement a Stack
 	```scala
 		val emtpyStack = Stack.empty
 		val hasOne = emptyStack.push(1)
@@ -52,22 +49,22 @@ Collections have two kinds:
 - Ranges
 
 	```scala
-	val range = 1 to 10 
+	val range = 1 to 10
 	```
-	
+
 - Hash Tries
     - Hash tries4 are a standard way to implement immutable sets and maps efficiently.
-    
+
 - RedBlackTrees
     - Red-black trees are a form of balanced binary trees where some nodes are designated “red” and others “black.”
     - TreeSet
     - TreeMap
     - default implementation for SortedSet
-    
+
 -  Immutable bit sets
 ![bit set example](http://ww2.sinaimg.cn/mw690/761b7938jw1f9jc4ydow0j20r208276p.jpg)
     - Operations on bit sets are very fast. Testing for inclusion takes constant time. Adding an item to the set takes time proportional to the number of Longs in the bit set’s array, which is typically a small number.
-    
+
 - ListMap
     -  The only possible difference is if the map is for some reason constructed in such a way that the first elements in the list are selected much more often than the other elements.
 
@@ -77,7 +74,7 @@ Collections have two kinds:
 
 -  List Buffer: A list buffer is like an array buffer except that it uses a linked list internally instead of an array.
     - you plan to convert the buffer to a list once it is built up, use a list buffer instead of an array buffer.
-    
+
 - StringBuilder:  a string builder is useful for building strings
 
 - LinkedList: Linked lists are mutable sequences that consist of nodes that are linked with next pointer

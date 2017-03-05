@@ -3,11 +3,6 @@ date: 2015-10-07 21:54:48
 tags:
   - Akka
   - Scala
-id: 295
-categories:
-  - Learning
-  - Akka
-  - Scala
 ---
 
 最近学习了scala，主要是跟着**Functional Programming in Scala**的课程学习的，scala主要的用处还是在spark上，关于spark也看了一些源码，处于继续探索中。
