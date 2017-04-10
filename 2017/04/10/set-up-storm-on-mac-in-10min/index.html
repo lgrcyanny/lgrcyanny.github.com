@@ -22,7 +22,7 @@
 <meta property="og:site_name" content="CyannyLive">
 <meta property="og:description" content="Storm is a great real time streaming system. Recently, my project is about spark streaming. I want to learn storm either to know more about streaming system. Okay, let’s fire up.Today I tried to insta">
 <meta property="og:image" content="http://wx1.sinaimg.cn/thumb300/761b7938ly1fehv2miunpj21kw0ps0we.jpg">
-<meta property="og:updated_time" content="2017-04-10T12:45:41.000Z">
+<meta property="og:updated_time" content="2017-04-10T12:46:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Set Up Apache Storm On Mac In 10min">
 <meta name="twitter:description" content="Storm is a great real time streaming system. Recently, my project is about spark streaming. I want to learn storm either to know more about streaming system. Okay, let’s fire up.Today I tried to insta">
@@ -310,7 +310,7 @@
 <li>configure conf/storm.yaml as follows:</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">storm.zookeeper.servers:</div><div class="line">    - &quot;localhost&quot;</div><div class="line">#storm.zookeeper.port:2181</div><div class="line"></div><div class="line">storm.local.dir: &quot;/Users/lgrcyanny/Codelab/storm/apache-storm-1.1.0/storm-local&quot;</div><div class="line"></div><div class="line">#</div><div class="line"># nimbus.seeds: [&quot;host1&quot;, &quot;host2&quot;, &quot;host3&quot;]</div><div class="line">#</div><div class="line">nimbus.seeds: [&quot;localhost&quot;]</div><div class="line"></div><div class="line">supervisor.slots.ports:</div><div class="line">    - 6700</div><div class="line">    - 6701</div><div class="line">    - 6702</div><div class="line">    - 6703</div></pre></td></tr></table></figure>
-<p>to understand there config, please refer to: <a href="http://storm.apache.org/releases/1.1.0/Setting-up-a-Storm-cluster.html" target="_blank" rel="external">Setting-up-a-Storm-cluster.html</a></p>
+<p>to understand these config, please refer to: <a href="http://storm.apache.org/releases/1.1.0/Setting-up-a-Storm-cluster.html" target="_blank" rel="external">Setting-up-a-Storm-cluster.html</a></p>
 <h2 id="3-start-stom"><a href="#3-start-stom" class="headerlink" title="3. start stom"></a>3. start stom</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># start nimbus</div><div class="line">./bin/storm nimbus</div><div class="line"># start supervisor for workers</div><div class="line">./bin/storm supervisor</div><div class="line"># start ui</div><div class="line">./bin/storm ui</div></pre></td></tr></table></figure>
 <p>open <a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a>, you will see storm started:<br><img src="http://wx1.sinaimg.cn/thumb300/761b7938ly1fehv2miunpj21kw0ps0we.jpg" alt="start storm"></p>
 
