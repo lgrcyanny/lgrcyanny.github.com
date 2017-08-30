@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cyanny.com/"/>
-  <updated>2017-04-10T12:49:07.000Z</updated>
+  <updated>2017-08-30T01:55:39.000Z</updated>
   <id>http://www.cyanny.com/</id>
   
   <author>
@@ -14,6 +14,99 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>My First Commit to Spark Community</title>
+    <link href="http://www.cyanny.com/2017/08/30/my-first-commit-to-spark-community/"/>
+    <id>http://www.cyanny.com/2017/08/30/my-first-commit-to-spark-community/</id>
+    <published>2017-08-30T01:50:37.000Z</published>
+    <updated>2017-08-30T01:55:39.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>I have been worked on spark related projects for almost 2 years. Today I submit a small patch to spark community. Hope to be a contributor~<br><a href="https://issues.apache.org/jira/browse/SPARK-21859" target="_blank" rel="external">https://issues.apache.org/jira/browse/SPARK-21859</a></p>
+<a id="more"></a>
+<p>It’s a PR about SparkFiles.get problem on yarn. Event though it’s a small patch, it’s a big progress for me to be an open source contributor.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;I have been worked on spark related projects for almost 2 years. Today I submit a small patch to spark community. Hope to be a contributor~&lt;br&gt;&lt;a href=&quot;https://issues.apache.org/jira/browse/SPARK-21859&quot;&gt;https://issues.apache.org/jira/browse/SPARK-21859&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Spark" scheme="http://www.cyanny.com/tags/spark/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spark streaming exactly-once analysis</title>
+    <link href="http://www.cyanny.com/2017/08/27/spark-streaming-exactly-once-analysis/"/>
+    <id>http://www.cyanny.com/2017/08/27/spark-streaming-exactly-once-analysis/</id>
+    <published>2017-08-27T03:31:58.000Z</published>
+    <updated>2017-08-29T00:23:30.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近对Spark Streaming接触比较多，主要关注的是streaming的准确性方面的需求, 忙了快半年，不禁想问为什么需要在exactly-once上花费这么多时间呢。streaming和batch的处理逻辑有什么区别呢？我觉得streaming更适合一些简单的过滤，能在100ms以内能算完的逻辑，而这些逻辑用batch也可以算完，为什么要streaming呢？用户们更希望的是更快。如果batch也能满足低延迟的需求，streaming系统就不需要了。而问题是为什么我们需要一个单独的streaming系统？<br><a id="more"></a></p>
+<p> 生产环境中的版本是1.6，spark streaming的API在1.6上是基于RDD的DStream API，相比Structured Streaming，更稳定和成熟些。而我们的用户们，比较关心的是streaming系统</p>
+<p> 开源里广泛使用的Streaming系统是Storm和Flink。Storm早期用record ack的方式保证at-least once，但没有提供exactly-once的保证，后面又有了storm trident.</p>
+<h2 id="Spark-Streaming-Receiver模式没有exactly-once保证"><a href="#Spark-Streaming-Receiver模式没有exactly-once保证" class="headerlink" title="Spark Streaming Receiver模式没有exactly-once保证"></a>Spark Streaming Receiver模式没有exactly-once保证</h2><h2 id="Flink中的Exactly-Once保证"><a href="#Flink中的Exactly-Once保证" class="headerlink" title="Flink中的Exactly-Once保证"></a>Flink中的Exactly-Once保证</h2><h2 id="Storm的Eactly-Once保证"><a href="#Storm的Eactly-Once保证" class="headerlink" title="Storm的Eactly-Once保证"></a>Storm的Eactly-Once保证</h2><h3 id="Storm-Architecture"><a href="#Storm-Architecture" class="headerlink" title="Storm Architecture"></a>Storm Architecture</h3><p><img src="http://wx3.sinaimg.cn/mw690/761b7938ly1fizgwunfr6j21kw0n7e6n.jpg" alt="storm architecture"><br>以Storm on Yarn来说明Storm的架构：</p>
+<ul>
+<li>client将jar包通过yarn上传</li>
+<li>在一台NodeManager上启动Nimbus，这是master节点，负责管理StormTopology, 分发task，心跳等</li>
+<li>其他的NodeManager上启动Supervisor, 相当于slave节点，管理storm worker<ul>
+<li>在每个supervisor上，可以启动多个worker进程，每个worker进程可以运行多个task，task是多线程的，由worker管理。这些task运行的就是Spout或Bolt定义的操作</li>
+</ul>
+</li>
+<li>Zookeeper, Storm运行时状态的管理</li>
+</ul>
+<p>Storm方面算是简单调研，理解不是很深入，具体的参考<a href="http://storm.apache.org/releases/1.1.1/Setting-up-a-Storm-cluster.html" target="_blank" rel="external">官方文档</a></p>
+<h3 id="Storm-exactly-once"><a href="#Storm-exactly-once" class="headerlink" title="Storm exactly-once"></a>Storm exactly-once</h3><p>####1. Storm Transactional Topologies(deprecated)<br>Strom 0.7版本中，实现了<a href="http://storm.apache.org/releases/1.1.1/Transactional-topologies.html" target="_blank" rel="external">transctional topologies</a>来保证exactly-once,<br><strong>1.transactional phrases 类似两阶段事务机制</strong></p>
+<ul>
+<li>The processing phase: this is the phase that can be done in parallel for many batches 可以并发执行计算partial result</li>
+<li>The commit phase: The commit phases for batches are strongly ordered. So the commit for batch 2 is not done until the commit for batch 1 has been successful. 保证batch的提交是按顺序的</li>
+</ul>
+<p>来个直观的，用户需要构建的Topology如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">MemoryTransactionalSpout spout = <span class="keyword">new</span> MemoryTransactionalSpout(DATA, <span class="keyword">new</span> Fields(<span class="string">"word"</span>), PARTITION_TAKE_PER_BATCH);</div><div class="line">TransactionalTopologyBuilder builder = <span class="keyword">new</span> TransactionalTopologyBuilder(<span class="string">"global-count"</span>, <span class="string">"spout"</span>, spout, <span class="number">3</span>);</div><div class="line">builder.setBolt(<span class="string">"partial-count"</span>, <span class="keyword">new</span> BatchCount(), <span class="number">5</span>)</div><div class="line">        .shuffleGrouping(<span class="string">"spout"</span>);</div><div class="line">builder.setBolt(<span class="string">"sum"</span>, <span class="keyword">new</span> UpdateGlobalCount())</div><div class="line">        .globalGrouping(<span class="string">"partial-count"</span>);</div></pre></td></tr></table></figure>
+<p><strong>2.关键点</strong></p>
+<ul>
+<li>一个拓扑里只有一个Transactional Spout，其实现是由一个单线程的Coordinator Spout + 多个Emitter Bolt组成。利用Storm的ACK Framework机制，判断一个batch是否执行完成</li>
+<li>Committer Bolt 可以有多个，需要收到Transactional Spout的commit信息才会执行commit</li>
+</ul>
+<p>####2. Storm Trident Topologies<br>storm 1.1的版本中，引入新的Trident API解决exactly-once，这是transactional topologies的升级版本。API的易用性改善，exactly-once也是采用事务机制</p>
+<p><strong>1.exactly once</strong></p>
+<ul>
+<li>Tuples are processed as small batches 采用micor-batch机制</li>
+<li>Each batch of tuples is given a unique id called the “transaction id” (txid). If the batch is replayed, it is given the exact same txid. 每个batch有唯一的batchid</li>
+<li>State updates are ordered among batches. That is, the state updates for batch 3 won’t be applied until the state updates for batch 2 have succeeded. 按txid顺序提交</li>
+</ul>
+<p><strong>2.trident example</strong><br><a href="https://github.com/lgrcyanny/LearningStorm/blob/master/src/main/scala/com/learning/storm/TridentTest.scala" target="_blank" rel="external">github example</a></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> topology = <span class="keyword">new</span> <span class="type">TridentTopology</span>()</div><div class="line"><span class="comment">// define spout</span></div><div class="line"><span class="keyword">val</span> spout = <span class="keyword">new</span> <span class="type">FixedBatchSpout</span>(<span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">"sentence"</span>), <span class="number">3</span>,</div><div class="line">    <span class="keyword">new</span> <span class="type">Values</span>(<span class="string">"the cow jumped over the moon"</span>),</div><div class="line">    <span class="keyword">new</span> <span class="type">Values</span>(<span class="string">"the man went to the store and bought some candy"</span>),</div><div class="line">    <span class="keyword">new</span> <span class="type">Values</span>(<span class="string">"four score and seven years ago"</span>),</div><div class="line">    <span class="keyword">new</span> <span class="type">Values</span>(<span class="string">"how many apples can you eat"</span>))</div><div class="line">  spout.setCycle(<span class="literal">true</span>)</div><div class="line"></div><div class="line"><span class="keyword">val</span> wordsCount: <span class="type">TridentState</span> = topology.newStream(<span class="string">"wordsSpout"</span>, spout)</div><div class="line">    .each(<span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">"sentence"</span>), <span class="keyword">new</span> <span class="type">Split</span>(), <span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">"word"</span>))</div><div class="line">    .groupBy(<span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">"word"</span>))</div><div class="line">    .persistentAggregate(<span class="keyword">new</span> <span class="type">MemoryMapState</span>.<span class="type">Factory</span>(), <span class="keyword">new</span> <span class="type">Count</span>(), <span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">"count"</span>))</div><div class="line">    .parallelismHint(<span class="number">6</span>)</div></pre></td></tr></table></figure>
+<p>###<strong>总结</strong></p>
+<p>Storm里为了exacly once，需要做到：</p>
+<ul>
+<li>源端可重放</li>
+<li>batch要有唯一的txid</li>
+<li>commit时按顺序提交，类似事务的两阶段提交</li>
+</ul>
+<hr>
+
+
+
+
+
+
+
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近对Spark Streaming接触比较多，主要关注的是streaming的准确性方面的需求, 忙了快半年，不禁想问为什么需要在exactly-once上花费这么多时间呢。streaming和batch的处理逻辑有什么区别呢？我觉得streaming更适合一些简单的过滤，能在100ms以内能算完的逻辑，而这些逻辑用batch也可以算完，为什么要streaming呢？用户们更希望的是更快。如果batch也能满足低延迟的需求，streaming系统就不需要了。而问题是为什么我们需要一个单独的streaming系统？&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="spark streaming" scheme="http://www.cyanny.com/tags/spark-streaming/"/>
+    
+  </entry>
   
   <entry>
     <title>Set Up Apache Storm On Mac In 10min</title>
@@ -103,11 +196,11 @@
   </entry>
   
   <entry>
-    <title>I look down on binary search algorithm</title>
+    <title>binary search algorithm in scala</title>
     <link href="http://www.cyanny.com/2017/02/21/binary-search-algorithm/"/>
     <id>http://www.cyanny.com/2017/02/21/binary-search-algorithm/</id>
     <published>2017-02-21T01:29:49.000Z</published>
-    <updated>2017-03-05T02:29:49.000Z</updated>
+    <updated>2017-08-28T07:30:05.000Z</updated>
     
     <content type="html"><![CDATA[<p>One day, I wanted to use binary search in one of my feature in my project. My friend said the algorithm was not easy to implement bug free. I did’t believe that. I spent 10min to write it.</p>
 <a id="more"></a>
@@ -432,7 +525,7 @@
     <link href="http://www.cyanny.com/2016/04/17/machine-learning-neural-networks/"/>
     <id>http://www.cyanny.com/2016/04/17/machine-learning-neural-networks/</id>
     <published>2016-04-17T13:29:20.000Z</published>
-    <updated>2017-03-05T02:27:45.000Z</updated>
+    <updated>2017-08-28T14:30:23.000Z</updated>
     
     <content type="html"><![CDATA[<p>This week is about the mysterious Neural Networks. The courses in this week just explain the basics about Neural Networks.</p>
 <h2 id="What-is-Neural-Networks"><a href="#What-is-Neural-Networks" class="headerlink" title="What is Neural Networks"></a>What is Neural Networks</h2><p>It’s a technique to train our data based on how human brains works. A simple Neural Network has:</p>
@@ -1340,129 +1433,6 @@ public static void main(String[] args) throws IOException,
       <category term="Big Data" scheme="http://www.cyanny.com/tags/big-data/"/>
     
       <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HBase Architecture Analysis Part1(Logical Architecture)</title>
-    <link href="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/"/>
-    <id>http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/</id>
-    <published>2014-03-13T13:18:32.000Z</published>
-    <updated>2016-09-27T01:03:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="1-Overview"><a href="#1-Overview" class="headerlink" title="1. Overview"></a>1. Overview</h2><p>Apache HBase is an open source column-oriented database. <strong>It is often described as a sparse, consistent, distributed, multi-dimensional sorted map.</strong> HBase is modeled after Google’s “Bigtable: A distributed Storage System for Structured Data”, which can host very large tables with billions of rows, X millions of columns.<br><a id="more"></a><br>HBase is a No-SQL database, and it has very different paradigms from traditional RDBMS, which speaks SQL and enforce relationships upon data. HBase stores structured and semi-structured data with key-value style. Each row in HBase is located by<strong> &lt;Rowkey, Column Family, Column Qualifier, Version&gt;.</strong></p>
-<p>HBase stores data distributed on Hadoop HDFS shipped with random data access. HDFS is Hadoop Distributed File System, which stores big data sets with streaming style. It has high reliability, scalability and availability but the cons is that HDFS split data into blocks (64MB or 128MB), it can handle large chucks of data very well, but not very well for small piece of data and low-latency data access. In other words, HDFS isn’t fit for online real time read and write, and that’s the meaning of HBase. HBase goal is to make use of cloud distributed data storage for online real time data access.<br>The blog analyzes the architecture of HBase with the method of “4+1” views by Kruthten.</p>
-<h2 id="2-Use-Case-View"><a href="#2-Use-Case-View" class="headerlink" title="2. Use Case View"></a>2. Use Case View</h2><p><a href="http://tinypic.com?ref=346rmhh" target="_blank" rel="external"><img src="http://i60.tinypic.com/346rmhh.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 2.1 User Case View of HBase<br>The figure 2.1 shows the use case view of HBase. Since from the architecture view, the figure gives more details about the main features of HBase:<br>As shown on figure 2.1, the main features of HBase are as follows:<br><strong>1. For User:</strong></p>
-<ul>
-<li><strong>Read/Write big data in real time:</strong> HBase provides transparent and simple interface for user. User has no need to care about details about data transforming.</li>
-<li><strong>Manage Data Model:</strong> User Need to create and manage column-oriented data model about business logic, and HBase provide Interface for them to do management.</li>
-<li><p><strong>Manage System:</strong> User can manually configure and monitor the status of HBase<br><strong> 2. For the System</strong></p>
-</li>
-<li><p><strong>Store data distributed on HDFS:</strong> HBase has great scalability and reliability based on HDFS.</p>
-</li>
-<li><strong> Data random online, real time access:</strong> HBase provides block cache and index on files for real time queries.</li>
-<li><strong>Automatic Data Sharding:</strong> HBase partitions big data automatically on distributed node.</li>
-<li><strong>Automatic failover:</strong> Since hardware failure on clusters is inevitable, HBase can failover automatically for high reliability and availability.</li>
-</ul>
-<h2 id="3-Logical-Architecture"><a href="#3-Logical-Architecture" class="headerlink" title="3. Logical Architecture"></a>3. Logical Architecture</h2><h3 id="3-1-High-Level-Architecture-and-Style"><a href="#3-1-High-Level-Architecture-and-Style" class="headerlink" title="3.1 High Level Architecture and Style"></a>3.1 High Level Architecture and Style</h3><p><a href="http://tinypic.com?ref=2eezt6x" target="_blank" rel="external"><img src="http://i60.tinypic.com/2eezt6x.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.1 High Level Architecture for HBase<br>As shown in Figure3.1, the HBase architecture is layered overall, layered architecture style is a typical style for database.<br><strong>1. Layered Architecture Style</strong><br>➢<strong> Client Layer:</strong> The layer is for user, HBase provides easy-to-use java client API, and ships with non-java API as well, such as shell, Thrift, Avro and REST.<br>➢ <strong>HBase Layer:</strong> The layer is the core logic of HBase. Overall, HBase has two important components: HMaster and RegionServer. We will discuss them later.<br>Moreover, another important component is Zookeeper, which is a distributed coordination service modeled after Google’s Chubby. It’s another open source project under Apache.<br>➢ <strong>Hadoop HDFS Layer:</strong> HBase build on top of HDFS, which provides distributed data storage and data replication.</p>
-<p><strong>2. Master-Slave Architecture Style</strong><br>For distributed applications, how to handle data blocks is a key point. There are two typical styles: <strong>centralized and non-centralized</strong>. Centralized mode is very available for scalability and load balancer, but there is Single Pont of Failure(SPOF) problem and performance bottleneck on the master node. Non-centralized mode has no SPOF problem and performance bottleneck, but not very easy to do load balance and there is data consistent problem.<br>HBase utilizes Centralized Mode: Master-Slave Style. BTW, Hadoop is also master-slave. The architecture style in Hadoop ecosystem is kind of consistent master-slave style.<br><a href="http://tinypic.com?ref=ieff35" target="_blank" rel="external"><img src="http://i62.tinypic.com/ieff35.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.2 Master-Slave Architecture Style of HBase<br>As shown in figure 3.2:</p>
-<ul>
-<li><strong>HMaster</strong> is the master in such style, which is responsible for RegionServer monitor, region assignment, metadata operations, RegionServer Failover etc. In a distributed cluster, HMaster runs on HDFS NameNode.</li>
-<li><strong>RegionServer</strong> is the slave, which is responsible for serving and managing regions. In a distributed cluster, it runs on HDFS DataNode.</li>
-<li><strong>Zookeeper</strong> will track the status of Region Server, where the root table is hosted. Since HBase 0.90.x, it introduces an even more tighter integration with Zookeeper. The heartbeat report from Region Server to HMaster is moved to Zookeeper, that is zookeeper has the responsibility of tracking Region Server status. Moreover, Zookeeper is the entry point of client, which enable query Zookeeper about the location of the region hosting the –ROOT- table.</li>
-</ul>
-<h3 id="3-2-HBase-Data-Model"><a href="#3-2-HBase-Data-Model" class="headerlink" title="3.2 HBase Data Model"></a>3.2 HBase Data Model</h3><p>HBase data model is Column-Family-Oriented. Some special characteristics of HBase data model is as follows:<br>➢ <strong>Key-Value store:</strong> Each cell in a table is specified by the four dimensional key: . The table will not store null values like RDBMS, it works well for large sparse table.<br>➢ <strong>Sorted by key, index only on key.</strong> Row key design is the only most important thing in HBase Schema Design.<br>➢ <strong>Each cell can store different versions,</strong> specified by Timestamp by default<br>➢ The column qualifier is<strong> schema-less,</strong> can be changed during run-time<br>➢ The column qualifier and value is treated a<strong>s arbitrary bytes</strong><br><a href="http://tinypic.com?ref=8wmlhj" target="_blank" rel="external"><img src="http://i58.tinypic.com/8wmlhj.jpg" alt="Image and video hosting by TinyPic"></a><br>Table 3.1 The logical view of data model<br>As shown in Table 3.1, is a logical view of a big table, the table is parse, each row has a unique row key, and the table has three column family: cf1, cf2, cf3. cf1 has two qualifiers: q1-1, q1-2. q1-1 on timestamp t1 has value v1.<br><a href="http://tinypic.com?ref=14smvbr" target="_blank" rel="external"><img src="http://i61.tinypic.com/14smvbr.jpg" alt="Image and video hosting by TinyPic"></a><br>Table 3.2 The physical view of data model<br>In RDBMS, a big table as shown in Table 3.1 will store a lot of null values, but for HBase is not, key-value styles make HBase store only non-empty values as shown in Table3.2. It’s the physical view, a table is partitioned by Column Family, each Column Family is stored in a HStore in a table region on a Region Server.<br>Since the main purpose of the report is architecture analysis, the table design of HBase will not discuss in detail, you can refer to the “HBase in Action”</p>
-<h3 id="3-3-HBase-Distributed-Mode"><a href="#3-3-HBase-Distributed-Mode" class="headerlink" title="3.3 HBase Distributed Mode"></a>3.3 HBase Distributed Mode</h3><h4 id="3-3-1-Big-Table-Splitting"><a href="#3-3-1-Big-Table-Splitting" class="headerlink" title="3.3.1 Big Table Splitting"></a>3.3.1 Big Table Splitting</h4><p>HBase can run on local file system, called “standalone mode” for development and testing. For production, HBase should run on cluster on top of HDFS. Big tables are split and stored across the cluster.<br><a href="http://tinypic.com?ref=16h0rdk" target="_blank" rel="external"><img src="http://i62.tinypic.com/16h0rdk.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.3 Region split on big table<br>A table is split into roughly equal size. Regions are assigned to Region Servers across the cluster. And Region Servers host roughly equal number of regions. As shown in Figure3.3, Table A is split into four regions, each of which is assigned to a Region Server.</p>
-<h4 id="3-3-2-Region-Server"><a href="#3-3-2-Region-Server" class="headerlink" title="3.3.2 Region Server"></a>3.3.2 Region Server</h4><p>As shown in figure3.4, the Region Server Architecture. It contains several components as follows:</p>
-<ul>
-<li><strong>One Block Cache</strong>, which is a LRU priority cache for data reading.</li>
-<li><strong>One WAL(Write Ahead Log):</strong> HBase use Log-Structured-Merge-Tree(LSM tree) to process data writing. Each data update or delete will be write to WAL first, and then write to MemStore. WAL is persisted on HDFS.</li>
-<li><strong>Multiple HRegions:</strong> each HRegion is a partition of table as we talk about in 3.3.1.</li>
-<li><strong>In a HRegion:</strong> Multiple HStore: Each HStore is correspond to a Column Family</li>
-<li><strong>In a HStore:</strong>  <strong>One MemStore:</strong> store updates or deletes before flush to disk. <strong>Multiple StoreFile</strong>, each of which is correspond to a HFile</li>
-<li><strong>A HFile</strong> is immutable, flushed from MemStore, persisted on HDFS<br><a href="http://tinypic.com?ref=c28l" target="_blank" rel="external"><img src="http://i60.tinypic.com/c28l.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure3.4 Region Server Architecture</li>
-</ul>
-<h4 id="3-3-3-ROOT-and-META-table"><a href="#3-3-3-ROOT-and-META-table" class="headerlink" title="3.3.3 -ROOT- and .META table"></a>3.3.3 -ROOT- and .META table</h4><p>Since table are partitioned and store across the cluster. How can the client find which region hosting a specific row key range? There are two special catalog tables, -ROOT- and .META. table for this.<br>➢<strong>.META. table</strong>: host the region location info for a specific row key range. The table is stored on Region Servers, which can be split into as many region as required.<br>➢<strong>-ROOT- table:</strong> host the .META. table info. There is only one Region Server store the –ROOT- table. And the Root region never split into more than one region.<br>The –ROOT- and .META. table structure logically looks as a B+ tree as shown in figure 3.5.<br>The RegionServer RS1 host the –ROOT- table, the .META. table is split into 3 regions: M1, M2, M3, hosted on RS2, RS3, RS1. Table T1 contains three regions, T2 contains four regions. For example, T1R1 is hosted on RS3, the meta info is hosted on M1.<br><a href="http://tinypic.com?ref=soa649" target="_blank" rel="external"><img src="http://i60.tinypic.com/soa649.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.5 –ROOT-, .META., and User table viewed as B+ tree</p>
-<h4 id="3-3-4-Region-Lookup"><a href="#3-3-4-Region-Lookup" class="headerlink" title="3.3.4 Region Lookup"></a>3.3.4 Region Lookup</h4><p>How can client find where the –ROOT- table is? Zookeeper does this work, and how to find the region where the target row is. Even though it belongs to process architecture, it is related to the section, hence we discuss it in advance. let’s look at an example as shown in figure3.6.<br>1. Client query Zookeeper: where is the –ROOT-? On RS1.<br>2. Client request RS1: Which meta region contains row: T10006? META1 on RS2<br>3. Client request RS2: Which region can find the row T10006? Region on RS3<br>4. Client get the from the region on RS3<br>5. Client cache the region info, and is refreshed until the region location info changed.<br><a href="http://tinypic.com?ref=30ml56q" target="_blank" rel="external"><img src="http://i60.tinypic.com/30ml56q.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.6 Region Lookup Process</p>
-<h3 id="3-4-HBase-Communication-Protocol"><a href="#3-4-HBase-Communication-Protocol" class="headerlink" title="3.4 HBase Communication Protocol"></a>3.4 HBase Communication Protocol</h3><p><a href="http://tinypic.com?ref=2zggmrk" target="_blank" rel="external"><img src="http://i61.tinypic.com/2zggmrk.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.7 HBase Communication Protocol<br>In HBase 0.96 release, HBase has moved its communication protocol to<strong> Protocol Buffer.</strong> Protocol buffer is a method of serializing structured data developed by Google. Google uses it for almost all of its internal RPC protocol and file formats.<br>Protocol buffer involves an Interface Description Language for cross language service like Apache Thrift.<br>Basically, the communication between sub-systems of HBase is RPC, which is implemented in Protocol Buffer.<br>The main protocols are as follows:<br>➢ <strong>MasterMonitor Protocol:</strong> client use it to monitor the status of HMaster<br>➢ <strong>MasterAdmin Protocol:</strong> client use it to do management for HMaster, such as region manually management, table meta info management.<br>➢<strong> Admin Protocol:</strong> client use it communicate with HRegionServer, to do admin work, such as region split, store file compact, WAL management.<br>➢<strong> Client Protocol:</strong> Client use it to read/write to HRegionServer<br>➢ <strong>RegionServerStatus Protocol</strong>: HRegionServer use it to communicate with HMaster: including the request and response of server startup, server fatal error, server status report.</p>
-<h3 id="3-5-Log-Structured-Merge-Trees-LSM-trees"><a href="#3-5-Log-Structured-Merge-Trees-LSM-trees" class="headerlink" title="3.5 Log-Structured Merge-Trees(LSM-trees)"></a>3.5 Log-Structured Merge-Trees(LSM-trees)</h3><p>No-SQL database usually uses LSM-trees as data storage process architecture. HBase is no exception. As we all known, RDBMS adopts B+ tree to organize its indexes, as shown in Fugure 3.3. These B+ trees are often 3-level n-way balance trees. The nodes of a B+ tree are blocks on disk. So for a update by RDBMS, it likely needs 5 times disk operation. (3 times for B+ tree to find the block of the target row, 1 time for target block read, and 1 time for data update).<br>On RDBMS, data is written randomly as heap file on disk, but random data block decrease read performance. That’s why we need B+ tree index. B+ tree is fit well for data read, but is not efficient for data updates. Given the large distributed data, B+ tree is not the competitor for LSM-trees so far.<br><a href="http://tinypic.com?ref=7286l0" target="_blank" rel="external"><img src="http://i58.tinypic.com/7286l0.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure3.8 B+ tree</p>
-<p>LSM-trees can be viewed as n-level merge-trees. It transforms random writes into sequential writes using logfile and in-memory store. Figure3.9 shows data write process of LSM-trees.<br><a href="http://tinypic.com?ref=2mw8nky" target="_blank" rel="external"><img src="http://i59.tinypic.com/2mw8nky.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.9 LSM-trees</p>
-<p>➢ <strong>Data Write(Insert, update):</strong> Data is written to logfile sequentially first, then to in-memory store, where data is organized as sorted tree, like B+ tree. When the in-memory store is filled up, the tree in the memory will be flushed to a store file on disk. The store files on disk is arranged like B+ tree, as the C1 Tree shown in Figure 3.9 . But store files are optimized for sequential disk access.<br>➢<strong>Data Read: I</strong>n-memory store is searched first. Then search the store files on disk.<br>➢<strong>Data Delete:</strong> Give a data record a “delete marker”, system background will do housekeeping work by merging some store files into a larger one to reduce disk seeks. A data record will be deleted permanently during the housekeeping.<br>LSM-trees’ data updates are operated in memory, no disk access, it’s faster than B+ tree. When the data read is always on the data set that is written recently, LSM-trees will reduce disk seeks, and improve performance. When disk IO is the cost we must consider, LSM-trees is more suitable than B+ tree.</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;1-Overview&quot;&gt;&lt;a href=&quot;#1-Overview&quot; class=&quot;headerlink&quot; title=&quot;1. Overview&quot;&gt;&lt;/a&gt;1. Overview&lt;/h2&gt;&lt;p&gt;Apache HBase is an open source column-oriented database. &lt;strong&gt;It is often described as a sparse, consistent, distributed, multi-dimensional sorted map.&lt;/strong&gt; HBase is modeled after Google’s “Bigtable: A distributed Storage System for Structured Data”, which can host very large tables with billions of rows, X millions of columns.&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
-    
-      <category term="HBase" scheme="http://www.cyanny.com/categories/hadoop/hbase/"/>
-    
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
-    
-      <category term="Big Data" scheme="http://www.cyanny.com/tags/big-data/"/>
-    
-      <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用</title>
-    <link href="http://www.cyanny.com/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/"/>
-    <id>http://www.cyanny.com/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/</id>
-    <published>2014-02-27T08:00:42.000Z</published>
-    <updated>2016-09-27T01:03:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>项目如果没有采用Java开发，难道就不能用HBase了么？程序猿不会善罢甘休的，有什么语言就会有什么API存在，我还觉得用Java配置时各种缺包错误很烦呢，记得《数学之美》中曾说道：“做技术有术和道两个层面”，知道HBase的架构和一些底层细节是”道”，而使用各种配置和API开发应用则是”术”，而我们就来试试非Java连接HBase。<br>HBase的第三方接口有Shell, Java, REST和Thrift，可以参考《HBase in Action》chapter 6, REST接口比较慢，使用起来并没有Thrift好。而你可能疑惑什么是Thrift:<br><a id="more"></a><br><em><br>Thrift is a “software framework, for scalable cross-language services development…with a code generation engine to build services that work efficiently and seamlessly between C++, Java, Python, PHP, Ruby, Erlang, Perl, Haskell, C#, Cocoa, JavaScript, Node.js…” Thrift allows us to create a thin API in NodeJS to communicate with HBase using a thin socket protocol. The advantages over REST are that the connection stays alive and the protocol is thinner than XML.
-</em><br>Apache Thrift是一个proxy，一个基于RPC的中间件，通过该接口，我们可以采用任何第三方语言连接HBase, 由此可见软件中间件封装底层detail的魅力。HBase提供C++, Java, Python, Node.js的Thrift文件。就Node.js来说，HBase提供了Thrift1和Thrift2， 官方的说法是Thrift2会逐步取代Thrift1， Thrift1我用了，发现命名不规范，而且CRUD并没有全部跑通，之后换用Thrift2，试验后成功了。<br>HBase Thrift API文档很少，官方只找到一个<a href="http://wiki.apache.org/hadoop/Hbase/ThriftApi" title="Python HBase API" target="_blank" rel="external">Python的老版本API</a>, 参考过的博客中采用Thrift2和Node.js的，Google一圈也没有，因此在这里把自己的一些小试验写下来，分享给朋友们，如有不对之处，还请指正。</p>
-<h3 id="一、环境配置"><a href="#一、环境配置" class="headerlink" title="一、环境配置"></a>一、环境配置</h3><p>1. 系统要求<br>*nix系统，我是Max OX 10.9，因此在配置上也是以Mac的配置为准。</p>
-<p>2. 安装Hadoop2.2.0和HBase 0.96.1，并下载HBase 0.96.1的源码到本地，并解压到本地<br>可以参考我之前的两个配置文章：<br><a href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part1/" title="Set up Hadoop 2.2 and HBase 0.96 part1" target="_blank" rel="external">Set up Hadoop 2.2 and HBase 0.96 part1</a><br><a href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part2/" title="Set up Hadoop 2.2 and HBase 0.96 part2" target="_blank" rel="external">Set up Hadoop 2.2 and HBase 0.96 part2</a></p>
-<p>3. Mac需要安装brew, Ubuntu用apt-get就可以</p>
-<p>4. 安装thrift<br>[shell]<br>$ brew install thrift #Maybe cost a lot of time<br>$ thrift -version<br>Thrift version 0.9.1<br>[/shell]</p>
-<p>5. 下载 [Node-HBase-Thrift2]<br>这是我写的使用HBase Thrift2接口的Demo，可以使用该Demo进行测试。<br>[shell]<br>$ git clone <a href="https://github.com/lgrcyanny/Node-HBase-Thrift2" target="_blank" rel="external">https://github.com/lgrcyanny/Node-HBase-Thrift2</a><br>[/shell]</p>
-<p>6. 生成HBase Thrift的相关文件<br>[shell]<br>$ cd Node-HBase-Thrift2<br>$ thrift –gen js:node path-to-hbasesrc/hbase-0.96.1-src/hbase-hrift/src/main/resources/org/apache/hadoop/hbase/thrift2/Hbase.thrift</p>
-<p>#then you will get gen-nodejs directory<br>[/shell]<br>编译生成连接Thrift的js文件，需要使用HBase 0.96.1源码<br>BTW, 在你下载的Node-HBase-Thrift2包中，已经有生成的gen-nodejs文件夹，如果你在生成Thrift相关文件时出现任何问题，可以尝试使用这gen-nodejs文件夹下编译好的文件。</p>
-<p>8. npm安装thrift包<br>[shell]<br>$ npm install thrift<br>[/shell]</p>
-<p>9. 打开HDFS，HBase, HBase Thrift2接口<br>[shell]<br>$ start-dfs.sh<br>$ start-hbase.sh<br>$ hbase thrift2 start -f #Use framed transport， This transport is required when using a non-blocking server. It sends data in frames, where each frame is preceded by length information. Node.js is no-blocking server, we must use &quot;-f&quot; option, or connection lost.<br>$ jps<br>23835 HMaster<br>23764 HQuorumPeer<br>24109 ThriftServer<br>23556 SecondaryNameNode<br>24264 Jps<br>23384 NameNode<br>23927 HRegionServer<br>23463 DataNode<br>[/shell]</p>
-<p>10.插入测试数据<br>[shell]<br>$ hbase shell<br>&gt; put ‘users’, ‘TheRealMT’, ‘info:email’, ‘mark@gmail.com’<br>&gt; put ‘users’, ‘TheRealMT’, ‘info:passoword’, ‘abc123’<br>&gt; put ‘users’, ‘TheRealMT’, ‘info:name’, ‘Mark Twain’<br>&gt; put ‘users’, ‘wwzyhao’, ‘info:count’, 1<br>&gt; put ‘users’, ‘wwzyhao’, ‘info:passowrd’, 7818271<br>&gt; put ‘users’, ‘wwzyhao’, ‘info:email’, 7818271<br>&gt; put ‘users’, ‘wwzyhao’, ‘info:gender’, ‘male’<br>&gt; scan ‘users’<br>ROW                                      COLUMN+CELL<br> TheRealMT                               column=info:email, timestamp=1392811829718, value=mark@gmail.com<br> TheRealMT                               column=info:name, timestamp=1392811829718, value=Mark Twain<br> TheRealMT                               column=info:password, timestamp=1392814983344, value=abc123<br> wwzyhao                                 column=info:count, timestamp=1393489157537, value=male<br> wwzyhao                                 column=info:email, timestamp=1393407097540, value=sks66782@gmail.com<br> wwzyhao                                 column=info:gender, timestamp=1393489039523, value=male<br> wwzyhao                                 column=info:password, timestamp=1393416922377, value=7612111<br>2 row(s) in 0.0560 seconds<br>[/shell]</p><p></p>
-<h3 id="二、使用Thrift2"><a href="#二、使用Thrift2" class="headerlink" title="二、使用Thrift2"></a>二、使用Thrift2</h3><p>为什么不是Thrift1呢？确实，HBase 0.96.1中提供了两个编译文件thrift, thrift2, 前者我们称之为thrift1，我最初使用的是Thrift1，二者最大的痛处是没有文档，官方文档寥寥无几，有一种孤军深入的感觉。不过，API们都是相似的，语义相同，语言不同罢了，这时候代码就是文档。Thrift1的代码规范不如Thrift2，Thrift2更接近Java实现的API调用方式，在使用Thrift1后觉得不好用，就弃用之，投奔Thrift2了。<br>在完成了配置后，我们开始代码了：<br>HBase提供的CRUD操作是经典的：Put, Get, Delete, Scan和Increment</p>
-<h4 id="1-HBase-Get"><a href="#1-HBase-Get" class="headerlink" title="1. HBase Get"></a>1. HBase Get</h4><p>[javascript]<br>var thrift = require(‘thrift’);<br>var HBase = require(‘./gen-nodejs/THBaseService’);<br>var HBaseTypes = require(‘./gen-nodejs/hbase_types’);</p>
-<p>var connection = thrift.createConnection(‘localhost’, 9090, {<br>  transport: thrift.TFramedTransport,<br>  protocol: thrift.TBinaryProtocol<br>});</p>
-<p>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);</p>
-<p>  // row is rowid, columns is array of TColumn, please refer to hbase_types.js<br>  var tGet = new HBaseTypes.TGet({row: ‘TheRealMT’,<br>    columns: [new HBaseTypes.TColumn({family: ‘info’})]});<br>  client.get(‘users’, tGet, function (err, data) {<br>    if (err) {<br>      console.log(err);<br>    } else {<br>      console.log(data);<br>    }<br>    connection.end();<br>  });</p>
-<p>});</p>
-<p>connection.on(‘error’, function(err){<br>  console.log(‘error’, err);<br>});<br>[/javascript]</p>
-<p>我在demo中分文件展示了这5种操作，因为每个操作是以event的形式绑定到connection上，如果将所有的操作都写到：<br>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);<br>  // …<br>});<br>[/javascript]<br>运行时connection.end()后，会出现”Write after end”的Error，我觉得分文件封装是更好的方式。</p>
-<h4 id="2-HBase-Put"><a href="#2-HBase-Put" class="headerlink" title="2. HBase Put"></a>2. HBase Put</h4><p>这个操作是向HBase写入数据, 包括更新和插入。<br>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);</p>
-<p>  var tPut = new HBaseTypes.TPut({row: ‘wwzyhao’,<br>    columnValues: [<br>    new HBaseTypes.TColumnValue({family: ‘info’, qualifier: ‘hobbies’, value: ‘music’}),<br>    new HBaseTypes.TColumnValue({family: ‘info’, qualifier: ‘name’, value: ‘Thomas Zhang’})<br>    ]});<br>  client.put(‘users’, tPut, function (err) {<br>    if (err) {<br>      console.log(err);<br>      return;<br>    }<br>    console.log(‘success’);<br>    connection.end();<br>  });<br>});<br>[/javascript]</p>
-<h4 id="3-HBase-Delete"><a href="#3-HBase-Delete" class="headerlink" title="3. HBase Delete"></a>3. HBase Delete</h4><p>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);</p>
-<p>  // Please run the command in shell first: put ‘users’, ‘wwzyhao’, ‘info:gender’, ‘male’<br>  var tDelete = new HBaseTypes.TDelete({row: ‘wwzyhao’,<br>   columns: [new HBaseTypes.TColumn({family: ‘info’, qualifier: ‘gender’})]});<br>  client.deleteSingle(‘users’, tDelete, function (err) {<br>    if (err) {<br>      console.log(err);<br>      return;<br>    } else {<br>      console.log(‘delete success’);<br>    }<br>    connection.end();<br>  });<br>});<br>[/javascript]</p>
-<h4 id="4-HBase-Scan"><a href="#4-HBase-Scan" class="headerlink" title="4. HBase Scan"></a>4. HBase Scan</h4><p>Get操作本质上是基于Scan的，Get只能获取单行的数据，Scan可以获取多行的数据。<br>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);&lt;/p&gt;</p>
-<p>  var tScanner = new HBaseTypes.TScan({startRow: ‘TheRealMT’,<br>    columns: [new HBaseTypes.TColumn({family: ‘info’})]});<br>  client.openScanner(‘users’, tScanner, function (err, scannerId) {<br>    if (err) {<br>      console.log(err);<br>      return;<br>    }<br>    console.log(‘scannerid : ‘ + scannerId);<br>    client.getScannerRows(scannerId, 10, function (serr, data) {<br>      if (serr) {<br>        console.log(serr);<br>        return;<br>      }<br>      console.log(data);<br>    });<br>    client.closeScanner(scannerId, function (err) {<br>      if (err) {<br>        console.log(err);<br>      }<br>    });<br>    connection.end();<br>  });<br>});<br>[/javascript]</p>
-<h4 id="5-HBase-Increment"><a href="#5-HBase-Increment" class="headerlink" title="5. HBase Increment"></a>5. HBase Increment</h4><p>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);</p>
-<p>  // put ‘users’, ‘wwzyhao’, ‘info’, ‘count’, 1<br>  var tIncrement = new HBaseTypes.TIncrement({<br>    row:’wwzyhao’,<br>    columns: [new HBaseTypes.TColumn({family: ‘info’, qualifier: ‘count’})]<br>  });<br>  client.increment(‘users’, tIncrement, function (err) {<br>    if (err) {<br>      console.log(err);<br>      return;<br>    }<br>    console.log(‘increment success.’);<br>    connection.end();<br>  });<br>});<br>[/javascript]</p>
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p>1.<a href="http://dailyjs.com/2013/07/04/hbase/" target="_blank" rel="external">Getting Started with HBase and Thrift for Node</a><br>2. HBase in Action<br>3. <a href="http://blog.evernote.com/tech/2012/12/20/building-apache-thrift-on-mac-os-x/" target="_blank" rel="external">building-apache-thrift-on-mac-os-x</a><br>4. <a href="https://wiki.apache.org/hadoop/Hbase/ThriftApi" title="Thrift API" target="_blank" rel="external">Thrift API</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;项目如果没有采用Java开发，难道就不能用HBase了么？程序猿不会善罢甘休的，有什么语言就会有什么API存在，我还觉得用Java配置时各种缺包错误很烦呢，记得《数学之美》中曾说道：“做技术有术和道两个层面”，知道HBase的架构和一些底层细节是”道”，而使用各种配置和API开发应用则是”术”，而我们就来试试非Java连接HBase。&lt;br&gt;HBase的第三方接口有Shell, Java, REST和Thrift，可以参考《HBase in Action》chapter 6, REST接口比较慢，使用起来并没有Thrift好。而你可能疑惑什么是Thrift:&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
-    
-      <category term="HBase" scheme="http://www.cyanny.com/categories/hadoop/hbase/"/>
-    
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
-    
-      <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
-    
-      <category term="Learn" scheme="http://www.cyanny.com/tags/learn/"/>
     
   </entry>
   
