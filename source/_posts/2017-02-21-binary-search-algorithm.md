@@ -1,4 +1,4 @@
-title: I look down on binary search algorithm
+title: binary search algorithm in scala
 date: 2017-02-21 09:29:49
 tags: Algorithm
 ---
