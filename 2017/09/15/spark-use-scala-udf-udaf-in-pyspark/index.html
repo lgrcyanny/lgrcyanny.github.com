@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Cyanny Liang" />
+
+
+
+<meta name="description" content="Spark DataFrame API provides efficient and easy-to-use operations to do analysis on distributed collection of data. Many users love the Pyspark API, which is more usable than scala API. Sometimes when">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Use Scala UDF and UDAF in PySpark">
+<meta property="og:url" content="http://www.cyanny.com/2017/09/15/spark-use-scala-udf-udaf-in-pyspark/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="Spark DataFrame API provides efficient and easy-to-use operations to do analysis on distributed collection of data. Many users love the Pyspark API, which is more usable than scala API. Sometimes when">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/761b7938ly1fjmeol1jg8j20s405odim.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/761b7938ly1fjmeofgzbmj210k06igot.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/761b7938ly1fjmer43xfnj20kw0ckt8z.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/761b7938ly1fjmeopknh4j20a0061748.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/761b7938ly1fjmeo7vk38j210c0fy48j.jpg">
+<meta property="og:updated_time" content="2017-09-17T05:23:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How to Use Scala UDF and UDAF in PySpark">
+<meta name="twitter:description" content="Spark DataFrame API provides efficient and easy-to-use operations to do analysis on distributed collection of data. Many users love the Pyspark API, which is more usable than scala API. Sometimes when">
+<meta name="twitter:image" content="http://wx1.sinaimg.cn/mw690/761b7938ly1fjmeol1jg8j20s405odim.jpg">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>How to Use Scala UDF and UDAF in PySpark | CyannyLive</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Cyanny Liang</a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>Menu</li>
+                        <li>Tags</li>
+                        
+                        
+                        <li>About Me</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">Home</a></li>
+                        
+                            <li><a href="/archives/">All Blogs</a></li>
+                        
+                            <li><a href="/tags/">Tags</a></li>
+                        
+                            <li><a href="/about/">About</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="/lgrcyanny@gmail.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://www.weibo.com/1981511992" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/lgrcyanny" title="GitHub"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/lgrcyanny" title="Twitter"></a>
+                            
+                                <a class="fa Facebook" href="https://www.facebook.com/CyannyLIANG" title="Facebook"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/agile/">Agile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/akka/">Akka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">Algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/big-data/">Big Data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design/">Design</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hbase/">HBase</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">Hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/">Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/language/">Language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/learn/">Learn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/learning/">Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/machine-learning/">Machine Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mapreduce/">MapReduce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/methodology/">Methodology</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/network/">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/">Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/">Research</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resource/">Resource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/">Spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemanalysis/">SystemAnalysis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vps/">VPS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/apache-storm/">apache storm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/math/">math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort/">sort</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/诗话/">诗话</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">Big Data, Spark and AI</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Cyanny Liang</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Cyanny Liang</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">All Blogs</a></li>
+                
+                    <li><a href="/tags/">Tags</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="/lgrcyanny@gmail.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://www.weibo.com/1981511992" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/lgrcyanny" title="GitHub"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/lgrcyanny" title="Twitter"></a>
+                            
+                                <a class="fa Facebook" target="_blank" href="https://www.facebook.com/CyannyLIANG" title="Facebook"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
+</nav>
+      <div class="body-wrap"><article id="post-spark-use-scala-udf-udaf-in-pyspark" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/15/spark-use-scala-udf-udaf-in-pyspark/" class="article-date">
+      <time datetime="2017-09-15T03:16:33.000Z" itemprop="datePublished">2017-09-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      How to Use Scala UDF and UDAF in PySpark
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Spark DataFrame API provides efficient and easy-to-use operations to do analysis on distributed collection of data. Many users love the Pyspark API, which is more usable than scala API. Sometimes when we use UDF in pyspark, the performance will be a problem. How about implementing these UDF in scala, and call them in pyspark? BTW, in spark 2.0, UDAF can only be defined in scala, and how to use it in pyspark? Let’s have a try~<br><a id="more"></a></p>
+<h2 id="Use-Scala-UDF-in-PySpark"><a href="#Use-Scala-UDF-in-PySpark" class="headerlink" title="Use Scala UDF in PySpark"></a>Use Scala UDF in PySpark</h2><p><strong>1. define scala udf</strong></p>
+<p>Suppose we want to calculate string length, lets define it in scala UDF.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.spark.sql.expressions.<span class="type">UserDefinedFunction</span></div><div class="line"><span class="keyword">import</span> org.apache.spark.sql.functions._</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">StringLength</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">getStringLength</span></span>(s: <span class="type">String</span>) = s.length</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">getFun</span></span>(): <span class="type">UserDefinedFunction</span> = udf(getStringLength _)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>2. use udf in python</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> SparkSession</div><div class="line"><span class="keyword">from</span> pyspark.sql.column <span class="keyword">import</span> Column</div><div class="line"><span class="keyword">from</span> pyspark.sql.column <span class="keyword">import</span> _to_java_column</div><div class="line"><span class="keyword">from</span> pyspark.sql.column <span class="keyword">import</span> _to_seq</div><div class="line"><span class="keyword">from</span> pyspark.sql.functions <span class="keyword">import</span> col</div><div class="line"> </div><div class="line">spark = SparkSession.builder.appName(<span class="string">"scala_udf_test"</span>).getOrCreate()</div><div class="line">sc = spark.sparkContext</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">string_length</span><span class="params">(col)</span>:</span></div><div class="line">    _string_length = sc._jvm.com.learning.StringLength.getFun()</div><div class="line">    <span class="keyword">return</span> Column(_string_length.apply(_to_seq(sc, [col], _to_java_column)))</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">process</span><span class="params">()</span>:</span></div><div class="line">    rows = [</div><div class="line">        (<span class="string">"k1"</span>, <span class="string">"aaa"</span>),</div><div class="line">        (<span class="string">"k2"</span>, <span class="string">"dd"</span>),</div><div class="line">        (<span class="string">"k3"</span>, <span class="string">"cc"</span>),</div><div class="line">        (<span class="string">"k4"</span>, <span class="string">"eee"</span>),</div><div class="line">    ]</div><div class="line">    df = spark.createDataFrame(rows, [<span class="string">'key'</span>, <span class="string">'value'</span>])</div><div class="line">    df.show(<span class="number">50</span>)</div><div class="line">    df.select(col(<span class="string">"key"</span>), string_length(col(<span class="string">"value"</span>))).show()</div><div class="line"> </div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    process()</div></pre></td></tr></table></figure>
+<p><strong>3. submit the app</strong></p>
+<p>compile the scala code and submit python files with –jars</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bin/spark-submit --jars testing/learning<span class="number">-1.0</span><span class="number">.0</span>-<span class="type">SNAPSHOT</span>.jar udf_test.py</div></pre></td></tr></table></figure>
+<p>the output would be:</p>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>k1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>k2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>k3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>k4</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>4. performance analysis</strong></p>
+<p>let’s explain the scala UDF in Python<br><img src="http://wx1.sinaimg.cn/mw690/761b7938ly1fjmeol1jg8j20s405odim.jpg" alt="scala udf physical plan"><br>the Project Plan is Scala UDF</p>
+<p>and if we implement Python UDF as follows:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">py_slen = udf(<span class="keyword">lambda</span> s: len(s), IntegerType())</div><div class="line">df_with_python_udf = (df.select(col(<span class="string">"key"</span>), py_slen(<span class="string">"value"</span>).alias(<span class="string">"slen"</span>)).orderBy(col(<span class="string">"slen"</span>).desc()))</div></pre></td></tr></table></figure>
+<p>the Python plan is:<br><img src="http://wx4.sinaimg.cn/mw690/761b7938ly1fjmeofgzbmj210k06igot.jpg" alt="python udf physical plan"><br>the UDF plan is different, which is BatchEvalPython.<br>It can prove that when use scala UDF in python, the evaluation is in JVM and data will not exchange with Python worker. And the performance should be improved.</p>
+<p>I evaluated the performance in local environment with 4cores and 2GB memory, and generated 10million rows for each test, the result is as follows:<br><img src="http://wx2.sinaimg.cn/mw690/761b7938ly1fjmer43xfnj20kw0ckt8z.jpg" alt="scala vs python string len udf"><br><strong>Scala UDF is 1.89 times Python UDF</strong></p>
+<p><strong>And then I implemented another UDF in Scala and Python with regex string parsing</strong>, the performance is<br><img src="http://wx3.sinaimg.cn/mw690/761b7938ly1fjmeopknh4j20a0061748.jpg" alt="scala vs python string regex parsing"></p>
+<p><strong>Scala udf is 2.23 times Python REGEX String Parsing UDF</strong></p>
+<p>the Scala UDF is defined as follows:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span>  org.apache.spark.sql.functions._</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line">  * Created by lgrcyanny on 17/9/13.</div><div class="line">  */</div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">StringParse</span> </span>&#123;</div><div class="line">  <span class="keyword">val</span> <span class="type">STRING_PATTERN</span> = <span class="string">""</span><span class="string">"(a.*b)"</span><span class="string">""</span>.r</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">parseString</span></span>(str: <span class="type">String</span>): <span class="type">String</span> = &#123;</div><div class="line">    <span class="keyword">val</span> matched = <span class="type">STRING_PATTERN</span>.findFirstMatchIn(str)</div><div class="line">    <span class="keyword">if</span> (matched.isEmpty) &#123;</div><div class="line">      <span class="string">""</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      matched.get.group(<span class="number">1</span>)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">getFun</span></span>() = udf(parseString _ )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Python string parse UDF  vs Scala UDF:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="keyword">import</span> re</div><div class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> SparkSession</div><div class="line"><span class="keyword">from</span> pyspark.sql.column <span class="keyword">import</span> Column</div><div class="line"><span class="keyword">from</span> pyspark.sql.column <span class="keyword">import</span> _to_java_column</div><div class="line"><span class="keyword">from</span> pyspark.sql.column <span class="keyword">import</span> _to_seq</div><div class="line"><span class="keyword">from</span> pyspark.sql.functions <span class="keyword">import</span> col</div><div class="line"><span class="keyword">from</span> pyspark.sql.functions <span class="keyword">import</span> udf</div><div class="line"><span class="keyword">from</span> pyspark.sql.functions <span class="keyword">import</span> length</div><div class="line"><span class="keyword">from</span> pyspark.sql.types <span class="keyword">import</span> StringType</div><div class="line"><span class="keyword">from</span> pyspark.sql.types <span class="keyword">import</span> IntegerType</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">random_word</span><span class="params">(length)</span>:</span></div><div class="line">    <span class="string">"""get random word for generate rows"""</span></div><div class="line">    letters = string.ascii_lowercase</div><div class="line">    <span class="keyword">return</span> <span class="string">''</span>.join([random.choice(letters) <span class="keyword">for</span> i <span class="keyword">in</span> range(length)])</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_rows</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="string">"""generate rows in key value pair"""</span></div><div class="line">    <span class="comment"># generate rows</span></div><div class="line">    letters = <span class="string">"abcdefghijklmnopqrstuvwxyz"</span></div><div class="line">    rows = []</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">        id = random.randint(<span class="number">0</span>, <span class="number">100</span>)</div><div class="line">        slen = random.randint(<span class="number">0</span>, <span class="number">20</span>)</div><div class="line">        word = random_word(slen)</div><div class="line">        rows.append((id, letters))</div><div class="line">    <span class="keyword">return</span> rows</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">string_parse</span><span class="params">(col)</span>:</span></div><div class="line">    <span class="string">"""scala udf parse string"""</span></div><div class="line">    _string_parse = sc._jvm.com.learning.StringParse.getFun()</div><div class="line">    <span class="keyword">return</span> Column(_string_parse.apply(_to_seq(sc, [col], _to_java_column)))</div><div class="line">    </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_regex_udf</span><span class="params">(n=<span class="number">1000</span>)</span>:</span></div><div class="line">    <span class="string">"""test udf with regex parse"""</span></div><div class="line">    rows = generate_rows(n)</div><div class="line">    df = spark.createDataFrame(rows, [<span class="string">'key'</span>, <span class="string">'value'</span>])</div><div class="line">    df.show(<span class="number">20</span>)</div><div class="line">    pattern = re.compile(<span class="string">r"(a.*b)"</span>)</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_string</span><span class="params">(str)</span>:</span></div><div class="line">        <span class="string">"""parse string with python regex"""</span></div><div class="line">        matched = re.search(pattern, str)</div><div class="line">        <span class="keyword">if</span> matched:</div><div class="line">            <span class="keyword">return</span> matched.group(<span class="number">1</span>)</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">""</span></div><div class="line">    py_parse_str = udf(parse_string, StringType())</div><div class="line">    start_time = time.time()</div><div class="line">    df_with_python_udf = (df.select(col(<span class="string">"key"</span>), py_parse_str(col(<span class="string">"value"</span>)).alias(<span class="string">"parsed_value"</span>))</div><div class="line">                          .filter(length(col(<span class="string">"parsed_value"</span>)) &gt; <span class="number">0</span>))</div><div class="line">    df_with_python_udf.explain(<span class="keyword">True</span>)</div><div class="line">    df_with_python_udf.show()</div><div class="line">    print(<span class="string">"matched rows: &#123;&#125;"</span>.format(df_with_python_udf.count()))</div><div class="line">    print(<span class="string">"duration for python regex parse: &#123;&#125;s"</span>.format(time.time() - start_time))</div><div class="line"></div><div class="line">    start_time = time.time()</div><div class="line">    df_with_scala_udf = (df.select(col(<span class="string">"key"</span>), string_parse(col(<span class="string">"value"</span>)).alias(<span class="string">"parsed_value"</span>))</div><div class="line">                          .filter(length(col(<span class="string">"parsed_value"</span>)) &gt; <span class="number">0</span>))</div><div class="line">    df_with_python_udf.explain(<span class="keyword">True</span>)</div><div class="line">    df_with_scala_udf.show()</div><div class="line">    print(<span class="string">"matched rows: &#123;&#125;"</span>.format(df_with_scala_udf.count()))</div><div class="line">    print(<span class="string">"duration for scala regex parse: &#123;&#125;s"</span>.format(time.time() - start_time))</div></pre></td></tr></table></figure>
+<p><strong>5. Conclusion</strong></p>
+<p>Databricks used to give a performance for Python vs Scala DataFrame and RDD API:<br><img src="http://wx2.sinaimg.cn/mw690/761b7938ly1fjmeo7vk38j210c0fy48j.jpg" alt="databricks performance"></p>
+<p>the blog is <a href="https://databricks.com/blog/2015/02/17/introducing-dataframes-in-spark-for-large-scale-data-science.html" target="_blank" rel="external">here</a>.<br>The performance is a running group-aggregation on 10 million integer pairs on a single machince. The Scala DF is almost 5 times Python lambda function in RDD Python.</p>
+<p>Even though, the Scala UDF is not 5 times Python UDF, about 2 times in my test, using scala UDF can improve performance indeed.</p>
+<h2 id="Use-Scala-UDAF-in-PySpark"><a href="#Use-Scala-UDAF-in-PySpark" class="headerlink" title="Use Scala UDAF in PySpark"></a>Use Scala UDAF in PySpark</h2><p>UDAF now only supports defined in Scala and Java(spark 2.0)</p>
+<p><strong>1. define scala UDAF</strong></p>
+<p>when define UDAF, it must extend class <code>UserDefinedAggregateFunction</code></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.spark.sql.<span class="type">Row</span></div><div class="line"><span class="keyword">import</span> org.apache.spark.sql.expressions.&#123;<span class="type">MutableAggregationBuffer</span>, <span class="type">UserDefinedAggregateFunction</span>&#125;</div><div class="line"><span class="keyword">import</span> org.apache.spark.sql.types.&#123;<span class="type">ArrayType</span>, <span class="type">DataType</span>, <span class="type">StringType</span>, <span class="type">StructType</span>&#125;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> scala.collection.mutable.<span class="type">ArrayBuffer</span></div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">GroupConcat</span> <span class="keyword">extends</span> <span class="title">UserDefinedAggregateFunction</span> </span>&#123;</div><div class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">inputSchema</span></span>: <span class="type">StructType</span> = <span class="keyword">new</span> <span class="type">StructType</span>().add(<span class="string">"s"</span>, <span class="type">StringType</span>)</div><div class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">bufferSchema</span></span>: <span class="type">StructType</span> = <span class="keyword">new</span> <span class="type">StructType</span>().add(<span class="string">"buff"</span>, <span class="type">ArrayType</span>(<span class="type">StringType</span>))</div><div class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">dataType</span></span>: <span class="type">DataType</span> = <span class="type">StringType</span></div><div class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">deterministic</span></span>: <span class="type">Boolean</span> = <span class="literal">true</span></div><div class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">initialize</span></span>(buffer: <span class="type">MutableAggregationBuffer</span>): <span class="type">Unit</span> = &#123;</div><div class="line">    buffer.update(<span class="number">0</span>, <span class="type">ArrayBuffer</span>.empty[<span class="type">String</span>])</div><div class="line">  &#125;</div><div class="line"> </div><div class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">update</span></span>(buffer: <span class="type">MutableAggregationBuffer</span>, input: <span class="type">Row</span>): <span class="type">Unit</span> = &#123;</div><div class="line">    <span class="keyword">if</span> (!input.isNullAt(<span class="number">0</span>)) &#123;</div><div class="line">      buffer.update(<span class="number">0</span>, buffer.getSeq[<span class="type">String</span>](<span class="number">0</span>) :+ input.getString(<span class="number">0</span>))</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"> </div><div class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">merge</span></span>(buffer1: <span class="type">MutableAggregationBuffer</span>, buffer2: <span class="type">Row</span>): <span class="type">Unit</span> = &#123;</div><div class="line">    buffer1.update(<span class="number">0</span>, buffer1.getSeq[<span class="type">String</span>](<span class="number">0</span>) ++ buffer2.getSeq[<span class="type">String</span>](<span class="number">0</span>))</div><div class="line">  &#125;</div><div class="line"> </div><div class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">evaluate</span></span>(buffer: <span class="type">Row</span>): <span class="type">Any</span> = &#123;</div><div class="line">    buffer.getSeq[<span class="type">String</span>](<span class="number">0</span>).mkString(<span class="string">","</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>2. use UDAF in python</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> SparkSession</div><div class="line"><span class="keyword">from</span> pyspark.sql.column <span class="keyword">import</span> Column</div><div class="line"><span class="keyword">from</span> pyspark.sql.column <span class="keyword">import</span> _to_java_column</div><div class="line"><span class="keyword">from</span> pyspark.sql.column <span class="keyword">import</span> _to_seq</div><div class="line"> </div><div class="line">spark = SparkSession.builder.appName(<span class="string">"scala_udf_test"</span>).getOrCreate()</div><div class="line">sc = spark.sparkContext</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">group_concat</span><span class="params">(col)</span>:</span></div><div class="line">    _groupConcat = sc._jvm.com.learning.GroupConcat.apply</div><div class="line">    <span class="keyword">return</span> Column(_groupConcat(_to_seq(sc, [col], _to_java_column)))</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">process</span><span class="params">()</span>:</span></div><div class="line">    rows = [</div><div class="line">        (<span class="string">"k1"</span>, <span class="string">"a"</span>),</div><div class="line">        (<span class="string">"k1"</span>, <span class="string">"b"</span>),</div><div class="line">        (<span class="string">"k1"</span>, <span class="string">"c"</span>),</div><div class="line">        (<span class="string">"k2"</span>, <span class="string">"d"</span>),</div><div class="line">        (<span class="string">"k3"</span>, <span class="string">"e"</span>),</div><div class="line">        (<span class="string">"k3"</span>, <span class="string">"f"</span>),</div><div class="line">    ]</div><div class="line">    df = spark.createDataFrame(rows, [<span class="string">'key'</span>, <span class="string">'value'</span>])</div><div class="line">    df.show(<span class="number">50</span>)</div><div class="line">    df.groupBy(<span class="string">"key"</span>).agg(group_concat(<span class="string">"value"</span>).alias(<span class="string">"concat"</span>)).show()</div><div class="line"> </div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    process()</div></pre></td></tr></table></figure>
+<p><strong>3. submit the app</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bin/spark-submit --jars testing/learning-1.0.0-SNAPSHOT.jar udf_test.py</div></pre></td></tr></table></figure>
+<p>the output would be:</p>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>cancat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>k1</td>
+<td>a,b,c</td>
+</tr>
+<tr>
+<td>k2</td>
+<td>d</td>
+</tr>
+<tr>
+<td>k3</td>
+<td>e,f</td>
+</tr>
+</tbody>
+</table>
+<p><strong>4. references</strong></p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/31640729/spark-sql-replacement-for-mysql-group-concat-aggregate-function" target="_blank" rel="external">spark-sql-replacement-for-mysql-group-concat-aggregate-function</a></li>
+<li><a href="https://stackoverflow.com/questions/33233737/spark-how-to-map-python-with-scala-or-java-user-defined-functions" target="_blank" rel="external">spark-how-to-map-python-with-scala-or-java-user-defined-functions</a></li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/08/30/my-first-commit-to-spark-community/">
+                    My First Commit to Spark Community
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"How to Use Scala UDF and UDAF in PySpark　| CyannyLive　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://www.cyanny.com/2017/09/15/spark-use-scala-udf-udaf-in-pyspark/';
+            this.page.identifier = '2017/09/15/spark-use-scala-udf-udaf-in-pyspark/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//lgrcyanny.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="Back to Homepage"><i class="fa fa-home"></i></a>
+        
+
+        <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/08/30/my-first-commit-to-spark-community/" title="Next: My First Commit to Spark Community">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/09/15/spark-use-scala-udf-udaf-in-pyspark/">How to Use Scala UDF and UDAF in PySpark</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/30/my-first-commit-to-spark-community/">My First Commit to Spark Community</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/10/set-up-storm-on-mac-in-10min/">Set Up Apache Storm On Mac In 10min</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/machine-learning-logistic-regression/">Machine Learning Logistic Regression</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/binary-search-algorithm/">binary search algorithm in scala</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/22/booklist-for-2017/">My Booklist and Reservations for 2017</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/07/scala-collections/">Scala Collections</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/27/春江花月夜/">春江花月夜</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/27/eight-queens-problem-in-scala/">Eight Queens Problem In Scala</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/machine-learning-neural-networks/">Machine Learning Neural Networks</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/04/machine-learning-linear-regression/">Machine Learning Linear Regression</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/programming-in-scala-overview-key-note/">Programming In Scala Overview Key Note</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/07/learning-akka/">Learning Akka</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/04/bitsort-ant-qsort/">位排序和快排</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/03/find-median-for-two-sorted-array/">查找两个排序数组的中位数</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/16/hive-architecture/">Hive架构笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/04/12/dijkstra-algorithm-in-java/">Dijkstra Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/">HBase MapReduce排序Secondary Sort</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/">HBase Architecture Analysis Part 3 Pros and Cons</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/">HBase Architecture Analysis Part2(Process Architecture)</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/">HBase Architecture Analysis Part1(Logical Architecture)</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/">Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/">Revolution——面向对象看黑客帝国</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/06/set-hadoop-hbase-part2/">Set up Hadoop 2.2 and HBase 0.96 part2</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/06/set-hadoop-hbase-part1/">Set up Hadoop 2.2 and HBase 0.96 part1</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/18/node-express-mysql-scaffolding/">Node Express Mysql Scaffolding</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-isnt-silver-bullet/">Hadoop isn’t Silver Bullet</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-mapreduce-2-yarn/">Hadoop MapReduce 2 (YARN)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-mapreduce-1-framework/">Hadoop MapReduce 1 Framework</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-mapreduce-overview/">Hadoop MapReduce Overview</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-hdfs-high-availability/">Hadoop HDFS High Availability(HA)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-hdfs-federation/">Hadoop HDFS Federation </a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-hdfs-review/">Hadoop HDFS Review</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/05/hadoop-overview/">Hadoop Overview</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/02/graph-dfs-bfs/">Graph DFS and BFS</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/">System Analysis and Design (Kenneth Kendall) Review Part4</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/">System Analysis and Design (Kenneth Kendall) Review Part3</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/">System Analysis and Design (Kenneth Kendall) Review Part2</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/">System Analysis and Design (Kenneth Kendall) Review Part1</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part4/">分布式系统总结part4</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part3/">分布式系统总结part3</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part2/">分布式系统总结part2</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/24/distributed-system-review-part1/">分布式系统总结part1</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/16/netkit-filesystem-custom-cutting/">Netkit Filesystem 定制和裁剪</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/13/ipsec-architecture/">IPsec之IP层安全架构</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/">如何配置VPS并发布WordPress Blog?(第一篇)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/">如何配置VPS并发布WordPress Blog?(第二篇)</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/10/how-to-start-learning-node-js/">How to start learning Node.js</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/01/agile-advantages-and-disadvantages/">“吐槽”敏捷软件开发</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/talk-about-open-source-software/">谈谈开源软件，谈谈质量</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/">统计学的基本概念和方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/09/12/select-second-smallest-element/">找一个数组中第2小的元素</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/09/09/warshall-algorithm-cycle-dectection/">Warshall's Algorithm for Cycle Dectection</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/08/18/the-usage-of-counting-sort/">计数排序的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/08/10/learning-heap-sort/">再叙堆排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/05/25/good-resources-for-js-learning/">Good Resources for JavaScript</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i>
+                2016-2017 Cyanny Liang
+            </div>
+            <div class="footer-right">
+                <a>Best wishes for everyday~</a>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="Back to Top"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="Comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="Go to Bottom"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+             title: "a.article-title, .article-more-link a", 
+             post: ".article-entry a[href], .copyright a[href]", 
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
