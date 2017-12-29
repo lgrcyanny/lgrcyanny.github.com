@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cyanny.com/"/>
-  <updated>2017-09-17T05:23:32.000Z</updated>
+  <updated>2017-12-29T12:16:20.000Z</updated>
   <id>http://www.cyanny.com/</id>
   
   <author>
@@ -14,6 +14,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ppmml publish today</title>
+    <link href="http://www.cyanny.com/2017/12/29/ppmml-publish/"/>
+    <id>http://www.cyanny.com/2017/12/29/ppmml-publish/</id>
+    <published>2017-12-29T11:42:02.000Z</published>
+    <updated>2017-12-29T12:16:20.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>On the last day before the New Year Holiday, ppmml is published.<br><a href="https://github.com/lgrcyanny/ppmml" target="_blank" rel="external">ppmml</a> is a python library for converting machine learning models to pmml file. ppmml wraps jpmml libraries and provides clean interface.</p>
+<h1 id="What-is-pmml-file"><a href="#What-is-pmml-file" class="headerlink" title="What is pmml file?"></a>What is pmml file?</h1><p>PMML - “Predictive Model Markup Language”, which is a standard for XML documents which express trained instances of analytic models.<br>Various platforms adopt pmml as machine learning model standard, including IBM, SAS, Microsoft, Spark, KNIME etd.<a href="http://dmg.org/pmml/products.html" target="_blank" rel="external">pmml-platforms</a></p>
+<p><a href="https://github.com/jpmml" target="_blank" rel="external">jpmml</a> has developed pmml model library and supported models of spark, xgboost, tensorflow, sklearn, lightgbm and R. All of these libraries are separated and written in java.<br>ppmml wraps jpmml libraries and proved a simple and easy-to-use API for pmml files transformation.<br>0.0.1 version supports sklearn, tensorflow, spark, lightgbm, xgboost and R models. All models supported by jpmml are supported by ppmml. Common machine learning algorithms are supported, such as Decision Tree, Logistic Regression, GBDT, Random Forest, KMeans. However, Deep Learning support is not ready.</p>
+<a id="more"></a>
+<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install --default-timeout=10000 -i https://pypi.anaconda.org/lgrcyanny/simple ppmml</div></pre></td></tr></table></figure>
+<p><a href="https://anaconda.org/lgrcyanny/ppmml" target="_blank" rel="external">ppmml conda package</a></p>
+<h1 id="Geting-Started"><a href="#Geting-Started" class="headerlink" title="Geting Started"></a>Geting Started</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</div><div class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</div><div class="line"><span class="keyword">from</span> sklearn.externals <span class="keyword">import</span> joblib</div><div class="line"><span class="keyword">import</span> ppmml</div><div class="line"><span class="comment"># load data and train iris datasets</span></div><div class="line">(X, y) = load_iris(<span class="keyword">True</span>)</div><div class="line">lr = LogisticRegression(tol=<span class="number">1e-5</span>)</div><div class="line">lr.fit(X, y)</div><div class="line">joblib.dump(lr, <span class="string">"lr.pkl.z"</span>, compress = <span class="number">9</span>)</div><div class="line"></div><div class="line"><span class="comment"># to pmml file</span></div><div class="line">ppmml.to_pmml(<span class="string">"lr.pkl.z"</span>, <span class="string">"lr.pmml"</span>, model_type=<span class="string">'sklearn'</span>)</div><div class="line"></div><div class="line"><span class="comment"># prepare test data</span></div><div class="line">df = pd.DataFrame(X)</div><div class="line">df.columns = [<span class="string">'x1'</span>, <span class="string">'x2'</span>, <span class="string">'x3'</span>, <span class="string">'x4'</span>]</div><div class="line">df.to_csv(<span class="string">'test.csv'</span>, header=<span class="keyword">True</span>, index=<span class="keyword">False</span>)</div><div class="line"><span class="comment"># predit with pmml file, a simple predict API based on jpmml-evaluator</span></div><div class="line">ppmml.predict(<span class="string">'lr.pmml'</span>, <span class="string">'test.csv'</span>, <span class="string">'predict.csv'</span>)</div></pre></td></tr></table></figure>
+<p><a href="https://github.com/lgrcyanny/ppmml" target="_blank" rel="external">ppmml github</a></p>
+<hr>
+<p><strong>Notes:</strong><br>It’s the last work of this year<br>In memory of the last time here, wish for a great step in 2018<br>May the force be with you</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;On the last day before the New Year Holiday, ppmml is published.&lt;br&gt;&lt;a href=&quot;https://github.com/lgrcyanny/ppmml&quot;&gt;ppmml&lt;/a&gt; is a python library for converting machine learning models to pmml file. ppmml wraps jpmml libraries and provides clean interface.&lt;/p&gt;
+&lt;h1 id=&quot;What-is-pmml-file&quot;&gt;&lt;a href=&quot;#What-is-pmml-file&quot; class=&quot;headerlink&quot; title=&quot;What is pmml file?&quot;&gt;&lt;/a&gt;What is pmml file?&lt;/h1&gt;&lt;p&gt;PMML - “Predictive Model Markup Language”, which is a standard for XML documents which express trained instances of analytic models.&lt;br&gt;Various platforms adopt pmml as machine learning model standard, including IBM, SAS, Microsoft, Spark, KNIME etd.&lt;a href=&quot;http://dmg.org/pmml/products.html&quot;&gt;pmml-platforms&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jpmml&quot;&gt;jpmml&lt;/a&gt; has developed pmml model library and supported models of spark, xgboost, tensorflow, sklearn, lightgbm and R. All of these libraries are separated and written in java.&lt;br&gt;ppmml wraps jpmml libraries and proved a simple and easy-to-use API for pmml files transformation.&lt;br&gt;0.0.1 version supports sklearn, tensorflow, spark, lightgbm, xgboost and R models. All models supported by jpmml are supported by ppmml. Common machine learning algorithms are supported, such as Decision Tree, Logistic Regression, GBDT, Random Forest, KMeans. However, Deep Learning support is not ready.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="machine learning" scheme="http://www.cyanny.com/tags/machine-learning/"/>
+    
+  </entry>
   
   <entry>
     <title>How to Use Scala UDF and UDAF in PySpark</title>
@@ -143,6 +175,76 @@
     
     
       <category term="Spark" scheme="http://www.cyanny.com/tags/spark/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spark streaming exactly-once analysis</title>
+    <link href="http://www.cyanny.com/2017/08/27/spark-streaming-exactly-once-analysis/"/>
+    <id>http://www.cyanny.com/2017/08/27/spark-streaming-exactly-once-analysis/</id>
+    <published>2017-08-27T03:31:58.000Z</published>
+    <updated>2017-10-24T07:27:33.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近对Spark Streaming接触比较多，主要关注的是streaming的准确性方面的需求, 忙了快半年，不禁想问为什么需要在exactly-once上花费这么多时间呢。streaming和batch的处理逻辑有什么区别呢？我觉得streaming更适合一些简单的过滤，能在100ms以内能算完的逻辑，而这些逻辑用batch也可以算完，为什么要streaming呢？用户们更希望的是更快。如果batch也能满足低延迟的需求，streaming系统就不需要了。而问题是为什么我们需要一个单独的streaming系统？<br><a id="more"></a></p>
+<p> 生产环境中的版本是1.6，spark streaming的API在1.6上是基于RDD的DStream API，相比Structured Streaming，更稳定和成熟些。而我们的用户们，比较关心的是streaming系统</p>
+<p> 开源里广泛使用的Streaming系统是Storm和Flink。Storm早期用record ack的方式保证at-least once，但没有提供exactly-once的保证，后面又有了storm trident.</p>
+<h2 id="Spark-Streaming-Receiver模式没有exactly-once保证"><a href="#Spark-Streaming-Receiver模式没有exactly-once保证" class="headerlink" title="Spark Streaming Receiver模式没有exactly-once保证"></a>Spark Streaming Receiver模式没有exactly-once保证</h2><h2 id="Flink中的Exactly-Once保证"><a href="#Flink中的Exactly-Once保证" class="headerlink" title="Flink中的Exactly-Once保证"></a>Flink中的Exactly-Once保证</h2><h2 id="Storm的Eactly-Once保证"><a href="#Storm的Eactly-Once保证" class="headerlink" title="Storm的Eactly-Once保证"></a>Storm的Eactly-Once保证</h2><h3 id="Storm-Architecture"><a href="#Storm-Architecture" class="headerlink" title="Storm Architecture"></a>Storm Architecture</h3><p><img src="http://wx3.sinaimg.cn/mw690/761b7938ly1fizgwunfr6j21kw0n7e6n.jpg" alt="storm architecture"><br>以Storm on Yarn来说明Storm的架构：</p>
+<ul>
+<li>client将jar包通过yarn上传</li>
+<li>在一台NodeManager上启动Nimbus，这是master节点，负责管理StormTopology, 分发task，心跳等</li>
+<li>其他的NodeManager上启动Supervisor, 相当于slave节点，管理storm worker<ul>
+<li>在每个supervisor上，可以启动多个worker进程，每个worker进程可以运行多个task，task是多线程的，由worker管理。这些task运行的就是Spout或Bolt定义的操作</li>
+</ul>
+</li>
+<li>Zookeeper, Storm运行时状态的管理</li>
+</ul>
+<p>Storm方面算是简单调研，理解不是很深入，具体的参考<a href="http://storm.apache.org/releases/1.1.1/Setting-up-a-Storm-cluster.html" target="_blank" rel="external">官方文档</a></p>
+<h3 id="Storm-exactly-once"><a href="#Storm-exactly-once" class="headerlink" title="Storm exactly-once"></a>Storm exactly-once</h3><p>####1. Storm Transactional Topologies(deprecated)<br>Strom 0.7版本中，实现了<a href="http://storm.apache.org/releases/1.1.1/Transactional-topologies.html" target="_blank" rel="external">transctional topologies</a>来保证exactly-once,<br><strong>1.transactional phrases 类似两阶段事务机制</strong></p>
+<ul>
+<li>The processing phase: this is the phase that can be done in parallel for many batches 可以并发执行计算partial result</li>
+<li>The commit phase: The commit phases for batches are strongly ordered. So the commit for batch 2 is not done until the commit for batch 1 has been successful. 保证batch的提交是按顺序的</li>
+</ul>
+<p>来个直观的，用户需要构建的Topology如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">MemoryTransactionalSpout spout = <span class="keyword">new</span> MemoryTransactionalSpout(DATA, <span class="keyword">new</span> Fields(<span class="string">"word"</span>), PARTITION_TAKE_PER_BATCH);</div><div class="line">TransactionalTopologyBuilder builder = <span class="keyword">new</span> TransactionalTopologyBuilder(<span class="string">"global-count"</span>, <span class="string">"spout"</span>, spout, <span class="number">3</span>);</div><div class="line">builder.setBolt(<span class="string">"partial-count"</span>, <span class="keyword">new</span> BatchCount(), <span class="number">5</span>)</div><div class="line">        .shuffleGrouping(<span class="string">"spout"</span>);</div><div class="line">builder.setBolt(<span class="string">"sum"</span>, <span class="keyword">new</span> UpdateGlobalCount())</div><div class="line">        .globalGrouping(<span class="string">"partial-count"</span>);</div></pre></td></tr></table></figure>
+<p><strong>2.关键点</strong></p>
+<ul>
+<li>一个拓扑里只有一个Transactional Spout，其实现是由一个单线程的Coordinator Spout + 多个Emitter Bolt组成。利用Storm的ACK Framework机制，判断一个batch是否执行完成</li>
+<li>Committer Bolt 可以有多个，需要收到Transactional Spout的commit信息才会执行commit</li>
+</ul>
+<p>####2. Storm Trident Topologies<br>storm 1.1的版本中，引入新的Trident API解决exactly-once，这是transactional topologies的升级版本。API的易用性改善，exactly-once也是采用事务机制</p>
+<p><strong>1.exactly once</strong></p>
+<ul>
+<li>Tuples are processed as small batches 采用micor-batch机制</li>
+<li>Each batch of tuples is given a unique id called the “transaction id” (txid). If the batch is replayed, it is given the exact same txid. 每个batch有唯一的batchid</li>
+<li>State updates are ordered among batches. That is, the state updates for batch 3 won’t be applied until the state updates for batch 2 have succeeded. 按txid顺序提交</li>
+</ul>
+<p><strong>2.trident example</strong><br><a href="https://github.com/lgrcyanny/LearningStorm/blob/master/src/main/scala/com/learning/storm/TridentTest.scala" target="_blank" rel="external">github example</a></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> topology = <span class="keyword">new</span> <span class="type">TridentTopology</span>()</div><div class="line"><span class="comment">// define spout</span></div><div class="line"><span class="keyword">val</span> spout = <span class="keyword">new</span> <span class="type">FixedBatchSpout</span>(<span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">"sentence"</span>), <span class="number">3</span>,</div><div class="line">    <span class="keyword">new</span> <span class="type">Values</span>(<span class="string">"the cow jumped over the moon"</span>),</div><div class="line">    <span class="keyword">new</span> <span class="type">Values</span>(<span class="string">"the man went to the store and bought some candy"</span>),</div><div class="line">    <span class="keyword">new</span> <span class="type">Values</span>(<span class="string">"four score and seven years ago"</span>),</div><div class="line">    <span class="keyword">new</span> <span class="type">Values</span>(<span class="string">"how many apples can you eat"</span>))</div><div class="line">  spout.setCycle(<span class="literal">true</span>)</div><div class="line"></div><div class="line"><span class="keyword">val</span> wordsCount: <span class="type">TridentState</span> = topology.newStream(<span class="string">"wordsSpout"</span>, spout)</div><div class="line">    .each(<span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">"sentence"</span>), <span class="keyword">new</span> <span class="type">Split</span>(), <span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">"word"</span>))</div><div class="line">    .groupBy(<span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">"word"</span>))</div><div class="line">    .persistentAggregate(<span class="keyword">new</span> <span class="type">MemoryMapState</span>.<span class="type">Factory</span>(), <span class="keyword">new</span> <span class="type">Count</span>(), <span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">"count"</span>))</div><div class="line">    .parallelismHint(<span class="number">6</span>)</div></pre></td></tr></table></figure>
+<p>###<strong>总结</strong></p>
+<p>Storm里为了exacly once，需要做到：</p>
+<ul>
+<li>源端可重放</li>
+<li>batch要有唯一的txid</li>
+<li>commit时按顺序提交，类似事务的两阶段提交</li>
+</ul>
+<hr>
+
+
+
+
+
+
+
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近对Spark Streaming接触比较多，主要关注的是streaming的准确性方面的需求, 忙了快半年，不禁想问为什么需要在exactly-once上花费这么多时间呢。streaming和batch的处理逻辑有什么区别呢？我觉得streaming更适合一些简单的过滤，能在100ms以内能算完的逻辑，而这些逻辑用batch也可以算完，为什么要streaming呢？用户们更希望的是更快。如果batch也能满足低延迟的需求，streaming系统就不需要了。而问题是为什么我们需要一个单独的streaming系统？&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="spark streaming" scheme="http://www.cyanny.com/tags/spark-streaming/"/>
     
   </entry>
   
@@ -552,9 +654,9 @@
     </summary>
     
     
-      <category term="Algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
-    
       <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
+    
+      <category term="Algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
     
   </entry>
   
@@ -1383,94 +1485,6 @@ public static void main(String[] args) throws IOException,
       <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
     
       <category term="MapReduce" scheme="http://www.cyanny.com/tags/mapreduce/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HBase Architecture Analysis Part 3 Pros and Cons</title>
-    <link href="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/"/>
-    <id>http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/</id>
-    <published>2014-03-13T14:13:20.000Z</published>
-    <updated>2016-09-27T01:03:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="5-HBase-Physical-Architecture"><a href="#5-HBase-Physical-Architecture" class="headerlink" title="5. HBase Physical Architecture"></a>5. HBase Physical Architecture</h2><p>Figure 5.1 shows the deployment view for HBase cluster:<br>HBase is the master-slave cluster on top of HDFS. The classic deployment is as follows:<br>➢<strong> Master node:</strong> one HMaster and one NameNode running on a machine as the master node.<br>➢ <strong>Slave node:</strong> Each node is running one HRegionServer and one DataNode. And each node report status to the master node and Zookeeper.<br>➢<strong> Zookeeper:</strong> HBase is shipped with ensemble Zookeeper, but for large clusters, using existing Zookeeper is better. Zookeeper is crucial, the HMaster and HRegionServers will register on Zookeeper.<br>➢ <strong>Client</strong>: There can be many clients to access HRegionServer, like Java Client, Shell Client, Thrift Client and Avro Client</p>
-<p><a id="more"></a> <a href="http://tinypic.com?ref=6eg29d" target="_blank" rel="external"><img src="http://i58.tinypic.com/6eg29d.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 5.1 HBase Deployment View</p>
-<h2 id="6-HBase-Pros"><a href="#6-HBase-Pros" class="headerlink" title="6.HBase Pros"></a>6.HBase Pros</h2><p><strong>1. Master-Slave Architecture</strong><br>HBase build on top HDFS, HDFS is mater-slave architecture, HBase follows this style. It will improve the interoperability between HBase and HDFS.<br>This style do good for load balance, the HMaster takes over the load balance job, assign regions to region servers and auto failover dead RegionServers.</p>
-<p><strong>2. Real-time , random big data access</strong><br>HDFS handles large blocks of data well, but small blocks of data with real-time access is not efficient. HBase uses LSM-trees as data storage architecture. Data is written into WAL first, then to Mem Store. WAL is in case of data lost before Mem Store is flushed to HDFS. Mem Store will be flushed to HDFS when it’s filled up. The mechanism insures that data write is operated in memory, no need of HDFS disk access, which improves write performance.<br>Meanwhile, data read accesses Mem Store first, then to Block Cache, and last the HFiles, so for random data access, if there is cache in memory, the read performance is very well.<br>In short, HBase brings big data online, it is efficient for real-time operations on big data(TB, PB);</p>
-<p><strong>3. Column-Oriented data model for big sparse table</strong><br>HBase is NO-SQL, column-family-oriented, each column family is stored together in HStore. The key-value data model stores only non-empty values, no null values. So for large spares table, the disk usage is great in HBase, not like RDBMS storing large quantities of null values.</p>
-<p><strong>4. LSM-trees vs. B+ tree</strong><br>HBase data storage architecture is LSM-trees. A big feature of LSM-trees is the merge housekeeping, which merge small files into a larger one to reduce disk seek. The housekeeping is a background process, which will not impact real-time data access.<br>LSM-trees transform random data access into sequential data access, which improves read performance. But B+ tree in RDBMS requires more disk seeks for data modifications, which is very efficient for big data process.</p>
-<p><strong>5. Row-level Atomic</strong><br>HBase has no strictly ACID features like RDBMS, how to insure data consistent in HBase and how to avoid dirty read. HBase is row-level automic, in other words, each Put operation on a given row either success or fail. Meanwhile, CheckAnd<em>, Increment</em> operations are also atomic.<br>The scan operation across the table is not on a snapshot of a table, if the data is updated before a Scan operation, the updated version is read by Scan, It ensures data consistent.<br>HBase is good at loose coupled data and not high requirements for consistent. Row-level atomic is a mechanism to improve data consistent, but data consistent is really a shortage of HBase.</p>
-<p><strong>6. High Scalability</strong><br>HBase data is stored across the cluster, the cluster has many HRegionServer, which can be scaled. HBase build on top of HDFS, HDFS is high scalability, that is the DataNode can be scaled. HDFS brings great scalability to HBase. Moreover, the master-slave architecture do well in data scalability.</p>
-<p><strong>7. High Reliability</strong><br>The HBase cluster is built on commodity hardware, which will be dead at any time. HBase data is replicated across the cluster. Data replication is done by HDFS. HDFS stores 3 replications for each block: on the same node, on another node on the same rack, on another node on another rack. The feature brings high reliability for HBase.</p>
-<p><strong>8. Auto Failover</strong><br>HMaster is in charge of auto failover work. When HMaster detects the dead HRegionServer. It will find that the region assignment is invalid, and it will do region assignment again. Auto failover brings great availability for HBase, which is no need of manually HRegionServer failover.</p>
-<p><strong>9. Data auto sharding</strong><br>Since data is stored distributed across the cluster. HBase must makes use of all of the machines in the cluster. HRegionServer stores many HRegions. When a HRegion size reaches its threshold, HRegionServer will split it into half.<br>In addition, when the number of regions is over the threshold that the HMaster can handle, the HMaster will merge small regions into a larger one. Auto sharding brings HBase great load balance and keeps programmer away from the details of distributed data sharding.</p>
-<p><strong>10. Simple Client Interface</strong><br>HBase provides 5 basic data operations : Put, Get, Delete, Scan and Increment. The Interface is easy to use. HBase provide java interface, and non java interface: Thrift, Avro, REST and Shell. Each interface is transparent for developers to do data operations on HBase.</p>
-<h2 id="7-HBase-Cons"><a href="#7-HBase-Cons" class="headerlink" title="7. HBase Cons"></a>7. HBase Cons</h2><p><strong>1. Single Point of Failure (SPOF)</strong><br>The master-slave architecture always has SPOF, HBase is no exception. When there is only on HMaster in a cluster, if the cluster has more than 4000 nodes, the HMaster is the performance bottleneck. Even though client talks directly to HRegionServer, when the HMaster is down, the cluster can be “steady” for a short time, HMaster long time down will bring down the cluster.<br>It is possible to start multi HMaster in a cluster, but only one is active, which is also a performance bottleneck.</p>
-<p><strong>2. No transaction</strong><br>As we talked before, HBase data consistent is a shortage. Interrow operations are not atomic, which will bring dirty read. HBase is good at louse coupled data but not good at highly rational data records. That is an important point we must be aware of.</p>
-<p><strong>3. No Join, if you want, use MapReduce</strong><br>HBase has no join operation, so data model has to be redesign when migrate from RDBMS, which is a big headache. For highly rational data records, HBase will make you sick. But if you really want implement join, you can use MapReduce, please refer to “HBase in Action”.</p>
-<p><strong>4. Index only on key, sorted by key, but RDBMS can be indexed on arbitrary column</strong><br>The column-oriented data model is key-value style, HBase only has index on key: &lt;rowkey, column family, qualifier, version&gt;, rowkey design is the most important thing.<br>The data model paradigm for HBase is quite different for RDBMS. HBase has no index on value. Scan with columnvalue filter for big data is very slow. But RDBMS can be indexed on arbitrary column.<br>If you want to improve index for HBase, you can use MapReduce to build Inverted Index.</p>
-<p><strong>5. Security Problem</strong><br>Finally, HBase has security problem. RDBMS like MySQL has authentication and authorization feature, different user has different data access authority. But HBase has no such feature yet. But we can see that, improve security will lower the performance, If the online application can insure the security, HBase will has no need to care about that.</p>
-<p><strong>Refereces</strong><br>[1] George, Lars. HBase: the definitive guide. O’Reilly Media, Inc., 2011.<br>[2] Dimiduk, Nick, Amandeep Khurana, and Mark Henry Ryan. HBase in action. Manning, 2013.<br>[3] Chang, Fay, et al. “Bigtable: A distributed storage system for structured data.”ACM Transactions on Computer Systems (TOCS) 26.2 (2008): 4.<br>[4] White, Tom. Hadoop: The Definitive Guide: The Definitive Guide. O’Reilly Media, 2009.<br>[5] Kruchten, Philippe B. “The 4+ 1 view model of architecture.” Software, IEEE12.6 (1995): 42-50.<br>[6] Apache HBase, “The Apache HBase Reference Guide”, apache.org, 2013</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;5-HBase-Physical-Architecture&quot;&gt;&lt;a href=&quot;#5-HBase-Physical-Architecture&quot; class=&quot;headerlink&quot; title=&quot;5. HBase Physical Architecture&quot;&gt;&lt;/a&gt;5. HBase Physical Architecture&lt;/h2&gt;&lt;p&gt;Figure 5.1 shows the deployment view for HBase cluster:&lt;br&gt;HBase is the master-slave cluster on top of HDFS. The classic deployment is as follows:&lt;br&gt;➢&lt;strong&gt; Master node:&lt;/strong&gt; one HMaster and one NameNode running on a machine as the master node.&lt;br&gt;➢ &lt;strong&gt;Slave node:&lt;/strong&gt; Each node is running one HRegionServer and one DataNode. And each node report status to the master node and Zookeeper.&lt;br&gt;➢&lt;strong&gt; Zookeeper:&lt;/strong&gt; HBase is shipped with ensemble Zookeeper, but for large clusters, using existing Zookeeper is better. Zookeeper is crucial, the HMaster and HRegionServers will register on Zookeeper.&lt;br&gt;➢ &lt;strong&gt;Client&lt;/strong&gt;: There can be many clients to access HRegionServer, like Java Client, Shell Client, Thrift Client and Avro Client&lt;/p&gt;
-&lt;p&gt;
-    
-    </summary>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
-    
-      <category term="HBase" scheme="http://www.cyanny.com/categories/hadoop/hbase/"/>
-    
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
-    
-      <category term="Big Data" scheme="http://www.cyanny.com/tags/big-data/"/>
-    
-      <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HBase Architecture Analysis Part2(Process Architecture)</title>
-    <link href="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part2-process-architecture/"/>
-    <id>http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part2-process-architecture/</id>
-    <published>2014-03-13T14:00:11.000Z</published>
-    <updated>2016-09-27T01:03:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="4-Process-Architecture"><a href="#4-Process-Architecture" class="headerlink" title="4. Process Architecture"></a>4. Process Architecture</h2><h3 id="4-1-HBase-Write-Path"><a href="#4-1-HBase-Write-Path" class="headerlink" title="4.1 HBase Write Path"></a>4.1 HBase Write Path</h3><p>The client doesn’t write data directly into HFile on HDFS. Firstly it writes data to WAL(Write Ahead Log), and Secondly, writes to MemStore shared by a HStore in memory.<br><a id="more"></a><br><a href="http://tinypic.com?ref=20i77l0" target="_blank" rel="external"><img src="http://i58.tinypic.com/20i77l0.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure4.1 HBase Write Path</p>
-<p><strong>MemStore</strong> is a write buffer(64MB by default). When the data in MemStore accumulates its threshold, data will be flush to a new HFile on HDFS persistently. Each Column Family can have many HFiles, but each HFile only belongs to one Column Family.<br><strong>WAL</strong> is for data reliability, WAL is persistent on HDFS and each Region Server has only on WAL. When the Region Server is down before MemStore flush, HBase can replay WAL to restore data on a new Region Server.<br>A data write completes successfully only after the data is written to WAL and MemStore.</p>
-<h3 id="4-2-HBase-Read-Path"><a href="#4-2-HBase-Read-Path" class="headerlink" title="4.2 HBase Read Path"></a>4.2 HBase Read Path</h3><p>As shown in Figure 4.2, it’s the read path of HBase.<br>1. Client will query the MemStore in memory, if it has the target row.<br>2. When MemStore query failed, client will hit the BlockCache.<br>3. After the MemStore and BlockCache query failed, HBase will load HFiles into memory which may contain the target row info.<br>The MemStore and BlockCache is the mechanism for real time data access for distributed large data.<br><strong>BlockCache is a LRU(Lease Recently Used) priority cache.</strong> Each RegionServer has a single BlockCache. It keeps frequently accessed data from HFile in memory to reduce disk data reads. The “Block”(64KB by default) is the smallest index unit of data or the smallest unit of data that can be read from disk by one pass.<br>For random data access, small block size is preferred, but block index consumes more memory. And for sequential data access, large block size is better, fewer index save more memory.</p>
-<p><a href="http://tinypic.com?ref=290x9qt" target="_blank" rel="external"><img src="http://i61.tinypic.com/290x9qt.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 4.2 HBase Read Path</p>
-<h3 id="4-3-HBase-Housekeeping-HFile-Compaction"><a href="#4-3-HBase-Housekeeping-HFile-Compaction" class="headerlink" title="4.3.HBase Housekeeping: HFile Compaction"></a>4.3.HBase Housekeeping: HFile Compaction</h3><p>The data of each column family is flush into multiple HFiles. Too many HFiles means many disk data reads and lower the read performance. Therefore, HBase do HFile compaction periodically.<br><a href="http://tinypic.com?ref=2nk85xj" target="_blank" rel="external"><img src="http://i62.tinypic.com/2nk85xj.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure4.3 HFile Compaction</p>
-<p><strong>➢Minor Compaction</strong><br>It happens on multiple HFiles in one HStore. Minor compaction will pick up a couple of adjacent small HFiles and rewrite them into a larger one.<br>The process will keep the deleted or expired cells. The HFile selection standard is configurable. Since minor compaction will affect HBase performace, there is an upper limit on the number of HFiles involved (10 by default).<br><strong>➢Major Compaction</strong><br>Major Compaction compact all HFiles in a HStore(Column Family) into one HFile. It is the only chance to delete records permanently. Major Compaction will usually have to be triggered manually for large clusters.<br>Major Compaction is not region merge, it happens to HStore which will not result in region merge.</p>
-<h3 id="4-4-HBase-Delete"><a href="#4-4-HBase-Delete" class="headerlink" title="4.4 HBase Delete"></a>4.4 HBase Delete</h3><p>When HBase client send delete request, the record will be marked “tombstone”, it is a “predicate deletion”, which is supported by LSM-tree. Since HFile is immutable, deletion isn’t available for HFile on HDFS. Therefore, HBase adopts major compaction(Section 4.3) to clean up deleted or expired records.</p>
-<h3 id="4-5-Region-Assignment"><a href="#4-5-Region-Assignment" class="headerlink" title="4.5 Region Assignment"></a>4.5 Region Assignment</h3><p>It is a main task of HMaster:<br>1. HMaster invoke the AssignmentManager to do region assignment.<br>2. AssignmentManager checks the existing region assignments in .META.<br>3. If region assignment is valid, then keep the region.<br>4. If region assignment is invalid, then the LoadBalancerFactory will create a DefaultLoadBalancer<br>5. DefaultLoadBalancer will assign the new region randomly to a RegionServer<br>6. Update the assignment to .META.<br>7. The RegionServer open the new region</p>
-<h3 id="4-6-Region-Split"><a href="#4-6-Region-Split" class="headerlink" title="4.6 Region Split"></a>4.6 Region Split</h3><p>Region split is the work of RegionServer, not participated by HMaster. When a region in a RegionServer accumulates over size threshold, RegionServer will split the region into half.<br>1. RegionServer offline the region to be split.<br>2. RegionServer split the region into two half<br>3. Update new daughter regions info to .META.<br>4. Open the new daughter regions.<br>5. Report the split info to HMaster.</p>
-<h3 id="4-7-Region-Merge"><a href="#4-7-Region-Merge" class="headerlink" title="4.7 Region Merge"></a>4.7 Region Merge</h3><p>A RegionServer can’t have too many regions, because too many regions bring large cost of memory and lower the performance of RegionServer. Meanwhile, HMaster can’t handle load balance with too many regions.<br>Therefore, when the number of regions is over a threshold, region merge is trigged. Region Merge is joined by RegionServer and HMaster.<br>1. Client send RPC region merge request to HMaster<br>2. HMaster moves regions together to the same RegionServer where the more heavily loaded region resided.<br>3. HMaster send request to the RegionServer to run region merge.<br>4. The RegionServer offline the regions to be merged.<br>5. The RegionServer Merge the regions on the local file system.<br>6. Delete the meta info of the merging regions on .META. table, add new meta info to .META. table.<br>7. Open the new merged region<br>8. Report the merge to HMaster</p>
-<h3 id="4-8-Auto-Failover"><a href="#4-8-Auto-Failover" class="headerlink" title="4.8 Auto Failover"></a>4.8 Auto Failover</h3><h4 id="4-8-1-RegionServer-Failover"><a href="#4-8-1-RegionServer-Failover" class="headerlink" title="4.8.1 RegionServer Failover"></a>4.8.1 RegionServer Failover</h4><p>When a region server fails, HMaster will do failover automatically.<br>1. RegionServer is down<br>2. HMaster will detect the unavailable RegionServer when there is no heartbeat report.<br>3. HMaster start region reassignment, detect that the region assignment is invalid, then re-assign the regions like the region assignment sequence.</p>
-<h4 id="4-8-2-Master-Failover"><a href="#4-8-2-Master-Failover" class="headerlink" title="4.8.2 Master Failover"></a>4.8.2 Master Failover</h4><p>In centralized architecture style, the SPOF is a problem, you may ask How does HBase will do when HMaster failed? There two safeguards for SPOF:<br><strong>1. Multi-Master environment</strong><br>HBase can run in multi-master cluster. There is only one active master, when the master is down, the remaining master will take over the master role.<br>It looks like Hadoop HDFS new feature high availability, a standby NameNode will take over the NameNode role when the active one failed.<br><strong>2. Catalog tables are on RegionServers</strong><br>When client send read/write request to HBase, it talks directly to RegionServer, not HMaster. Hence, the cluster can be steady for a time without HMaster. But it requires that the HMaster failover as soon as possible, HMaster is the vital of the cluster.</p>
-<h4 id="4-9-Data-Replication"><a href="#4-9-Data-Replication" class="headerlink" title="4.9 Data Replication"></a>4.9 Data Replication</h4><p>For data reliability, HBase replicates data blocks across the cluster. This is achieved by Hadoop HDFS.<br>By default, there 3 replicas:<br>1. The First replica is written to local node.<br>2. The second replica is written to a random node on a different rack.<br>3. The third replica is on a random node on the same rack<br>HBase stores HFiles and WAL on HDFS. When RegionServer is down, new region assignment can be done by read replicas of HFile and replay the replicas the WAL. In short, HBase has high reliability.</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;4-Process-Architecture&quot;&gt;&lt;a href=&quot;#4-Process-Architecture&quot; class=&quot;headerlink&quot; title=&quot;4. Process Architecture&quot;&gt;&lt;/a&gt;4. Process Architecture&lt;/h2&gt;&lt;h3 id=&quot;4-1-HBase-Write-Path&quot;&gt;&lt;a href=&quot;#4-1-HBase-Write-Path&quot; class=&quot;headerlink&quot; title=&quot;4.1 HBase Write Path&quot;&gt;&lt;/a&gt;4.1 HBase Write Path&lt;/h3&gt;&lt;p&gt;The client doesn’t write data directly into HFile on HDFS. Firstly it writes data to WAL(Write Ahead Log), and Secondly, writes to MemStore shared by a HStore in memory.&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
-    
-      <category term="HBase" scheme="http://www.cyanny.com/categories/hadoop/hbase/"/>
-    
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
-    
-      <category term="Big Data" scheme="http://www.cyanny.com/tags/big-data/"/>
-    
-      <category term="HBase" scheme="http://www.cyanny.com/tags/hbase/"/>
     
   </entry>
   
