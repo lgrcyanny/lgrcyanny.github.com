@@ -3,12 +3,7 @@ date: 2017-08-27 11:31:58
 tags: spark streaming
 ---
 
-最近对Spark Streaming接触比较多，主要关注的是streaming的准确性方面的需求, 忙了快半年，不禁想总结一下自己遇到的问题和收获。
-
-## 什么是Streaming系统？
-按Google xxx的定义: 
-Spark上已经有dataframe和
-问为什么需要在exactly-once上花费这么多时间呢。streaming和batch的处理逻辑有什么区别呢？我觉得streaming更适合一些简单的过滤，能在100ms以内能算完的逻辑，而这些逻辑用batch也可以算完，为什么要streaming呢？用户们更希望的是更快。如果batch也能满足低延迟的需求，streaming系统就不需要了。而问题是为什么我们需要一个单独的streaming系统？
+最近对Spark Streaming接触比较多，主要关注的是streaming的准确性方面的需求, 忙了快半年，不禁想问为什么需要在exactly-once上花费这么多时间呢。streaming和batch的处理逻辑有什么区别呢？我觉得streaming更适合一些简单的过滤，能在100ms以内能算完的逻辑，而这些逻辑用batch也可以算完，为什么要streaming呢？用户们更希望的是更快。如果batch也能满足低延迟的需求，streaming系统就不需要了。而问题是为什么我们需要一个单独的streaming系统？
 <!--more-->
 
  生产环境中的版本是1.6，spark streaming的API在1.6上是基于RDD的DStream API，相比Structured Streaming，更稳定和成熟些。而我们的用户们，比较关心的是streaming系统
@@ -28,7 +23,7 @@ Spark上已经有dataframe和
 + client将jar包通过yarn上传
 + 在一台NodeManager上启动Nimbus，这是master节点，负责管理StormTopology, 分发task，心跳等
 + 其他的NodeManager上启动Supervisor, 相当于slave节点，管理storm worker
-	+  在每个supervisor上，可以启动多个worker进程，每个worker进程可以运行多个executor线程，每个executor内可以运行多个task。这些task运行的就是Spout或Bolt定义的操作
+	+  在每个supervisor上，可以启动多个worker进程，每个worker进程可以运行多个task，task是多线程的，由worker管理。这些task运行的就是Spout或Bolt定义的操作
 +  Zookeeper, Storm运行时状态的管理
 
 Storm方面算是简单调研，理解不是很深入，具体的参考[官方文档](http://storm.apache.org/releases/1.1.1/Setting-up-a-Storm-cluster.html)
