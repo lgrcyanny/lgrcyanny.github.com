@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Page 3 | CyannyLive</title>
+  <title>第 3 页 | CyannyLive</title>
 
   
   <meta name="author" content="Cyanny Liang">
@@ -47,9 +47,9 @@
   <nav class="site-navigation">
     <ul>
       
-        <li><a href="/">Home</a></li>
+        <li><a href="/">主页</a></li>
       
-        <li><a href="/archives">Archives</a></li>
+        <li><a href="/archives">归档</a></li>
       
     </ul>
   </nav>
@@ -57,6 +57,75 @@
 
     <main class="site-main posts-loop">
     
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/"><span>HBase MapReduce排序Secondary Sort</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-03-20T10:51:08.000Z">
+          2014-03-20
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>MapReduce是Hadoop中处理大数据的方法，是一个处理大数据的简单算法、编程泛型。虽然思想简单，但其实真正用起来还是有很多问题，不是所有的问题都可以像WordCount那样典型和直观, 有很多需要trick的地方。MapReduce的中心思想是分而治之，数据要松耦合，可以划分为小数据集并行处理，如果数据本身在计算上存在很强的依赖关系，就不要赶鸭子上架，用MapReduce了。<br>MapReduce编程中，最重要的是要抓住Map和Reduce的input和output，好的input和output可以降低实现的复杂度。最近，写了很多关于MapReduce的job，有倒排索引，统计，排序等。其中，对排序花费了一番功夫，MapReduce做WordCount很好理解,<br>Map input:[offset, text],  output: [word, 1],</p>
+<p>Reduce input: [word, 1], output: [word, totalcount],还可以设置Combiner进行优化。</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/hadoop/">Hadoop</a>, <a href="/categories/hadoop/hbase/">HBase</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/hadoop/">Hadoop</a><a href="/tags/hbase/">HBase</a><a href="/tags/mapreduce/">MapReduce</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
   <article>
 
   
@@ -116,7 +185,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/#comment">Comments</a>
+          <a href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -184,7 +253,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/#comment">Comments</a>
+          <a href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -252,7 +321,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/#comment">Comments</a>
+          <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -320,7 +389,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/#comment">Comments</a>
+          <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -403,7 +472,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/#comment">Comments</a>
+          <a href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -493,7 +562,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2014/02/06/set-hadoop-hbase-part2/#comment">Comments</a>
+          <a href="/2014/02/06/set-hadoop-hbase-part2/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -590,7 +659,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2014/02/06/set-hadoop-hbase-part1/#comment">Comments</a>
+          <a href="/2014/02/06/set-hadoop-hbase-part1/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -672,7 +741,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/12/18/node-express-mysql-scaffolding/#comment">Comments</a>
+          <a href="/2013/12/18/node-express-mysql-scaffolding/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -752,123 +821,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/12/05/hadoop-isnt-silver-bullet/#comment">Comments</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/12/05/hadoop-mapreduce-2-yarn/"><span>Hadoop MapReduce 2 (YARN)</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/12/05/hadoop-mapreduce-2-yarn/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-12-05T08:57:01.000Z">
-          2013-12-05
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>For large clusters with more than 4000 nodes, the classic MapReduce framework hit the scalability problems.<br><strong>Therefore, a group in Yahoo began to design the next generation MapReduce in 2010, and in 2013 Hadoop 2.x releases MapReduce 2, Yet Another Resource Negotiator (YARN) to remedy the sociability shortcoming.</strong><br>The fundamental idea of YARN is to split up the two major functionalities of the JobTracker: resource management (job scheduling) and job monitoring into separate daemons. YARN has a global Resource Manager (RM) and per-application Application Master(AM).[more…]</p>
-<h3 id="YARN-High-level-Overview"><a href="#YARN-High-level-Overview" class="headerlink" title="YARN High-level Overview"></a>YARN High-level Overview</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.1.png" alt="hd7.1">Figure1 YARN High-level Overview</a><br>As shown in Figure1, the YARN involves more entities than classic MapReduce 1 :</p>
-<ul>
-<li>Client, the same as classic MapReduce which submits the MapReduce job.</li>
-<li>Resource Manager, which has the ultimate authority that arbitrates resources among all the applications in the cluster, it coordinates the allocation of compute resources on the cluster.</li>
-<li>Node Manager, which is in charge of resource containers, monitoring resource usage (cpu, memory, disk , network) on the node , and reporting to the Resource Manager.</li>
-<li>Application Master, which is in charge of the life cycle an application, like a MapReduce Job. It will negotiates with the Resource Manager of cluster resources—in YARN called containers. The Application Master and the MapReduce task in the containers are scheduled by the Resource Manager. And both of them are managed by the Node Manager. Application Mater is also responsible for keeping track of task progress and status. </li>
-<li>HDFS, the same as classic MapReduce, for files sharing between different entities.</li>
-</ul>
-<p>Resource Manager consists of two components: Scheduler and ApplicationsManager.</p>
-<p>Scheduler is in charge of allocating resources. The resource Container incorporates elements such as memory, cup, disk, network etc. Scheduler just has the resource allocation function, has no responsible for job status monitoring. And the scheduler is pluggable, can be replaced by other scheduler plugin-in.</p>
-<p>The ApplicationsManager is responsible for accepting job-submissions, negotiating the first container for executing the application specific Application Master, and it provides restart service when the container fails.<br>The MapReduce job is just one type of application in YARN. Different application can run on the same cluster with YARN framework. That’s the beauty of YARN.</p>
-<h3 id="YARN-MapReduce"><a href="#YARN-MapReduce" class="headerlink" title="YARN MapReduce"></a>YARN MapReduce</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.2.png" alt="hd7.2">Figure2 MapReduce with YARN</a><br>As shown in Figure2, it is the MapReduce process with YARN, there are 11 steps, and we will explain it in 6 steps the same as the MapReduce 1 framework. They are Job Submission, Job Initialization, Task Assignment, Task Execution, Progress and Status Updates, and Job Completion.</p>
-<h4 id="Job-Submission"><a href="#Job-Submission" class="headerlink" title="Job Submission"></a>Job Submission</h4><p>Clients can submit jobs with the same API as MapReduce 1 in YARN. YARN implements its ClientProtocol, the submission process is similar to MapReduce 1.</p>
-<ul>
-<li>The client calls the submit() method, which will initiate the JobSubmmitter object and call submitJobInternel().</li>
-<li>Resource Manager will allocate a new application ID and response it to client.</li>
-<li>The job client checks the output specification of the job</li>
-<li>The job client computes the input splits</li>
-<li>The job client copies resources, including the splits data, configuration information, the job JAR into HDFS</li>
-<li>Finally, the job client notify Resource Manager it is ready by calling submitApplication() on the Resource Manager.</li>
-</ul>
-<h4 id="Job-Initialization"><a href="#Job-Initialization" class="headerlink" title="Job Initialization"></a>Job Initialization</h4><p> When the Resource Manager(RM) receives the call submitApplication(), RM will hands off the job to its scheduler. The job initialization is as follows:</p>
-<ul>
-<li>The scheduler allocates a resource container for the job, </li>
-<li>The RM launches the Application Master under the Node Manager’s management. </li>
-<li>Application Master initialize the job. Application Master is a Java class named MRAppMaster, which initializes the job by creating a number of bookkeeping objects to keep track of the job progress. It will receive the progress and the completion reports from the tasks. </li>
-<li>Application Master retrieves the input splits from HDFS, and creates a map task object for each split. It will create a number of reduce task objects determined by the mapreduce.job.reduces configuration property.</li>
-<li>Application Master then decides how to run the job. </li>
-</ul>
-<p>For small job, called uber job, which is the one has less than 10 mappers and only one reducer, or the input split size is smaller than a HDFS block, the Application Manager will run the job on its own JVM sequentially. This policy is different from MapReduce 1 which will ignore the small jobs on a single TaskTracker.</p>
-<p>For large job, the Application Master will launches a new node with new NodeManager and new container, in which run the task. This can run job in parallel and gain more performance. </p>
-<p>Application Master calls the job setup method to create the job’s output directory. That’s different from MapReduce 1, where the setup task is called by each task’s TaskTracker.</p>
-<h4 id="Task-Assignment"><a href="#Task-Assignment" class="headerlink" title="Task Assignment"></a>Task Assignment</h4><p>When the job is very large so that it can’t be run on the same node as the Application Master. The Application Master will make request to the Resource Manager to negotiate more resource container which is in piggybacked on heartbeat calls. The task assignment is as follows:</p>
-<ul>
-<li>The Application Master make request to the Resource Manager in heartbeat call. The request includes the data locality information, like hosts and corresponding racks that the input splits resides on. </li>
-<li>The Recourse Manager hand over the request to the Scheduler. The Scheduler makes decisions based on these information. It attempts to place the task as close the data as possible. The data-local nodes is great, if this is not possible , the rack-local the preferred to nolocal node.</li>
-<li>The request also specific the memory requirements, which is between the minimum allocation (1GB by default) and the maximum allocation (10GB). The Scheduler will schedule a container with multiples of 1GB memory to the task, based on the mapreduce.map.memory.mb and mapreduce.reduce.memory.mb property set by the task.</li>
-</ul>
-<p>This way is more flexible than MapReduce 1. In MapReduce 1, the TaskTrackers have a fixed number of slots and each task runs in a slot. Each slot has fixed memory allowance which results in two problems. For small task, it will waste of memory, and for large task which need more memeory, it will lack of memory.<br>In YARN, the memory allocation is more fine-grained, which is also the beauty of YARE resides in.</p>
-<h4 id="Task-Execution"><a href="#Task-Execution" class="headerlink" title="Task Execution"></a>Task Execution</h4><p>After the task has been assigned the container by the Resource Manger’s scheduler, the Application Master will contact the NodeManger which will launch the task JVM.<br>The task execution is as follows:</p>
-<ul>
-<li>The Java Application whose class name is YarnChild localizes the resources that the task needs. YarnChild retrieves job resources including the job jar, configuration file, and any needed files from the HDFS and the distributed cache on the local disk.</li>
-<li>YarnChild run the map or the reduce task<br>Each YarnChild runs on a dedicated JVM, which isolates user code from the long running system daemons like NodeManager and the Application Master. Different from MapReduce 1, <strong>YARN doesn’t support JVM reuse</strong>, hence each task must run on new JVM.<br>The streaming and the pipeline processs and communication in the same as MapReduce 1.</li>
-</ul>
-<h4 id="Progress-and-Status-Updates"><a href="#Progress-and-Status-Updates" class="headerlink" title="Progress and Status Updates"></a>Progress and Status Updates</h4><p>When the job is running under YARN, the mapper or reducer will report its status and progress to its Application Master every 3 seconds over the umbilical interface. The Application Master will aggregate these status reports into a view of the task status and progress. While in MapReduce 1, the TaskTracker reports status to JobTracker which is responsible for aggregating status into a global view.<br>Moreover, the Node Manger will send heartbeats to the Resource Manager every few seconds. The Node Manager will monitoring the Application Master and the recourse container usage like cpu, memeory and network, and make reports to the Resource Manager. When the Node Manager fails and stops heartbeat the Resource Manager, the Resource Manager will remove the node from its available resource nodes pool.<br>The client pulls the status by calling getStatus() every 1 second to receive the progress updates, which are printed on the user console. User can also check the status from the web UI. The Resource Manager web UI will display all the running applications with links to the web UI where displays task status and progress in detail.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.3.png" alt="hd7.3">Figure 3  YARN Progress and Status Updates</a></p>
-<h4 id="Job-Completion"><a href="#Job-Completion" class="headerlink" title="Job Completion"></a>Job Completion</h4><p>Every 5 second the client will check the job completion over the HTTP ClientProtocol by calling waitForCompletion(). When the job is done, the Application Master and the task containers clean up their working state and the outputCommitter’s job cleanup method is called. And the job information is archived as history for later interrogation by user.</p>
-<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/hadoop/">Hadoop</a>
-    </span>
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/learning/">Learning</a><a href="/tags/hadoop/">Hadoop</a><a href="/tags/research/">Research</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/12/05/hadoop-mapreduce-2-yarn/#comment">Comments</a>
+          <a href="/2013/12/05/hadoop-isnt-silver-bullet/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -881,10 +834,10 @@
 
 <nav class="pagination">
   
-  <a href="/page/2/" class="pagination-prev">Prev</a>
+  <a href="/page/2/" class="pagination-prev">上一页</a>
   
   
-  <a href="/page/4/" class="pagination-next">Next</a>
+  <a href="/page/4/" class="pagination-next">下一页</a>
   
 </nav>
     </main>
@@ -894,7 +847,7 @@
     Copyright
     </br>
     
-    &copy; 2017 Cyanny Liang
+    &copy; 2018 Cyanny Liang
     
   </p>
 </footer>

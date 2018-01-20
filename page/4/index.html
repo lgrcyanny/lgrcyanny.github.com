@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Page 4 | CyannyLive</title>
+  <title>第 4 页 | CyannyLive</title>
 
   
   <meta name="author" content="Cyanny Liang">
@@ -47,9 +47,9 @@
   <nav class="site-navigation">
     <ul>
       
-        <li><a href="/">Home</a></li>
+        <li><a href="/">主页</a></li>
       
-        <li><a href="/archives">Archives</a></li>
+        <li><a href="/archives">归档</a></li>
       
     </ul>
   </nav>
@@ -57,6 +57,122 @@
 
     <main class="site-main posts-loop">
     
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/12/05/hadoop-mapreduce-2-yarn/"><span>Hadoop MapReduce 2 (YARN)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/12/05/hadoop-mapreduce-2-yarn/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-12-05T08:57:01.000Z">
+          2013-12-05
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>For large clusters with more than 4000 nodes, the classic MapReduce framework hit the scalability problems.<br><strong>Therefore, a group in Yahoo began to design the next generation MapReduce in 2010, and in 2013 Hadoop 2.x releases MapReduce 2, Yet Another Resource Negotiator (YARN) to remedy the sociability shortcoming.</strong><br>The fundamental idea of YARN is to split up the two major functionalities of the JobTracker: resource management (job scheduling) and job monitoring into separate daemons. YARN has a global Resource Manager (RM) and per-application Application Master(AM).[more…]</p>
+<h3 id="YARN-High-level-Overview"><a href="#YARN-High-level-Overview" class="headerlink" title="YARN High-level Overview"></a>YARN High-level Overview</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.1.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.1.png" alt="hd7.1">Figure1 YARN High-level Overview</a><br>As shown in Figure1, the YARN involves more entities than classic MapReduce 1 :</p>
+<ul>
+<li>Client, the same as classic MapReduce which submits the MapReduce job.</li>
+<li>Resource Manager, which has the ultimate authority that arbitrates resources among all the applications in the cluster, it coordinates the allocation of compute resources on the cluster.</li>
+<li>Node Manager, which is in charge of resource containers, monitoring resource usage (cpu, memory, disk , network) on the node , and reporting to the Resource Manager.</li>
+<li>Application Master, which is in charge of the life cycle an application, like a MapReduce Job. It will negotiates with the Resource Manager of cluster resources—in YARN called containers. The Application Master and the MapReduce task in the containers are scheduled by the Resource Manager. And both of them are managed by the Node Manager. Application Mater is also responsible for keeping track of task progress and status. </li>
+<li>HDFS, the same as classic MapReduce, for files sharing between different entities.</li>
+</ul>
+<p>Resource Manager consists of two components: Scheduler and ApplicationsManager.</p>
+<p>Scheduler is in charge of allocating resources. The resource Container incorporates elements such as memory, cup, disk, network etc. Scheduler just has the resource allocation function, has no responsible for job status monitoring. And the scheduler is pluggable, can be replaced by other scheduler plugin-in.</p>
+<p>The ApplicationsManager is responsible for accepting job-submissions, negotiating the first container for executing the application specific Application Master, and it provides restart service when the container fails.<br>The MapReduce job is just one type of application in YARN. Different application can run on the same cluster with YARN framework. That’s the beauty of YARN.</p>
+<h3 id="YARN-MapReduce"><a href="#YARN-MapReduce" class="headerlink" title="YARN MapReduce"></a>YARN MapReduce</h3><p><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.2.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.2.png" alt="hd7.2">Figure2 MapReduce with YARN</a><br>As shown in Figure2, it is the MapReduce process with YARN, there are 11 steps, and we will explain it in 6 steps the same as the MapReduce 1 framework. They are Job Submission, Job Initialization, Task Assignment, Task Execution, Progress and Status Updates, and Job Completion.</p>
+<h4 id="Job-Submission"><a href="#Job-Submission" class="headerlink" title="Job Submission"></a>Job Submission</h4><p>Clients can submit jobs with the same API as MapReduce 1 in YARN. YARN implements its ClientProtocol, the submission process is similar to MapReduce 1.</p>
+<ul>
+<li>The client calls the submit() method, which will initiate the JobSubmmitter object and call submitJobInternel().</li>
+<li>Resource Manager will allocate a new application ID and response it to client.</li>
+<li>The job client checks the output specification of the job</li>
+<li>The job client computes the input splits</li>
+<li>The job client copies resources, including the splits data, configuration information, the job JAR into HDFS</li>
+<li>Finally, the job client notify Resource Manager it is ready by calling submitApplication() on the Resource Manager.</li>
+</ul>
+<h4 id="Job-Initialization"><a href="#Job-Initialization" class="headerlink" title="Job Initialization"></a>Job Initialization</h4><p> When the Resource Manager(RM) receives the call submitApplication(), RM will hands off the job to its scheduler. The job initialization is as follows:</p>
+<ul>
+<li>The scheduler allocates a resource container for the job, </li>
+<li>The RM launches the Application Master under the Node Manager’s management. </li>
+<li>Application Master initialize the job. Application Master is a Java class named MRAppMaster, which initializes the job by creating a number of bookkeeping objects to keep track of the job progress. It will receive the progress and the completion reports from the tasks. </li>
+<li>Application Master retrieves the input splits from HDFS, and creates a map task object for each split. It will create a number of reduce task objects determined by the mapreduce.job.reduces configuration property.</li>
+<li>Application Master then decides how to run the job. </li>
+</ul>
+<p>For small job, called uber job, which is the one has less than 10 mappers and only one reducer, or the input split size is smaller than a HDFS block, the Application Manager will run the job on its own JVM sequentially. This policy is different from MapReduce 1 which will ignore the small jobs on a single TaskTracker.</p>
+<p>For large job, the Application Master will launches a new node with new NodeManager and new container, in which run the task. This can run job in parallel and gain more performance. </p>
+<p>Application Master calls the job setup method to create the job’s output directory. That’s different from MapReduce 1, where the setup task is called by each task’s TaskTracker.</p>
+<h4 id="Task-Assignment"><a href="#Task-Assignment" class="headerlink" title="Task Assignment"></a>Task Assignment</h4><p>When the job is very large so that it can’t be run on the same node as the Application Master. The Application Master will make request to the Resource Manager to negotiate more resource container which is in piggybacked on heartbeat calls. The task assignment is as follows:</p>
+<ul>
+<li>The Application Master make request to the Resource Manager in heartbeat call. The request includes the data locality information, like hosts and corresponding racks that the input splits resides on. </li>
+<li>The Recourse Manager hand over the request to the Scheduler. The Scheduler makes decisions based on these information. It attempts to place the task as close the data as possible. The data-local nodes is great, if this is not possible , the rack-local the preferred to nolocal node.</li>
+<li>The request also specific the memory requirements, which is between the minimum allocation (1GB by default) and the maximum allocation (10GB). The Scheduler will schedule a container with multiples of 1GB memory to the task, based on the mapreduce.map.memory.mb and mapreduce.reduce.memory.mb property set by the task.</li>
+</ul>
+<p>This way is more flexible than MapReduce 1. In MapReduce 1, the TaskTrackers have a fixed number of slots and each task runs in a slot. Each slot has fixed memory allowance which results in two problems. For small task, it will waste of memory, and for large task which need more memeory, it will lack of memory.<br>In YARN, the memory allocation is more fine-grained, which is also the beauty of YARE resides in.</p>
+<h4 id="Task-Execution"><a href="#Task-Execution" class="headerlink" title="Task Execution"></a>Task Execution</h4><p>After the task has been assigned the container by the Resource Manger’s scheduler, the Application Master will contact the NodeManger which will launch the task JVM.<br>The task execution is as follows:</p>
+<ul>
+<li>The Java Application whose class name is YarnChild localizes the resources that the task needs. YarnChild retrieves job resources including the job jar, configuration file, and any needed files from the HDFS and the distributed cache on the local disk.</li>
+<li>YarnChild run the map or the reduce task<br>Each YarnChild runs on a dedicated JVM, which isolates user code from the long running system daemons like NodeManager and the Application Master. Different from MapReduce 1, <strong>YARN doesn’t support JVM reuse</strong>, hence each task must run on new JVM.<br>The streaming and the pipeline processs and communication in the same as MapReduce 1.</li>
+</ul>
+<h4 id="Progress-and-Status-Updates"><a href="#Progress-and-Status-Updates" class="headerlink" title="Progress and Status Updates"></a>Progress and Status Updates</h4><p>When the job is running under YARN, the mapper or reducer will report its status and progress to its Application Master every 3 seconds over the umbilical interface. The Application Master will aggregate these status reports into a view of the task status and progress. While in MapReduce 1, the TaskTracker reports status to JobTracker which is responsible for aggregating status into a global view.<br>Moreover, the Node Manger will send heartbeats to the Resource Manager every few seconds. The Node Manager will monitoring the Application Master and the recourse container usage like cpu, memeory and network, and make reports to the Resource Manager. When the Node Manager fails and stops heartbeat the Resource Manager, the Resource Manager will remove the node from its available resource nodes pool.<br>The client pulls the status by calling getStatus() every 1 second to receive the progress updates, which are printed on the user console. User can also check the status from the web UI. The Resource Manager web UI will display all the running applications with links to the web UI where displays task status and progress in detail.<br><a href="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.3.png" target="_blank" rel="external"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd7.3.png" alt="hd7.3">Figure 3  YARN Progress and Status Updates</a></p>
+<h4 id="Job-Completion"><a href="#Job-Completion" class="headerlink" title="Job Completion"></a>Job Completion</h4><p>Every 5 second the client will check the job completion over the HTTP ClientProtocol by calling waitForCompletion(). When the job is done, the Application Master and the task containers clean up their working state and the outputCommitter’s job cleanup method is called. And the job information is archived as history for later interrogation by user.</p>
+<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/hadoop/">Hadoop</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/learning/">Learning</a><a href="/tags/hadoop/">Hadoop</a><a href="/tags/research/">Research</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/12/05/hadoop-mapreduce-2-yarn/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
   <article>
 
   
@@ -171,7 +287,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/12/05/hadoop-mapreduce-1-framework/#comment">Comments</a>
+          <a href="/2013/12/05/hadoop-mapreduce-1-framework/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -244,7 +360,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/12/05/hadoop-mapreduce-overview/#comment">Comments</a>
+          <a href="/2013/12/05/hadoop-mapreduce-overview/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -323,7 +439,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/12/05/hadoop-hdfs-high-availability/#comment">Comments</a>
+          <a href="/2013/12/05/hadoop-hdfs-high-availability/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -402,7 +518,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/12/05/hadoop-hdfs-federation/#comment">Comments</a>
+          <a href="/2013/12/05/hadoop-hdfs-federation/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -518,7 +634,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/12/05/hadoop-hdfs-review/#comment">Comments</a>
+          <a href="/2013/12/05/hadoop-hdfs-review/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -639,7 +755,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/12/05/hadoop-overview/#comment">Comments</a>
+          <a href="/2013/12/05/hadoop-overview/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -788,7 +904,7 @@ private void visitDFSIterative(Vertex u) {
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/12/02/graph-dfs-bfs/#comment">Comments</a>
+          <a href="/2013/12/02/graph-dfs-bfs/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -899,7 +1015,7 @@ private void visitDFSIterative(Vertex u) {
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/#comment">Comments</a>
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -1028,104 +1144,7 @@ private void visitDFSIterative(Vertex u) {
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/#comment">Comments</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/"><span>System Analysis and Design (Kenneth Kendall) Review Part2</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-11-27T03:07:46.000Z">
-          2013-11-27
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h2 id="4-分析：使用数据流图"><a href="#4-分析：使用数据流图" class="headerlink" title="4. 分析：使用数据流图"></a>4. 分析：使用数据流图</h2><h3 id="4-1-数据流图功能和优点"><a href="#4-1-数据流图功能和优点" class="headerlink" title="4.1.数据流图功能和优点"></a>4.1.数据流图功能和优点</h3><p>概念化数据在整个组织是如何流动的，数据经历的过程和变换，以及输出。<br>优点：<br>(1) 不必过早着手系统和技术的实现。<br>(2) 进一步了解系统和子系统的相互关系。<br>(3) 通过数据流图与用户交流当前系统的知识。<br>(4) 更好地了解业务，分析建议的系统以确定是否定义了必要的数据和过程。[more…]</p>
-<h3 id="4-2-数据流图的图例规范"><a href="#4-2-数据流图的图例规范" class="headerlink" title="4.2.数据流图的图例规范"></a>4.2.数据流图的图例规范</h3><p><img src="http://i42.tinypic.com/105a914.jpg" alt=""><br>1. 实体的命名：名词<br>2. 数据流命名：名词<br>3. 过程命名<br>在上下文图中，赋予整个系统的名称， 如“选课系统”<br>命名子系统时，使用诸如“预定子系统”， “Web用户执行系统”<br>具体过程命名：动词+形容词+名词 “计算净工资”，每一个过程要有一个唯一编号，指出它在图中的层次。</p>
-<h3 id="4-3-开发数据流图步骤"><a href="#4-3-开发数据流图步骤" class="headerlink" title="4.3.开发数据流图步骤"></a>4.3.开发数据流图步骤</h3><p>1. 步骤<br>1)制定一个业务活动列表：实体，数据流，过程，数据存储<br>2)创建上下文图，外部实体+输入+输出+系统，没有过程和数据存储<br>3)0层图：分解系统，展示高层的过程和数据存储，过程一般不超过9个，为避免数据流线交叉，同一个实体和数据存储可以出现多次。<br>4)画0层图中每个过程的子图<br>注意编号与父过程相同<br>纵向平衡——不能有父过程没有的输入和输出。<br>子图中通常不显示实体，显示接口数据流。<br>可以有父过程中没有显示的数据存储。<br>5)检查错误：编号正确，命名正确，输入输出清晰，没有back hole, 没有miracle<br>6)根据逻辑数据流图，开发物理数据流图：通过名字描述真实地文件和报表的物理存储，增加控制以指出合适过程完成或发生错误。<br>7)分割物理数据流图。</p>
-<p>2. 注意点<br>1) 图例和标识的准确性<br>2) 数据流：不能从实体到实体，不能存储到存储，可以从实体到过程，过程到过程，过程到存储<br>3) 数据流图的层次性<br>4) 尽量不要有线性流，即一个输入和输出的过程，出现通常是遗漏了数据流，一个过程输入和输出总数在&gt;=4个以上最好。<br>5) 用户要能理解</p>
-<h3 id="4-4-如何向用户解释数据流图"><a href="#4-4-如何向用户解释数据流图" class="headerlink" title="4.4 如何向用户解释数据流图"></a>4.4 如何向用户解释数据流图</h3><p>1. 数据流图的标记要具体而有意义、<br>2.可以通过举例，类比和问询，让用户了解DFD的原理<br>3.每个DFD的过程控制在9个以内，太大的图，则要分解，保证在一页纸内<br>4.结合表格和图表向用户解释</p>
-<h3 id="4-5-逻辑数据流图-vs-物理数据流图"><a href="#4-5-逻辑数据流图-vs-物理数据流图" class="headerlink" title="4.5.逻辑数据流图 vs 物理数据流图"></a>4.5.逻辑数据流图 vs 物理数据流图</h3><p>1) 二者的区别<br><img src="http://i44.tinypic.com/11r86lx.jpg" alt=""></p>
-<p>2)逻辑数据流图优势<br>a)更好地与用户交流<br>b)系统更稳定<br>c)更好地了解业务<br>d)灵活、更易维护<br>e)消除冗余，更容易创建物理模型</p>
-<p>3)物理数据流图优势<br>a)澄清哪些过程是手工的，哪些是自动的<br>b)更详细的描述过程<br>c)标识临时数据存储<br>d)指定真实地文件名和打印输出名<br>e)增加确保正确地完成过程的控制。<br>物理数据流图创建方法：事件建模法，用例法.</p>
-<p><img src="http://i44.tinypic.com/xnyzbo.jpg" alt=""></p>
-<h2 id="5-使用数据字典分析系统"><a href="#5-使用数据字典分析系统" class="headerlink" title="5. 使用数据字典分析系统"></a>5. 使用数据字典分析系统</h2><h3 id="5-1-数据字典的基本概念"><a href="#5-1-数据字典的基本概念" class="headerlink" title="5.1.数据字典的基本概念"></a>5.1.数据字典的基本概念</h3><p>1.数据字典定义<br>是一种关于数据的数据参考书，指导系统的分析与设计，包括数据流，数据结构，数据元素和数据存储。</p>
-<p>2.数据字典的必要性<br>a)作为数据的记录文档<br>b)消除冗余，保证数据的一致性<br>c)验证DFD的完备性和准确性<br>d)为开发界面和报表提供切入点<br>e)找出数据流图中过程的逻辑<br>f)创建XML</p>
-<p>3.DFD与数据字典的关系<br><img src="http://i42.tinypic.com/28k6bud.jpg" alt=""></p>
-<h3 id="5-2-数据流的描述"><a href="#5-2-数据流的描述" class="headerlink" title="5.2 数据流的描述"></a>5.2 数据流的描述</h3><p>通过DFD确定系统的输入和输出，对每个数据流描述如下，具体实例可以看书。<br>1)ID：可选标识符<br>2)数据流名称<br>3)数据流描述<br>4)数据流来源<br>5)数据流目标<br>6)数据流类型：文件、界面、报表、表格或内部数据(中间的临时数据)<br>7)包含的数据结构<br>8)单位时间的流量<br>9)备注</p>
-<h3 id="5-3-数据结构描述"><a href="#5-3-数据结构描述" class="headerlink" title="5.3.数据结构描述"></a>5.3.数据结构描述</h3><p>1.描述<br>1)= 表示组成<br>2)+ 表示“和”<br>3){} 表示重复元素，一定有至少一个 1~n，可以包含固定重复次数，或上限与下限<br>4)[] “非此即彼”，互斥的选择<br>5)() 表示可选元素 0~1<br><img src="http://i42.tinypic.com/256fnuc.jpg" alt=""></p>
-<p>2.逻辑数据结构和物理数据结构<br>逻辑数据结构是业务上，用户看到的数据。物理数据结构是软件实现所需要的数据。<br>物理数据结构需要增加：<br>1)键字段，唯一标识一条记录<br>2)标识主记录的状态代码，诸如一个雇员当前被雇佣或否。<br>3)如果一个文件包含不同的记录类型，则可以用交易码标识记录的类型。例如，包含返还项的记录和支付记录的信用文件。<br>4)重复组数据项，包含该组中有多少个数据项的计数。<br>5)重复组中数据项多少的限制<br>6)客户访问一个安全Web站点的密码。</p>
-<h3 id="5-4-数据元素描述"><a href="#5-4-数据元素描述" class="headerlink" title="5.4 数据元素描述"></a>5.4 数据元素描述</h3><p>1)ID, 可选的<br>2)元素名称<br>3)别名<br>4)简短描述<br>5)是基本元素还是派生元素</p>
-<p>6)元素长度：<br>对于数值金额的长度，给出最大数额。<br>名称和地址，给出合适的长度<br>对于其他字段，参照历史数据</p>
-<p>7)数据类型：数值，日志，字母，varchar，字符<br>8)如果用特殊编码符号表明应当如何表示数据，则应包含输入和输出的格式。</p>
-<p>9)验证标准，保证数据的精确性，对于离散或连续的数据有以下标准<br>a)某个值范围适合包含连续数据，如GPA 0.00~4.00<br>b)如果数据式离散的，则指出一组值<br>c)如果值的列表是泛指的，则可以采用一个代码表<br>d)对于键或者索引元素，通常包含一个校验位</p>
-<p>10)提供某些元素的默认值<br>11)备注区域</p>
-<h3 id="5-5-数据存储描述"><a href="#5-5-数据存储描述" class="headerlink" title="5.5.数据存储描述"></a>5.5.数据存储描述</h3><p>1)ID，必须有<br>2)数据存储名<br>3)文件的别名<br>4)简短描述<br>5)文件类型：人工文件或计算机文件<br>6)如果是计算机文件，则文件格式指明是数据库文件，还是传统的平面文件<br>7)文件上记录的最大记录数和平均记录数<br>8)文件或数据名指定的文件名(如果已知)<br>9)数据结构应使用数据字典中的名字，提供与此数据存储的元素的连接</p>
-<h3 id="5-6-创建数据字典"><a href="#5-6-创建数据字典" class="headerlink" title="5.6.创建数据字典"></a>5.6.创建数据字典</h3><p>1.先创建DFD，自顶向下开发数据字典和数据流图。可以为每一个层次的DFD创建数据字典。<br><img src="http://i42.tinypic.com/ddp0mh.jpg" alt=""><br>子数据流图上的数据流名称，包含在父过程上的数据流的元素或结构化记录中</p>
-<p>2.分析输入输出<br>输入输出分析表包括：<br>1)输入或输出的描述名<br>2)负责进一步澄清细节、设计反馈和最后核准的用户联系信息<br>3)输入数据还是输出数据<br>4)数据流的格式。逻辑DFD，可以处于未确定<br>5)表明报表上或者界面上的数据顺序的元素<br>6)一个元素列表，包括元素的名称、长度，是基本元素还是派生元素，编辑标准。</p>
-<p>3.开发数据存储<br>确定永久信息或临时信息。</p>
-<h3 id="5-7-使用数据字典"><a href="#5-7-使用数据字典" class="headerlink" title="5.7.使用数据字典"></a>5.7.使用数据字典</h3><p>数据字典可以用来创建界面、报表和表单<br>1.使用数据字典产生计算机语言时要考虑<br>1)输出数据流中的基本元素必须出现在产生该输出数据流过程的输入数据流中。基本元素由键盘输入，而不由某一个过程创建<br>2)派生元素必须由过程创建，并且至少应当由一个不是该元素自身为输入的过程输出<br>3)输入或者输出某个数据存储的数据流中的元素，必须包含在该数据存储中</p>
-<p>2.使用数据字典可以创建XML文档<br>XML是一种可用来在企业中交换数据的语言，是一种对数据进行定义、排序、过滤并把它转换成一种每个人都可以使用的统一数据语言的方法。</p>
-<div style="color: #EF4808"><br>两个好用的Chrome插件，小伙伴们看完复习资料支持一下吧：<br><a href="https://chrome.google.com/webstore/detail/剪影截图/gkloklemhahnoipikedmafefilidffko" title="剪影截图" target="_blank" rel="external">剪影截图：好用的网页截图，一键人人分享工具，快捷键ctrl+shift+z, 双击确定!</a><br><a href="https://chrome.google.com/webstore/detail/tss下载助手/odhkpoplnhfnhhhkgphckabboemiifle" title="TSS下载助手" target="_blank" rel="external">TSS下载助手：让你方便一键批量下载</a><br></div>
-
-<p>资源：<br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" title="System Analysis and Design (Kenneth Kendall) Review Part1" target="_blank" rel="external">系统分析与设计part1</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" title="System Analysis and Design (Kenneth Kendall) Review Part2" target="_blank" rel="external">系统分析与设计part2</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" title="System Analysis and Design (Kenneth Kendall) Review Part3" target="_blank" rel="external">系统分析与设计part3</a><br><a href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" title="System Analysis and Design (Kenneth Kendall) Review Part4" target="_blank" rel="external">系统分析与设计part4</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/system-analysis-and-design/">System Analysis and Design</a>
-    </span>
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/learning/">Learning</a><a href="/tags/design/">Design</a><a href="/tags/systemanalysis/">SystemAnalysis</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/#comment">Comments</a>
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -1138,10 +1157,10 @@ private void visitDFSIterative(Vertex u) {
 
 <nav class="pagination">
   
-  <a href="/page/3/" class="pagination-prev">Prev</a>
+  <a href="/page/3/" class="pagination-prev">上一页</a>
   
   
-  <a href="/page/5/" class="pagination-next">Next</a>
+  <a href="/page/5/" class="pagination-next">下一页</a>
   
 </nav>
     </main>
@@ -1151,7 +1170,7 @@ private void visitDFSIterative(Vertex u) {
     Copyright
     </br>
     
-    &copy; 2017 Cyanny Liang
+    &copy; 2018 Cyanny Liang
     
   </p>
 </footer>
