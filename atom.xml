@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cyanny.com/"/>
-  <updated>2018-07-16T00:45:09.880Z</updated>
+  <updated>2018-07-16T00:47:50.338Z</updated>
   <id>http://www.cyanny.com/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>big_data_expert</title>
+    <title>Big Data Expert</title>
     <link href="http://www.cyanny.com/2018/07/16/big-data-expert/"/>
     <id>http://www.cyanny.com/2018/07/16/big-data-expert/</id>
     <published>2018-07-16T00:33:12.000Z</published>
-    <updated>2018-07-16T00:45:09.880Z</updated>
+    <updated>2018-07-16T00:47:50.338Z</updated>
     
     <content type="html"><![CDATA[<p>随着工作的时间一天天过去，不禁会思考对未来的打算，公司的事情更多的是业务和效果，而自我的提升比起学校需要更多的self motivation. 一直都工作在大数据领域，现在虽然业务多些，方向也没有变化，还有了很多机器学习方面的实践。我更想成为 A big data expert. 以下是我列出的学习要点:<br><a id="more"></a></p>
 <h2 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h2><ul>
@@ -1000,9 +1000,9 @@
     </summary>
     
     
-      <category term="Language" scheme="http://www.cyanny.com/tags/language/"/>
-    
       <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
+    
+      <category term="Language" scheme="http://www.cyanny.com/tags/language/"/>
     
   </entry>
   
@@ -1060,9 +1060,9 @@
     </summary>
     
     
-      <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
-    
       <category term="Akka" scheme="http://www.cyanny.com/tags/akka/"/>
+    
+      <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
     
   </entry>
   
