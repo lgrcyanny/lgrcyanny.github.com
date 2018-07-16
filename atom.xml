@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cyanny.com/"/>
-  <updated>2018-01-20T07:52:47.000Z</updated>
+  <updated>2018-07-16T00:42:31.383Z</updated>
   <id>http://www.cyanny.com/</id>
   
   <author>
@@ -14,6 +14,67 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>big_data_expert</title>
+    <link href="http://www.cyanny.com/2018/07/16/big-data-expert/"/>
+    <id>http://www.cyanny.com/2018/07/16/big-data-expert/</id>
+    <published>2018-07-16T00:33:12.000Z</published>
+    <updated>2018-07-16T00:42:31.383Z</updated>
+    
+    <content type="html"><![CDATA[<p>随着工作的时间一天天过去，不禁会思考对未来的打算，公司的事情更多的是业务和效果，而自我的提升比起学校需要更多的self motivation. 一直都工作在大数据领域，现在虽然业务多些，方向也没有变化，还有了很多机器学习方面的实践。我更想成为 A big data expert. 以下是我列出的学习要点:<br><a id="more"></a></p>
+<h2 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h2><pre><code>* Spring Framework
+* Learning Apache Flink
+* High Performance Spark
+* Spark源码
+* Hadoop Definitive Guide
+* Distributed Computing: Principles, Algorithms, and Systems
+</code></pre><h2 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h2><pre><code>* Tensorflow官方Guide和源码
+* DL Learning Coursera
+* Hands on ML
+* 统计推断
+* 数学之美
+* Coursera ML 课程的作业
+* Machine Learning: A Probabilistic Perspective
+* Deep Learning的书
+* 西瓜书
+* 统计学习方法
+* The elements of statistical learning
+* Rainforcement Learning
+</code></pre><h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><pre><code>* JVM虚拟机深入: Java Performance: The definitive guide
+* The C++ Programming Language 4th edition
+* Java并发编程
+* Designing Data Intensive Applications
+* Go programming
+* R programming
+* Mondern Operating System
+* 算法，图论, 设计模式，代码大全, 计算机程序的构造与解释
+* Programming in Scala(review again)
+* High performance Python
+* Getting Starting with R
+* The implementation of functional language
+* Distributed Computing
+* Gradle, Maven
+* 代码整洁，代码大全，程序员自我修养，重够
+</code></pre><h2 id="投资管理等"><a href="#投资管理等" class="headerlink" title="投资管理等"></a>投资管理等</h2><pre><code>* 经济学原理
+* 心理学
+* 产品：梁宁，听了她的课，学了很多概念，同时也推荐李善友的颠覆式创新
+* don’t make me think
+* Just for Fun: The Story of an Accidental Revolutionary
+* The Hacker Ethic: and the Spirit of the Information Age
+</code></pre><p>希望在未来2年年，能完成，今天年底，完成3~4个要点，主要是tensorflow需要花费很多精力</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;随着工作的时间一天天过去，不禁会思考对未来的打算，公司的事情更多的是业务和效果，而自我的提升比起学校需要更多的self motivation. 一直都工作在大数据领域，现在虽然业务多些，方向也没有变化，还有了很多机器学习方面的实践。我更想成为 A big data expert. 以下是我列出的学习要点:&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="learning" scheme="http://www.cyanny.com/tags/learning/"/>
+    
+  </entry>
   
   <entry>
     <title>Awesome Books for 2018</title>
@@ -1149,130 +1210,6 @@
       <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
     
       <category term="Hive" scheme="http://www.cyanny.com/tags/hive/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Dijkstra Algorithm</title>
-    <link href="http://www.cyanny.com/2014/04/12/dijkstra-algorithm-in-java/"/>
-    <id>http://www.cyanny.com/2014/04/12/dijkstra-algorithm-in-java/</id>
-    <published>2014-04-12T03:55:04.000Z</published>
-    <updated>2017-03-05T02:31:11.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>计算单源最短路径的算法有Bellman-Ford算法，主要是计算带负权有向图的单源最短路径。第二种算法：对于DAG图（Directed Acyclic Graph, 有向无环图）可以通过拓扑排序后再计算单源最短路径。第三，可以使用BFS(广度优先搜索)计算单源最短路径。第四，就是著名的Dijkstra算法，要求有向图的所有边的权值非负，当然图可以不是DAG图。</p>
-<a id="more"></a>
-<p>Dijkstra的实现思想主要是采用最小优先级队列，队列排序的标准是source节点到当前节点的距离，每次从堆顶取出一个节点，遍历该节点的邻接表，进行松弛(Relax)操作，松弛操作的伪代码如下：<br>[java]<br>relax(u, v) {<br>  if (v.distance &gt; u.distance + weight[u, v]) {<br>    v.distance = u.distance + weight[u, v];<br>    v.parent = u;<br>  }<br>}<br>[/java]</p>
-<p>Dijkstra算法的伪代码如下：<br>[java]<br>dijkstraShortestPath(graph, s) {<br>  for each v in graph {<br>    v.parent = null;<br>    v.distance = MaxValue;<br>  }<br>  MinPriorityQueue queue;<br>  s.distance = 0;<br>  queue.add(s);<br>  while (queue != empty) {<br>    u = queue.extractMin();<br>    for each v in adjacentlist of u {<br>      if (v.distance &gt; u.distance + weight[u, v]) {<br>        v.distance = u.distance + weight[u, v];<br>        v.parent = u;<br>        queue.add(v);<br>      }<br>    }<br>  }<br>}<br>[/java]</p>
-<p>Dijkstra算法实现时的一个难点是如何实现最小优先级队列以及图如何表示，我在实现中采用Java提供的PriorityQueue，同时Graph的表示采用邻接表。而邻接表最初的想法是一个ArrayList<arraylist<edge>&gt;, 每个Edge对象 = Vertex + weight; 但这个实现的限制是，在ArrayList中每个list的index就十分重要，当从queue中取得一个节点，需要按index找到他的邻接list。在<a href="https://github.com/mburst/dijkstras-algorithm/blob/master/Dijkstras.java" target="_blank" rel="external">GitHub上</a>看到一个实现，是用LinkedHashMap表示邻接表，但凭什么给每个节点按string的key进行标识呢？不是很认同。<br>最后采取的办法是，将每个节点的邻接list放入每个节点对象中，主要是受<a href="http://www.algolist.com/code/java/Dijkstra%27s_algorithm" target="_blank" rel="external">这个博客</a>的启发。<br>最后实现代码如下，也不是很长。</arraylist<edge></p>
-<h3 id="1-定义Vertex"><a href="#1-定义Vertex" class="headerlink" title="1. 定义Vertex"></a>1. 定义Vertex</h3><p>[java]<br>public class Vertex implements Comparable&lt;Vertex&gt;{<br>    public String id = null;<br>    public Vertex parent = null;<br>    public Edge[] adjacencyList = null;<br>    public int distance = Integer.MAX_VALUE; // The min distance from source to the current vertex</p>
-<pre><code>public Vertex() {
-
-}
-
-public Vertex(String id) {
-    this.id = id;
-}
-
-/**
- * Override this method for min priority queue
- */
-@Override
-public int compareTo(Vertex o) {
-    return this.distance &amp;lt; o.distance ? -1 : (this.distance == o.distance ? 0 : 1);
-}
-
-@Override
-public String toString() {
-    return &amp;quot;Vertex [id=&amp;quot; + id + &amp;quot;, distance=&amp;quot; + distance + &amp;quot;]&amp;quot;;
-}
-</code></pre><p>}<br>[/java]</p>
-<h3 id="2-定义Edge对象"><a href="#2-定义Edge对象" class="headerlink" title="2. 定义Edge对象"></a>2. 定义Edge对象</h3><p>[java]<br>public class Edge {<br>    public Vertex vertex = null;<br>    public int weight = 0;</p>
-<pre><code>public Edge() {
-
-}
-
-public Edge(Vertex vertex, int weight) {
-    this.vertex = vertex;
-    this.weight = weight;
-}
-</code></pre><p>}<br>[/java]</p>
-<h3 id="3-Dijkstra算法实现"><a href="#3-Dijkstra算法实现" class="headerlink" title="3. Dijkstra算法实现"></a>3. Dijkstra算法实现</h3><p>测试的图如下：</p>
-<p><a href="http://tinypic.com?ref=9ggih1.jpg" target="_blank" rel="external"><img src="http://i59.tinypic.com/9ggih1.jpg" alt="Image and video hosting by TinyPic"></a><br>[java]<br>public class DijkstraGraph {<br>    public Vertex[] graph = null;</p>
-<pre><code>public DijkstraGraph(Vertex[] graph) {
-    this.graph = graph;
-}
-
-public void computShortestPath(Vertex source) {
-    PriorityQueue&amp;lt;Vertex&amp;gt; queue = new PriorityQueue&amp;lt;Vertex&amp;gt;();
-    source.distance = 0;
-    queue.add(source);
-    while (!queue.isEmpty()) {
-        Vertex u = queue.remove();
-        for (int i = 0; i &amp;lt; u.adjacencyList.length; i++) {
-            Edge v = u.adjacencyList[i]; // The neighbor of vertex u
-            if (v.vertex.distance &amp;gt; u.distance + v.weight) {
-                v.vertex.distance = u.distance + v.weight;
-                v.vertex.parent = u;
-                queue.add(v.vertex);
-            }
-        }
-    }
-}
-
-public void printShortestPath() {
-    for (int i = 0; i &amp;lt; graph.length; i++) {
-        Vertex target = graph[i];
-        Stack&amp;lt;Vertex&amp;gt; path = new Stack&amp;lt;Vertex&amp;gt;();
-        while (target != null) {
-            path.push(target);
-            target = target.parent;
-        }
-        printPath(path);
-    }
-}
-
-private void printPath(Stack&amp;lt;Vertex&amp;gt; path) {
-    System.out.println(&amp;quot;=============The path is=========&amp;quot;);
-    while (!path.isEmpty()) {
-        System.out.println(path.pop());
-    }
-}
-
-public static void main(String[] args) {
-    Vertex v0 = new Vertex(&amp;quot;s&amp;quot;);
-    Vertex v1 = new Vertex(&amp;quot;t&amp;quot;);
-    Vertex v2 = new Vertex(&amp;quot;x&amp;quot;);
-    Vertex v3 = new Vertex(&amp;quot;z&amp;quot;);
-    Vertex v4 = new Vertex(&amp;quot;y&amp;quot;);
-
-    v0.adjacencyList = new Edge[] { new Edge(v1, 10), new Edge(v4, 5) };
-    v1.adjacencyList = new Edge[] { new Edge(v2, 1), new Edge(v4, 2) };
-    v2.adjacencyList = new Edge[] { new Edge(v3, 4) };
-    v3.adjacencyList = new Edge[] { new Edge(v0, 7), new Edge(v2, 6) };
-    v4.adjacencyList = new Edge[] { new Edge(v1, 3), new Edge(v2, 9),
-            new Edge(v3, 2) };
-
-    Vertex[] graph = { v0, v1, v2, v3 };
-
-    DijkstraGraph dijkstraGraph = new DijkstraGraph(graph);
-    dijkstraGraph.computShortestPath(v0);
-    dijkstraGraph.printShortestPath(); // Each path from v0
-
-}
-</code></pre><p>}<br>[/java]</p>
-<p>源码在<a href="https://github.com/lgrcyanny/Algorithm/tree/master/src/com/algorithm/graph/dijkstra" target="_blank" rel="external">Cyanny GitHub</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;计算单源最短路径的算法有Bellman-Ford算法，主要是计算带负权有向图的单源最短路径。第二种算法：对于DAG图（Directed Acyclic Graph, 有向无环图）可以通过拓扑排序后再计算单源最短路径。第三，可以使用BFS(广度优先搜索)计算单源最短路径。第四，就是著名的Dijkstra算法，要求有向图的所有边的权值非负，当然图可以不是DAG图。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Algorithm" scheme="http://www.cyanny.com/categories/algorithm/"/>
-    
-    
-      <category term="algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
     
   </entry>
   

@@ -63,6 +63,120 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/"><span>如何配置VPS并发布WordPress Blog?(第二篇)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-11-11T12:00:14.000Z">
+          2013-11-11
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>完成了VPS的LAMP环境的配置，接下来的工作就是要将WordPress Blog部署到VPS上。方法多种多样，例如可以在VPS上配置FTP，用FTP将文件传输到VPS上，以后就可以直接在VPS上写博客了，一次性的买卖，方便，听起来很不错，但是不安全，如果哪天VPS Down了数据就没了。</p>
+<p>我采取的办法是在本地写博客，然后发布到GitHub,然后VPS端Clone到本地，这样做的原因如下：</p>
+<p>[more…]</p>
+<ul>
+<li>WordPress Blog作为轻量的博客，主要发布文字，图片是用第三方的图床，博客本身的数据量不大。</li>
+<li>FTP传输速度不理想。</li>
+<li>GitHub在VPS端运行很快，VPS毕竟是服务器，网速快，因此部署Blog很快。</li>
+<li>版本控制，本地有数据备份，以后要迁移VPS也可以轻松搞定。</li>
+<li>WordPress的Blog数据是写入MySQL的，因此发布WordPress时的一个大问题就是要处理MySQL的数据，其实基本的mysqldump就可以了。</li>
+</ul>
+<h3 id="VPS-配置GIT"><a href="#VPS-配置GIT" class="headerlink" title="VPS 配置GIT"></a>VPS 配置GIT</h3><p>[bash]<br>rpm -Uvh <a href="http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm</a> // 这个在前面的php安装时输入过了，可以忽略<br>rpm -Uvh <a href="http://rpms.famillecollet.com/enterprise/remi-release-5.rpm" target="_blank" rel="external">http://rpms.famillecollet.com/enterprise/remi-release-5.rpm</a> // 这个在前面的php安装时输入过了，可以忽略<br>yum install git-core -y<br>git –version<br>[/bash]<br>一定配置一下SSH，这样不会在git clone时报错，当然建立github repository和使用github都是默认掌握了。<br><a href="https://help.github.com/articles/set-up-git#platform-linux" title="Set up Git for linux" target="_blank" rel="external">Set up git</a> </p>
+<p><a href="https://help.github.com/articles/generating-ssh-keys" title="Generate ssh key" target="_blank" rel="external">Enable SSH Git</a></p><p></p>
+<h3 id="VPS-MySQL权限配置"><a href="#VPS-MySQL权限配置" class="headerlink" title="VPS MySQL权限配置"></a>VPS MySQL权限配置</h3><p>刚装MySQL时运行过mysql_secure_installation，如果所有选项都yes了，那么VPS的mysql只能是本地的root可以访问，blog访问不了，这一步很关键，也让我头疼了很久。</p>
+<p>进入MySQL<br>[bash]<br>mysql -u root -p<br>[/bash]<br>[sql]<br>CREATE USER ‘monty’@’localhost’ IDENTIFIED BY ‘some_password’;<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘monty’@’localhost’;<br>CREATE USER ‘monty’@’%’ IDENTIFIED BY ‘some_password’;<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘monty’@’%;<br>[/sql]<br><strong>watch out</strong></p>
+<p>我在这一步遇到了问题：当运行<br>[sql]<br>GRANTALL PRIVILEGES ON <em>.</em> TO ‘monty’@’localhost’;<br>[/sql]<br>报错：Access denied for user ‘root’@’localhost’。后来在stackoverflow上找到了答案：<a href="http://stackoverflow.com/questions/8484722/access-denied-for-user-rootlocalhost-while-attempting-to-grant-privileges" target="_blank" rel="external">access-denied-for-user-rootlocalhost-while-attempting-to-grant-privileges</a></p>
+<p>我采用了二楼的方法如下就可以了：<br>[bash]<br>$ su - mysql<br>$ rm -rf /var/lib/mysql/*<br>$ mysql_install_db<br>$ /etc/init.d/mysql restart<br>[/bash]<br>然后再重置root密码：<br>[bash]<br>mysqladmin -u root password<br>[/bash]</p>
+<h3 id="VPS-MySQL-CharSet配置"><a href="#VPS-MySQL-CharSet配置" class="headerlink" title="VPS MySQL CharSet配置"></a>VPS MySQL CharSet配置</h3><p>为了防止中文乱码，将VPS的MySQL的CharSet设置为utf8，当然WordPress的mysqldump的SQL文件中的每一个表都强制指定了CharSet为utf8，如果略去这一步也是可以的。<br>[bash]<br>vim /etc/my.cnf<br>[/bash]<br>在文本中的相应位置添加<br>[text]<br>[mysqld]<br>init_connect=’SET collation_connection = utf8_unicode_ci’<br>character-set-server = utf8<br>collation-server = utf8_unicode_ci<br>[client]<br>default-character-set = utf8<br>[mysql]<br>default-character-set = utf8<br>[/text]<br>验证，进入MySQL输入：<br>[sql]<br>SHOW VARIABLES LIKE ‘character%’;<br>SHOW VARIABLES LIKE ‘collation%’;<br>[/sql]</p>
+<h3 id="创建博客数据库"><a href="#创建博客数据库" class="headerlink" title="创建博客数据库"></a>创建博客数据库</h3><p>进入mysql，创建数据库<br>[bash]<br>mysql -u root -p<br>[/bash]<br>[sql]<br>mysql&gt; create database yourblogdatabase;<br>[/sql]</p>
+<h3 id="本地Blog-GitHub-Set-Up"><a href="#本地Blog-GitHub-Set-Up" class="headerlink" title="本地Blog GitHub Set Up"></a>本地Blog GitHub Set Up</h3><p>首先在GitHub网站上创建一个Repository，<a href="https://github.com/lgrcyanny/CyannyLive" title="GitHub of Cyanny Live Blog" target="_blank" rel="external">GitHub of Cyanny Live Blog</a><br>在本地的Blog中：<br>[bash]<br>cd ~/Sites/Blog //打开文件夹<br>git init<br>git remote add origin git@github.com:lgrcyanny/CyannyLive.git  // github的ssh地址<br>git pull origin master<br>[/bash]</p>
+<h3 id="本地Blog-MySQL数据导出备份"><a href="#本地Blog-MySQL数据导出备份" class="headerlink" title="本地Blog MySQL数据导出备份"></a>本地Blog MySQL数据导出备份</h3><p>我直接写了一个脚本，备份MySQL的数据，脚本backup.sh如下:<br>[shell]</p>
+<h1 id="bin-bash"><a href="#bin-bash" class="headerlink" title="!/bin/bash"></a>!/bin/bash</h1><p>export DATABASE_DIR=~/Sites/myblog/wp-content/backup-db<br>cd $DATABASE_DIR<br>mysqldump -u root -pyourpassword dbname &gt; temp-db.sql</p>
+<h1 id="sed-命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，"><a href="#sed-命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，" class="headerlink" title="sed 命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，"></a>sed 命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，</h1><h1 id="原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的"><a href="#原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的" class="headerlink" title="原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的"></a>原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的</h1><p>sed ‘s%<a href="http://cyanny/myblog%http://www.cyanny.com%g" target="_blank" rel="external">http://cyanny/myblog%http://www.cyanny.com%g</a>‘ temp-db.sql \&gt; db.sql</p>
+<h1 id="数据压缩一下，会从上百KB变成几十个KB"><a href="#数据压缩一下，会从上百KB变成几十个KB" class="headerlink" title="数据压缩一下，会从上百KB变成几十个KB"></a>数据压缩一下，会从上百KB变成几十个KB</h1><p>tar -czvf db.tar.gz db.sql</p>
+<h1 id="删除中间文件"><a href="#删除中间文件" class="headerlink" title="删除中间文件"></a>删除中间文件</h1><p>rm db.sql<br>rm temp-db.sql<br>[/shell]<br>运行backup.sh<br>[bash]<br>sh backup.sh<br>[/bash]</p>
+<h3 id="本地Blog-htaccess配置"><a href="#本地Blog-htaccess配置" class="headerlink" title="本地Blog htaccess配置"></a>本地Blog htaccess配置</h3><p>博客的访问地址，如果设置过Permalinks，这一步就很重要，否则在VPS端地址找不到<br>[bash]<br>cp .htaccess htaccess.prod<br>[/bash]<br>编辑htaccess.prod<br>[text]<br>&lt;IfModule mod_rewrite.c&gt;<br>RewriteEngine On<br>RewriteBase /<br>RewriteRule ^index&amp;#46;php$ - [L]<br>RewriteCond %{REQUEST_FILENAME} !-f<br>RewriteCond %{REQUEST_FILENAME} !-d<br>RewriteRule . /index.php [L]<br>&lt;/IfModule&gt;<br>[/text]</p>
+<h3 id="本地Blog的其他配置"><a href="#本地Blog的其他配置" class="headerlink" title="本地Blog的其他配置"></a>本地Blog的其他配置</h3><p>编辑.gitignore<br>[text]<br>wp-config.php<br>uploads/&amp;#42;<br>wp-cache/&amp;#42;<br>wp-content/cache<br>.htaccess<br>[/text]</p>
+<p>wp-config.php配置<br>[bash]<br>cp wp-config.php wp-config-prod.php  //本地的数据库配置和VPS上的不一样，因此要在wp-config-prod.php中设置VPS的DB信息<br>[/bash]</p>
+<h3 id="本地Blog-发布到-GitHub"><a href="#本地Blog-发布到-GitHub" class="headerlink" title="本地Blog 发布到 GitHub"></a>本地Blog 发布到 GitHub</h3><p>[bash]<br>git add .<br>git commit -a -m ‘message’<br>git push origin master<br>[/bash]</p>
+<h3 id="VPS端-Enable-htaccess-overwirte"><a href="#VPS端-Enable-htaccess-overwirte" class="headerlink" title="VPS端 Enable htaccess overwirte"></a>VPS端 Enable htaccess overwirte</h3><p>因为Blog的Post地址会被overwrite，所以需要VPS端具有htaccess overwrite的功能，这个Bug让我抓狂很久。</p>
+<p>进入VPS<br>[bash]<br>vim /etc/httpd/conf/httpd.conf<br>[/bash]<br>编辑httpd.conf<br>[text]<br>// 找到下面这一段<br>&lt;Directory /var/www/html&gt;<br>  Options Indexes FollowSymLinks MultiViews<br>  // 更改为 AllowOverride All<br>  AllowOverride None<br>  Order allow,deny<br>  allow from all<br>&lt;/Directory&gt;<br>[/text]</p>
+<h3 id="VPS端的发布脚本"><a href="#VPS端的发布脚本" class="headerlink" title="VPS端的发布脚本"></a>VPS端的发布脚本</h3><p>为了方便VPS端将WordPress从GitHub Clone到本地, 设置文件权限，DB数据导入，我创建了一个简单地发布脚本</p>
+<p>deploy.sh, 这个脚本放在VPS上<br>[bash]</p>
+<h1 id="bin-bash-1"><a href="#bin-bash-1" class="headerlink" title="!/bin/bash"></a>!/bin/bash</h1><p>export BLOG_ROOT_DIR=/var/www/html/cyannyblog<br>export BLOG_DATABASES_DIR=$BLOG_ROOT_DIR/wp-content/backup-db</p>
+<h1 id="Git-update"><a href="#Git-update" class="headerlink" title="Git update"></a>Git update</h1><p>rm -Rf cyannyblog<br>git clone git@github.com:lgrcyanny/CyannyLive.git cyannyblog  # 更换为自己的GitHub的地址</p>
+<h1 id="Change-mod-grant-access-right"><a href="#Change-mod-grant-access-right" class="headerlink" title="Change mod, grant access right"></a>Change mod, grant access right</h1><p>chmod -R 755 $BLOG_ROOT_DIR<br>chmod -R 777 $BLOG_ROOT_DIR/wp-content</p>
+<h1 id="Add-config"><a href="#Add-config" class="headerlink" title="Add config"></a>Add config</h1><p>rm -f $BLOG_ROOT_DIR/wp-config.php<br>cp $BLOG_ROOT_DIR/wp-config-prod.php $BLOG_ROOT_DIR/wp-config.php</p>
+<h1 id="Add-htaccess"><a href="#Add-htaccess" class="headerlink" title="Add .htaccess"></a>Add .htaccess</h1><p>cd $BLOG_ROOT_DIR<br>rm -f .htaccess<br>cp htaccess.prod .htaccess</p>
+<h1 id="Import-data-to-mysql-不用担心数据冲突，因为mysqldump出来的表都会先drop再导入"><a href="#Import-data-to-mysql-不用担心数据冲突，因为mysqldump出来的表都会先drop再导入" class="headerlink" title="Import data to mysql 不用担心数据冲突，因为mysqldump出来的表都会先drop再导入"></a>Import data to mysql 不用担心数据冲突，因为mysqldump出来的表都会先drop再导入</h1><p>cd $BLOG_DATABASES_DIR<br>tar -xvf db.tar.gz<br>mysql -u yourdbuser -pyourpassword -h localhost dbname &lt; db.sql<br>[/bash]</p>
+<p>在VPS上运行deploy.sh<br>[bash]<br>sh deploy.sh<br>[/bash]</p>
+<h3 id="VPS端将DocumentRoot指向Blog文件夹"><a href="#VPS端将DocumentRoot指向Blog文件夹" class="headerlink" title="VPS端将DocumentRoot指向Blog文件夹"></a>VPS端将DocumentRoot指向Blog文件夹</h3><p>[bash]<br>vim /etc/httpd/conf/httpd.conf<br>[/bash]<br>编辑httpd.conf:<br>[text]<br>DocumentRoot &quot;/var/www/html/blog&quot;<br>[/text]<br>我想这不是一个好办法，不过先将就一下。如果要在VPS上放置多个网站，DocumentRoot当然不能只是Blog，应该可以有一些Virtual的方法的，之后我会改进。目前这样是因为DNS不能解析到某一个路径</p>
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>Okay, 发布流程部署结束，接下来就可以访问啦。<br>以后每写一遍Post，或者本地有什么更新只需三个步骤就可以完成发布：</p>
+<p>1. 本地 run backup.sh</p>
+<p>2. GitHub Commit</p>
+<p>3. VPS run deploy.sh, 当然未来还可以用cronjob，这样VPS端的发布问题就不用手工了，鉴于不是频繁发布Post，手工操作也无妨。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>1. 2014-08-17<br>VPS版本换了Centos7, MySQL替换为MariaDB, 但是DB不稳定,今天终于挂了<br>[bash]<br>systemctl restart mariadb<br>[/bash]<br>启动失败,最后修复如下:<br>[bash]<br>systemctl stop mariadb<br>rm -rf /var/lib/mysql<br>rm -rf /var/log/mariadb/<br>yum list mariadb<br>yum remove maridadb mariadb-server</p>
+<h1 id="yum-remove-all-list-about-mariadb"><a href="#yum-remove-all-list-about-mariadb" class="headerlink" title="yum remove all list about mariadb"></a>yum remove all list about mariadb</h1><p>yum install mariadb mariadb-server<br>reboot<br>systemctl enable mariadb<br>mkdir -p /var/lib/mysql<br>chown -R mysql:mysql /var/lib/mysql<br>systemctl start mariadb<br>yum install php-mysql<br>systemctl restart httpd.service<br>[/bash]</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/linux/">Linux</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/linux/">Linux</a><a href="/tags/vps/">VPS</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/11/10/how-to-start-learning-node-js/"><span>How to start learning Node.js</span></a></h3>
     
   

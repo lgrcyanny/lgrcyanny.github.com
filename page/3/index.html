@@ -63,6 +63,74 @@
 
   
     
+    <h3 class="article-title"><a href="/2014/04/12/dijkstra-algorithm-in-java/"><span>Dijkstra Algorithm</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/04/12/dijkstra-algorithm-in-java/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-04-12T03:55:04.000Z">
+          2014-04-12
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>计算单源最短路径的算法有Bellman-Ford算法，主要是计算带负权有向图的单源最短路径。第二种算法：对于DAG图（Directed Acyclic Graph, 有向无环图）可以通过拓扑排序后再计算单源最短路径。第三，可以使用BFS(广度优先搜索)计算单源最短路径。第四，就是著名的Dijkstra算法，要求有向图的所有边的权值非负，当然图可以不是DAG图。</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/algorithm/">Algorithm</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/algorithm/">algorithm</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2014/04/12/dijkstra-algorithm-in-java/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/"><span>HBase MapReduce排序Secondary Sort</span></a></h3>
     
   
@@ -744,86 +812,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2013/12/18/node-express-mysql-scaffolding/#comment">Comments</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/12/05/hadoop-isnt-silver-bullet/"><span>Hadoop isn’t Silver Bullet</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/12/05/hadoop-isnt-silver-bullet/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-12-05T10:28:45.000Z">
-          2013-12-05
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>Hadoop is a great framework for distributed large data computing. But Hadoop is not the silver bullet. Hadoop fits not very well in such cases as follow:</p>
-<h4 id="1-Low-latency-Data-Access"><a href="#1-Low-latency-Data-Access" class="headerlink" title="1. Low-latency Data Access"></a>1. Low-latency Data Access</h4><p>Applications that require real-time query, and low-latency access to data in tens of milliseconds will not work well with Hadoop.<br>Hadoop is not a substitute for a database. Database index records that will gains low-latency and fast response.<br>But if you really want to replace the database for real time needs, try HBase, which is a column-oriented database for random and real time read/write.[more…]</p>
-<h4 id="2-Structured-Data"><a href="#2-Structured-Data" class="headerlink" title="2. Structured Data"></a>2. Structured Data</h4><p>Hadoop is not fit for structured data with strong relationship. Hadoop works well for semi-structured and unstructured data. It stores data in files, doesn’t index them like RDBMS. Therefore, each ad hoc query for Hadoop is processed by MapReduce job which will bring the latency cost. </p>
-<h4 id="3-When-data-isn’t-that-big"><a href="#3-When-data-isn’t-that-big" class="headerlink" title="3. When data isn’t that big"></a>3. When data isn’t that big</h4><p>How big the data is big enough for Hadoop? The answer is TB or PB. When your analytics data is only tens of GB, Hadoop is heavy. Don’t follow the fashion and use Hadoop, just follow your requirements. </p>
-<h4 id="4-Too-many-small-files"><a href="#4-Too-many-small-files" class="headerlink" title="4. Too many small files"></a>4. Too many small files</h4><p>When there are too many small files, the NameNode will hit its memory limit where the block map and the metadata are hosted. And to handle the NameNode bottleneck, Hadoop introduces HDFS Federation.</p>
-<h4 id="5-Too-many-writers-and-too-much-file-updates"><a href="#5-Too-many-writers-and-too-much-file-updates" class="headerlink" title="5. Too many writers and too much file updates"></a>5. Too many writers and too much file updates</h4><p>HDFS is in write-once-and-read-many-times way. When there is too much files update needs, Hadoop won’t support that.</p>
-<h4 id="6-MapReduce-may-not-the-best-choice"><a href="#6-MapReduce-may-not-the-best-choice" class="headerlink" title="6. MapReduce may not the best choice"></a>6. MapReduce may not the best choice</h4><p>MapReduce is a simple programming model in parallel. But for MapReduce parallelism, you need to make sure each MR job and the data where the job runs on is independent from all the others. Every MR shouldn’t have dependencies.<br>But if you want to do some data sharing during MR, you can do like this:</p>
-<ul>
-<li>Iteration: run multiple MR jobs, with the output of one being the input of the next MR.</li>
-<li>Shared state information. But don’t share information in memory, since each MR job is run on single JVM. </li>
-</ul>
-<p>Resources:<br><a href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview" target="_blank" rel="external">Part 0 Hadoop Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review" target="_blank" rel="external">Part 1 Hadoop HDFS Review</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation" target="_blank" rel="external">Part 2 Hadoop HDFS Federation</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)" target="_blank" rel="external">Part 3 Hadoop HDFS High Availability(HA)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview" target="_blank" rel="external">Part 4 Hadoop MapReduce Overview</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework" target="_blank" rel="external">Part 5 Hadoop MapReduce 1 Framework</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)" target="_blank" rel="external">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet" target="_blank" rel="external">Part 7 Hadoop isn’t Silver Bullet</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/hadoop/">Hadoop</a>
-    </span>
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/learning/">Learning</a><a href="/tags/hadoop/">Hadoop</a><a href="/tags/research/">Research</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/12/05/hadoop-isnt-silver-bullet/#comment">Comments</a>
         </span>
       </span>
     </div>
