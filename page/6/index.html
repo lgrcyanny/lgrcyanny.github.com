@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>第 6 页 | CyannyLive</title>
+  <title>Page 6 | CyannyLive</title>
 
   
   <meta name="author" content="Cyanny Liang">
@@ -47,11 +47,11 @@
   <nav class="site-navigation">
     <ul>
       
-        <li><a href="/">主页</a></li>
+        <li><a href="/">Home</a></li>
       
-        <li><a href="/archives">归档</a></li>
+        <li><a href="/archives">Archives</a></li>
       
-        <li><a href="/about/">关于</a></li>
+        <li><a href="/about/">About</a></li>
       
     </ul>
   </nav>
@@ -59,6 +59,102 @@
 
     <main class="site-main posts-loop">
     
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/"><span>如何配置VPS并发布WordPress Blog?(第一篇)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-11-11T12:02:33.000Z">
+          2013-11-11
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近将VPS放到digitalocean上, 因为之前的VPS被关停了,所以再找一个, 相信这次会稳定了,之前的服务器是CentOS5.9,而现在的版本是CentOS7,以下的一些配置可能不正确了,可以参考这个链接<a href="http://www.howtoforge.com/apache_php_mysql_on_centos_7_lamp" title="lamp with centos7.0" target="_blank" rel="external">LAMP with Centos 7.0</a></p>
+<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>发布个人的WordPress博客网站，配置LAMP环境，并用GitHub来发布Blog，不用FTP，会很慢。<br>[more…]</p>
+<h3 id="连接VPS"><a href="#连接VPS" class="headerlink" title="连接VPS"></a>连接VPS</h3><p>我在Mac下，所以很方便的连上VPS, 为了方便管理直接用root登陆, 第一次配置安全性先不考虑，用root方便些<br>[bash]<br>ssh -l root ip.address<br>[/bash]<br>如果在Windows下，下载一个putty就可以很方便的连上VPS，SSH端口是22，VPS默认可以用SSH连接。</p>
+<h3 id="有用的命令"><a href="#有用的命令" class="headerlink" title="有用的命令"></a>有用的命令</h3><p>[bash]<br>cat /etc/<em>release</em>    #查看Linux的版本<br>uname -a              # 查看内核的版本<br>ifconfig -a           # 查看网卡情况<br>nman localhost        # 查看端口的情况<br>iptables -vL          # 查看防火墙的情况<br>netstat -aln | grep 80  # 查看网络连接情况<br>init 6                  # 重启<br>passwd                  # 修改当前用户的密码，可以该root密码<br>[/bash]</p>
+<h3 id="Linux-running-level"><a href="#Linux-running-level" class="headerlink" title="Linux running level"></a>Linux running level</h3><p>Linux下的运行级别，一个常识</p>
+<p>0 – halt</p>
+<p>1 – Single user mode </p>
+<p>2 – Multiuser, without NFS </p>
+<p>3 – Full multiuser mode </p>
+<p>4 – unused </p>
+<p>5 – X11 </p>
+<p>6 – reboot </p>
+<p>[bash]<br>init running-level  # 触发运行级别，关机，重启各种方便<br>[/bash]</p>
+<h3 id="关闭selinux"><a href="#关闭selinux" class="headerlink" title="关闭selinux"></a>关闭selinux</h3><p>selinux经常捣乱，先把它关了，还要永久关<br>[bash]<br>getenforce                  # 查看selinux的状态<br>sestatus                    # 一样，查看selinux状态<br>vim /etc/sysconfig/selinux  # 将SELINUX 改为disabled状态，然后重启<br>setenforce 0                # 只能暂时改变selinux状态，不能永久更改，只有上面的方法可以<br>init 6                      # 重启<br>[/bash]</p>
+<p>这个在DigitalOcean的镜像中不需要配置.</p>
+<h3 id="安装Apache"><a href="#安装Apache" class="headerlink" title="安装Apache"></a>安装Apache</h3><p>[bash]<br>yum -y install httpd<br>chkconfig –levels 235 httpd on  # 将httpd进程设置为开机启动<br>service httpd start              # 此时可以用ip访问VPS，如<a href="http://129.29.10.10，如果可以访问便安装成功" target="_blank" rel="external">http://129.29.10.10，如果可以访问便安装成功</a><br>[/bash]<br>Apache在CentOS的DocumentRoot是“/var/www/html”, 配置文件在”/etc/httpd/config/httpd.conf”</p>
+<p>无奈，第一个问题遇到了，我的Apache访问不了，纠结半天，原来是防火墙iptables的问题。</p>
+<h3 id="打开防火墙"><a href="#打开防火墙" class="headerlink" title="打开防火墙"></a>打开防火墙</h3><p>CentOS的iptables默认只让注册过的端口通过，而80端口没有注册过，不能通过防火墙。<br>[bash]<br>vim /etc/sysconfig/iptables</p>
+<h1 id="将-“-A-RH-Firewall-1-INPUT-j-REJECT-–reject-with-icmp-host-prohibited”-这行注释了，保存退出"><a href="#将-“-A-RH-Firewall-1-INPUT-j-REJECT-–reject-with-icmp-host-prohibited”-这行注释了，保存退出" class="headerlink" title="将 “-A RH-Firewall-1-INPUT -j REJECT –reject-with icmp-host-prohibited” 这行注释了，保存退出"></a>将 “-A RH-Firewall-1-INPUT -j REJECT –reject-with icmp-host-prohibited” 这行注释了，保存退出</h1><p>service iptables restart<br>[/bash]<br>BTW,如果采用以下的方法enable 80 端口，我今天成功了, 以前没有成功不知为何，不过上面的方法是肯定好的，下面的方法是一个安全点的办法。<br>[bash]<br>iptables -A INPUT -p tcp –dport 80 -j ACCEPT<br>iptables -A INPUT -p tcp –dport 443 -j ACCEPT  // 添加443 SSL端口未来会用<br>service iptables save                          // /etc/sysconfig/iptables 文件会被重写<br>service iptables restart<br>[/bash]<br>此时再访问<a href="http://youripaddress就会有apache界面了。" target="_blank" rel="external">http://youripaddress就会有apache界面了。</a></p>
+<p>在DigitalOcean中,不需要配置本项.</p>
+<h3 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h3><p>[bash]<br>yum install -y mysql mysql-server<br>chkconfig –levels 235 mysqld on<br>service mysqld start<br>mysql_secure_installation         // 设置root密码，我这次谨慎了一下，没有全部选yes，大家看情况，记住自己的root密码<br>mysql -uroot -p                  // 进入MySQL，看看玩玩<br>[/bash]</p>
+<p>在DigitalOcean中安装的是MariaDB, 兼容MySQL, 具体看参考链接.<a href="http://www.howtoforge.com/apache_php_mysql_on_centos_7_lamp" title="lamp with centos7.0" target="_blank" rel="external">LAMP with Centos 7.0</a></p>
+<h3 id="安装PHP"><a href="#安装PHP" class="headerlink" title="安装PHP"></a>安装PHP</h3><p>我被坑过，CentOS 5.9的yum的默认包库中PHP是5.1.6，后来WordPress跑不了(至少5.2.4)，所以需要更新一下yum。</p>
+<p>如果想了解更详细的信息，可以看看这个链接<br><a href="http://www.tecmint.com/install-apache-mysql-php-on-redhat-centos-fedora/" title="Install Apache, MySQL 5.5.32 &amp; PHP 5.5.0 on RHEL/CentOS 6.4/5.9 &amp; Fedora 19-12" target="_blank" rel="external">Install Apache, MySQL 5.5.32 &amp; PHP 5.5.0 on RHEL/CentOS 6.4/5.9 &amp; Fedora 19-12</a><br>[bash]<br>yum info name of module  # 查看某个包的信息<br>rpm -Uvh <a href="http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm</a><br>rpm -Uvh <a href="http://rpms.famillecollet.com/enterprise/remi-release-5.rpm" target="_blank" rel="external">http://rpms.famillecollet.com/enterprise/remi-release-5.rpm</a><br>yum –enablerepo=remi,remi-test install -y php php-common<br>yum –enablerepo=remi,remi-test install php-mysql php-pgsql php-pecl-mongo php-sqlite php-pecl-memcache php-pecl-memcached php-gd php-mbstring php-mcrypt php-xml php-pecl-apc php-cli php-pear php-pdo  # 安装PHP会用到的module<br>service httpd restart<br>vim /var/www/html/phpinfo.php<br>[/bash]<br>输入：<br>[php]<br>&lt;?php<br>  phpinfo();<br>?&gt;<br>[/php]<br>再访问<a href="http://ipaddress/phpinfo.php，" target="_blank" rel="external">http://ipaddress/phpinfo.php，</a> 查看php的状态</p>
+<h3 id="VPS-DNS解析"><a href="#VPS-DNS解析" class="headerlink" title="VPS DNS解析"></a>VPS DNS解析</h3><p>有了VPS，再买一个域名吧，我在godaddy上买了一个域名，用DNSPod来解析，国内的DNS解析，会快一些。</p>
+<p>需要在godaddy上将NameServer更改为:</p>
+<p>[text]<br>F1G1NS1.DNSPOD.NET<br>F1G1NS2.DNSPOD.NET<br>[/text]<br>再到DNSpod上注册，填写IP，等信息，就能简单完成DNS解析，从此以后就可以用域名访问VPS了。</p>
+<h3 id="本章结束"><a href="#本章结束" class="headerlink" title="本章结束"></a>本章结束</h3><p>OKay, that’s it! LAMP环境安装好了，一切就绪，坐等发布WordPress了，请看<a href="http://cyanny/myblog/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" title="如何配置VPS并发布WordPress Blog?(第二篇)" target="_blank" rel="external">如何配置VPS并发布WordPress Blog?(第二篇)</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/linux/">Linux</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/linux/">Linux</a><a href="/tags/vps/">VPS</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
   <article>
 
   
@@ -163,7 +259,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/#comment">评论</a>
+          <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -266,7 +362,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/11/10/how-to-start-learning-node-js/#comment">评论</a>
+          <a href="/2013/11/10/how-to-start-learning-node-js/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -397,7 +493,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/11/01/agile-advantages-and-disadvantages/#comment">评论</a>
+          <a href="/2013/11/01/agile-advantages-and-disadvantages/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -519,7 +615,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/10/06/talk-about-open-source-software/#comment">评论</a>
+          <a href="/2013/10/06/talk-about-open-source-software/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -710,7 +806,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/#comment">评论</a>
+          <a href="/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -788,7 +884,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/09/12/select-second-smallest-element/#comment">评论</a>
+          <a href="/2013/09/12/select-second-smallest-element/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -886,7 +982,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/09/09/warshall-algorithm-cycle-dectection/#comment">评论</a>
+          <a href="/2013/09/09/warshall-algorithm-cycle-dectection/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -967,7 +1063,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/08/18/the-usage-of-counting-sort/#comment">评论</a>
+          <a href="/2013/08/18/the-usage-of-counting-sort/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -1040,86 +1136,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2013/08/10/learning-heap-sort/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/05/25/good-resources-for-js-learning/"><span>Good Resources for JavaScript</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/05/25/good-resources-for-js-learning/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-05-25T06:22:30.000Z">
-          2013-05-25
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>Easy to use</p>
-<p><a href="http://twitter.github.com/bootst" title="Bootstrap" target="_blank" rel="external">http://twitter.github.com/bootst</a> - Twitter Bootstrap </p>
-<p><a href="http://foundation.zurb.com/" title="Zurb Foundation" target="_blank" rel="external">http://foundation.zurb.com/</a> - Zurb Foundation</p>
-<p>Typography</p>
-<p><a href="http://www.google.com/webfonts" title="Google Web Fonts" target="_blank" rel="external">http://www.google.com/webfonts</a> - Google Web Fonts</p>
-<p><a href="https://typekit.com/" title="Typekit" target="_blank" rel="external">https://typekit.com/ </a>- Typekit</p>
-<p><a href="http://letteringjs.com/" title="Lettering JS" target="_blank" rel="external">http://letteringjs.com/</a> - LetteringJS</p>
-<p><a href="http://letteringjs.com/" title="KernJS" target="_blank" rel="external">http://www.kernjs.com/</a> - KernJS</p>
-<p><a href="http://dailyjs.com/" title="DailyJS" target="_blank" rel="external">http://www.dailyjs.com/</a> - DailyJS</p>
-<p><a href="http://compass-style.org/" title="Compass framework" target="_blank" rel="external">http://compass-style.org/ </a> - Compass framework</p>
-<p><a href="http://lesscss.org/" title="Less" target="_blank" rel="external">http://lesscss.org/</a> - CSS Preprocessor Less</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/javascript/">JavaScript</a>
-    </span>
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/learning/">Learning</a><a href="/tags/javascript/">JavaScript</a><a href="/tags/resource/">Resource</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/05/25/good-resources-for-js-learning/#comment">评论</a>
+          <a href="/2013/08/10/learning-heap-sort/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -1132,8 +1149,10 @@
 
 <nav class="pagination">
   
-  <a href="/page/5/" class="pagination-prev">上一页</a>
+  <a href="/page/5/" class="pagination-prev">Prev</a>
   
+  
+  <a href="/page/7/" class="pagination-next">Next</a>
   
 </nav>
     </main>

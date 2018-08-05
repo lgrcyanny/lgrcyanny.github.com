@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cyanny.com/"/>
-  <updated>2018-07-16T00:47:50.338Z</updated>
+  <updated>2018-08-05T13:26:45.735Z</updated>
   <id>http://www.cyanny.com/</id>
   
   <author>
@@ -16,25 +16,113 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Big Data Expert</title>
+    <title>Java Performance Toolbox</title>
+    <link href="http://www.cyanny.com/2018/08/04/java-performance-notes-monitoring-tools/"/>
+    <id>http://www.cyanny.com/2018/08/04/java-performance-notes-monitoring-tools/</id>
+    <published>2018-08-04T10:24:34.000Z</published>
+    <updated>2018-08-05T13:26:45.735Z</updated>
+    
+    <content type="html"><![CDATA[<p>On Satuaday, I learned <strong>The Java Performance Definitive Guide[chapter 3]</strong>, here is a brief summary about Java Performance Toolbox.</p>
+<h2 id="System-Monitoring-Tools"><a href="#System-Monitoring-Tools" class="headerlink" title="System Monitoring Tools"></a>System Monitoring Tools</h2><h3 id="1-CPU-Usage"><a href="#1-CPU-Usage" class="headerlink" title="1. CPU Usage"></a>1. CPU Usage</h3><p>vmstat: Report virtual memory statistics, vmstat reports information about processes, memory, paging, block IO, traps, disks and cpu activity<br>vmstat [options] [delay [count]]<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">vmstat 1</div><div class="line">procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----</div><div class="line"> r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st</div><div class="line"> 0  0      0 71322688 314388 127644112    0    0     0     7    0    0  9  1 90  0  0</div><div class="line"> 0  0      0 71322816 314388 127644112    0    0     0     0 5590 7874  1  0 99  0  0</div><div class="line"> 0  0      0 71322592 314388 127644144    0    0     0     0 5418 7226  0  0 99  0  0</div><div class="line"> 0  0      0 71323208 314388 127644144    0    0     0    12 4952 7199  0  0 100  0  0</div><div class="line"> 0  0      0 71323600 314388 127644144    0    0     0   104 5253 7262  1  0 99  0  0</div></pre></td></tr></table></figure></p>
+<p>Tips:</p>
+<ul>
+<li>CPU time is the first thing to examine when looking at performance of an application.</li>
+<li>The goal in optimizing code is to drive the CPU usage up (for a shorter period of time), not down.</li>
+<li>Understand why CPU usage is low before diving in and attempting to tune an application.</li>
+</ul>
+<h3 id="2-Disk-Usage"><a href="#2-Disk-Usage" class="headerlink" title="2. Disk Usage"></a>2. Disk Usage</h3><p>iostat: Report Central Processing Unit (CPU) statistics and input/output statistics for devices and partitions.</p>
+<ul>
+<li>%user: Show the percentage of CPU utilization that occurred while executing at the user level (application).</li>
+<li>%system: Show the percentage of CPU utilization that occurred while executing at the system level (kernel).</li>
+<li>rrqm/s: The number of read requests merged per second that were queued to the device</li>
+<li>avgrq-sz: The average size (in sectors) of the requests that were issued to the device</li>
+<li>%util: Percentage of elapsed time during which I/O requests were issued to the device (bandwidth utilization for the device). Device saturation occurs when this value is close to 100%<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">iostat -xm 5</div><div class="line">avg-cpu:  %user   %nice %system %iowait  %steal   %idle</div><div class="line">           9.40    0.00    0.52    0.01    0.00   90.07</div><div class="line"></div><div class="line">Device:         rrqm/s   wrqm/s     r/s     w/s    rMB/s    wMB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util</div><div class="line">sda               0.00     0.58    0.15    4.49     0.00     0.14    61.65     1.31  283.55    0.22  292.90   0.06   0.03</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="3-Network-Usage"><a href="#3-Network-Usage" class="headerlink" title="3. Network Usage"></a>3. Network Usage</h3><p>netstat: Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">netstat -s</div></pre></td></tr></table></figure></p>
+<p>The book use <code>nicstat</code>, which is not built-in Linux server, it can be installed by yum.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nicstat 5</div></pre></td></tr></table></figure></p>
+<p>Be careful that the bandwidth is measured in bits per second, but tools generally report bytes per second</p>
+<h2 id="Java-Monitoring-Tools"><a href="#Java-Monitoring-Tools" class="headerlink" title="Java Monitoring Tools"></a>Java Monitoring Tools</h2><h3 id="1-Basic-JVM-INFO"><a href="#1-Basic-JVM-INFO" class="headerlink" title="1. Basic JVM INFO"></a>1. Basic JVM INFO</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">jcmd process_id VM.uptime</div><div class="line">jcmd process_id VM.system_properties</div><div class="line">jcmd process_id VM.version</div><div class="line">jcmd process_id VM.command_line</div><div class="line">jinfo -sysprops process_id</div><div class="line">jinfo -flags process_id</div><div class="line">jinfo -flag PrintGCDetails process_id</div></pre></td></tr></table></figure>
+<p>Some tuning flags can be set by jcmd and jinfo in command line, such as manageable options and C2 diagnostic (the flag provides diagnostic output for the compiler engineers to understand how the compiler is functioning).<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">jinfo -flag -PrintGCDetails process_id  # turns off PrintGCDetails</div><div class="line">jinfo -flag PrintGCDetails process_id</div></pre></td></tr></table></figure></p>
+<p>tips:</p>
+<ul>
+<li>jcmd can be used to find the basic VM information—include the value of all the tuning flags—for a running application.</li>
+<li>Default flag values can be found by including -XX:+PrintFlagsFinal on a command line. This is useful for determining the default ergonomic settings of flags on a particular platform.</li>
+<li>jinfo is useful for inspecting (and in some cases changing) individual flags.</li>
+</ul>
+<h3 id="2-Thread-Info"><a href="#2-Thread-Info" class="headerlink" title="2. Thread Info"></a>2. Thread Info</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">jstack process_id</div><div class="line">jcmd process_id Thread.print</div></pre></td></tr></table></figure>
+<h3 id="3-Class-Info"><a href="#3-Class-Info" class="headerlink" title="3. Class Info"></a>3. Class Info</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">jconsole</div><div class="line">jstat -&lt;option&gt; [-t] [-h&lt;lines&gt;] &lt;vmid&gt; [&lt;interval&gt; [&lt;count&gt;]]</div></pre></td></tr></table></figure>
+<h3 id="4-Heap-Info"><a href="#4-Heap-Info" class="headerlink" title="4. Heap Info"></a>4. Heap Info</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">jmap -heap process_id</div><div class="line">jmap -dump:[live,] format=b, file=filename process_id</div><div class="line">jhat -port 7000 dump_file</div></pre></td></tr></table></figure>
+<p>Another way, add hprof option to java process</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">java -agentlib:hprof=help</div><div class="line">HPROF: Heap and CPU Profiling Agent (JVMTI Demonstration Code)</div><div class="line">hprof usage: java -agentlib:hprof=[help]|[&lt;option&gt;=&lt;value&gt;, ...]</div><div class="line">Option Name and Value  Description                    Default</div><div class="line">---------------------  -----------                    -------</div><div class="line">heap=dump|sites|all    heap profiling                 all</div><div class="line">cpu=samples|times|old  CPU usage                      off</div><div class="line">monitor=y|n            monitor contention             n</div><div class="line">format=a|b             text(txt) or binary output     a</div><div class="line">file=&lt;file&gt;            write data to file             java.hprof[&#123;.txt&#125;]</div><div class="line">net=&lt;host&gt;:&lt;port&gt;      send data over a socket        off</div><div class="line">depth=&lt;size&gt;           stack trace depth              4</div><div class="line">interval=&lt;ms&gt;          sample interval in ms          10</div><div class="line">cutoff=&lt;value&gt;         output cutoff point            0.0001</div><div class="line">lineno=y|n             line number in traces?         y</div><div class="line">thread=y|n             thread in traces?              n</div><div class="line">doe=y|n                dump on exit?                  y</div><div class="line">msa=y|n                Solaris micro state accounting n</div><div class="line">force=y|n              force output to &lt;file&gt;         y</div><div class="line">verbose=y|n            print messages about dumps     y</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-agentlib:hprof=cpu=samples,lineno=y # for cpu</div><div class="line">-agentlib:hprof=heap=sites,lineno=y # for heap</div></pre></td></tr></table></figure>
+<p>Some notes:</p>
+<ul>
+<li>heap=sites, sites is a sorted list of allocation sites.  This identifies the most heavily allocated object types, and the TRACE at which those allocations occurred.</li>
+<li>cpu=samples,  is a statistical profile of program execution.  The VM  periodically samples all running threads, and assigns a quantum to active TRACEs in those threads.</li>
+<li>cpu=time, is a profile of program execution obtained by measuring the time spent in individual methods (excluding the time spent in callees), as well as by counting the number of times each method is called</li>
+</ul>
+<p><a href="https://docs.oracle.com/javase/8/docs/technotes/samples/hprof.html" target="_blank" rel="external">hprof ref</a></p>
+<h3 id="5-Heap-Dump-Processing"><a href="#5-Heap-Dump-Processing" class="headerlink" title="5. Heap Dump Processing"></a>5. Heap Dump Processing</h3><p>Heap dumps can be captured from the jvisualvm GUI, or from the command line using jcmd or jmap.<br>Or you can use Eclipse Memory Analzyer Tool.</p>
+<h2 id="Java-Profiling-Tools"><a href="#Java-Profiling-Tools" class="headerlink" title="Java Profiling Tools"></a>Java Profiling Tools</h2><h3 id="1-Tools-types"><a href="#1-Tools-types" class="headerlink" title="1. Tools types"></a>1. Tools types</h3><ul>
+<li><p>Sampling profilers<br>Sampling-based profilers are the most common profiler. There may be error in sampling profiler’s result. The way to minimize these errors is to profile over a longer period of time, and to reduce the time interval between samples.</p>
+</li>
+<li><p>Instrumented profilers<br>Instrumented profilers yield more information about an application, but can possibly have a greater effect on the application than a sampling profiler.<br>Instrumented profilers should be set up to instrument small sections of the code, a few classes or packages. That limits their impact on the application’s performance.</p>
+</li>
+</ul>
+<h2 id="2-JMC-Java-Mission-Control"><a href="#2-JMC-Java-Mission-Control" class="headerlink" title="2. JMC(Java Mission Control)"></a>2. JMC(Java Mission Control)</h2><p>It’s a great profiling tool built-in JDK(jdk 7 or higher). On local machine, just type <code>jmc</code> command, the jmc UI will show.<br><img src="http://wx3.sinaimg.cn/mw690/761b7938ly1ftz2nfllbmj21kw0xz4j5.jpg" alt="jmc ui"></p>
+<p>Then how to connect jmc to remote Linux server.</p>
+<ul>
+<li><p>Firstly, add jmx configurations to Linux java process</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=8091 -Dcom.sun.management.jmxremote.rmi.port=8091 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</div></pre></td></tr></table></figure>
+</li>
+<li><p>Secondly, config local jmc connection<br>fill the server and port, click Finished. That’s all.<br><img src="http://wx3.sinaimg.cn/mw690/761b7938ly1ftz2nkhtqvj20sw0pcwis.jpg" alt="config local jmc connection"></p>
+</li>
+</ul>
+<p><a href="https://docs.oracle.com/javacomponents/jmc-5-5/jmc-user-guide/toc.htm" target="_blank" rel="external">jmc help guides</a></p>
+<p><em>Use JMC the dump files:</em><br>firstly, add <code>-XX:+UnlockCommercialFeatures -XX:+FlightRecorder</code> to application<br>secondly, type these commands:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">jcmd process_id JFR.start</div><div class="line">jcmd process_id JFR.dump filename=path</div><div class="line">jcmd process_id JFR.stop</div></pre></td></tr></table></figure></p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><ul>
+<li>System monitoring tools: vmstat, iostat, netstat</li>
+<li>Java built-in tools: jinfo, jcmd, jmap, jhat, jstat, jconsole, jvisualvm, jmc, jhprof</li>
+<li>No perfert tools for everything, when do profiling work, use right tools right applications</li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://www.amazon.com/Java-Performance-Definitive-Guide-Getting/dp/1449358454/ref=sr_1_1?ie=UTF8&amp;qid=1533475568&amp;sr=8-1&amp;keywords=java+performance+definitive+guide" target="_blank" rel="external">Java Performance: The Definitive Guide</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;On Satuaday, I learned &lt;strong&gt;The Java Performance Definitive Guide[chapter 3]&lt;/strong&gt;, here is a brief summary about Java Performance Toolbox.&lt;/p&gt;
+&lt;h2 id=&quot;System-Monitoring-Tools&quot;&gt;&lt;a href=&quot;#System-Monitoring-Tools&quot; class=&quot;headerlink&quot; title=&quot;System Monitoring Tools&quot;&gt;&lt;/a&gt;System Monitoring Tools&lt;/h2&gt;&lt;h3 id=&quot;1-CPU-Usage&quot;&gt;&lt;a href=&quot;#1-CPU-Usage&quot; class=&quot;headerlink&quot; title=&quot;1. CPU Usage&quot;&gt;&lt;/a&gt;1. CPU Usage&lt;/h3&gt;&lt;p&gt;vmstat: Report virtual memory statistics, vmstat reports information about processes, memory, paging, block IO, traps, disks and cpu activity&lt;br&gt;vmstat [options] [delay [count]]&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="java performance" scheme="http://www.cyanny.com/tags/java-performance/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Big Data And ML Learning</title>
     <link href="http://www.cyanny.com/2018/07/16/big-data-expert/"/>
     <id>http://www.cyanny.com/2018/07/16/big-data-expert/</id>
     <published>2018-07-16T00:33:12.000Z</published>
-    <updated>2018-07-16T00:47:50.338Z</updated>
+    <updated>2018-08-05T13:23:44.075Z</updated>
     
-    <content type="html"><![CDATA[<p>随着工作的时间一天天过去，不禁会思考对未来的打算，公司的事情更多的是业务和效果，而自我的提升比起学校需要更多的self motivation. 一直都工作在大数据领域，现在虽然业务多些，方向也没有变化，还有了很多机器学习方面的实践。我更想成为 A big data expert. 以下是我列出的学习要点:<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>随着工作的时间一天天过去，不禁会思考对未来的打算，工作的事情更多的是业务和效果，少有时间学习，自我的提升比起学校需要更多的self motivation. 一直都工作在大数据领域，现在虽然业务多些，方向也没有变化，还有了很多机器学习方面的实践。以下是我觉得自己很希望学习的书籍和要点:<br><a id="more"></a></p>
 <h2 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h2><ul>
-<li>Spring Framework</li>
-<li>Learning Apache Flink</li>
+<li>HBase Definitive Guide</li>
+<li>Learning Apache Flink 比起Spark Streaming确实完善很多</li>
+<li>Streaming Systems</li>
 <li>High Performance Spark</li>
-<li>Spark源码</li>
-<li>Hadoop Definitive Guide</li>
+<li>Hadoop Definitive Guide，很早的时候看过一遍</li>
 <li>Distributed Computing: Principles, Algorithms, and Systems</li>
+<li>Spark源码</li>
+<li>Spring Framework，很成熟服务端方案</li>
 </ul>
 <h2 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h2><ul>
+<li>Hands on ML</li>
 <li>Tensorflow官方Guide和源码</li>
 <li>DL Learning Coursera</li>
-<li>Hands on ML</li>
 <li>统计推断</li>
 <li>数学之美</li>
 <li>Coursera ML 课程的作业</li>
@@ -70,12 +158,12 @@
 <li>Just for Fun: The Story of an Accidental Revolutionary</li>
 <li>The Hacker Ethic: and the Spirit of the Information Age</li>
 </ul>
-<p>希望在未来2年年，能完成，今天年底，完成3~4个要点，主要是tensorflow需要花费很多精力</p>
+<p>希望在未来2~3年年，能完成，今天年底，完成3~4个要点，今年上半年已经完成了<em>Hands on ML</em>，<em>Learning Apache Flink</em> 最近在学习Java Performance，Tensorflow和Deep Learning的Coursera课程，加油啦~</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;随着工作的时间一天天过去，不禁会思考对未来的打算，公司的事情更多的是业务和效果，而自我的提升比起学校需要更多的self motivation. 一直都工作在大数据领域，现在虽然业务多些，方向也没有变化，还有了很多机器学习方面的实践。我更想成为 A big data expert. 以下是我列出的学习要点:&lt;br&gt;
+      &lt;p&gt;随着工作的时间一天天过去，不禁会思考对未来的打算，工作的事情更多的是业务和效果，少有时间学习，自我的提升比起学校需要更多的self motivation. 一直都工作在大数据领域，现在虽然业务多些，方向也没有变化，还有了很多机器学习方面的实践。以下是我觉得自己很希望学习的书籍和要点:&lt;br&gt;
     
     </summary>
     
@@ -792,9 +880,9 @@
     </summary>
     
     
-      <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
-    
       <category term="Algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
+    
+      <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
     
   </entry>
   
@@ -1135,89 +1223,6 @@
     
     
       <category term="algorithm" scheme="http://www.cyanny.com/tags/algorithm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hive架构笔记</title>
-    <link href="http://www.cyanny.com/2014/08/16/hive-architecture/"/>
-    <id>http://www.cyanny.com/2014/08/16/hive-architecture/</id>
-    <published>2014-08-16T15:32:27.000Z</published>
-    <updated>2016-09-27T01:03:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Hive是基于Hadoop的大数据查询引擎, 存储于HDFS上的数据,要求开发者采用MR才能进行计算, 但MR是low-level的分布式计算,对于复杂的分析job, 多重MR是很复杂的, Hive致力于让用户采用传统的RDBMS的SQL查询处理分布式的大数据.<br><a id="more"></a></p>
-<h3 id="1-架构"><a href="#1-架构" class="headerlink" title="1. 架构"></a>1. 架构</h3><p><a href="http://tinypic.com?ref=2qs2w6e" target="_blank" rel="external"><img src="http://i60.tinypic.com/2qs2w6e.jpg" alt="Image and video hosting by TinyPic"></a></p>
-<p>(1) external interface: 提供用户接口，WebUI, CLI, JDBC, ODBC<br>(2) Thrift Server：为JDBC, ODBC 提供服务<br>(3) MetaStore: 存储元数据信息<br>(4) Driver：控制HQL的生命周期， 包括</p>
-<ul>
-<li>Compiler: 将HQL编译为Operator DAG的执行计划</li>
-<li>Optimizer: 对Operator DAG进行基于规则的优化</li>
-<li>Executor: 执行Optimizer最终生成的DAG MR<br>(5) Hadoop：MR， HDFS： 执行physical plan（DAG）</li>
-</ul>
-<h3 id="2-Hive与传统数据库的区别"><a href="#2-Hive与传统数据库的区别" class="headerlink" title="2. Hive与传统数据库的区别"></a>2. Hive与传统数据库的区别</h3><p>虽然Hive提供的HQL和RDBMS很类似,并且也致力于向标准SQL靠近, 但还是有一些区别:</p>
-<p>(1) Hive Data Model and Typed System</p>
-<ul>
-<li>Hive支持传统数据类型,如int , float, double, string, 也支持struct, array, map</li>
-<li>Hive 提供对struct, array, map的field访问的语法,例如”a[1]”, “a.b.c”</li>
-<li><p>Hive提供SerDe Interface, 可以支持用户自定义的文件格式的读写<br>(2) HQL</p>
-</li>
-<li><p>Hive的子查询只能在from子句中, from可以在select前面</p>
-</li>
-<li>Hive join只支持等值join</li>
-<li>Hive支持multi insert</li>
-<li>HQL中可以自定义Map和Reduce脚本</li>
-<li>Hive引入了Partition的概念, 例如数据总是按day, hour产生时,可以分配event_day, event_hour的partition, 每一个查询针对每一个partition操作,就不会加载所有的数据,加快查询,提高性能</li>
-</ul>
-<h3 id="3-Hive-MetaStore-and-Data-Model"><a href="#3-Hive-MetaStore-and-Data-Model" class="headerlink" title="3. Hive MetaStore and Data Model"></a>3. Hive MetaStore and Data Model</h3><p>Hive MetaStore提供元数据信息的抽象<br>(1) DataBase<br>类似传统的数据库概念，是表的namespace，默认的table放入’default’ database</p>
-<p>(2) Table<br>数据表<br>重要信息包括：schema, location, SerDe, input_format, out_format等</p>
-<p>(3) Partition<br>每个表的数据可以有分区, 每个partition key需要在create table时指定,例如: event_day, event_hour等<br>每个Partition可以有自己的schema和location.</p>
-<p>(4) Bucket<br>Table和Partition的Storage Descriptor可以按指定的column bucket(分桶), 默认以hash分桶, 分桶可以优化map join, table sample操作.<br>Bucket是Table或Partition所在directory下的file</p>
-<p>Hive Metastore信息可以存储在本地Derby数据库,或MySQL, Hive采用DataNucleus进行ORM</p>
-<h3 id="4-Driver"><a href="#4-Driver" class="headerlink" title="4. Driver"></a>4. Driver</h3><p>目标：将HQL解析为DAG DAG的物理执行计划<br>步骤：<br>(1) Compiler的Parser将HQL解析为AST(Abstract Syntax Tree), Hive中采用Antlr进行词法解析和语法解析</p>
-<p>(2)Semantic Analyzer, 语义分析,检查Table是否存在, 类型, 表达式等是否合法<br>语义分析将AST解析为中间表示(Intermediate Representation), 即Query Block(QB) tree,<br>QB tree 是一个tree的结构, 目的是方便将AST转化为Operator DAG.</p>
-<p>(3) Logical Plan Generator将QB tree转化为logical plan, 即Operator DAG</p>
-<p>(4) Optimizer优化Operator DAG, 进行基于规则的算子变换(transformation), 每一个变换会实现5个接口, Node, GraphWalker, Dispatcher, Rule 和Processor, Opritimizer提供的优化包括:</p>
-<ul>
-<li>列裁剪</li>
-<li>partition裁剪</li>
-<li>谓词下推, 更早地filter数据, 从源头减少数据量</li>
-<li>合并多个共享join key的join算子</li>
-<li>Join Reordering: 在reduce时, 让small table常驻内存</li>
-<li><p>基于用户的Hint的优化, 包括:</p>
-<ul>
-<li>Repartitioning of data to handle skews in group by processing: 对于有倾斜性的数据, reducer分配到的数据不均匀,影响性能, 做聚集时, 例如sum, 可以将group by拆分为两个map reduce阶段, 第一个阶段hash randomly分配数据,并部分聚集, 减少第二个阶段的聚集量.</li>
-<li>map side join(将小的表存储在内存中)</li>
-<li>Hash based partial aggregations in the mappers, 将需要聚集的行存在内存hash table中</li>
-<li>Physical Plan Generator 将Operator DAG转化为Physical Plan, 包括多个阶段的MR和HDFS tasks</li>
-</ul>
-</li>
-<li><p>Execution Engine 按照物理计划的依赖关系执行task</p>
-</li>
-</ul>
-<h3 id="5-相关的"><a href="#5-相关的" class="headerlink" title="5. 相关的"></a>5. 相关的</h3><ul>
-<li>Hive基于成本的优化</li>
-<li>Scope, 微软的SQL Like language</li>
-<li>Pig, allows users to write declarative scripts to process data</li>
-<li>Dremel, Google’s Query Engine</li>
-<li>Apache Drill</li>
-<li>Spark</li>
-<li>MR</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Hive是基于Hadoop的大数据查询引擎, 存储于HDFS上的数据,要求开发者采用MR才能进行计算, 但MR是low-level的分布式计算,对于复杂的分析job, 多重MR是很复杂的, Hive致力于让用户采用传统的RDBMS的SQL查询处理分布式的大数据.&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/categories/hadoop/"/>
-    
-      <category term="Hive" scheme="http://www.cyanny.com/categories/hadoop/hive/"/>
-    
-    
-      <category term="Hadoop" scheme="http://www.cyanny.com/tags/hadoop/"/>
-    
-      <category term="Hive" scheme="http://www.cyanny.com/tags/hive/"/>
     
   </entry>
   
