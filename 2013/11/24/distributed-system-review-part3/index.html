@@ -40,7 +40,7 @@
       reward: false,
       pjax: false,
       lazy: true,
-      toc: false
+      toc: true
     }
   }
 </script>
@@ -228,6 +228,13 @@
 
   
   
+  <aside class="post-toc">
+    <div class="title"><span>Index</span></div>
+    <div class="toc-inner">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#复制和一致性"><span class="toc-text">复制和一致性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#以数据为中心的一致性"><span class="toc-text">以数据为中心的一致性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-严格的一致性"><span class="toc-text">1. 严格的一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-线性化和顺序的一致性"><span class="toc-text">2.线性化和顺序的一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-因果一致性"><span class="toc-text">3.因果一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-FIFO一致性"><span class="toc-text">4.FIFO一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-弱一致性"><span class="toc-text">5.弱一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-释放一致性"><span class="toc-text">6.释放一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-入口一致性"><span class="toc-text">7.入口一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#以数据为中心的一致性的比较"><span class="toc-text">以数据为中心的一致性的比较</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#以客户为中心的一致性模型"><span class="toc-text">以客户为中心的一致性模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-最终一致性"><span class="toc-text">1. 最终一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-单调读"><span class="toc-text">2. 单调读</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-单调写"><span class="toc-text">3. 单调写</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-写后读"><span class="toc-text">4.写后读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-读后写"><span class="toc-text">5.读后写</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#容错"><span class="toc-text">容错</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-两军问题"><span class="toc-text">1. 两军问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-拜占庭将军问题"><span class="toc-text">2. 拜占庭将军问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-两阶段提交"><span class="toc-text">3. 两阶段提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-三阶段提交"><span class="toc-text">4. 三阶段提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#资源"><span class="toc-text">资源</span></a></li></ol></li></ol>
+    </div>
+  </aside>
+
 
 
 
@@ -588,11 +595,11 @@
     </div>
   
     <div class="tagcloud-tag">
-      <button>Node.js</button>
+      <button>Network</button>
     </div>
   
     <div class="tagcloud-tag">
-      <button>Network</button>
+      <button>Node.js</button>
     </div>
   
     <div class="tagcloud-tag">
@@ -761,16 +768,16 @@
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/11/24/distributed-system-review-part1/">
+          <a href="/2013/11/24/distributed-system-review-part2/">
             <time class="tagcloud-posttime">2013 / 11 / 24</time>
-            <span>分布式系统总结part1</span>
+            <span>分布式系统总结part2</span>
           </a>
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/11/24/distributed-system-review-part2/">
+          <a href="/2013/11/24/distributed-system-review-part1/">
             <time class="tagcloud-posttime">2013 / 11 / 24</time>
-            <span>分布式系统总结part2</span>
+            <span>分布式系统总结part1</span>
           </a>
         </div>
       
@@ -810,16 +817,16 @@
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
+          <a href="/2013/12/05/hadoop-hdfs-review/">
             <time class="tagcloud-posttime">2013 / 12 / 05</time>
-            <span>Hadoop HDFS High Availability(HA)</span>
+            <span>Hadoop HDFS Review</span>
           </a>
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/12/05/hadoop-hdfs-review/">
+          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
             <time class="tagcloud-posttime">2013 / 12 / 05</time>
-            <span>Hadoop HDFS Review</span>
+            <span>Hadoop HDFS High Availability(HA)</span>
           </a>
         </div>
       
@@ -1122,16 +1129,16 @@
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
+          <a href="/2013/12/05/hadoop-hdfs-review/">
             <time class="tagcloud-posttime">2013 / 12 / 05</time>
-            <span>Hadoop HDFS High Availability(HA)</span>
+            <span>Hadoop HDFS Review</span>
           </a>
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/12/05/hadoop-hdfs-review/">
+          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
             <time class="tagcloud-posttime">2013 / 12 / 05</time>
-            <span>Hadoop HDFS Review</span>
+            <span>Hadoop HDFS High Availability(HA)</span>
           </a>
         </div>
       
@@ -1232,16 +1239,16 @@
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
+          <a href="/2013/12/05/hadoop-hdfs-review/">
             <time class="tagcloud-posttime">2013 / 12 / 05</time>
-            <span>Hadoop HDFS High Availability(HA)</span>
+            <span>Hadoop HDFS Review</span>
           </a>
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/12/05/hadoop-hdfs-review/">
+          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
             <time class="tagcloud-posttime">2013 / 12 / 05</time>
-            <span>Hadoop HDFS Review</span>
+            <span>Hadoop HDFS High Availability(HA)</span>
           </a>
         </div>
       
@@ -1449,24 +1456,24 @@
     </div>
   
     <div class="tagcloud-postlist ">
-      <h2>Node.js</h2>
-      
-        <div class="tagcloud-post">
-          <a href="/2013/12/18/node-express-mysql-scaffolding/">
-            <time class="tagcloud-posttime">2013 / 12 / 18</time>
-            <span>Node Express Mysql Scaffolding</span>
-          </a>
-        </div>
-      
-    </div>
-  
-    <div class="tagcloud-postlist ">
       <h2>Network</h2>
       
         <div class="tagcloud-post">
           <a href="/2013/11/16/netkit-filesystem-custom-cutting/">
             <time class="tagcloud-posttime">2013 / 11 / 16</time>
             <span>Netkit Filesystem 定制和裁剪</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Node.js</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/18/node-express-mysql-scaffolding/">
+            <time class="tagcloud-posttime">2013 / 12 / 18</time>
+            <span>Node Express Mysql Scaffolding</span>
           </a>
         </div>
       

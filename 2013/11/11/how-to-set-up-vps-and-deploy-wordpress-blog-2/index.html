@@ -40,7 +40,7 @@
       reward: false,
       pjax: false,
       lazy: true,
-      toc: false
+      toc: true
     }
   }
 </script>
@@ -228,6 +228,13 @@
 
   
   
+  <aside class="post-toc">
+    <div class="title"><span>Index</span></div>
+    <div class="toc-inner">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#VPS-配置GIT"><span class="toc-text">VPS 配置GIT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VPS-MySQL权限配置"><span class="toc-text">VPS MySQL权限配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VPS-MySQL-CharSet配置"><span class="toc-text">VPS MySQL CharSet配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建博客数据库"><span class="toc-text">创建博客数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#本地Blog-GitHub-Set-Up"><span class="toc-text">本地Blog GitHub Set Up</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#本地Blog-MySQL数据导出备份"><span class="toc-text">本地Blog MySQL数据导出备份</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#bin-bash"><span class="toc-text">!/bin/bash</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sed-命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，"><span class="toc-text">sed 命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的"><span class="toc-text">原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据压缩一下，会从上百KB变成几十个KB"><span class="toc-text">数据压缩一下，会从上百KB变成几十个KB</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除中间文件"><span class="toc-text">删除中间文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#本地Blog-htaccess配置"><span class="toc-text">本地Blog htaccess配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#本地Blog的其他配置"><span class="toc-text">本地Blog的其他配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#本地Blog-发布到-GitHub"><span class="toc-text">本地Blog 发布到 GitHub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VPS端-Enable-htaccess-overwirte"><span class="toc-text">VPS端 Enable htaccess overwirte</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VPS端的发布脚本"><span class="toc-text">VPS端的发布脚本</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#bin-bash-1"><span class="toc-text">!/bin/bash</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Git-update"><span class="toc-text">Git update</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Change-mod-grant-access-right"><span class="toc-text">Change mod, grant access right</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Add-config"><span class="toc-text">Add config</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Add-htaccess"><span class="toc-text">Add .htaccess</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Import-data-to-mysql-不用担心数据冲突，因为mysqldump出来的表都会先drop再导入"><span class="toc-text">Import data to mysql 不用担心数据冲突，因为mysqldump出来的表都会先drop再导入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#VPS端将DocumentRoot指向Blog文件夹"><span class="toc-text">VPS端将DocumentRoot指向Blog文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结束"><span class="toc-text">结束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后记"><span class="toc-text">后记</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#yum-remove-all-list-about-mariadb"><span class="toc-text">yum remove all list about mariadb</span></a>
+    </div>
+  </aside>
+
 
 
 
@@ -566,11 +573,11 @@
     </div>
   
     <div class="tagcloud-tag">
-      <button>Node.js</button>
+      <button>Network</button>
     </div>
   
     <div class="tagcloud-tag">
-      <button>Network</button>
+      <button>Node.js</button>
     </div>
   
     <div class="tagcloud-tag">
@@ -739,16 +746,16 @@
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/11/24/distributed-system-review-part1/">
+          <a href="/2013/11/24/distributed-system-review-part2/">
             <time class="tagcloud-posttime">2013 / 11 / 24</time>
-            <span>分布式系统总结part1</span>
+            <span>分布式系统总结part2</span>
           </a>
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/11/24/distributed-system-review-part2/">
+          <a href="/2013/11/24/distributed-system-review-part1/">
             <time class="tagcloud-posttime">2013 / 11 / 24</time>
-            <span>分布式系统总结part2</span>
+            <span>分布式系统总结part1</span>
           </a>
         </div>
       
@@ -788,16 +795,16 @@
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
+          <a href="/2013/12/05/hadoop-hdfs-review/">
             <time class="tagcloud-posttime">2013 / 12 / 05</time>
-            <span>Hadoop HDFS High Availability(HA)</span>
+            <span>Hadoop HDFS Review</span>
           </a>
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/12/05/hadoop-hdfs-review/">
+          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
             <time class="tagcloud-posttime">2013 / 12 / 05</time>
-            <span>Hadoop HDFS Review</span>
+            <span>Hadoop HDFS High Availability(HA)</span>
           </a>
         </div>
       
@@ -1100,16 +1107,16 @@
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
+          <a href="/2013/12/05/hadoop-hdfs-review/">
             <time class="tagcloud-posttime">2013 / 12 / 05</time>
-            <span>Hadoop HDFS High Availability(HA)</span>
+            <span>Hadoop HDFS Review</span>
           </a>
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/12/05/hadoop-hdfs-review/">
+          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
             <time class="tagcloud-posttime">2013 / 12 / 05</time>
-            <span>Hadoop HDFS Review</span>
+            <span>Hadoop HDFS High Availability(HA)</span>
           </a>
         </div>
       
@@ -1210,16 +1217,16 @@
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
+          <a href="/2013/12/05/hadoop-hdfs-review/">
             <time class="tagcloud-posttime">2013 / 12 / 05</time>
-            <span>Hadoop HDFS High Availability(HA)</span>
+            <span>Hadoop HDFS Review</span>
           </a>
         </div>
       
         <div class="tagcloud-post">
-          <a href="/2013/12/05/hadoop-hdfs-review/">
+          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
             <time class="tagcloud-posttime">2013 / 12 / 05</time>
-            <span>Hadoop HDFS Review</span>
+            <span>Hadoop HDFS High Availability(HA)</span>
           </a>
         </div>
       
@@ -1427,24 +1434,24 @@
     </div>
   
     <div class="tagcloud-postlist ">
-      <h2>Node.js</h2>
-      
-        <div class="tagcloud-post">
-          <a href="/2013/12/18/node-express-mysql-scaffolding/">
-            <time class="tagcloud-posttime">2013 / 12 / 18</time>
-            <span>Node Express Mysql Scaffolding</span>
-          </a>
-        </div>
-      
-    </div>
-  
-    <div class="tagcloud-postlist ">
       <h2>Network</h2>
       
         <div class="tagcloud-post">
           <a href="/2013/11/16/netkit-filesystem-custom-cutting/">
             <time class="tagcloud-posttime">2013 / 11 / 16</time>
             <span>Netkit Filesystem 定制和裁剪</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Node.js</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/18/node-express-mysql-scaffolding/">
+            <time class="tagcloud-posttime">2013 / 12 / 18</time>
+            <span>Node Express Mysql Scaffolding</span>
           </a>
         </div>
       
