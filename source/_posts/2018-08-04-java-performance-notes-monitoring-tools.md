@@ -4,12 +4,10 @@ date: 2018-08-04 18:24:34
 tags: java performance
 ---
 
-On Satuaday, I learned **The Java Performance Definitive Guide[chapter 3]**, here is a brief summary about Java Performance Toolbox.
+I learned **The Java Performance Definitive Guide[chapter 3]** on this weekend, here is a brief summary about Java Performance Toolbox.
 
 ## System Monitoring Tools
-
 ### 1. CPU Usage
-
 vmstat: Report virtual memory statistics, vmstat reports information about processes, memory, paging, block IO, traps, disks and cpu activity
 vmstat [options] [delay [count]]
 <!--more-->
@@ -84,21 +82,18 @@ tips:
 + jinfo is useful for inspecting (and in some cases changing) individual flags.
 
 ### 2. Thread Info
-
 ```
 jstack process_id
 jcmd process_id Thread.print
 ```
 
 ### 3. Class Info
-
 ```
 jconsole
 jstat -<option> [-t] [-h<lines>] <vmid> [<interval> [<count>]]
 ```
 
 ### 4. Heap Info
-
 ```
 jmap -heap process_id
 jmap -dump:[live,] format=b, file=filename process_id
@@ -148,7 +143,6 @@ Or you can use Eclipse Memory Analzyer Tool.
 
 
 ## Java Profiling Tools
-
 ### 1. Tools types
 
 + Sampling profilers
