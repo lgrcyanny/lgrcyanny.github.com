@@ -1,89 +1,257 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <title>位排序和快排 | CyannyLive</title>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="browsermode" content="application">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CyannyLive">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="msapplication-navbutton-color" content="#666666">
+<meta name= "format-detection" content="telephone=no" />
 
-  
-  <meta name="author" content="Cyanny Liang">
-  
 
-  
-  <meta name="description" content="Do not go gentle into that good night">
-  
+  <meta name="subtitle" content="ML and Big Data">
 
-  
-  
-  <meta name="keywords" content="Algorithm">
-  
 
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="description" content="Wisdom comes from inside">
 
-  <meta property="og:title" content="位排序和快排"/>
 
-  <meta property="og:site_name" content="CyannyLive"/>
 
-  
-  <meta property="og:image" content="/favicon.ico"/>
-  
+  <meta name="keywords" content="Algorithm, nlvi" />
 
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+<link rel="apple-touch-startup-image" media="(device-width: 375px)" href="assets/apple-launch-1125x2436.png">
+<link rel="apple-touch-startup-image" media="(orientation: landscape)" href="assets/apple-touch-startup-image-2048x1496.png">
+<link rel="stylesheet" href="/style/style.css">
+<script>
+  var nlviconfig = {
+    title: "CyannyLive",
+    author: "Cyanny Liang",
+    baseUrl: "/",
+    theme: {
+      scheme: "banderole",
+      lightbox: true,
+      animate: true,
+      search: true,
+      friends: false,
+      reward: false,
+      pjax: false,
+      lazy: true,
+      toc: true
+    }
+  }
+</script>
+
+
+
+
+    <link rel="stylesheet" href="/script/lib/lightbox/css/lightbox.min.css">
+
+
+
+
+    <link rel="stylesheet" href="/syuanpi/syuanpi.min.css">
+
+
+
+
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-40624708-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-40624708-1');
+</script>
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<style>
+@font-face {
+  font-family: "Allura";
+  src: url('/font/allura/allura.ttf');
+}
+</style>
+
+  <title> 位排序和快排 · CyannyLive </title>
 </head>
-
-
 <body>
-<div class="blog">
-  <div class="content">
+  <div class="container">
+    <header class="header" id="header">
+  <div class="header-wrapper">
+    <div class="logo">
+  <div class="logo-inner syuanpi tvIn" style="display:none;">
+    <h1><a href="/">CyannyLive</a></h1>
+    
+      <span id="subtitle">ML and Big Data</span>
+    
+  </div>
+</div>
 
-    <header>
-  <div class="site-branding">
-    <h1 class="site-title">
+    <nav class="main-nav">
+  
+  <ul class="main-nav-list syuanpi tvIn">
+  
+    <li class="menu-item">
+      <a href="javascript:;" id="search-btn" aria-label="Search">
+        <i class="iconfont icon-search"></i>
+      </a>
+    </li>
+  
+  
+  
+    
+  
+    <li class="menu-item">
+      <a href="/" id="article">
+        <span class="base-name">
+          
+            ARTICLE
+          
+        </span>
+      </a>
+    </li>
+  
+  
+    
+  
+    <li class="menu-item">
+      <a href="/archives" id="archives">
+        <span class="base-name">
+          
+            ARCHIVES
+          
+        </span>
+      </a>
+    </li>
+  
+  
+    
+  
+    <li class="menu-item">
+      <a href="javascript:;" id="tags">
+        <span class="base-name">
+          
+            TAGS
+          
+        </span>
+      </a>
+    </li>
+  
+  
+    
+  
+    <li class="menu-item">
+      <a href="/about" id="about">
+        <span class="base-name">
+          
+            ABOUT
+          
+        </span>
+      </a>
+    </li>
+  
+  
+  </ul>
+  
+</nav>
+
+  </div>
+</header>
+<div class="mobile-header" id="mobile-header">
+  <div class="mobile-header-nav">
+    <div class="mobile-header-item" id="mobile-left">
+      <div class="header-menu-item">
+        <div class="header-menu-line"></div>
+      </div>
+    </div>
+    <h1 class="mobile-header-title">
       <a href="/">CyannyLive</a>
     </h1>
-    <p class="site-description"></p>
+    <div class="mobile-header-item"></div>
   </div>
-  <nav class="site-navigation">
-    <ul>
+  <div class="mobile-header-body">
+    <ul class="mobile-header-list">
       
-        <li><a href="/">主页</a></li>
+        <li class="mobile-nav-item syuanpi fadeInRightShort back-0">
+          <a href="/" >
+            
+              ARTICLE
+            
+          </a>
+        </li>
       
-        <li><a href="/archives">归档</a></li>
+        <li class="mobile-nav-item syuanpi fadeInRightShort back-1">
+          <a href="/archives" >
+            
+              ARCHIVES
+            
+          </a>
+        </li>
       
-        <li><a href="/about/">关于</a></li>
+        <li class="mobile-nav-item syuanpi fadeInRightShort back-2">
+          <a href="javascript:;" id="mobile-tags">
+            
+              TAGS
+            
+          </a>
+        </li>
+      
+        <li class="mobile-nav-item syuanpi fadeInRightShort back-3">
+          <a href="/about" >
+            
+              ABOUT
+            
+          </a>
+        </li>
       
     </ul>
-  </nav>
-</header>
-
-    <main class="site-main posts-loop">
-    <article>
-
-  
-    
-    <h3 class="article-title"><span>位排序和快排</span></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2015/05/04/bitsort-ant-qsort/" rel="bookmark">
-        <time class="entry-date published" datetime="2015-05-04T13:57:53.000Z">
-          2015-05-04
-        </time>
-      </a>
-    </span>
   </div>
+</div>
 
 
+
+    <div class="container-inner" style="display:none;">
+      <main class="main" id="main">
+        <div class="main-wrapper">
+          
+    
   
-
-  <div class="article-content">
-    <div class="entry">
+  <article class="
+  post
+   is_post 
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInRightShort back-1">
+        <div class="post-time-wrapper">
+          
+          <time>2015-05-04</time>
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInRightShort back-2">
+        
+          位排序和快排
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInRightShort back-3">
       
         <p>这已经不是一个新话题了，但是从开始实现一个C++位排序和快排，我还是花费了2个多小时，这里就记下自己的一点点体会啦。</p>
 <p>首先，题目来自《编程珠玑》第一章，主要是做位排序，同时和快排做比较：</p>
@@ -98,83 +266,1315 @@
 <h3 id="4-性能比较"><a href="#4-性能比较" class="headerlink" title="4.性能比较"></a>4.性能比较</h3><p>运行的环境是Mac OSX 10.10，内存DDR3 4G，1.8GHz Inter Core i5<br>1. 位排序总运行时间是: 3.98s, 去掉读写文件的时间，0.47s完成排序<br>2. 快排序总运行时间: 4.71s, 去掉读写文件时间，0.63s完成排序<br>总之，快排的优势在于不限制排序数字范围，位排序限定范围，性能比快排高效。</p>
 
       
+    
     </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
     
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
+      <div class="post-tags syuanpi fadeInRightShort back-3">
+      
         <a href="/tags/algorithm/">Algorithm</a>
-    </span>
+      
+      </div>
     
-
-    </div>
-
     
-  </div>
-</article>
+      
 
+      
+    
+  </article>
   
-	<section id="comments" class="comment">
-	  <div id="disqus_thread">
-	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-	  </div>
-	</section>
-
-	<script type="text/javascript">
-	var disqus_shortname = 'lgrcyanny';
-	(function(){
-	  var dsq = document.createElement('script');
-	  dsq.type = 'text/javascript';
-	  dsq.async = true;
-	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	}());
-	(function(){
-	  var dsq = document.createElement('script');
-	  dsq.type = 'text/javascript';
-	  dsq.async = true;
-	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
-	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	}());
-	</script>
-
-
-
-
-
-    </main>
-
-    <footer class="site-footer">
-  <p class="site-info">
-    Copyright
-    </br>
     
-    &copy; 2018 Cyanny Liang
+  <nav class="article-page">
     
-  </p>
-</footer>
+      <a href="/2015/10/07/learning-akka/" id="art-left" class="art-left">
+        <span class="next-title">
+          <i class="iconfont icon-left"></i>Learning Akka
+        </span>
+      </a>
     
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    
+      <a href="/2015/04/03/find-median-for-two-sorted-array/" id="art-right" class="art-right">
+        <span class="prev-title">
+          查找两个排序数组的中位数<i class="iconfont icon-right"></i>
+        </span>
+      </a>
+    
+  </nav>
 
-    ga('create', 'UA-40624708-1', 'auto');
-    ga('send', 'pageview');
 
+    
+  <i id="com-switch" class="iconfont icon-down jumping-in long infinite" style="font-size:24px;display:block;text-align:center;transform:rotate(180deg);"></i>
+  <div class="post-comments" id="post-comments" style="display: block;margin: auto 16px;">
+    
+
+    
+    
+<!-- Disqus Comments -->
+<div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+<script type="text/javascript">
+    var disqus_shortname = 'lgrcyanny';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
 </script>
 
+
+    
+
   </div>
+
+
+
+  
+  
+    
+  
+  <aside class="post-toc">
+    <div class="title"><span>Index</span></div>
+    <div class="toc-inner">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-位排序"><span class="toc-text">1. 位排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Quick-Sort"><span class="toc-text">2. Quick Sort</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-生成范围是-0-n-的k个随机数"><span class="toc-text">3. 生成范围是[0,n)的k个随机数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-性能比较"><span class="toc-text">4.性能比较</span></a></li></ol>
+    </div>
+  </aside>
+
+
+
+  
+
+
+        </div>
+      </main>
+      <footer class="footer syuanpi fadeIn" id="footer">
+  <hr>
+  <div class="footer-wrapper">
+    <div class="left">
+      <div class="contact-icon">
+  
+  
+    <a href="https://www.facebook.com/" class="iconfont icon-facebook" title="facebook"></a>
+  
+    <a href="https://twitter.com/" class="iconfont icon-twitter" title="twitter"></a>
+  
+    <a href="https://www.instagram.com/" class="iconfont icon-instagram" title="instagram"></a>
+  
+    <a href="https://weibo.com/" class="iconfont icon-weibo" title="weibo"></a>
+  
+    <a href="https://www.zhihu.com/people/" class="iconfont icon-zhihu" title="zhihu"></a>
+  
+    <a href="https://github.com/https://github.com/lgrcyanny/" class="iconfont icon-github" title="github"></a>
+  
+    <a href="https://www.linkedin.com/in/" class="iconfont icon-linkedin" title="linkedin"></a>
+  
+    <a href="https://www.douban.com/people/" class="iconfont icon-douban" title="douban"></a>
+  
+    <a href="https://medium.com/" class="iconfont icon-medium" title="medium"></a>
+  
+    <a href="https://www.yuque.com/" class="iconfont icon-yuque" title="yuque"></a>
+  
 </div>
+
+    </div>
+    <div class="right">
+      <div class="copyright">
+    <div class="info">
+        <span>&copy;</span>
+        <span>2010 ~ 2020</span>
+        <span>❤</span>
+        <span>Cyanny Liang</span>
+    </div>
+    <div class="theme">
+        <span>
+            Powered by
+            <a href="http://hexo.io/" target="_blank" rel="noopener">Hexo </a>
+        </span>
+        <span>
+            Theme
+            <a href="https://github.com/ColMugX/hexo-theme-Nlvi"> Nlvi </a>
+        </span>
+    </div>
+    
+    <div class="visit_count">
+        <i class="iconfont icon-eye"></i>
+        <span id="busuanzi_value_site_uv"></span>
+        <i class="iconfont icon-team"></i>
+        <span id="busuanzi_value_site_pv"></span>
+    </div>
+    
+</div>
+
+    </div>
+  </div>
+</footer>
+    </div>
+    <div class="tagcloud" id="tagcloud">
+  <div class="tagcloud-taglist">
+  
+    <div class="tagcloud-tag">
+      <button>Agile</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Algorithm</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Akka</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Scala</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Language</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Machine Learning</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>诗话</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Learning</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>apache storm</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>spark streaming</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Spark</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>spark</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>machine learning</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>learning</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>algorithm</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>java performance</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>math</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>JavaScript</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Resource</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Hadoop</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Research</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Big Data</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>HBase</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>MapReduce</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Hive</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Linux</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>VPS</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>nodejs</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>sort</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Network</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Node.js</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Learn</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>life</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Design</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>SystemAnalysis</button>
+    </div>
+  
+    <div class="tagcloud-tag">
+      <button>Methodology</button>
+    </div>
+  
+  </div>
+  
+    <div class="tagcloud-postlist active">
+      <h2>Agile</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/01/agile-advantages-and-disadvantages/">
+            <time class="tagcloud-posttime">2013 / 11 / 01</time>
+            <span>“吐槽”敏捷软件开发</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Algorithm</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2015/05/04/bitsort-ant-qsort/">
+            <time class="tagcloud-posttime">2015 / 05 / 04</time>
+            <span>位排序和快排</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2016/09/27/eight-queens-problem-in-scala/">
+            <time class="tagcloud-posttime">2016 / 09 / 27</time>
+            <span>Eight Queens Problem In Scala</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2017/02/21/binary-search-algorithm/">
+            <time class="tagcloud-posttime">2017 / 02 / 21</time>
+            <span>binary search algorithm in scala</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Akka</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2015/10/07/learning-akka/">
+            <time class="tagcloud-posttime">2015 / 10 / 07</time>
+            <span>Learning Akka</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Scala</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2015/10/07/learning-akka/">
+            <time class="tagcloud-posttime">2015 / 10 / 07</time>
+            <span>Learning Akka</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2016/03/06/programming-in-scala-overview-key-note/">
+            <time class="tagcloud-posttime">2016 / 03 / 06</time>
+            <span>Programming In Scala Overview Key Note</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2016/09/27/eight-queens-problem-in-scala/">
+            <time class="tagcloud-posttime">2016 / 09 / 27</time>
+            <span>Eight Queens Problem In Scala</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2016/11/07/scala-collections/">
+            <time class="tagcloud-posttime">2016 / 11 / 07</time>
+            <span>Scala Collections</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Language</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2016/03/06/programming-in-scala-overview-key-note/">
+            <time class="tagcloud-posttime">2016 / 03 / 06</time>
+            <span>Programming In Scala Overview Key Note</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Machine Learning</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2016/04/04/machine-learning-linear-regression/">
+            <time class="tagcloud-posttime">2016 / 04 / 04</time>
+            <span>Machine Learning Linear Regression</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2016/04/17/machine-learning-neural-networks/">
+            <time class="tagcloud-posttime">2016 / 04 / 17</time>
+            <span>Machine Learning Neural Networks</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2017/03/25/machine-learning-logistic-regression/">
+            <time class="tagcloud-posttime">2017 / 03 / 25</time>
+            <span>Machine Learning Logistic Regression</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>诗话</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2016/09/27/春江花月夜/">
+            <time class="tagcloud-posttime">2016 / 09 / 27</time>
+            <span>春江花月夜</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Learning</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2017/01/22/booklist-for-2017/">
+            <time class="tagcloud-posttime">2017 / 01 / 22</time>
+            <span>My Booklist and Reservations for 2017</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/24/distributed-system-review-part1/">
+            <time class="tagcloud-posttime">2013 / 11 / 24</time>
+            <span>分布式系统总结part1</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/24/distributed-system-review-part2/">
+            <time class="tagcloud-posttime">2013 / 11 / 24</time>
+            <span>分布式系统总结part2</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/24/distributed-system-review-part3/">
+            <time class="tagcloud-posttime">2013 / 11 / 24</time>
+            <span>分布式系统总结part3</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/24/distributed-system-review-part4/">
+            <time class="tagcloud-posttime">2013 / 11 / 24</time>
+            <span>分布式系统总结part4</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/">
+            <time class="tagcloud-posttime">2013 / 10 / 03</time>
+            <span>统计学的基本概念和方法</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/05/25/good-resources-for-js-learning/">
+            <time class="tagcloud-posttime">2013 / 05 / 25</time>
+            <span>Good Resources for JavaScript</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-hdfs-federation/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop HDFS Federation </span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop HDFS High Availability(HA)</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-hdfs-review/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop HDFS Review</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-isnt-silver-bullet/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop isn’t Silver Bullet</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-mapreduce-1-framework/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop MapReduce 1 Framework</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-mapreduce-2-yarn/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop MapReduce 2 (YARN)</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-overview/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop Overview</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/10/how-to-start-learning-node-js/">
+            <time class="tagcloud-posttime">2013 / 11 / 10</time>
+            <span>How to start learning Node.js</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/13/ipsec-architecture/">
+            <time class="tagcloud-posttime">2013 / 11 / 13</time>
+            <span>IPsec之IP层安全架构</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/08/10/learning-heap-sort/">
+            <time class="tagcloud-posttime">2013 / 08 / 10</time>
+            <span>再叙堆排序</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/09/12/select-second-smallest-element/">
+            <time class="tagcloud-posttime">2013 / 09 / 12</time>
+            <span>找一个数组中第2小的元素</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/02/06/set-hadoop-hbase-part1/">
+            <time class="tagcloud-posttime">2014 / 02 / 06</time>
+            <span>Set up Hadoop 2.2 and HBase 0.96 part1</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/">
+            <time class="tagcloud-posttime">2013 / 11 / 27</time>
+            <span>System Analysis and Design (Kenneth Kendall) Review Part1</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/">
+            <time class="tagcloud-posttime">2013 / 11 / 27</time>
+            <span>System Analysis and Design (Kenneth Kendall) Review Part2</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/">
+            <time class="tagcloud-posttime">2013 / 11 / 27</time>
+            <span>System Analysis and Design (Kenneth Kendall) Review Part3</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/">
+            <time class="tagcloud-posttime">2013 / 11 / 27</time>
+            <span>System Analysis and Design (Kenneth Kendall) Review Part4</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/10/06/talk-about-open-source-software/">
+            <time class="tagcloud-posttime">2013 / 10 / 06</time>
+            <span>谈谈开源软件，谈谈质量</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/09/09/warshall-algorithm-cycle-dectection/">
+            <time class="tagcloud-posttime">2013 / 09 / 09</time>
+            <span>Warshall's Algorithm for Cycle Dectection</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>apache storm</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2017/04/10/set-up-storm-on-mac-in-10min/">
+            <time class="tagcloud-posttime">2017 / 04 / 10</time>
+            <span>Set Up Apache Storm On Mac In 10min</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>spark streaming</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2017/08/27/spark-streaming-exactly-once-analysis/">
+            <time class="tagcloud-posttime">2017 / 08 / 27</time>
+            <span>spark streaming exactly-once analysis</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Spark</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2017/08/30/my-first-commit-to-spark-community/">
+            <time class="tagcloud-posttime">2017 / 08 / 30</time>
+            <span>My First Commit to Spark Community</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>spark</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2017/09/15/spark-use-scala-udf-udaf-in-pyspark/">
+            <time class="tagcloud-posttime">2017 / 09 / 15</time>
+            <span>How to Use Scala UDF and UDAF in PySpark</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>machine learning</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2017/12/29/ppmml-publish/">
+            <time class="tagcloud-posttime">2017 / 12 / 29</time>
+            <span>ppmml publish today</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>learning</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2018/01/20/great-books-for-2018/">
+            <time class="tagcloud-posttime">2018 / 01 / 20</time>
+            <span>Awesome Books for 2018</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2018/07/16/big-data-expert/">
+            <time class="tagcloud-posttime">2018 / 07 / 16</time>
+            <span>Big Data And ML Learning</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>algorithm</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/04/12/dijkstra-algorithm-in-java/">
+            <time class="tagcloud-posttime">2014 / 04 / 12</time>
+            <span>Dijkstra Algorithm</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2015/04/03/find-median-for-two-sorted-array/">
+            <time class="tagcloud-posttime">2015 / 04 / 03</time>
+            <span>查找两个排序数组的中位数</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/02/graph-dfs-bfs/">
+            <time class="tagcloud-posttime">2013 / 12 / 02</time>
+            <span>Graph DFS and BFS</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/08/10/learning-heap-sort/">
+            <time class="tagcloud-posttime">2013 / 08 / 10</time>
+            <span>再叙堆排序</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/09/12/select-second-smallest-element/">
+            <time class="tagcloud-posttime">2013 / 09 / 12</time>
+            <span>找一个数组中第2小的元素</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/08/18/the-usage-of-counting-sort/">
+            <time class="tagcloud-posttime">2013 / 08 / 18</time>
+            <span>计数排序的应用</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/09/09/warshall-algorithm-cycle-dectection/">
+            <time class="tagcloud-posttime">2013 / 09 / 09</time>
+            <span>Warshall's Algorithm for Cycle Dectection</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>java performance</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2018/08/04/java-performance-notes-monitoring-tools/">
+            <time class="tagcloud-posttime">2018 / 08 / 04</time>
+            <span>Java Performance Toolbox</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>math</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/">
+            <time class="tagcloud-posttime">2013 / 10 / 03</time>
+            <span>统计学的基本概念和方法</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>JavaScript</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/05/25/good-resources-for-js-learning/">
+            <time class="tagcloud-posttime">2013 / 05 / 25</time>
+            <span>Good Resources for JavaScript</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Resource</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/05/25/good-resources-for-js-learning/">
+            <time class="tagcloud-posttime">2013 / 05 / 25</time>
+            <span>Good Resources for JavaScript</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Hadoop</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-hdfs-federation/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop HDFS Federation </span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop HDFS High Availability(HA)</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-hdfs-review/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop HDFS Review</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-isnt-silver-bullet/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop isn’t Silver Bullet</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-mapreduce-1-framework/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop MapReduce 1 Framework</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-mapreduce-2-yarn/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop MapReduce 2 (YARN)</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-overview/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop Overview</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/">
+            <time class="tagcloud-posttime">2014 / 03 / 13</time>
+            <span>HBase Architecture Analysis Part 3 Pros and Cons</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/">
+            <time class="tagcloud-posttime">2014 / 03 / 13</time>
+            <span>HBase Architecture Analysis Part1(Logical Architecture)</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/">
+            <time class="tagcloud-posttime">2014 / 03 / 13</time>
+            <span>HBase Architecture Analysis Part2(Process Architecture)</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/">
+            <time class="tagcloud-posttime">2014 / 03 / 20</time>
+            <span>HBase MapReduce排序Secondary Sort</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/08/16/hive-architecture/">
+            <time class="tagcloud-posttime">2014 / 08 / 16</time>
+            <span>Hive架构笔记</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/">
+            <time class="tagcloud-posttime">2014 / 02 / 27</time>
+            <span>Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/02/06/set-hadoop-hbase-part1/">
+            <time class="tagcloud-posttime">2014 / 02 / 06</time>
+            <span>Set up Hadoop 2.2 and HBase 0.96 part1</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/02/06/set-hadoop-hbase-part2/">
+            <time class="tagcloud-posttime">2014 / 02 / 06</time>
+            <span>Set up Hadoop 2.2 and HBase 0.96 part2</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Research</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-hdfs-federation/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop HDFS Federation </span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-hdfs-high-availability/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop HDFS High Availability(HA)</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-hdfs-review/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop HDFS Review</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-isnt-silver-bullet/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop isn’t Silver Bullet</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-mapreduce-1-framework/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop MapReduce 1 Framework</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-mapreduce-2-yarn/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop MapReduce 2 (YARN)</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/05/hadoop-overview/">
+            <time class="tagcloud-posttime">2013 / 12 / 05</time>
+            <span>Hadoop Overview</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Big Data</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/">
+            <time class="tagcloud-posttime">2014 / 03 / 13</time>
+            <span>HBase Architecture Analysis Part 3 Pros and Cons</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/">
+            <time class="tagcloud-posttime">2014 / 03 / 13</time>
+            <span>HBase Architecture Analysis Part1(Logical Architecture)</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/">
+            <time class="tagcloud-posttime">2014 / 03 / 13</time>
+            <span>HBase Architecture Analysis Part2(Process Architecture)</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>HBase</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/">
+            <time class="tagcloud-posttime">2014 / 03 / 13</time>
+            <span>HBase Architecture Analysis Part 3 Pros and Cons</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/">
+            <time class="tagcloud-posttime">2014 / 03 / 13</time>
+            <span>HBase Architecture Analysis Part1(Logical Architecture)</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/">
+            <time class="tagcloud-posttime">2014 / 03 / 13</time>
+            <span>HBase Architecture Analysis Part2(Process Architecture)</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/">
+            <time class="tagcloud-posttime">2014 / 03 / 20</time>
+            <span>HBase MapReduce排序Secondary Sort</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/">
+            <time class="tagcloud-posttime">2014 / 02 / 27</time>
+            <span>Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/02/06/set-hadoop-hbase-part1/">
+            <time class="tagcloud-posttime">2014 / 02 / 06</time>
+            <span>Set up Hadoop 2.2 and HBase 0.96 part1</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/02/06/set-hadoop-hbase-part2/">
+            <time class="tagcloud-posttime">2014 / 02 / 06</time>
+            <span>Set up Hadoop 2.2 and HBase 0.96 part2</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>MapReduce</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/">
+            <time class="tagcloud-posttime">2014 / 03 / 20</time>
+            <span>HBase MapReduce排序Secondary Sort</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Hive</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/08/16/hive-architecture/">
+            <time class="tagcloud-posttime">2014 / 08 / 16</time>
+            <span>Hive架构笔记</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Linux</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/">
+            <time class="tagcloud-posttime">2013 / 11 / 11</time>
+            <span>如何配置VPS并发布WordPress Blog?(第一篇)</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/">
+            <time class="tagcloud-posttime">2013 / 11 / 11</time>
+            <span>如何配置VPS并发布WordPress Blog?(第二篇)</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>VPS</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/">
+            <time class="tagcloud-posttime">2013 / 11 / 11</time>
+            <span>如何配置VPS并发布WordPress Blog?(第一篇)</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/">
+            <time class="tagcloud-posttime">2013 / 11 / 11</time>
+            <span>如何配置VPS并发布WordPress Blog?(第二篇)</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>nodejs</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/10/how-to-start-learning-node-js/">
+            <time class="tagcloud-posttime">2013 / 11 / 10</time>
+            <span>How to start learning Node.js</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>sort</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/08/10/learning-heap-sort/">
+            <time class="tagcloud-posttime">2013 / 08 / 10</time>
+            <span>再叙堆排序</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/08/18/the-usage-of-counting-sort/">
+            <time class="tagcloud-posttime">2013 / 08 / 18</time>
+            <span>计数排序的应用</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Network</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/16/netkit-filesystem-custom-cutting/">
+            <time class="tagcloud-posttime">2013 / 11 / 16</time>
+            <span>Netkit Filesystem 定制和裁剪</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Node.js</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/12/18/node-express-mysql-scaffolding/">
+            <time class="tagcloud-posttime">2013 / 12 / 18</time>
+            <span>Node Express Mysql Scaffolding</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Learn</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/">
+            <time class="tagcloud-posttime">2014 / 02 / 27</time>
+            <span>Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>life</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/">
+            <time class="tagcloud-posttime">2014 / 02 / 27</time>
+            <span>Revolution——面向对象看黑客帝国</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Design</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/">
+            <time class="tagcloud-posttime">2013 / 11 / 27</time>
+            <span>System Analysis and Design (Kenneth Kendall) Review Part1</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/">
+            <time class="tagcloud-posttime">2013 / 11 / 27</time>
+            <span>System Analysis and Design (Kenneth Kendall) Review Part2</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/">
+            <time class="tagcloud-posttime">2013 / 11 / 27</time>
+            <span>System Analysis and Design (Kenneth Kendall) Review Part3</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/">
+            <time class="tagcloud-posttime">2013 / 11 / 27</time>
+            <span>System Analysis and Design (Kenneth Kendall) Review Part4</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>SystemAnalysis</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/">
+            <time class="tagcloud-posttime">2013 / 11 / 27</time>
+            <span>System Analysis and Design (Kenneth Kendall) Review Part1</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/">
+            <time class="tagcloud-posttime">2013 / 11 / 27</time>
+            <span>System Analysis and Design (Kenneth Kendall) Review Part2</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/">
+            <time class="tagcloud-posttime">2013 / 11 / 27</time>
+            <span>System Analysis and Design (Kenneth Kendall) Review Part3</span>
+          </a>
+        </div>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/">
+            <time class="tagcloud-posttime">2013 / 11 / 27</time>
+            <span>System Analysis and Design (Kenneth Kendall) Review Part4</span>
+          </a>
+        </div>
+      
+    </div>
+  
+    <div class="tagcloud-postlist ">
+      <h2>Methodology</h2>
+      
+        <div class="tagcloud-post">
+          <a href="/2013/10/06/talk-about-open-source-software/">
+            <time class="tagcloud-posttime">2013 / 10 / 06</time>
+            <span>谈谈开源软件，谈谈质量</span>
+          </a>
+        </div>
+      
+    </div>
+  
+</div>
+
+  </div>
+  <div class="backtop syuanpi melt toTop" id="backtop">
+    <i class="iconfont icon-up"></i>
+    <span style="text-align:center;font-family:Georgia;"><span style="font-family:Georgia;" id="scrollpercent">1</span>%</span>
+</div>
+
+  <div class="search" id="search">
+    <div class="input">
+      <input type="text" id="search-input" placeholder="Try it out" autofocus>
+    </div>
+    <div id="search-result"></div>
+  </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+
+  <script></script>
+  <script src="/script/lib/lightbox/js/lightbox.min.js" async></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.7/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({tex2jax: {inlineMath: [["$","$"], ["\\(","\\)"]]}});</script>
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.1.1/lazysizes.min.js" async></script>
+
+
+
+
+
+  <script src="/script/scheme/banderole.js"></script>
+
+
+<script src="/script/bootstarp.js"></script>
+
+
+<script>
+if (nlviconfig.theme.toc) {
+  setTimeout(function() {
+    if (nlviconfig.theme.scheme === 'balance') {
+      $("#header").addClass("show_toc");
+    } else if (nlviconfig.theme.scheme === 'banderole') {
+      $(".container-inner").addClass("has_toc");
+      $(".post-toc .title").addClass("show");
+      $(".toc-inner").addClass("show");
+    }
+  }, 1000);
+}
+</script>
+
+
+
 </body>
 </html>

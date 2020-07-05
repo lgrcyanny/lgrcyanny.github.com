@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>CyannyLive</title>
-  
+  <subtitle>ML and Big Data</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cyanny.com/"/>
-  <updated>2018-08-05T13:35:19.889Z</updated>
+  <updated>2018-08-09T06:29:55.000Z</updated>
   <id>http://www.cyanny.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.cyanny.com/2018/08/04/java-performance-notes-monitoring-tools/"/>
     <id>http://www.cyanny.com/2018/08/04/java-performance-notes-monitoring-tools/</id>
     <published>2018-08-04T10:24:34.000Z</published>
-    <updated>2018-08-05T13:35:19.889Z</updated>
+    <updated>2018-08-09T06:29:55.000Z</updated>
     
     <content type="html"><![CDATA[<p>I learned <strong>The Java Performance Definitive Guide[chapter 3]</strong> on this weekend, here is a brief summary about Java Performance Toolbox.</p>
 <h2 id="System-Monitoring-Tools"><a href="#System-Monitoring-Tools" class="headerlink" title="System Monitoring Tools"></a>System Monitoring Tools</h2><h3 id="1-CPU-Usage"><a href="#1-CPU-Usage" class="headerlink" title="1. CPU Usage"></a>1. CPU Usage</h3><p>vmstat: Report virtual memory statistics, vmstat reports information about processes, memory, paging, block IO, traps, disks and cpu activity<br>vmstat [options] [delay [count]]<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">vmstat 1</div><div class="line">procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----</div><div class="line"> r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st</div><div class="line"> 0  0      0 71322688 314388 127644112    0    0     0     7    0    0  9  1 90  0  0</div><div class="line"> 0  0      0 71322816 314388 127644112    0    0     0     0 5590 7874  1  0 99  0  0</div><div class="line"> 0  0      0 71322592 314388 127644144    0    0     0     0 5418 7226  0  0 99  0  0</div><div class="line"> 0  0      0 71323208 314388 127644144    0    0     0    12 4952 7199  0  0 100  0  0</div><div class="line"> 0  0      0 71323600 314388 127644144    0    0     0   104 5253 7262  1  0 99  0  0</div></pre></td></tr></table></figure></p>
@@ -106,7 +106,7 @@
     <link href="http://www.cyanny.com/2018/07/16/big-data-expert/"/>
     <id>http://www.cyanny.com/2018/07/16/big-data-expert/</id>
     <published>2018-07-16T00:33:12.000Z</published>
-    <updated>2018-08-05T13:23:44.075Z</updated>
+    <updated>2018-08-05T13:23:44.000Z</updated>
     
     <content type="html"><![CDATA[<p>随着工作的时间一天天过去，不禁会思考对未来的打算，工作的事情更多的是业务和效果，少有时间学习，自我的提升比起学校需要更多的self motivation. 一直都工作在大数据领域，现在虽然业务多些，方向也没有变化，还有了很多机器学习方面的实践。以下是我觉得自己很希望学习的书籍和要点:<br><a id="more"></a></p>
 <h2 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h2><ul>
@@ -1088,9 +1088,9 @@
     </summary>
     
     
-      <category term="Language" scheme="http://www.cyanny.com/tags/language/"/>
-    
       <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
+    
+      <category term="Language" scheme="http://www.cyanny.com/tags/language/"/>
     
   </entry>
   
@@ -1148,9 +1148,9 @@
     </summary>
     
     
-      <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
-    
       <category term="Akka" scheme="http://www.cyanny.com/tags/akka/"/>
+    
+      <category term="Scala" scheme="http://www.cyanny.com/tags/scala/"/>
     
   </entry>
   
