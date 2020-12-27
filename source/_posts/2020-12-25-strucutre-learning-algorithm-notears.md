@@ -1,6 +1,6 @@
 title: Strucutre Learning Algorithm NOTEARS
 date: 2020-12-25 22:01:59
-tags: causal inference, AI
+tags: Causal Inference, AI
 ---
 
 最近三年扎进了AI领域, 学了很多算法, 最近开始真正拉高维度看AI, AI不仅仅是Machine Learning, 还有State Based, Variable Bases, Logic编程等方法. 最近半年看了**The book of Why**, 深受启发, 看世界的角度也发生很大变化, 同时也觉得因果推理将是一个值得研究的好领域, 就算目前落地场景不多, 相信未来也是大有可为.

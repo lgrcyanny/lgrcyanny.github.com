@@ -4,10 +4,10 @@
 
 # Site
 title: CyannyLive
-subtitle: 'ML and Big Data'
+subtitle: 'AI and Big Data'
 description: Wisdom comes from inside
 author: Cyanny Liang
-author_title: 'ML System Architecture'
+author_title: 'AI System Architecture'
 avatar: css/images/avatar.png
 location: 'Beijing, China'
 follow: https://github.com/lgrcyanny/
@@ -66,7 +66,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://github.com/hexojs/hexo/wiki/Plugins
 ## Themes: https://github.com/hexojs/hexo/wiki/Themes
-theme: hacker
+theme: nlvi
 
 # Disqus
 disqus_shortname: lgrcyanny
@@ -80,7 +80,7 @@ disqus_shortname: lgrcyanny
 deploy:
   type: git
   repo: git@github.com:lgrcyanny/lgrcyanny.github.com.git
-  branch: main
+  branch: master
 
 # RSS config
 # https://github.com/hexojs/hexo-generator-feed
