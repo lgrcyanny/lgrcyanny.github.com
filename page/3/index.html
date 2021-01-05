@@ -1,15 +1,811 @@
-{% extends "_layout.swig" %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Wisdom comes from inside">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CyannyLive">
+<meta property="og:url" content="http://www.cyanny.com/page/3/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="Wisdom comes from inside">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Cyanny Liang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %}
-  {{config.title}}
-  {% if config.subtitle %}
-    | {{ config.subtitle }}
-  {% endif %}
-{% endblock %}
+  
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
 
 
-{% block main %}
-  {% include "_partial/main.swig" %}
-  {% include "_partial/pagenum.swig" %}
-{% endblock %}
+  
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
 
+    <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">AI System Architecture</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" target="_blank" rel="noopener" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        64
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        38
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      
+      <section id="main">
+      <article id="post-learning-akka" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/07/learning-akka/">Learning Akka</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2015/10/07/learning-akka/">
+    <time datetime="2015-10-07T13:54:48.000Z" itemprop="datePublished">2015-10-07</time>
+  </a>
+</div>
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近学习了scala，主要是跟着<strong>Functional Programming in Scala</strong>的课程学习的，scala主要的用处还是在spark上，关于spark也看了一些源码，处于继续探索中。</p>
+<p>并发时的消息通信是处理spark这样的分布式系统的关键。spark主要依赖scala社区的akka进行消息通讯。在spark1.2的代码中可以看到很多actor的影子，然而spark1.4中，都是封装为EndPoint，但Actor的思想和模式还在。</p>
+<p>基于Actor的消息通讯模型是akka的核心。Akka为处理并发、容错和可扩展性的分布式问题提供了一套基于Actor模型的库。并发的消息通讯中，抽象是关键的方面。Actor模型是1973年由Carl Hewitt在论文”Actor Model of Computation- Scalable Robust Information Systems”中提出, 后被应用于爱立信公司研发的Elang语言，爱立信公司应用Actor模型开发了高并发和可靠的通信系统。</p>
+        
+          <p class="article-more-link">
+            <a href="/2015/10/07/learning-akka/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2015/10/07/learning-akka/" data-id="ckjk20xm600039bwr40dlarvf" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2015/10/07/learning-akka/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/akka/" rel="tag">Akka</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scala/" rel="tag">Scala</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-bitsort-ant-qsort" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/04/bitsort-ant-qsort/">位排序和快排</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2015/05/04/bitsort-ant-qsort/">
+    <time datetime="2015-05-04T13:57:53.000Z" itemprop="datePublished">2015-05-04</time>
+  </a>
+</div>
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这已经不是一个新话题了，但是从开始实现一个C++位排序和快排，我还是花费了2个多小时，这里就记下自己的一点点体会啦。</p>
+<p>首先，题目来自《编程珠玑》第一章，主要是做位排序，同时和快排做比较：</p>
+<p>1. 实现位逻辑运算，实现位向量，并用该位向量实现1,000,000个数字的排序，数字最大是10,000,000</p>
+<p>2. 实现1000,000个数字的快排序</p>
+<p>3. 实现生成小于n且没有重复的k个整数，这里n=10,000,000, k = 1,000,000</p>
+        
+          <p class="article-more-link">
+            <a href="/2015/05/04/bitsort-ant-qsort/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2015/05/04/bitsort-ant-qsort/" data-id="ckjk20xm200019bwr9rzp571f" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2015/05/04/bitsort-ant-qsort/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">Algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-find-median-for-two-sorted-array" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/03/find-median-for-two-sorted-array/">查找两个排序数组的中位数</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2015/04/03/find-median-for-two-sorted-array/">
+    <time datetime="2015-04-03T14:07:01.000Z" itemprop="datePublished">2015-04-03</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/algorithm/">Algorithm</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>题目是：求两个排序数组的中位数。<br>设：两个排序的数组a[m], b[n]，求a和b数组的中位数。<br>算法是：<br>mid_a是数组a的中位数index，同理mid_b是数组b的中位数索引<br>1. 如果a[mid_a] == b[mid_b] 中位数为a[mid_a]</p>
+<p>2. 如果a[mid_a] &lt; b[mid_b], 递归查找a(mid_a + 1, m - 1), b(0, mid_b)，因为a[mid_a]比较小，不可能作为下一次查询的中位数</p>
+<p>3. 如果a[mid_a] &gt; b[mid_b], 递归查找a(0, mid_a), b(mid_b + 1, n - 1)，因为b[mid_b]比较小，不可能作为下一次查询的中位数</p>
+<p>4. 当只少于4个元素需要查找时递归停止，merge这少于4的元素，求出中位数。这里需要考虑奇偶数的情况，只剩下2个或3个元素，不如只考虑4个简单。</p>
+<p>注意：这里求上中位数，当n为奇数时，中位数是唯一的，出现位置为n/2；当n为偶数时候，存在两个中位数，数组index从0开始，位置分别为n/2 - 1（上中位数）和n/2（下中位数）。</p>
+        
+          <p class="article-more-link">
+            <a href="/2015/04/03/find-median-for-two-sorted-array/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2015/04/03/find-median-for-two-sorted-array/" data-id="ckjk20xmk000y9bwr4bzp48zp" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2015/04/03/find-median-for-two-sorted-array/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-hive-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/08/16/hive-architecture/">Hive架构笔记</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/08/16/hive-architecture/">
+    <time datetime="2014-08-16T15:32:27.000Z" itemprop="datePublished">2014-08-16</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/hadoop/hive/">Hive</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Hive是基于Hadoop的大数据查询引擎, 存储于HDFS上的数据,要求开发者采用MR才能进行计算, 但MR是low-level的分布式计算,对于复杂的分析job, 多重MR是很复杂的, Hive致力于让用户采用传统的RDBMS的SQL查询处理分布式的大数据.</p>
+        
+          <p class="article-more-link">
+            <a href="/2014/08/16/hive-architecture/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2014/08/16/hive-architecture/" data-id="ckjk20xms001d9bwr8kyz0e8x" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2014/08/16/hive-architecture/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hive/" rel="tag">Hive</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-dijkstra-algorithm-in-java" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/12/dijkstra-algorithm-in-java/">Dijkstra Algorithm</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/04/12/dijkstra-algorithm-in-java/">
+    <time datetime="2014-04-12T03:55:04.000Z" itemprop="datePublished">2014-04-12</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/algorithm/">Algorithm</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>计算单源最短路径的算法有Bellman-Ford算法，主要是计算带负权有向图的单源最短路径。第二种算法：对于DAG图（Directed Acyclic Graph, 有向无环图）可以通过拓扑排序后再计算单源最短路径。第三，可以使用BFS(广度优先搜索)计算单源最短路径。第四，就是著名的Dijkstra算法，要求有向图的所有边的权值非负，当然图可以不是DAG图。</p>
+        
+          <p class="article-more-link">
+            <a href="/2014/04/12/dijkstra-algorithm-in-java/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2014/04/12/dijkstra-algorithm-in-java/" data-id="ckjk20xmi000t9bwr8sub2rka" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2014/04/12/dijkstra-algorithm-in-java/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/">HBase MapReduce排序Secondary Sort</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/">
+    <time datetime="2014-03-20T10:51:08.000Z" itemprop="datePublished">2014-03-20</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MapReduce是Hadoop中处理大数据的方法，是一个处理大数据的简单算法、编程泛型。虽然思想简单，但其实真正用起来还是有很多问题，不是所有的问题都可以像WordCount那样典型和直观, 有很多需要trick的地方。MapReduce的中心思想是分而治之，数据要松耦合，可以划分为小数据集并行处理，如果数据本身在计算上存在很强的依赖关系，就不要赶鸭子上架，用MapReduce了。<br>MapReduce编程中，最重要的是要抓住Map和Reduce的input和output，好的input和output可以降低实现的复杂度。最近，写了很多关于MapReduce的job，有倒排索引，统计，排序等。其中，对排序花费了一番功夫，MapReduce做WordCount很好理解,<br>Map input:[offset, text],  output: [word, 1],</p>
+<p>Reduce input: [word, 1], output: [word, totalcount],还可以设置Combiner进行优化。</p>
+        
+          <p class="article-more-link">
+            <a href="/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/" data-id="ckjk20xmr001b9bwrefirgv4y" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2014/03/20/hbase-mapreduce-e6-8e-92-e5-ba-8f-secondary-sort/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/" rel="tag">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mapreduce/" rel="tag">MapReduce</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-hbase-architecture-analysis-part-3-pros-cons" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/">HBase Architecture Analysis Part 3 Pros and Cons</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/">
+    <time datetime="2014-03-13T14:13:20.000Z" itemprop="datePublished">2014-03-13</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="5-HBase-Physical-Architecture"><a href="#5-HBase-Physical-Architecture" class="headerlink" title="5. HBase Physical Architecture"></a>5. HBase Physical Architecture</h2><p>Figure 5.1 shows the deployment view for HBase cluster:<br>HBase is the master-slave cluster on top of HDFS. The classic deployment is as follows:<br>➢** Master node:** one HMaster and one NameNode running on a machine as the master node.<br>➢ <strong>Slave node:</strong> Each node is running one HRegionServer and one DataNode. And each node report status to the master node and Zookeeper.<br>➢** Zookeeper:** HBase is shipped with ensemble Zookeeper, but for large clusters, using existing Zookeeper is better. Zookeeper is crucial, the HMaster and HRegionServers will register on Zookeeper.<br>➢ <strong>Client</strong>: There can be many clients to access HRegionServer, like Java Client, Shell Client, Thrift Client and Avro Client</p>
+        
+          <p class="article-more-link">
+            <a href="/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/" data-id="ckjk20xmq00199bwr5n2f2k5t" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part-3-pros-cons/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/big-data/" rel="tag">Big Data</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/" rel="tag">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">Hadoop</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-hbase-architecture-analysis-part2-process-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/">HBase Architecture Analysis Part2(Process Architecture)</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/">
+    <time datetime="2014-03-13T14:00:11.000Z" itemprop="datePublished">2014-03-13</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="4-Process-Architecture"><a href="#4-Process-Architecture" class="headerlink" title="4. Process Architecture"></a>4. Process Architecture</h2><h3 id="4-1-HBase-Write-Path"><a href="#4-1-HBase-Write-Path" class="headerlink" title="4.1 HBase Write Path"></a>4.1 HBase Write Path</h3><p>The client doesn’t write data directly into HFile on HDFS. Firstly it writes data to WAL(Write Ahead Log), and Secondly, writes to MemStore shared by a HStore in memory.</p>
+        
+          <p class="article-more-link">
+            <a href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part2-process-architecture/" data-id="ckjk20xms001c9bwr9hia9daq" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part2-process-architecture/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/big-data/" rel="tag">Big Data</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/" rel="tag">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">Hadoop</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-hbase-architecture-analysis-part1-logical-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/">HBase Architecture Analysis Part1(Logical Architecture)</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/">
+    <time datetime="2014-03-13T13:18:32.000Z" itemprop="datePublished">2014-03-13</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-Overview"><a href="#1-Overview" class="headerlink" title="1. Overview"></a>1. Overview</h2><p>Apache HBase is an open source column-oriented database. <strong>It is often described as a sparse, consistent, distributed, multi-dimensional sorted map.</strong> HBase is modeled after Google’s “Bigtable: A distributed Storage System for Structured Data”, which can host very large tables with billions of rows, X millions of columns.</p>
+        
+          <p class="article-more-link">
+            <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/" data-id="ckjk20xmr001a9bwr2j1k60v2" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/big-data/" rel="tag">Big Data</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/" rel="tag">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">Hadoop</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/">Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/">
+    <time datetime="2014-02-27T08:00:42.000Z" itemprop="datePublished">2014-02-27</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>项目如果没有采用Java开发，难道就不能用HBase了么？程序猿不会善罢甘休的，有什么语言就会有什么API存在，我还觉得用Java配置时各种缺包错误很烦呢，记得《数学之美》中曾说道：“做技术有术和道两个层面”，知道HBase的架构和一些底层细节是”道”，而使用各种配置和API开发应用则是”术”，而我们就来试试非Java连接HBase。<br>HBase的第三方接口有Shell, Java, REST和Thrift，可以参考《HBase in Action》chapter 6, REST接口比较慢，使用起来并没有Thrift好。而你可能疑惑什么是Thrift:</p>
+        
+          <p class="article-more-link">
+            <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/" data-id="ckjk20xmu001j9bwrcxv1d58c" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/" rel="tag">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learn/" rel="tag">Learn</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
+      </nav>
+    </section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/27/an-introduction-to-bayesian-networks/" class="title">An Introduction to Bayesian Networks</a></p>
+              <p class="item-date"><time datetime="2020-12-27T10:54:04.000Z" itemprop="datePublished">2020-12-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/25/strucutre-learning-algorithm-notears/" class="title">Strucutre Learning Algorithm NOTEARS</a></p>
+              <p class="item-date"><time datetime="2020-12-25T14:01:59.000Z" itemprop="datePublished">2020-12-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/09/13/akka-http-notes/" class="title">Akka http notes</a></p>
+              <p class="item-date"><time datetime="2020-09-13T13:47:31.000Z" itemprop="datePublished">2020-09-13</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/08/04/java-performance-notes-monitoring-tools/" class="title">Java Performance Toolbox</a></p>
+              <p class="item-date"><time datetime="2018-08-04T10:24:34.000Z" itemprop="datePublished">2018-08-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/07/16/big-data-expert/" class="title">Big Data And ML Learning</a></p>
+              <p class="item-date"><time datetime="2018-07-16T00:33:12.000Z" itemprop="datePublished">2018-07-16</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/akka-scala/" style="font-size: 10px;">Akka, Scala</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/big-data/" style="font-size: 13.33px;">Big Data</a> <a href="/tags/causal-inference-ai/" style="font-size: 11.67px;">Causal Inference, AI</a> <a href="/tags/design/" style="font-size: 15px;">Design</a> <a href="/tags/hbase/" style="font-size: 16.67px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 13.33px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 16.67px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 15px;">Scala</a> <a href="/tags/spark/" style="font-size: 10px;">Spark</a> <a href="/tags/systemanalysis/" style="font-size: 15px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.67px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/apache-storm/" style="font-size: 10px;">apache storm</a> <a href="/tags/java-performance/" style="font-size: 10px;">java performance</a> <a href="/tags/learning/" style="font-size: 11.67px;">learning</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/machine-learning/" style="font-size: 10px;">machine learning</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.67px;">sort</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/spark-streaming/" style="font-size: 10px;">spark streaming</a> <a href="/tags/%E8%AF%97%E8%AF%9D/" style="font-size: 10px;">诗话</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Cyanny Liang
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,8 +1,407 @@
-{% extends "_layout.swig" %}
-{% import '_partial/post.swig' as postPage %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>HBase Architecture Analysis Part1(Logical Architecture) | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1. OverviewApache HBase is an open source column-oriented database. It is often described as a sparse, consistent, distributed, multi-dimensional sorted map. HBase is modeled after Google’s “Bigtable:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HBase Architecture Analysis Part1(Logical Architecture)">
+<meta property="og:url" content="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="1. OverviewApache HBase is an open source column-oriented database. It is often described as a sparse, consistent, distributed, multi-dimensional sorted map. HBase is modeled after Google’s “Bigtable:">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i60.tinypic.com/346rmhh.jpg">
+<meta property="og:image" content="http://i60.tinypic.com/2eezt6x.jpg">
+<meta property="og:image" content="http://i62.tinypic.com/ieff35.jpg">
+<meta property="og:image" content="http://i58.tinypic.com/8wmlhj.jpg">
+<meta property="og:image" content="http://i61.tinypic.com/14smvbr.jpg">
+<meta property="og:image" content="http://i62.tinypic.com/16h0rdk.jpg">
+<meta property="og:image" content="http://i60.tinypic.com/c28l.jpg">
+<meta property="og:image" content="http://i60.tinypic.com/soa649.jpg">
+<meta property="og:image" content="http://i60.tinypic.com/30ml56q.jpg">
+<meta property="og:image" content="http://i61.tinypic.com/2zggmrk.jpg">
+<meta property="og:image" content="http://i58.tinypic.com/7286l0.jpg">
+<meta property="og:image" content="http://i59.tinypic.com/2mw8nky.jpg">
+<meta property="article:published_time" content="2014-03-13T13:18:32.000Z">
+<meta property="article:modified_time" content="2016-09-27T01:03:08.000Z">
+<meta property="article:author" content="Cyanny Liang">
+<meta property="article:tag" content="Hadoop">
+<meta property="article:tag" content="Big Data">
+<meta property="article:tag" content="HBase">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i60.tinypic.com/346rmhh.jpg">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %} {{ page.title }} · {{ config.title }} {% endblock %}
+  
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 
-{% block main %}
-    {{ postPage.render(page) }}
-{% endblock %}
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">AI System Architecture</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" target="_blank" rel="noopener" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        64
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        38
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      
+      <section id="main"><article id="post-hbase-architecture-analysis-part1-logical-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HBase Architecture Analysis Part1(Logical Architecture)
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/">
+    <time datetime="2014-03-13T13:18:32.000Z" itemprop="datePublished">2014-03-13</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-Overview"><a href="#1-Overview" class="headerlink" title="1. Overview"></a>1. Overview</h2><p>Apache HBase is an open source column-oriented database. <strong>It is often described as a sparse, consistent, distributed, multi-dimensional sorted map.</strong> HBase is modeled after Google’s “Bigtable: A distributed Storage System for Structured Data”, which can host very large tables with billions of rows, X millions of columns.</p>
+<a id="more"></a>
+<p>HBase is a No-SQL database, and it has very different paradigms from traditional RDBMS, which speaks SQL and enforce relationships upon data. HBase stores structured and semi-structured data with key-value style. Each row in HBase is located by** &lt;Rowkey, Column Family, Column Qualifier, Version&gt;.**</p>
+<p>HBase stores data distributed on Hadoop HDFS shipped with random data access. HDFS is Hadoop Distributed File System, which stores big data sets with streaming style. It has high reliability, scalability and availability but the cons is that HDFS split data into blocks (64MB or 128MB), it can handle large chucks of data very well, but not very well for small piece of data and low-latency data access. In other words, HDFS isn’t fit for online real time read and write, and that’s the meaning of HBase. HBase goal is to make use of cloud distributed data storage for online real time data access.<br>The blog analyzes the architecture of HBase with the method of “4+1” views by Kruthten.</p>
+<h2 id="2-Use-Case-View"><a href="#2-Use-Case-View" class="headerlink" title="2. Use Case View"></a>2. Use Case View</h2><p><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=346rmhh"><img src="http://i60.tinypic.com/346rmhh.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 2.1 User Case View of HBase<br>The figure 2.1 shows the use case view of HBase. Since from the architecture view, the figure gives more details about the main features of HBase:<br>As shown on figure 2.1, the main features of HBase are as follows:<br><strong>1. For User:</strong></p>
+<ul>
+<li><p>  <strong>Read/Write big data in real time:</strong> HBase provides transparent and simple interface for user. User has no need to care about details about data transforming.</p>
+</li>
+<li><p>  <strong>Manage Data Model:</strong> User Need to create and manage column-oriented data model about business logic, and HBase provide Interface for them to do management.</p>
+</li>
+<li><p>  <strong>Manage System:</strong> User can manually configure and monitor the status of HBase</p>
+</li>
+<li><ul>
+<li>2. For the System**</li>
+</ul>
+</li>
+<li><p>  <strong>Store data distributed on HDFS:</strong> HBase has great scalability and reliability based on HDFS.</p>
+</li>
+<li><p>  ** Data random online, real time access:** HBase provides block cache and index on files for real time queries.</p>
+</li>
+<li><p>  <strong>Automatic Data Sharding:</strong> HBase partitions big data automatically on distributed node.</p>
+</li>
+<li><p>  <strong>Automatic failover:</strong> Since hardware failure on clusters is inevitable, HBase can failover automatically for high reliability and availability.</p>
+</li>
+</ul>
+<h2 id="3-Logical-Architecture"><a href="#3-Logical-Architecture" class="headerlink" title="3. Logical Architecture"></a>3. Logical Architecture</h2><h3 id="3-1-High-Level-Architecture-and-Style"><a href="#3-1-High-Level-Architecture-and-Style" class="headerlink" title="3.1 High Level Architecture and Style"></a>3.1 High Level Architecture and Style</h3><p><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=2eezt6x"><img src="http://i60.tinypic.com/2eezt6x.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.1 High Level Architecture for HBase<br>As shown in Figure3.1, the HBase architecture is layered overall, layered architecture style is a typical style for database.<br><strong>1. Layered Architecture Style</strong><br>➢** Client Layer:** The layer is for user, HBase provides easy-to-use java client API, and ships with non-java API as well, such as shell, Thrift, Avro and REST.<br>➢ <strong>HBase Layer:</strong> The layer is the core logic of HBase. Overall, HBase has two important components: HMaster and RegionServer. We will discuss them later.<br>Moreover, another important component is Zookeeper, which is a distributed coordination service modeled after Google’s Chubby. It’s another open source project under Apache.<br>➢ <strong>Hadoop HDFS Layer:</strong> HBase build on top of HDFS, which provides distributed data storage and data replication.</p>
+<p><strong>2. Master-Slave Architecture Style</strong><br>For distributed applications, how to handle data blocks is a key point. There are two typical styles: <strong>centralized and non-centralized</strong>. Centralized mode is very available for scalability and load balancer, but there is Single Pont of Failure(SPOF) problem and performance bottleneck on the master node. Non-centralized mode has no SPOF problem and performance bottleneck, but not very easy to do load balance and there is data consistent problem.<br>HBase utilizes Centralized Mode: Master-Slave Style. BTW, Hadoop is also master-slave. The architecture style in Hadoop ecosystem is kind of consistent master-slave style.<br><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=ieff35"><img src="http://i62.tinypic.com/ieff35.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.2 Master-Slave Architecture Style of HBase<br>As shown in figure 3.2:</p>
+<ul>
+<li>  <strong>HMaster</strong> is the master in such style, which is responsible for RegionServer monitor, region assignment, metadata operations, RegionServer Failover etc. In a distributed cluster, HMaster runs on HDFS NameNode.</li>
+<li>  <strong>RegionServer</strong> is the slave, which is responsible for serving and managing regions. In a distributed cluster, it runs on HDFS DataNode.</li>
+<li>  <strong>Zookeeper</strong> will track the status of Region Server, where the root table is hosted. Since HBase 0.90.x, it introduces an even more tighter integration with Zookeeper. The heartbeat report from Region Server to HMaster is moved to Zookeeper, that is zookeeper has the responsibility of tracking Region Server status. Moreover, Zookeeper is the entry point of client, which enable query Zookeeper about the location of the region hosting the –ROOT- table.</li>
+</ul>
+<h3 id="3-2-HBase-Data-Model"><a href="#3-2-HBase-Data-Model" class="headerlink" title="3.2 HBase Data Model"></a>3.2 HBase Data Model</h3><p>HBase data model is Column-Family-Oriented. Some special characteristics of HBase data model is as follows:<br>➢ <strong>Key-Value store:</strong> Each cell in a table is specified by the four dimensional key: . The table will not store null values like RDBMS, it works well for large sparse table.<br>➢ <strong>Sorted by key, index only on key.</strong> Row key design is the only most important thing in HBase Schema Design.<br>➢ <strong>Each cell can store different versions,</strong> specified by Timestamp by default<br>➢ The column qualifier is** schema-less,** can be changed during run-time<br>➢ The column qualifier and value is treated a<strong>s arbitrary bytes</strong><br><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=8wmlhj"><img src="http://i58.tinypic.com/8wmlhj.jpg" alt="Image and video hosting by TinyPic"></a><br>Table 3.1 The logical view of data model<br>As shown in Table 3.1, is a logical view of a big table, the table is parse, each row has a unique row key, and the table has three column family: cf1, cf2, cf3. cf1 has two qualifiers: q1-1, q1-2. q1-1 on timestamp t1 has value v1.<br><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=14smvbr"><img src="http://i61.tinypic.com/14smvbr.jpg" alt="Image and video hosting by TinyPic"></a><br>Table 3.2 The physical view of data model<br>In RDBMS, a big table as shown in Table 3.1 will store a lot of null values, but for HBase is not, key-value styles make HBase store only non-empty values as shown in Table3.2. It’s the physical view, a table is partitioned by Column Family, each Column Family is stored in a HStore in a table region on a Region Server.<br>Since the main purpose of the report is architecture analysis, the table design of HBase will not discuss in detail, you can refer to the “HBase in Action”</p>
+<h3 id="3-3-HBase-Distributed-Mode"><a href="#3-3-HBase-Distributed-Mode" class="headerlink" title="3.3 HBase Distributed Mode"></a>3.3 HBase Distributed Mode</h3><h4 id="3-3-1-Big-Table-Splitting"><a href="#3-3-1-Big-Table-Splitting" class="headerlink" title="3.3.1 Big Table Splitting"></a>3.3.1 Big Table Splitting</h4><p>HBase can run on local file system, called “standalone mode” for development and testing. For production, HBase should run on cluster on top of HDFS. Big tables are split and stored across the cluster.<br><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=16h0rdk"><img src="http://i62.tinypic.com/16h0rdk.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.3 Region split on big table<br>A table is split into roughly equal size. Regions are assigned to Region Servers across the cluster. And Region Servers host roughly equal number of regions. As shown in Figure3.3, Table A is split into four regions, each of which is assigned to a Region Server.</p>
+<h4 id="3-3-2-Region-Server"><a href="#3-3-2-Region-Server" class="headerlink" title="3.3.2 Region Server"></a>3.3.2 Region Server</h4><p>As shown in figure3.4, the Region Server Architecture. It contains several components as follows:</p>
+<ul>
+<li>  <strong>One Block Cache</strong>, which is a LRU priority cache for data reading.</li>
+<li>  <strong>One WAL(Write Ahead Log):</strong> HBase use Log-Structured-Merge-Tree(LSM tree) to process data writing. Each data update or delete will be write to WAL first, and then write to MemStore. WAL is persisted on HDFS.</li>
+<li>  <strong>Multiple HRegions:</strong> each HRegion is a partition of table as we talk about in 3.3.1.</li>
+<li>  <strong>In a HRegion:</strong> Multiple HStore: Each HStore is correspond to a Column Family</li>
+<li>  <strong>In a HStore:</strong>  <strong>One MemStore:</strong> store updates or deletes before flush to disk. <strong>Multiple StoreFile</strong>, each of which is correspond to a HFile</li>
+<li>  <strong>A HFile</strong> is immutable, flushed from MemStore, persisted on HDFS<br><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=c28l"><img src="http://i60.tinypic.com/c28l.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure3.4 Region Server Architecture</li>
+</ul>
+<h4 id="3-3-3-ROOT-and-META-table"><a href="#3-3-3-ROOT-and-META-table" class="headerlink" title="3.3.3 -ROOT- and .META table"></a>3.3.3 -ROOT- and .META table</h4><p>Since table are partitioned and store across the cluster. How can the client find which region hosting a specific row key range? There are two special catalog tables, -ROOT- and .META. table for this.<br>➢**.META. table**: host the region location info for a specific row key range. The table is stored on Region Servers, which can be split into as many region as required.<br>➢**-ROOT- table:** host the .META. table info. There is only one Region Server store the –ROOT- table. And the Root region never split into more than one region.<br>The –ROOT- and .META. table structure logically looks as a B+ tree as shown in figure 3.5.<br>The RegionServer RS1 host the –ROOT- table, the .META. table is split into 3 regions: M1, M2, M3, hosted on RS2, RS3, RS1. Table T1 contains three regions, T2 contains four regions. For example, T1R1 is hosted on RS3, the meta info is hosted on M1.<br><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=soa649"><img src="http://i60.tinypic.com/soa649.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.5 –ROOT-, .META., and User table viewed as B+ tree</p>
+<h4 id="3-3-4-Region-Lookup"><a href="#3-3-4-Region-Lookup" class="headerlink" title="3.3.4 Region Lookup"></a>3.3.4 Region Lookup</h4><p>How can client find where the –ROOT- table is? Zookeeper does this work, and how to find the region where the target row is. Even though it belongs to process architecture, it is related to the section, hence we discuss it in advance. let’s look at an example as shown in figure3.6.<br>1. Client query Zookeeper: where is the –ROOT-? On RS1.<br>2. Client request RS1: Which meta region contains row: T10006? META1 on RS2<br>3. Client request RS2: Which region can find the row T10006? Region on RS3<br>4. Client get the from the region on RS3<br>5. Client cache the region info, and is refreshed until the region location info changed.<br><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=30ml56q"><img src="http://i60.tinypic.com/30ml56q.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.6 Region Lookup Process</p>
+<h3 id="3-4-HBase-Communication-Protocol"><a href="#3-4-HBase-Communication-Protocol" class="headerlink" title="3.4 HBase Communication Protocol"></a>3.4 HBase Communication Protocol</h3><p><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=2zggmrk"><img src="http://i61.tinypic.com/2zggmrk.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.7 HBase Communication Protocol<br>In HBase 0.96 release, HBase has moved its communication protocol to** Protocol Buffer.** Protocol buffer is a method of serializing structured data developed by Google. Google uses it for almost all of its internal RPC protocol and file formats.<br>Protocol buffer involves an Interface Description Language for cross language service like Apache Thrift.<br>Basically, the communication between sub-systems of HBase is RPC, which is implemented in Protocol Buffer.<br>The main protocols are as follows:<br>➢ <strong>MasterMonitor Protocol:</strong> client use it to monitor the status of HMaster<br>➢ <strong>MasterAdmin Protocol:</strong> client use it to do management for HMaster, such as region manually management, table meta info management.<br>➢** Admin Protocol:** client use it communicate with HRegionServer, to do admin work, such as region split, store file compact, WAL management.<br>➢** Client Protocol:** Client use it to read/write to HRegionServer<br>➢ <strong>RegionServerStatus Protocol</strong>: HRegionServer use it to communicate with HMaster: including the request and response of server startup, server fatal error, server status report.</p>
+<h3 id="3-5-Log-Structured-Merge-Trees-LSM-trees"><a href="#3-5-Log-Structured-Merge-Trees-LSM-trees" class="headerlink" title="3.5 Log-Structured Merge-Trees(LSM-trees)"></a>3.5 Log-Structured Merge-Trees(LSM-trees)</h3><p>No-SQL database usually uses LSM-trees as data storage process architecture. HBase is no exception. As we all known, RDBMS adopts B+ tree to organize its indexes, as shown in Fugure 3.3. These B+ trees are often 3-level n-way balance trees. The nodes of a B+ tree are blocks on disk. So for a update by RDBMS, it likely needs 5 times disk operation. (3 times for B+ tree to find the block of the target row, 1 time for target block read, and 1 time for data update).<br>On RDBMS, data is written randomly as heap file on disk, but random data block decrease read performance. That’s why we need B+ tree index. B+ tree is fit well for data read, but is not efficient for data updates. Given the large distributed data, B+ tree is not the competitor for LSM-trees so far.<br><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=7286l0"><img src="http://i58.tinypic.com/7286l0.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure3.8 B+ tree</p>
+<p>LSM-trees can be viewed as n-level merge-trees. It transforms random writes into sequential writes using logfile and in-memory store. Figure3.9 shows data write process of LSM-trees.<br><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=2mw8nky"><img src="http://i59.tinypic.com/2mw8nky.jpg" alt="Image and video hosting by TinyPic"></a><br>Figure 3.9 LSM-trees</p>
+<p>➢ <strong>Data Write(Insert, update):</strong> Data is written to logfile sequentially first, then to in-memory store, where data is organized as sorted tree, like B+ tree. When the in-memory store is filled up, the tree in the memory will be flushed to a store file on disk. The store files on disk is arranged like B+ tree, as the C1 Tree shown in Figure 3.9 . But store files are optimized for sequential disk access.<br>➢<strong>Data Read: I</strong>n-memory store is searched first. Then search the store files on disk.<br>➢<strong>Data Delete:</strong> Give a data record a “delete marker”, system background will do housekeeping work by merging some store files into a larger one to reduce disk seeks. A data record will be deleted permanently during the housekeeping.<br>LSM-trees’ data updates are operated in memory, no disk access, it’s faster than B+ tree. When the data read is always on the data set that is written recently, LSM-trees will reduce disk seeks, and improve performance. When disk IO is the cost we must consider, LSM-trees is more suitable than B+ tree.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/" data-id="ckjk20xmr001a9bwr2j1k60v2" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/big-data/" rel="tag">Big Data</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/" rel="tag">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">Hadoop</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/03/13/hbase-architecture-analysis-part2-process-architecture/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          HBase Architecture Analysis Part2(Process Architecture)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/27/an-introduction-to-bayesian-networks/" class="title">An Introduction to Bayesian Networks</a></p>
+              <p class="item-date"><time datetime="2020-12-27T10:54:04.000Z" itemprop="datePublished">2020-12-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/25/strucutre-learning-algorithm-notears/" class="title">Strucutre Learning Algorithm NOTEARS</a></p>
+              <p class="item-date"><time datetime="2020-12-25T14:01:59.000Z" itemprop="datePublished">2020-12-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/09/13/akka-http-notes/" class="title">Akka http notes</a></p>
+              <p class="item-date"><time datetime="2020-09-13T13:47:31.000Z" itemprop="datePublished">2020-09-13</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/08/04/java-performance-notes-monitoring-tools/" class="title">Java Performance Toolbox</a></p>
+              <p class="item-date"><time datetime="2018-08-04T10:24:34.000Z" itemprop="datePublished">2018-08-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/07/16/big-data-expert/" class="title">Big Data And ML Learning</a></p>
+              <p class="item-date"><time datetime="2018-07-16T00:33:12.000Z" itemprop="datePublished">2018-07-16</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/akka-scala/" style="font-size: 10px;">Akka, Scala</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/big-data/" style="font-size: 13.33px;">Big Data</a> <a href="/tags/causal-inference-ai/" style="font-size: 11.67px;">Causal Inference, AI</a> <a href="/tags/design/" style="font-size: 15px;">Design</a> <a href="/tags/hbase/" style="font-size: 16.67px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 13.33px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 16.67px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 15px;">Scala</a> <a href="/tags/spark/" style="font-size: 10px;">Spark</a> <a href="/tags/systemanalysis/" style="font-size: 15px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.67px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/apache-storm/" style="font-size: 10px;">apache storm</a> <a href="/tags/java-performance/" style="font-size: 10px;">java performance</a> <a href="/tags/learning/" style="font-size: 11.67px;">learning</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/machine-learning/" style="font-size: 10px;">machine learning</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.67px;">sort</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/spark-streaming/" style="font-size: 10px;">spark streaming</a> <a href="/tags/%E8%AF%97%E8%AF%9D/" style="font-size: 10px;">诗话</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Cyanny Liang
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

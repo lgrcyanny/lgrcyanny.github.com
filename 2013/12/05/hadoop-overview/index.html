@@ -1,8 +1,400 @@
-{% extends "_layout.swig" %}
-{% import '_partial/post.swig' as postPage %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hadoop Overview | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="The motivation for HadoopApache Hadoop is an open source distributed computing framework for large-scale data sets processing. Doug Cutting, who is the creator of Apache Lucene Project, creates it.  T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop Overview">
+<meta property="og:url" content="http://www.cyanny.com/2013/12/05/hadoop-overview/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="The motivation for HadoopApache Hadoop is an open source distributed computing framework for large-scale data sets processing. Doug Cutting, who is the creator of Apache Lucene Project, creates it.  T">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png">
+<meta property="article:published_time" content="2013-12-05T03:36:08.000Z">
+<meta property="article:modified_time" content="2016-09-27T01:03:08.000Z">
+<meta property="article:author" content="Cyanny Liang">
+<meta property="article:tag" content="Learning">
+<meta property="article:tag" content="Hadoop">
+<meta property="article:tag" content="Research">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %} {{ page.title }} · {{ config.title }} {% endblock %}
+  
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 
-{% block main %}
-    {{ postPage.render(page) }}
-{% endblock %}
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">AI System Architecture</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" target="_blank" rel="noopener" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        64
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        38
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      
+      <section id="main"><article id="post-hadoop-overview" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hadoop Overview
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/05/hadoop-overview/">
+    <time datetime="2013-12-05T03:36:08.000Z" itemprop="datePublished">2013-12-05</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="The-motivation-for-Hadoop"><a href="#The-motivation-for-Hadoop" class="headerlink" title="The motivation for Hadoop"></a>The motivation for Hadoop</h3><p>Apache Hadoop is an open source distributed computing framework for large-scale data sets processing. Doug Cutting, who is the creator of Apache Lucene Project, creates it. </p>
+<p>The name of Hadoop is a made-up name, which is the nickname of a stuffed yellow elephant of the kid of Doug. Hadoop has its origins in Apache Nutch, an open source web search engine, and it is built based on work done by Google in early 2000s, specifically on Google papers describing the Google File System (GFS) published in 2003, and MapReduce published in 2004. </p>
+<p>Hadoop moved out of Nutch to form an independent in Feb. 2006. Up to now, Hadoop has been powered by many companies, such as Yahoo who claims it has the biggest Hadoop cluster in the world with more than 42000 nodes, LinkedIn who has 4100 nodes, Facebook who has 1400 nodes, Taobao who has the biggest cluster in China with more than 2000 nodes. [more…]</p>
+<h3 id="The-problems-for-traditional-big-data-processing"><a href="#The-problems-for-traditional-big-data-processing" class="headerlink" title="The problems for traditional big data processing"></a>The problems for traditional big data processing</h3><p>Why these companies adopt Hadoop? The reason is simple, that we live in a big data age. We are flooded with big data every day on the Internet. Consider that: Facebook hosts approximately 10 billion photos, taken up on PB storage. Every second on eBay, a total merchandise value of 1400 dollars is traded and 10 million new items are listed on eBay every day. Ancestry.com, the genealogy site, store around 2.5 PB of Data.</p>
+<p>How to make use of these big data to make analysis? For traditional methods, use only one machine to process computation, which needs faster processor and RAM. Even though the CPU power doubles every 18 months according to Moores’s Law, it hasn’t meet the big data analysis needs. Yet distributed system evolved to allow developers to use multiple machines for a single job, like MPI, PVM and Condor. However, programing for these traditional distributed systems is complex, you have to deal with these problems:</p>
+<ul>
+<li>  It’s difficult to deal with partial failures of the system. Developers spend more time designing for failure than they do actually working on the problem itself.</li>
+<li>  Finite and precious bandwidth must be available to combine data from different disks and transfer time is very slow for big data volume.</li>
+<li>  Data exchange requires synchronization.</li>
+<li>  Temporal dependencies are complicated.</li>
+</ul>
+<h3 id="How-can-Hadoop-save-big-data-analysis"><a href="#How-can-Hadoop-save-big-data-analysis" class="headerlink" title="How can Hadoop save big data analysis"></a>How can Hadoop save big data analysis</h3><p>What really counts is big data. Traditional distributed computing can’t handle big data in a decent way, but Hadoop can. Lets see what Hadoop brings to us: </p>
+<ul>
+<li>  Hadoop provide partial failure support. Hadoop Distributed File System (HDFS) can store large data sets with high reliability and scalability.</li>
+<li>  HDFS provide great fault tolerance. Partial Failure will not result in the failure of the entire system. And HDFS provide data recoverability for partial failure.</li>
+<li>  Hadoop introduce MapReduce, which spares programmers from low-level details, like partial failure. The MapReduce framework will detect failed tasks and reschedule them automatically.</li>
+<li>  Hadoop provide data locality. The MapReduce framework tries to collocate data with the compute nodes. Data is local, and tasks are separated with no dependence on each other. So the shared-nothing and data locality architecture can save more bandwidth and solve the complicated dependence problem</li>
+</ul>
+<p>In summary, Hadoop is a great big data processing tool.</p>
+<h3 id="Hadoop-Basic-Concepts-and-Core-Concepts"><a href="#Hadoop-Basic-Concepts-and-Core-Concepts" class="headerlink" title="Hadoop Basic Concepts and Core Concepts"></a>Hadoop Basic Concepts and Core Concepts</h3><p>The core concepts for Hadoop are to distribute the data as it is initially stored in the system. That is data locality, individual nodes can work on data local to these nodes, and no data transfer over the network is required for initial processing.<br>Here are the basic concepts for Hadoop:</p>
+<ul>
+<li>  Applications are written in high-level code. Developers don’t worry about network programming, temporal dependencies etc.</li>
+<li>  Nodes talk to each other as little as possible. Developers should not write code which communicates between nodes, that is ‘Shared-Nothing’ architecture.</li>
+<li>  Data is spread among machines in advance. Computation happens where the data is stored, wherever possible, just as near the node as possible. Data is replicated multiple times on the system for increased availability and reliability.</li>
+</ul>
+<h3 id="Hadoop-High-Level-Overview"><a href="#Hadoop-High-Level-Overview" class="headerlink" title="Hadoop High-Level Overview"></a>Hadoop High-Level Overview</h3><p>Hadoop consists of two important components: HDFS and MapReduce.<br>HDFS is Hadoop Distributed File System, which is a distributed file system designed to store large data sets and streaming data sets on commodity hardware with high scalability, reliability and availability.</p>
+<p>MapReduce is a distributed processing framework designed to operate on large data stored on HDFS, which provides a clean interface for developers.</p>
+<p>A set of machines running HDFS and MapReduce is known as a Hadoop Cluster. An individual machine in a cluster is known as nodes. The nodes play different roles. There are two kind important nodes: Master Nodes and Slave Nodes.</p>
+<p>There are 5 important daemons on these nodes. </p>
+<p><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/hd2.1.png" alt="hd2.1">Figure1 Hadoop High-Level Architecture</a></p>
+<p>As shown in Figure, Hadoop is comprised of 5 separate daemons:</p>
+<ul>
+<li>  NameNode, which holds the metadata for HDFS.</li>
+<li>  Secondary NameNode, which performs housekeeping functions for NameNode, and isn’t a backup or hot standby for the NameNode.</li>
+<li>  DataNode, which stores actual HDFS data blocks. In Hadoop, a large file is split into 64M or 128M blocks.</li>
+<li>  JobTracker, which manages MapReduce jobs, distributes individual tasks to machines running.</li>
+<li>  TaskTracker, which initiates and monitors each individual Map and Reduce tasks.</li>
+</ul>
+<p>Each daemon runs on its own Java Virtual Machine (JVM), no Nodes can run 5 daemons at the same time.  </p>
+<p>Master Nodes runs the NameNode, Secondary NameNode, JobTracker daemons. And only one of each of these daemons runs on the cluster.<br>Slave Nodes run the DataNode and TaskTracker daemons. A slave node will run both of these daemons. All of these Slave Nodes run in parallel, each on their own part of the overall dataset locally.</p>
+<p>Just for very small clusters, the NameNode, JobTracker and the Secondary NameNode run on a single machine. However, when there are beyond 20-30 nodes. It’s better to run each of them on individual nodes. </p>
+<h3 id="Hadoop-Ecosystem"><a href="#Hadoop-Ecosystem" class="headerlink" title="Hadoop Ecosystem"></a>Hadoop Ecosystem</h3><p>Hadoop has a family of related projects based on the infrastructure for distributed computing and large-scale data processing. The core projects are apache open source projects. Except for HDFS and MapReduce, some hadoop related projects are:</p>
+<ul>
+<li>  Ambari, a Hadoop management and cluster monitoring system.</li>
+<li>  Avro, a serialization system for efficient, cross-language RPC and persistent data storage.</li>
+<li>  Pig, a data flow language and execution environment for exploring very large datasets, which runs on HDFS and MapReduce clusters.</li>
+<li>  HBase, provide random, realtime read/write access to BigData. The project built a column-oriented database, host very large tables —- billions of rows X millions of columns. The project is based on Google’s paper BigTable: A Distributed Storage System for Structured Data.</li>
+<li>  Hive, which is distributed data warehouse. Hive manages data stored in HDFS and provides a query language based on SQL, which is translated by runtime engine to MapReduce Job.</li>
+<li>  Zookeeper, a distributed, highly available coordination service. It provides centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services, which make build distributed applications more efficient.</li>
+<li>  Oozie, a service for running and scheduling workflows of Hadoop jobs, which includes MapReduce, Pig, Hive and sqoop jobs.</li>
+<li>  Mahout, a scalable machine learning libraries based on Hadoop HDFS and MapReduce.</li>
+</ul>
+<p>Resources:<br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/12/05/hadoop-overview/" title="Hadoop Overview">Part 0 Hadoop Overview</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-review/" title="Hadoop HDFS Review">Part 1 Hadoop HDFS Review</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-federation/" title="Hadoop HDFS Federation">Part 2 Hadoop HDFS Federation</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/12/05/hadoop-hdfs-high-availability/" title="Hadoop HDFS High Availability(HA)">Part 3 Hadoop HDFS High Availability(HA)</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-overview/" title="Hadoop MapReduce Overview">Part 4 Hadoop MapReduce Overview</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-1-framework/" title="Hadoop MapReduce 1 Framework">Part 5 Hadoop MapReduce 1 Framework</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/12/05/hadoop-mapreduce-2-yarn/" title="Hadoop MapReduce 2 (YARN)">Part 6 Hadoop MapReduce 2 (YARN)</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/12/05/hadoop-isnt-silver-bullet/" title="Hadoop isn’t Silver Bullet">Part 7 Hadoop isn’t Silver Bullet</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/12/05/hadoop-overview/" data-id="ckjk20xmq00189bwr6yay4vyq" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/12/05/hadoop-overview/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/" rel="tag">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/research/" rel="tag">Research</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/12/05/hadoop-hdfs-review/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hadoop HDFS Review
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/12/02/graph-dfs-bfs/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Graph DFS and BFS</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/27/an-introduction-to-bayesian-networks/" class="title">An Introduction to Bayesian Networks</a></p>
+              <p class="item-date"><time datetime="2020-12-27T10:54:04.000Z" itemprop="datePublished">2020-12-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/25/strucutre-learning-algorithm-notears/" class="title">Strucutre Learning Algorithm NOTEARS</a></p>
+              <p class="item-date"><time datetime="2020-12-25T14:01:59.000Z" itemprop="datePublished">2020-12-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/09/13/akka-http-notes/" class="title">Akka http notes</a></p>
+              <p class="item-date"><time datetime="2020-09-13T13:47:31.000Z" itemprop="datePublished">2020-09-13</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/08/04/java-performance-notes-monitoring-tools/" class="title">Java Performance Toolbox</a></p>
+              <p class="item-date"><time datetime="2018-08-04T10:24:34.000Z" itemprop="datePublished">2018-08-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/07/16/big-data-expert/" class="title">Big Data And ML Learning</a></p>
+              <p class="item-date"><time datetime="2018-07-16T00:33:12.000Z" itemprop="datePublished">2018-07-16</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/akka-scala/" style="font-size: 10px;">Akka, Scala</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/big-data/" style="font-size: 13.33px;">Big Data</a> <a href="/tags/causal-inference-ai/" style="font-size: 11.67px;">Causal Inference, AI</a> <a href="/tags/design/" style="font-size: 15px;">Design</a> <a href="/tags/hbase/" style="font-size: 16.67px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 13.33px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 16.67px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 15px;">Scala</a> <a href="/tags/spark/" style="font-size: 10px;">Spark</a> <a href="/tags/systemanalysis/" style="font-size: 15px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.67px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/apache-storm/" style="font-size: 10px;">apache storm</a> <a href="/tags/java-performance/" style="font-size: 10px;">java performance</a> <a href="/tags/learning/" style="font-size: 11.67px;">learning</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/machine-learning/" style="font-size: 10px;">machine learning</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.67px;">sort</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/spark-streaming/" style="font-size: 10px;">spark streaming</a> <a href="/tags/%E8%AF%97%E8%AF%9D/" style="font-size: 10px;">诗话</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Cyanny Liang
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

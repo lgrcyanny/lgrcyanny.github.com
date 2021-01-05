@@ -1,8 +1,391 @@
-{% extends "_layout.swig" %}
-{% import '_partial/post.swig' as postPage %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Graph DFS and BFS | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="图论是一个重要的部分，以前数据结构课上过，没有作为考试要求，所以很不太熟悉，尤其是没有实现。考完试，无聊中重新看了看，想起以前在eBay，某帅哥突然开玩笑说DFS和BFS嘛，当然要会呀，Cyanny你会的吧，我说忘了，其实细细想起来，还真没有写过代码。In my view，没有实现过，就等于不会，今天实现了BFS和DFS，深深赞一个算导，说得明白和透彻，现在的算法书太多，这算是一本很不错的经典，厚">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Graph DFS and BFS">
+<meta property="og:url" content="http://www.cyanny.com/2013/12/02/graph-dfs-bfs/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="图论是一个重要的部分，以前数据结构课上过，没有作为考试要求，所以很不太熟悉，尤其是没有实现。考完试，无聊中重新看了看，想起以前在eBay，某帅哥突然开玩笑说DFS和BFS嘛，当然要会呀，Cyanny你会的吧，我说忘了，其实细细想起来，还真没有写过代码。In my view，没有实现过，就等于不会，今天实现了BFS和DFS，深深赞一个算导，说得明白和透彻，现在的算法书太多，这算是一本很不错的经典，厚">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2013-12-02T14:26:47.000Z">
+<meta property="article:modified_time" content="2016-09-27T01:03:08.000Z">
+<meta property="article:author" content="Cyanny Liang">
+<meta property="article:tag" content="algorithm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %} {{ page.title }} · {{ config.title }} {% endblock %}
+  
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 
-{% block main %}
-    {{ postPage.render(page) }}
-{% endblock %}
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">AI System Architecture</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" target="_blank" rel="noopener" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        64
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        38
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      
+      <section id="main"><article id="post-graph-dfs-bfs" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Graph DFS and BFS
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/12/02/graph-dfs-bfs/">
+    <time datetime="2013-12-02T14:26:47.000Z" itemprop="datePublished">2013-12-02</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/algorithm/">Algorithm</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>图论是一个重要的部分，以前数据结构课上过，没有作为考试要求，所以很不太熟悉，尤其是没有实现。考完试，无聊中重新看了看，想起以前在eBay，某帅哥突然开玩笑说DFS和BFS嘛，当然要会呀，Cyanny你会的吧，我说忘了，其实细细想起来，还真没有写过代码。In my view，没有实现过，就等于不会，今天实现了BFS和DFS，深深赞一个算导，说得明白和透彻，现在的算法书太多，这算是一本很不错的经典，厚了点，但要是能厚着脸皮看完确实受益匪浅。</p>
+<h3 id="广度优先搜索BFS"><a href="#广度优先搜索BFS" class="headerlink" title="广度优先搜索BFS"></a>广度优先搜索BFS</h3><p>其算法思想简介：<br>1. 利用队列<br>2. 每一个Vertex引入三个变量<br>color：WHITE 表示没有访问过，GREY 表示发现，BLACK 表示完成访问<br>parent: 父亲<br>d: 表示从root到该顶点的长度<br>3. 为了实现方便，我采用int来标识每一个顶点，采用邻接表来表示graph<br>深度优先搜索可以生成深度优先树，生成单源最短路径，即从root到每一个顶点的长度是最短路径。[more…]<br>BFS可以采用邻接矩阵表示，其复杂度较高为O(n^2)<br>如果采用邻接表表示，其复杂度为O(E+V),即顶点个数+边的个数<br>[java]<br>public void BFS(int root) {<br>    vertexes = new Vertex[n];<br>    // Initialize each vertex,<br>    // Each vertex has three segment: parent, d, color<br>    for (int i = 0; i &lt; n; i++) {<br>        vertexes[i] = new Vertex(i);<br>    }</p>
+<pre><code>Vertex rootv = vertexes[root];
+rootv.d = 0;
+rootv.color = Color.GREY;
+queue.add(rootv);
+
+while (!queue.isEmpty()) &#123;
+    Vertex u = queue.remove(0);
+    ArrayList&amp;lt;Integer&amp;gt; list = graph.get(u.vertex);
+    for (int i = 0; i &amp;lt; list.size(); i++) &#123;
+        Vertex temp = vertexes[list.get(i)];
+        // Make sure each vertex enqueue only once
+        if (temp.color == Color.WHITE) &#123;
+            temp.parent = u;
+            temp.d = u.d + 1;
+            temp.color = Color.GREY;
+            queue.add(temp);
+        &#125;                
+    &#125;
+        u.color = Color.BLACK;
+    res.add(u);
+&#125;</code></pre>
+<p>}<br>[/java]<br><a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/graph/GraphBFS.java" title="BFS Source">BFS Source Code</a></p>
+<h3 id="深度优先搜索DFS"><a href="#深度优先搜索DFS" class="headerlink" title="深度优先搜索DFS"></a>深度优先搜索DFS</h3><p>广度优先搜索DFS，基本算法思想<br>1. 采用递归，或stack来实现<br>2. 每一个Vertex引入四个变量<br>color：WHITE 表示没有访问过，GREY 表示发现，BLACK 表示完成访问<br>parent: 父亲<br>timestamp1: 表示第一次访问该顶点的时间戳<br>timestamp2:表示访问结束时的时间戳<br>3. 为了实现方便，我采用int来标识每一个顶点，采用邻接表来表示graph</p>
+<p>DFS采用邻接表表示Graph来实现，复杂度O(V+E), 矩阵复杂度依然不好，为O（n^2）<br>DFS是从多个源开始，最终会生成由多个源作为root的森林，即深度优先树（深度优先森林）。<br>同时引入时间戳，是为了获得DFS的进展情况，如果不需要时间戳，只是想简单地打印每一个顶点，可以不用。</p>
+<p>以下是递归的实现方法：<br>[java]<br>    public void DFS() {<br>        int i = 0;<br>        for (i = 0; i &lt; n; i++) {<br>            vertexes[i] = new Vertex(i);<br>        }<br>        for (i = 0; i &lt; n; i++) {<br>            Vertex u = vertexes[i];<br>            if (u.color == Color.WHITE) {<br>                visitDFS(u);<br>            }<br>        }<br>    }</p>
+<pre><code>private void visitDFS(Vertex u) &#123;
+    res.add(u);
+    u.color = Color.GREY;
+    timer++;
+    u.timestamp1 = timer;
+    ArrayList&amp;lt;Integer&amp;gt; adjList = graph.get(u.vertex);
+    for (int i = 0; i &amp;lt; adjList.size(); i++) &#123;
+        Vertex v = vertexes[adjList.get(i)];
+        if (v.color == Color.WHITE) &#123;
+            v.parent = u;
+            visitDFS(v);
+        &#125;
+    &#125;
+    u.color = Color.BLACK;
+    timer++;
+    u.timestamp2 = timer;
+&#125;</code></pre>
+<p>[/java]</p>
+<p>以下是采用栈的实现方法改写 “visitDFS”：<br>[java]<br>    /**<br>     * DFS with iterative method<br>     * Make use of stack<br>     * @param u<br>     */<br>    private void visitDFSIterative(Vertex u) {<br>        res.add(u);<br>        u.color = Color.GREY;<br>        timer++;<br>        u.timestamp1 = timer;<br>        stack.add(u);<br>        while(!stack.isEmpty()) {<br>            Vertex v = stack.remove(stack.size() - 1);<br>            ArrayList&lt;Integer&gt; adjList = graph.get(v.vertex);<br>            for (int i = 0; i &lt; adjList.size(); i++) {<br>                Vertex temp = vertexes[adjList.get(i)];<br>                if (temp.color == Color.WHITE) {<br>                    temp.parent = v;<br>                    temp.color = Color.GREY;<br>                    timer++;<br>                    temp.timestamp1 = timer;<br>                    res.add(temp);<br>                    stack.add(temp);<br>                }<br>            }<br>            v.color = Color.BLACK;<br>            timer++;<br>            v.timestamp2 = timer;<br>        }<br>        u.color = Color.BLACK;<br>        timer++;<br>        u.timestamp2 = timer;<br>    }<br>[/java]</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/graph/GraphDFS.java" title="DFS Source">DFS Source Code</a></p>
+<p>最终发现，起始实现起来代码不多，重在想法。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/12/02/graph-dfs-bfs/" data-id="ckjk20xmn00109bwr3q8zeip1" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/12/02/graph-dfs-bfs/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/12/05/hadoop-overview/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hadoop Overview
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">System Analysis and Design (Kenneth Kendall) Review Part4</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/27/an-introduction-to-bayesian-networks/" class="title">An Introduction to Bayesian Networks</a></p>
+              <p class="item-date"><time datetime="2020-12-27T10:54:04.000Z" itemprop="datePublished">2020-12-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/25/strucutre-learning-algorithm-notears/" class="title">Strucutre Learning Algorithm NOTEARS</a></p>
+              <p class="item-date"><time datetime="2020-12-25T14:01:59.000Z" itemprop="datePublished">2020-12-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/09/13/akka-http-notes/" class="title">Akka http notes</a></p>
+              <p class="item-date"><time datetime="2020-09-13T13:47:31.000Z" itemprop="datePublished">2020-09-13</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/08/04/java-performance-notes-monitoring-tools/" class="title">Java Performance Toolbox</a></p>
+              <p class="item-date"><time datetime="2018-08-04T10:24:34.000Z" itemprop="datePublished">2018-08-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/07/16/big-data-expert/" class="title">Big Data And ML Learning</a></p>
+              <p class="item-date"><time datetime="2018-07-16T00:33:12.000Z" itemprop="datePublished">2018-07-16</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/akka-scala/" style="font-size: 10px;">Akka, Scala</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/big-data/" style="font-size: 13.33px;">Big Data</a> <a href="/tags/causal-inference-ai/" style="font-size: 11.67px;">Causal Inference, AI</a> <a href="/tags/design/" style="font-size: 15px;">Design</a> <a href="/tags/hbase/" style="font-size: 16.67px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 13.33px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 16.67px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 15px;">Scala</a> <a href="/tags/spark/" style="font-size: 10px;">Spark</a> <a href="/tags/systemanalysis/" style="font-size: 15px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.67px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/apache-storm/" style="font-size: 10px;">apache storm</a> <a href="/tags/java-performance/" style="font-size: 10px;">java performance</a> <a href="/tags/learning/" style="font-size: 11.67px;">learning</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/machine-learning/" style="font-size: 10px;">machine learning</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.67px;">sort</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/spark-streaming/" style="font-size: 10px;">spark streaming</a> <a href="/tags/%E8%AF%97%E8%AF%9D/" style="font-size: 10px;">诗话</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Cyanny Liang
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,8 +1,392 @@
-{% extends "_layout.swig" %}
-{% import '_partial/post.swig' as postPage %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>spark streaming exactly-once analysis | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近对Spark Streaming接触比较多，主要关注的是streaming的准确性方面的需求, 忙了快半年，不禁想问为什么需要在exactly-once上花费这么多时间呢。streaming和batch的处理逻辑有什么区别呢？我觉得streaming更适合一些简单的过滤，能在100ms以内能算完的逻辑，而这些逻辑用batch也可以算完，为什么要streaming呢？用户们更希望的是更快。如果b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spark streaming exactly-once analysis">
+<meta property="og:url" content="http://www.cyanny.com/2017/08/27/spark-streaming-exactly-once-analysis/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="最近对Spark Streaming接触比较多，主要关注的是streaming的准确性方面的需求, 忙了快半年，不禁想问为什么需要在exactly-once上花费这么多时间呢。streaming和batch的处理逻辑有什么区别呢？我觉得streaming更适合一些简单的过滤，能在100ms以内能算完的逻辑，而这些逻辑用batch也可以算完，为什么要streaming呢？用户们更希望的是更快。如果b">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/761b7938ly1fizgwunfr6j21kw0n7e6n.jpg">
+<meta property="article:published_time" content="2017-08-27T03:31:58.000Z">
+<meta property="article:modified_time" content="2017-10-24T07:27:33.000Z">
+<meta property="article:author" content="Cyanny Liang">
+<meta property="article:tag" content="spark streaming">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://wx3.sinaimg.cn/mw690/761b7938ly1fizgwunfr6j21kw0n7e6n.jpg">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %} {{ page.title }} · {{ config.title }} {% endblock %}
+  
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 
-{% block main %}
-    {{ postPage.render(page) }}
-{% endblock %}
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">AI System Architecture</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" target="_blank" rel="noopener" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        64
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        38
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      
+      <section id="main"><article id="post-spark-streaming-exactly-once-analysis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      spark streaming exactly-once analysis
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2017/08/27/spark-streaming-exactly-once-analysis/">
+    <time datetime="2017-08-27T03:31:58.000Z" itemprop="datePublished">2017-08-27</time>
+  </a>
+</div>
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近对Spark Streaming接触比较多，主要关注的是streaming的准确性方面的需求, 忙了快半年，不禁想问为什么需要在exactly-once上花费这么多时间呢。streaming和batch的处理逻辑有什么区别呢？我觉得streaming更适合一些简单的过滤，能在100ms以内能算完的逻辑，而这些逻辑用batch也可以算完，为什么要streaming呢？用户们更希望的是更快。如果batch也能满足低延迟的需求，streaming系统就不需要了。而问题是为什么我们需要一个单独的streaming系统？</p>
+<a id="more"></a>
+
+<p> 生产环境中的版本是1.6，spark streaming的API在1.6上是基于RDD的DStream API，相比Structured Streaming，更稳定和成熟些。而我们的用户们，比较关心的是streaming系统</p>
+<p> 开源里广泛使用的Streaming系统是Storm和Flink。Storm早期用record ack的方式保证at-least once，但没有提供exactly-once的保证，后面又有了storm trident.</p>
+<h2 id="Spark-Streaming-Receiver模式没有exactly-once保证"><a href="#Spark-Streaming-Receiver模式没有exactly-once保证" class="headerlink" title="Spark Streaming Receiver模式没有exactly-once保证"></a>Spark Streaming Receiver模式没有exactly-once保证</h2><h2 id="Flink中的Exactly-Once保证"><a href="#Flink中的Exactly-Once保证" class="headerlink" title="Flink中的Exactly-Once保证"></a>Flink中的Exactly-Once保证</h2><h2 id="Storm的Eactly-Once保证"><a href="#Storm的Eactly-Once保证" class="headerlink" title="Storm的Eactly-Once保证"></a>Storm的Eactly-Once保证</h2><h3 id="Storm-Architecture"><a href="#Storm-Architecture" class="headerlink" title="Storm Architecture"></a>Storm Architecture</h3><p><img src="http://wx3.sinaimg.cn/mw690/761b7938ly1fizgwunfr6j21kw0n7e6n.jpg" alt="storm architecture"><br>以Storm on Yarn来说明Storm的架构：</p>
+<ul>
+<li>client将jar包通过yarn上传</li>
+<li>在一台NodeManager上启动Nimbus，这是master节点，负责管理StormTopology, 分发task，心跳等</li>
+<li>其他的NodeManager上启动Supervisor, 相当于slave节点，管理storm worker<ul>
+<li> 在每个supervisor上，可以启动多个worker进程，每个worker进程可以运行多个task，task是多线程的，由worker管理。这些task运行的就是Spout或Bolt定义的操作</li>
+</ul>
+</li>
+<li> Zookeeper, Storm运行时状态的管理</li>
+</ul>
+<p>Storm方面算是简单调研，理解不是很深入，具体的参考<a target="_blank" rel="noopener" href="http://storm.apache.org/releases/1.1.1/Setting-up-a-Storm-cluster.html">官方文档</a></p>
+<h3 id="Storm-exactly-once"><a href="#Storm-exactly-once" class="headerlink" title="Storm exactly-once"></a>Storm exactly-once</h3><p>####1. Storm Transactional Topologies(deprecated)<br>Strom 0.7版本中，实现了<a target="_blank" rel="noopener" href="http://storm.apache.org/releases/1.1.1/Transactional-topologies.html">transctional topologies</a>来保证exactly-once,<br><strong>1.transactional phrases 类似两阶段事务机制</strong></p>
+<ul>
+<li>The processing phase: this is the phase that can be done in parallel for many batches 可以并发执行计算partial result</li>
+<li>The commit phase: The commit phases for batches are strongly ordered. So the commit for batch 2 is not done until the commit for batch 1 has been successful. 保证batch的提交是按顺序的</li>
+</ul>
+<p>来个直观的，用户需要构建的Topology如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MemoryTransactionalSpout spout = <span class="keyword">new</span> MemoryTransactionalSpout(DATA, <span class="keyword">new</span> Fields(<span class="string">&quot;word&quot;</span>), PARTITION_TAKE_PER_BATCH);</span><br><span class="line">TransactionalTopologyBuilder builder = <span class="keyword">new</span> TransactionalTopologyBuilder(<span class="string">&quot;global-count&quot;</span>, <span class="string">&quot;spout&quot;</span>, spout, <span class="number">3</span>);</span><br><span class="line">builder.setBolt(<span class="string">&quot;partial-count&quot;</span>, <span class="keyword">new</span> BatchCount(), <span class="number">5</span>)</span><br><span class="line">        .shuffleGrouping(<span class="string">&quot;spout&quot;</span>);</span><br><span class="line">builder.setBolt(<span class="string">&quot;sum&quot;</span>, <span class="keyword">new</span> UpdateGlobalCount())</span><br><span class="line">        .globalGrouping(<span class="string">&quot;partial-count&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>2.关键点</strong></p>
+<ul>
+<li>一个拓扑里只有一个Transactional Spout，其实现是由一个单线程的Coordinator Spout + 多个Emitter Bolt组成。利用Storm的ACK Framework机制，判断一个batch是否执行完成</li>
+<li>Committer Bolt 可以有多个，需要收到Transactional Spout的commit信息才会执行commit</li>
+</ul>
+<p>####2. Storm Trident Topologies<br>storm 1.1的版本中，引入新的Trident API解决exactly-once，这是transactional topologies的升级版本。API的易用性改善，exactly-once也是采用事务机制</p>
+<p><strong>1.exactly once</strong></p>
+<ul>
+<li>Tuples are processed as small batches 采用micor-batch机制</li>
+<li>Each batch of tuples is given a unique id called the “transaction id” (txid). If the batch is replayed, it is given the exact same txid. 每个batch有唯一的batchid</li>
+<li>State updates are ordered among batches. That is, the state updates for batch 3 won’t be applied until the state updates for batch 2 have succeeded. 按txid顺序提交</li>
+</ul>
+<p><strong>2.trident example</strong><br><a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/LearningStorm/blob/master/src/main/scala/com/learning/storm/TridentTest.scala">github example</a></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> topology = <span class="keyword">new</span> <span class="type">TridentTopology</span>()</span><br><span class="line"><span class="comment">// define spout</span></span><br><span class="line"><span class="keyword">val</span> spout = <span class="keyword">new</span> <span class="type">FixedBatchSpout</span>(<span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">&quot;sentence&quot;</span>), <span class="number">3</span>,</span><br><span class="line">    <span class="keyword">new</span> <span class="type">Values</span>(<span class="string">&quot;the cow jumped over the moon&quot;</span>),</span><br><span class="line">    <span class="keyword">new</span> <span class="type">Values</span>(<span class="string">&quot;the man went to the store and bought some candy&quot;</span>),</span><br><span class="line">    <span class="keyword">new</span> <span class="type">Values</span>(<span class="string">&quot;four score and seven years ago&quot;</span>),</span><br><span class="line">    <span class="keyword">new</span> <span class="type">Values</span>(<span class="string">&quot;how many apples can you eat&quot;</span>))</span><br><span class="line">  spout.setCycle(<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> wordsCount: <span class="type">TridentState</span> = topology.newStream(<span class="string">&quot;wordsSpout&quot;</span>, spout)</span><br><span class="line">    .each(<span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">&quot;sentence&quot;</span>), <span class="keyword">new</span> <span class="type">Split</span>(), <span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">&quot;word&quot;</span>))</span><br><span class="line">    .groupBy(<span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">&quot;word&quot;</span>))</span><br><span class="line">    .persistentAggregate(<span class="keyword">new</span> <span class="type">MemoryMapState</span>.<span class="type">Factory</span>(), <span class="keyword">new</span> <span class="type">Count</span>(), <span class="keyword">new</span> <span class="type">Fields</span>(<span class="string">&quot;count&quot;</span>))</span><br><span class="line">    .parallelismHint(<span class="number">6</span>)</span><br></pre></td></tr></table></figure>
+<p>###<strong>总结</strong></p>
+<p>Storm里为了exacly once，需要做到：</p>
+<ul>
+<li>源端可重放</li>
+<li>batch要有唯一的txid</li>
+<li>commit时按顺序提交，类似事务的两阶段提交</li>
+</ul>
+<hr/>
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2017/08/27/spark-streaming-exactly-once-analysis/" data-id="ckjk20xme000j9bwrbme34lp1" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2017/08/27/spark-streaming-exactly-once-analysis/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark-streaming/" rel="tag">spark streaming</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/08/30/my-first-commit-to-spark-community/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          My First Commit to Spark Community
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/04/10/set-up-storm-on-mac-in-10min/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Set Up Apache Storm On Mac In 10min</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/27/an-introduction-to-bayesian-networks/" class="title">An Introduction to Bayesian Networks</a></p>
+              <p class="item-date"><time datetime="2020-12-27T10:54:04.000Z" itemprop="datePublished">2020-12-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/25/strucutre-learning-algorithm-notears/" class="title">Strucutre Learning Algorithm NOTEARS</a></p>
+              <p class="item-date"><time datetime="2020-12-25T14:01:59.000Z" itemprop="datePublished">2020-12-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/09/13/akka-http-notes/" class="title">Akka http notes</a></p>
+              <p class="item-date"><time datetime="2020-09-13T13:47:31.000Z" itemprop="datePublished">2020-09-13</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/08/04/java-performance-notes-monitoring-tools/" class="title">Java Performance Toolbox</a></p>
+              <p class="item-date"><time datetime="2018-08-04T10:24:34.000Z" itemprop="datePublished">2018-08-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/07/16/big-data-expert/" class="title">Big Data And ML Learning</a></p>
+              <p class="item-date"><time datetime="2018-07-16T00:33:12.000Z" itemprop="datePublished">2018-07-16</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/akka-scala/" style="font-size: 10px;">Akka, Scala</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/big-data/" style="font-size: 13.33px;">Big Data</a> <a href="/tags/causal-inference-ai/" style="font-size: 11.67px;">Causal Inference, AI</a> <a href="/tags/design/" style="font-size: 15px;">Design</a> <a href="/tags/hbase/" style="font-size: 16.67px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 13.33px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 16.67px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 15px;">Scala</a> <a href="/tags/spark/" style="font-size: 10px;">Spark</a> <a href="/tags/systemanalysis/" style="font-size: 15px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.67px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/apache-storm/" style="font-size: 10px;">apache storm</a> <a href="/tags/java-performance/" style="font-size: 10px;">java performance</a> <a href="/tags/learning/" style="font-size: 11.67px;">learning</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/machine-learning/" style="font-size: 10px;">machine learning</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.67px;">sort</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/spark-streaming/" style="font-size: 10px;">spark streaming</a> <a href="/tags/%E8%AF%97%E8%AF%9D/" style="font-size: 10px;">诗话</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Cyanny Liang
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

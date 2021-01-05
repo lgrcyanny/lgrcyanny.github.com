@@ -1,8 +1,374 @@
-{% extends "_layout.swig" %}
-{% import '_partial/post.swig' as postPage %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用 | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="项目如果没有采用Java开发，难道就不能用HBase了么？程序猿不会善罢甘休的，有什么语言就会有什么API存在，我还觉得用Java配置时各种缺包错误很烦呢，记得《数学之美》中曾说道：“做技术有术和道两个层面”，知道HBase的架构和一些底层细节是”道”，而使用各种配置和API开发应用则是”术”，而我们就来试试非Java连接HBase。HBase的第三方接口有Shell, Java, REST和Th">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用">
+<meta property="og:url" content="http://www.cyanny.com/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="项目如果没有采用Java开发，难道就不能用HBase了么？程序猿不会善罢甘休的，有什么语言就会有什么API存在，我还觉得用Java配置时各种缺包错误很烦呢，记得《数学之美》中曾说道：“做技术有术和道两个层面”，知道HBase的架构和一些底层细节是”道”，而使用各种配置和API开发应用则是”术”，而我们就来试试非Java连接HBase。HBase的第三方接口有Shell, Java, REST和Th">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2014-02-27T08:00:42.000Z">
+<meta property="article:modified_time" content="2016-09-27T01:03:08.000Z">
+<meta property="article:author" content="Cyanny Liang">
+<meta property="article:tag" content="Hadoop">
+<meta property="article:tag" content="HBase">
+<meta property="article:tag" content="Learn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %} {{ page.title }} · {{ config.title }} {% endblock %}
+  
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 
-{% block main %}
-    {{ postPage.render(page) }}
-{% endblock %}
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">AI System Architecture</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" target="_blank" rel="noopener" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        64
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        38
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      
+      <section id="main"><article id="post-nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/">
+    <time datetime="2014-02-27T08:00:42.000Z" itemprop="datePublished">2014-02-27</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/hadoop/">Hadoop</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/hadoop/hbase/">HBase</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>项目如果没有采用Java开发，难道就不能用HBase了么？程序猿不会善罢甘休的，有什么语言就会有什么API存在，我还觉得用Java配置时各种缺包错误很烦呢，记得《数学之美》中曾说道：“做技术有术和道两个层面”，知道HBase的架构和一些底层细节是”道”，而使用各种配置和API开发应用则是”术”，而我们就来试试非Java连接HBase。<br>HBase的第三方接口有Shell, Java, REST和Thrift，可以参考《HBase in Action》chapter 6, REST接口比较慢，使用起来并没有Thrift好。而你可能疑惑什么是Thrift:</p>
+<a id="more"></a>
+<p>_<br>Thrift is a “software framework, for scalable cross-language services development…with a code generation engine to build services that work efficiently and seamlessly between C++, Java, Python, PHP, Ruby, Erlang, Perl, Haskell, C#, Cocoa, JavaScript, Node.js…” Thrift allows us to create a thin API in NodeJS to communicate with HBase using a thin socket protocol. The advantages over REST are that the connection stays alive and the protocol is thinner than XML.<br>_<br>Apache Thrift是一个proxy，一个基于RPC的中间件，通过该接口，我们可以采用任何第三方语言连接HBase, 由此可见软件中间件封装底层detail的魅力。HBase提供C++, Java, Python, Node.js的Thrift文件。就Node.js来说，HBase提供了Thrift1和Thrift2， 官方的说法是Thrift2会逐步取代Thrift1， Thrift1我用了，发现命名不规范，而且CRUD并没有全部跑通，之后换用Thrift2，试验后成功了。<br>HBase Thrift API文档很少，官方只找到一个<a target="_blank" rel="noopener" href="http://wiki.apache.org/hadoop/Hbase/ThriftApi" title="Python HBase API">Python的老版本API</a>, 参考过的博客中采用Thrift2和Node.js的，Google一圈也没有，因此在这里把自己的一些小试验写下来，分享给朋友们，如有不对之处，还请指正。</p>
+<h3 id="一、环境配置"><a href="#一、环境配置" class="headerlink" title="一、环境配置"></a>一、环境配置</h3><p>1. 系统要求<br>*nix系统，我是Max OX 10.9，因此在配置上也是以Mac的配置为准。</p>
+<p>2. 安装Hadoop2.2.0和HBase 0.96.1，并下载HBase 0.96.1的源码到本地，并解压到本地<br>可以参考我之前的两个配置文章：<br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part1/" title="Set up Hadoop 2.2 and HBase 0.96 part1">Set up Hadoop 2.2 and HBase 0.96 part1</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2014/02/06/set-hadoop-hbase-part2/" title="Set up Hadoop 2.2 and HBase 0.96 part2">Set up Hadoop 2.2 and HBase 0.96 part2</a></p>
+<p>3. Mac需要安装brew, Ubuntu用apt-get就可以</p>
+<p>4. 安装thrift<br>[shell]<br>$ brew install thrift #Maybe cost a lot of time<br>$ thrift -version<br>Thrift version 0.9.1<br>[/shell]</p>
+<p>5. 下载 [Node-HBase-Thrift2]<br>这是我写的使用HBase Thrift2接口的Demo，可以使用该Demo进行测试。<br>[shell]<br>$ git clone <a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/Node-HBase-Thrift2">https://github.com/lgrcyanny/Node-HBase-Thrift2</a><br>[/shell]</p>
+<p>6. 生成HBase Thrift的相关文件<br>[shell]<br>$ cd Node-HBase-Thrift2<br>$ thrift –gen js:node path-to-hbasesrc/hbase-0.96.1-src/hbase-hrift/src/main/resources/org/apache/hadoop/hbase/thrift2/Hbase.thrift<br>#then you will get gen-nodejs directory<br>[/shell]<br>编译生成连接Thrift的js文件，需要使用HBase 0.96.1源码<br>BTW, 在你下载的Node-HBase-Thrift2包中，已经有生成的gen-nodejs文件夹，如果你在生成Thrift相关文件时出现任何问题，可以尝试使用这gen-nodejs文件夹下编译好的文件。</p>
+<p>8. npm安装thrift包<br>[shell]<br>$ npm install thrift<br>[/shell]</p>
+<p>9. 打开HDFS，HBase, HBase Thrift2接口<br>[shell]<br>$ start-dfs.sh<br>$ start-hbase.sh<br>$ hbase thrift2 start -f #Use framed transport， This transport is required when using a non-blocking server. It sends data in frames, where each frame is preceded by length information. Node.js is no-blocking server, we must use &quot;-f&quot; option, or connection lost.<br>$ jps<br>23835 HMaster<br>23764 HQuorumPeer<br>24109 ThriftServer<br>23556 SecondaryNameNode<br>24264 Jps<br>23384 NameNode<br>23927 HRegionServer<br>23463 DataNode<br>[/shell]</p>
+<p>10.插入测试数据<br>[shell]<br>$ hbase shell<br>&gt; put ‘users’, ‘TheRealMT’, ‘info:email’, ‘mark@gmail.com’<br>&gt; put ‘users’, ‘TheRealMT’, ‘info:passoword’, ‘abc123’<br>&gt; put ‘users’, ‘TheRealMT’, ‘info:name’, ‘Mark Twain’<br>&gt; put ‘users’, ‘wwzyhao’, ‘info:count’, 1<br>&gt; put ‘users’, ‘wwzyhao’, ‘info:passowrd’, 7818271<br>&gt; put ‘users’, ‘wwzyhao’, ‘info:email’, 7818271<br>&gt; put ‘users’, ‘wwzyhao’, ‘info:gender’, ‘male’<br>&gt; scan ‘users’<br>ROW                                      COLUMN+CELL<br> TheRealMT                               column=info:email, timestamp=1392811829718, value=mark@gmail.com<br> TheRealMT                               column=info:name, timestamp=1392811829718, value=Mark Twain<br> TheRealMT                               column=info:password, timestamp=1392814983344, value=abc123<br> wwzyhao                                 column=info:count, timestamp=1393489157537, value=male<br> wwzyhao                                 column=info:email, timestamp=1393407097540, value=sks66782@gmail.com<br> wwzyhao                                 column=info:gender, timestamp=1393489039523, value=male<br> wwzyhao                                 column=info:password, timestamp=1393416922377, value=7612111<br>2 row(s) in 0.0560 seconds<br>[/shell]</p></p>
+<h3 id="二、使用Thrift2"><a href="#二、使用Thrift2" class="headerlink" title="二、使用Thrift2"></a>二、使用Thrift2</h3><p>为什么不是Thrift1呢？确实，HBase 0.96.1中提供了两个编译文件thrift, thrift2, 前者我们称之为thrift1，我最初使用的是Thrift1，二者最大的痛处是没有文档，官方文档寥寥无几，有一种孤军深入的感觉。不过，API们都是相似的，语义相同，语言不同罢了，这时候代码就是文档。Thrift1的代码规范不如Thrift2，Thrift2更接近Java实现的API调用方式，在使用Thrift1后觉得不好用，就弃用之，投奔Thrift2了。<br>在完成了配置后，我们开始代码了：<br>HBase提供的CRUD操作是经典的：Put, Get, Delete, Scan和Increment</p>
+<h4 id="1-HBase-Get"><a href="#1-HBase-Get" class="headerlink" title="1. HBase Get"></a>1. HBase Get</h4><p>[javascript]<br>var thrift = require(‘thrift’);<br>var HBase = require(‘./gen-nodejs/THBaseService’);<br>var HBaseTypes = require(‘./gen-nodejs/hbase_types’);</p>
+<p>var connection = thrift.createConnection(‘localhost’, 9090, {<br>  transport: thrift.TFramedTransport,<br>  protocol: thrift.TBinaryProtocol<br>});</p>
+<p>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);</p>
+<p>  // row is rowid, columns is array of TColumn, please refer to hbase_types.js<br>  var tGet = new HBaseTypes.TGet({row: ‘TheRealMT’,<br>    columns: [new HBaseTypes.TColumn({family: ‘info’})]});<br>  client.get(‘users’, tGet, function (err, data) {<br>    if (err) {<br>      console.log(err);<br>    } else {<br>      console.log(data);<br>    }<br>    connection.end();<br>  });</p>
+<p>});</p>
+<p>connection.on(‘error’, function(err){<br>  console.log(‘error’, err);<br>});<br>[/javascript]</p>
+<p>我在demo中分文件展示了这5种操作，因为每个操作是以event的形式绑定到connection上，如果将所有的操作都写到：<br>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);<br>  // …<br>});<br>[/javascript]<br>运行时connection.end()后，会出现”Write after end”的Error，我觉得分文件封装是更好的方式。</p>
+<h4 id="2-HBase-Put"><a href="#2-HBase-Put" class="headerlink" title="2. HBase Put"></a>2. HBase Put</h4><p>这个操作是向HBase写入数据, 包括更新和插入。<br>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);</p>
+<p>  var tPut = new HBaseTypes.TPut({row: ‘wwzyhao’,<br>    columnValues: [<br>    new HBaseTypes.TColumnValue({family: ‘info’, qualifier: ‘hobbies’, value: ‘music’}),<br>    new HBaseTypes.TColumnValue({family: ‘info’, qualifier: ‘name’, value: ‘Thomas Zhang’})<br>    ]});<br>  client.put(‘users’, tPut, function (err) {<br>    if (err) {<br>      console.log(err);<br>      return;<br>    }<br>    console.log(‘success’);<br>    connection.end();<br>  });<br>});<br>[/javascript]</p>
+<h4 id="3-HBase-Delete"><a href="#3-HBase-Delete" class="headerlink" title="3. HBase Delete"></a>3. HBase Delete</h4><p>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);</p>
+<p>  // Please run the command in shell first: put ‘users’, ‘wwzyhao’, ‘info:gender’, ‘male’<br>  var tDelete = new HBaseTypes.TDelete({row: ‘wwzyhao’,<br>   columns: [new HBaseTypes.TColumn({family: ‘info’, qualifier: ‘gender’})]});<br>  client.deleteSingle(‘users’, tDelete, function (err) {<br>    if (err) {<br>      console.log(err);<br>      return;<br>    } else {<br>      console.log(‘delete success’);<br>    }<br>    connection.end();<br>  });<br>});<br>[/javascript]</p>
+<h4 id="4-HBase-Scan"><a href="#4-HBase-Scan" class="headerlink" title="4. HBase Scan"></a>4. HBase Scan</h4><p>Get操作本质上是基于Scan的，Get只能获取单行的数据，Scan可以获取多行的数据。<br>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);&lt;/p&gt;</p>
+<p>  var tScanner = new HBaseTypes.TScan({startRow: ‘TheRealMT’,<br>    columns: [new HBaseTypes.TColumn({family: ‘info’})]});<br>  client.openScanner(‘users’, tScanner, function (err, scannerId) {<br>    if (err) {<br>      console.log(err);<br>      return;<br>    }<br>    console.log(‘scannerid : ‘ + scannerId);<br>    client.getScannerRows(scannerId, 10, function (serr, data) {<br>      if (serr) {<br>        console.log(serr);<br>        return;<br>      }<br>      console.log(data);<br>    });<br>    client.closeScanner(scannerId, function (err) {<br>      if (err) {<br>        console.log(err);<br>      }<br>    });<br>    connection.end();<br>  });<br>});<br>[/javascript]</p>
+<h4 id="5-HBase-Increment"><a href="#5-HBase-Increment" class="headerlink" title="5. HBase Increment"></a>5. HBase Increment</h4><p>[javascript]<br>connection.on(‘connect’, function () {<br>  console.log(‘connected’);<br>  var client = thrift.createClient(HBase, connection);</p>
+<p>  // put ‘users’, ‘wwzyhao’, ‘info’, ‘count’, 1<br>  var tIncrement = new HBaseTypes.TIncrement({<br>    row:’wwzyhao’,<br>    columns: [new HBaseTypes.TColumn({family: ‘info’, qualifier: ‘count’})]<br>  });<br>  client.increment(‘users’, tIncrement, function (err) {<br>    if (err) {<br>      console.log(err);<br>      return;<br>    }<br>    console.log(‘increment success.’);<br>    connection.end();<br>  });<br>});<br>[/javascript]</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p>1.<a target="_blank" rel="noopener" href="http://dailyjs.com/2013/07/04/hbase/">Getting Started with HBase and Thrift for Node</a><br>2. HBase in Action<br>3. <a target="_blank" rel="noopener" href="http://blog.evernote.com/tech/2012/12/20/building-apache-thrift-on-mac-os-x/">building-apache-thrift-on-mac-os-x</a><br>4. <a target="_blank" rel="noopener" href="https://wiki.apache.org/hadoop/Hbase/ThriftApi" title="Thrift API">Thrift API</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/" data-id="ckjk20xmu001j9bwrcxv1d58c" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hbase/" rel="tag">HBase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learn/" rel="tag">Learn</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/03/13/hbase-architecture-analysis-part1-logical-architecture/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          HBase Architecture Analysis Part1(Logical Architecture)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Revolution——面向对象看黑客帝国</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/27/an-introduction-to-bayesian-networks/" class="title">An Introduction to Bayesian Networks</a></p>
+              <p class="item-date"><time datetime="2020-12-27T10:54:04.000Z" itemprop="datePublished">2020-12-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/25/strucutre-learning-algorithm-notears/" class="title">Strucutre Learning Algorithm NOTEARS</a></p>
+              <p class="item-date"><time datetime="2020-12-25T14:01:59.000Z" itemprop="datePublished">2020-12-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/09/13/akka-http-notes/" class="title">Akka http notes</a></p>
+              <p class="item-date"><time datetime="2020-09-13T13:47:31.000Z" itemprop="datePublished">2020-09-13</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/08/04/java-performance-notes-monitoring-tools/" class="title">Java Performance Toolbox</a></p>
+              <p class="item-date"><time datetime="2018-08-04T10:24:34.000Z" itemprop="datePublished">2018-08-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/07/16/big-data-expert/" class="title">Big Data And ML Learning</a></p>
+              <p class="item-date"><time datetime="2018-07-16T00:33:12.000Z" itemprop="datePublished">2018-07-16</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/akka-scala/" style="font-size: 10px;">Akka, Scala</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/big-data/" style="font-size: 13.33px;">Big Data</a> <a href="/tags/causal-inference-ai/" style="font-size: 11.67px;">Causal Inference, AI</a> <a href="/tags/design/" style="font-size: 15px;">Design</a> <a href="/tags/hbase/" style="font-size: 16.67px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 13.33px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 16.67px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 15px;">Scala</a> <a href="/tags/spark/" style="font-size: 10px;">Spark</a> <a href="/tags/systemanalysis/" style="font-size: 15px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.67px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/apache-storm/" style="font-size: 10px;">apache storm</a> <a href="/tags/java-performance/" style="font-size: 10px;">java performance</a> <a href="/tags/learning/" style="font-size: 11.67px;">learning</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/machine-learning/" style="font-size: 10px;">machine learning</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.67px;">sort</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/spark-streaming/" style="font-size: 10px;">spark streaming</a> <a href="/tags/%E8%AF%97%E8%AF%9D/" style="font-size: 10px;">诗话</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Cyanny Liang
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

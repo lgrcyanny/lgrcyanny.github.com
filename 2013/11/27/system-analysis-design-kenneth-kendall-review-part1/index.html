@@ -1,8 +1,427 @@
-{% extends "_layout.swig" %}
-{% import '_partial/post.swig' as postPage %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>System Analysis and Design (Kenneth Kendall) Review Part1 | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="系统分析与设计，感觉上是一个需求和软工的大汇总，不温不火，方面很多，只能算是对软件工程的overview。 1.信息收集交互式方法交互式信息收集有：面谈、联合应用程序设计JAD和调查问卷. 1.1 面谈1. 面谈的概念面谈是一种面对面的会谈，目的明确，一般采用问答形式。面谈时，需要获取面谈对象的观点，他们对系统当前状态、组织和个人目标、以及非正规过程的感受。[more…]    调查面谈对象的观点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="System Analysis and Design (Kenneth Kendall) Review Part1">
+<meta property="og:url" content="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="系统分析与设计，感觉上是一个需求和软工的大汇总，不温不火，方面很多，只能算是对软件工程的overview。 1.信息收集交互式方法交互式信息收集有：面谈、联合应用程序设计JAD和调查问卷. 1.1 面谈1. 面谈的概念面谈是一种面对面的会谈，目的明确，一般采用问答形式。面谈时，需要获取面谈对象的观点，他们对系统当前状态、组织和个人目标、以及非正规过程的感受。[more…]    调查面谈对象的观点">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i39.tinypic.com/zjv0nb.jpg">
+<meta property="og:image" content="http://i40.tinypic.com/292bkaq.jpg">
+<meta property="article:published_time" content="2013-11-27T02:23:37.000Z">
+<meta property="article:modified_time" content="2016-09-27T01:03:08.000Z">
+<meta property="article:author" content="Cyanny Liang">
+<meta property="article:tag" content="Learning">
+<meta property="article:tag" content="Design">
+<meta property="article:tag" content="SystemAnalysis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i39.tinypic.com/zjv0nb.jpg">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %} {{ page.title }} · {{ config.title }} {% endblock %}
+  
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 
-{% block main %}
-    {{ postPage.render(page) }}
-{% endblock %}
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">AI System Architecture</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" target="_blank" rel="noopener" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        64
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        38
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      
+      <section id="main"><article id="post-system-analysis-design-kenneth-kendall-review-part1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      System Analysis and Design (Kenneth Kendall) Review Part1
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/">
+    <time datetime="2013-11-27T02:23:37.000Z" itemprop="datePublished">2013-11-27</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>系统分析与设计，感觉上是一个需求和软工的大汇总，不温不火，方面很多，只能算是对软件工程的overview。</p>
+<h2 id="1-信息收集交互式方法"><a href="#1-信息收集交互式方法" class="headerlink" title="1.信息收集交互式方法"></a>1.信息收集交互式方法</h2><p>交互式信息收集有：面谈、联合应用程序设计JAD和调查问卷.</p>
+<h3 id="1-1-面谈"><a href="#1-1-面谈" class="headerlink" title="1.1 面谈"></a>1.1 面谈</h3><p><strong>1. 面谈的概念</strong><br>面谈是一种面对面的会谈，目的明确，一般采用问答形式。面谈时，需要获取面谈对象的观点，他们对系统当前状态、组织和个人目标、以及非正规过程的感受。[more…]</p>
+<ul>
+<li>  调查面谈对象的观点。</li>
+<li>  尽力获取面谈对象的感受。</li>
+<li>  目标是尽力收集重要信息，组织的目标。</li>
+<li>  面谈也是考察HCI问题的宝贵时机。</li>
+<li>*2.面谈的5各步骤**</li>
+</ul>
+<p>1)阅读背景材料：与面谈对象建立共同词汇<br>2)确定面谈目标：问题中应该有4-6个与HCI、信息处理和决策行为有关。<br>3)决定面谈对象：按层次和影响力选择谈话对象。<br>4)准备面谈对象：打电话或者邮件提前预约<br>5)决定问题的类型和结构：金字塔结构、漏斗结构或者菱形的结构</p>
+<p><strong>3.问题类型</strong><br><strong>1)开放式问题</strong><br><strong>优点：</strong><br>•让用户谈话自在<br>•可以收集面谈对象使用的词汇，这能反映其教育背景、价值标准、态度和信念<br>•提供丰富的细节，广度<br>•对尚未的进一步的提问方法有启迪作用。<br>•让面谈对象更感兴趣<br>•允许更多的自发性<br>•会见者更容易措辞<br>•在会见者没有准备的紧要关头采用这种类型<br><strong>缺点：</strong><br>•容易不切题，产生太多不相干的细节<br>•时间冗长，花费大量时间才能获得有用的信息<br>•可能会让用户觉得你没有准备，不够专业<br>•留下不好的印象，用户会觉得你在做没有实际意义的调查<br>•后期数据分析较难</p>
+<p><strong>2)封闭式问题</strong><br><strong>优点</strong><br>•有针对性，切中要点<br>•能获得准确、贴切的数据<br>•时间上可控，节省时间，可以快速探讨大范围问题。<br>•保持对面谈的控制权<br>•数据分析容易<br><strong>缺点：</strong><br>•让用户厌烦<br>•得不到丰富的细节，失去主要思想<br>•不能建立和面谈对象友好的关系</p>
+<p><strong>4.问题结构</strong><br>1)金字塔：先封闭后开放，先具体后一般化，用于用户需要预热，开始拘谨的情况<br>2)漏斗：先一般后具体，适用用户一开始就有激情的情况<br>3)菱形：具体——一般——具体，缺点是费时，优点是：具体的问题开始为面谈做好铺垫，再问一般化问题可以收集丰富的信息，再用具体的问题收尾，为面谈提供了结束的时机。</p>
+<h3 id="1-2-JAD联合应用程序设计"><a href="#1-2-JAD联合应用程序设计" class="headerlink" title="1.2 JAD联合应用程序设计"></a>1.2 JAD联合应用程序设计</h3><p>由IBM开发，一种一对多的面谈方法，目的是节省个人面谈所需的时间，减少成本；改善信息需求评估结果的质量；通过多方一起参加的过程，获得用户对新信息系统的更多的认可。<br><strong>1.条件</strong><br>•用户时间有限，一对一面谈不行<br>•公司文化允许不同层次的职员间联合问题求解<br>•用户想有点新东西，创新意愿强，而一对一面谈难以得到统一的意见<br>•组织允许关键职员离职2<del>4天<br><strong>2.涉众：</strong><br>分析员、用户、主管等，<br>一个沟通能力好的主持人<br>8</del>12位不同阶层的用户<br>需要有两名置身事外的观察员，保证JAD的进行。<br><strong>3.召开会议地点：</strong>一般式2<del>4天的脱产会议，在远离单位的舒服环境下<br><strong>4.优点</strong><br>•比面谈节省时间<br>•联合协作，可以实现快速软件开发。<br>•改善信息系统所有权的可能性。让用户早日参与系统，获得用户反馈<br>•创造性的开发设计，类似头脑风暴<br><strong>5.缺点</strong><br>•要求所有参与者抽出大块时间，2</del>4天<br>•任何一方准备不充分，或者后续报告和规范文档没有完成，最终得到的设计会不尽人意<br>•可能还没有充分发展必须得组织技能和组织文化，组织可能还不支持JAD</p>
+<h3 id="1-3-问卷调查"><a href="#1-3-问卷调查" class="headerlink" title="1.3 问卷调查"></a>1.3 问卷调查</h3><p>问卷调查是一种信息收集技术，它允许系统分析员研究组织中若干关键人物的态度、信念、行为和特征，而这些关键人物可能会受到当前建议系统的影响。<br><strong>1.使用条件</strong><br>•组织成员分布广泛<br>•系统项目涉及许多人<br>•推荐方案之前必须做探索性工作，希望在确定系统项目具体方向之前评估总体意见。<br>•希望在后续的面谈中标识并解决当前系统的所有问题。</p>
+<p><strong>2.问题类型</strong><br><strong>1)开放式问题：</strong><br>要估计开发式问题答复的种类，不能太宽泛<br>开放式问题适合想了解公司成员对系统的产品方面，或对系统的过程方面的看法的情况，如果不能有效的列出所有可能的答复，考虑开发式问题。<br>优点：探索性好，广度和深度广，准备问题容易<br>缺点：完成速度慢，分析数据难<br><strong>2)封闭式问题</strong><br>如果要调查大量人员的样本，采用封闭式，数据好统计。<br>如果能有效的列出问题可能的相互排斥的所有答复，采用封闭式问题。<br>优点：完成速度快，分析数据容易<br>缺点：广度和深度窄，准备问题不容易，探索性低</p>
+<p><strong>3.措辞的选择</strong><br>使用一致的和企业业务相关的术语<br>•保持措辞简练<br>•使用明确字眼，但避免过度明确问题，如收入等敏感信息<br>•保持问题简短<br>•不要选择低水平的语言，不要用高人一等的口气<br>•避免措辞的偏差<br>•向合适的人发放问卷，不要采用太多专业知识<br>•确保问题中涉及的技术的准确<br>•使用软件检验阅读水平是否合适回答者</p>
+<p><strong>4.在问题中的标度的使用</strong><br>定标：为了度量属性或者特征而为他们分配编号或其他符号的过程。<br>1)度量：类别标度，区间标度<br>2)构造定标时要考虑：<br>有效性：度量的内容的程度<br>可靠性：度量的一致性，如果相同条件下两次调查一致，就是外部一致性<br>3)避免的问题<br>不严格的标度：可以把平均水平移到中心的左边或右边来避免<br>集中趋势：回答者都回答中间值，可以通过减少两个端点的差异，调整描述符的强度，创建一个更多结点的尺度来改善<br>光圈效应：避免在一个问题中印象带入下一个问题</p>
+<p><strong>5.问卷调查表的设计准则：</strong><br>•留出充足的空白空间<br>•留出充足的空间来填写或输入答复<br>•使回答者能够清楚地标出他们的答复<br>•保持风格的一致<br>•提问顺序的选择：<br>（i）把重要问题放在前面，问题要先人后己，先问用户最关心的问题，再问系统或者调查目的需要的问题<br>（ii）把相似内容的问题放在一起<br>（iii）首先提出非敏感和非争议的问题</p>
+<p><strong>6.管理问卷调查表</strong><br>1)回答者：按照调查对象的级别，在公司服务的年限，工作职责和对建议系统的兴趣来选择代表，要选择足够多的代表<br>2)管理调查问卷的方法：<br>a)同时召集所有有关回答者<br>b)亲自发放问卷，并回收<br>c)允许回答者自我处理，并放入中央的箱子里，如web问卷和email问卷，常用的方法，但是回收率可能低<br>d)邮寄给职员，并提供截止日期，填写说明和寄回邮资<br>e)email和web的方式管理</p>
+<h2 id="2-信息收集非干扰性方法"><a href="#2-信息收集非干扰性方法" class="headerlink" title="2. 信息收集非干扰性方法"></a>2. 信息收集非干扰性方法</h2><p>包括：采样、调查、观察决策者行为和物理环境</p>
+<h3 id="2-1-采样"><a href="#2-1-采样" class="headerlink" title="2.1.采样"></a>2.1.采样</h3><p>1. 定义：从某一种群的系统中选择有代表性的个体<br>2. 必要性：节约成本、加快数据搜集过程、提高效率、减少偏差<br>3. 四个步骤</p>
+<ul>
+<li>  确定要收集或要描述的数据：考虑数据收集方法（调查、面谈、调查问卷和观察等），考虑研究目标</li>
+<li>  确定采样种群：硬数据（两个月或全年的报表），采样的客户</li>
+<li>  选择采样类型</li>
+<li>  决定采样规模<br>4. 采样类型：</li>
+</ul>
+<ol>
+<li>便利采样：容易安排，五约束的非概率型采样，最不可靠</li>
+<li>目的采样：选择对系统了解，感兴趣的人，这是非概率型采样，只有适度的可信度</li>
+<li>简单随机采用：每个个体的机会相同，产生一个随机编号表，在文档和报表采用中不切实际。</li>
+<li>复杂采样是最好的</li>
+</ol>
+<ul>
+<li>  系统采样：在名单中每个K个人选择一个，缺点是存在周期问题，引入偏差，采样大量不成比例的职员</li>
+<li>  分层采样：最重要的方式，在不同的层次，如管理层，社会阶层，在不同层次中按比例选择。当想对不同层次用户采用不同数据收集方法时采用分层采样。</li>
+<li>  聚类采样：选择一组人或文档进行研究</li>
+</ul>
+<p>5.  采样规模</p>
+<ol>
+<li> 确定采样属性</li>
+<li> 定位能查找到的属性的数据库或报表</li>
+<li> 分析属性，估计p，一般取0.1或0.5</li>
+<li> 主观是定一个值，i 作为区间估计</li>
+<li> 选择置信度 z，如 95%时 z=1.96</li>
+<li> 计算种群比例的标准差  σ=i/z</li>
+<li> 计算采样规模：n=(p(1-p))/σ^2  + 1<br>置信度越高采样规模越大<br>确定面谈时的采样规模： 至少与组织中每个阶层的3个人进行面谈，3个人种至少有一个来自组织中的不同部门。</li>
+</ol>
+<h3 id="2-2-调查"><a href="#2-2-调查" class="headerlink" title="2.2 调查"></a>2.2 调查</h3><p>调查法：发现数据并对数据进行分析的行为。需要研究不同的硬数据。</p>
+<h4 id="2-2-1-分析定量文档"><a href="#2-2-1-分析定量文档" class="headerlink" title="2.2.1 分析定量文档"></a>2.2.1 分析定量文档</h4><p>1.用于决策的报表<br>通常是与库存状态、销售量和生产有关的纸质报表<br>生产报表：包括最近价格、当前库存、最近劳动力和设备等信息<br>总结报表：提供公司的背景和战略信息</p>
+<p>2.业绩报表： 估计实际业绩和预期业绩的差距</p>
+<p>3.记录<br>a)检查数量和总数的错误。<br>b)寻找改善记录表格设计的机会<br>c)观察交易的数目的类型<br>d)寻求能用计算机简化工作的实例（即，计算和其他数据处理）</p>
+<p>4.数据收集表格：有助于理解企业的信息流<br>a)收集所有正在使用的表格样品<br>b)标出表格类型：内部，手写，web表等<br>c)记录打算采用的分发方式<br>d)将打算采用的分发方式和实际收到表格的人做比较<br>数据收集表格的分析耗时，还可以对已经填好的数据表格进行采样，需要记住5个问题：<br>•表格填写完整了么？缺了什么<br>•有从未使用过的表格么？为什么？<br>•所有表格都向相应地人做了详细说明么？没有，为什么？<br>•如果有纸质的表格，和web表格，比较填写速度<br>•经常使用非官方的表格么？</p>
+<h4 id="2-2-2-分析定性文档"><a href="#2-2-2-分析定性文档" class="headerlink" title="2.2.2 分析定性文档"></a>2.2.2 分析定性文档</h4><p>电子邮件、备忘录，留言板、工作区的签名、web页面、程序指南和战略手册<br><strong>5个指导原则：</strong><br>•检查文档中的关键比喻或主导比喻<br>•在文档中寻找局内人与局外人或“我们反对他们”的思想状况<br>•列出褒义或贬义的术语，文档中重复出现的术语<br>•查找在公共区域Web页面上公布的有意义的图形、标识语和图标的用法。<br>•识别出幽默感。</p>
+<p>1.备忘录： 了解组织成员对价值、态度和信念的看法<br>2. 公告板或者工作区的标语与海报：体会公司的主流文化<br>3. 公司中的Web站点：分析网站内容的比喻、幽默和使用的特性（颜色、图形、动画和超级链接），从技术、美学和管理方面调查。 调查web站点和站点间的交互性、消息的可访问性和明显的安全性<br>4. 指南：程序指南和在线指南，指南很少会保持更新<br>5. 政策手册：价值观、态度和信念。<br>老师说不考但是上课说道物理环境，也是调查的一部分：办公设备、布置、公司文化，楼层安排，布告栏，email 论坛，公司色调。</p>
+<h2 id="3-原型化方法"><a href="#3-原型化方法" class="headerlink" title="3. 原型化方法"></a>3. 原型化方法</h2><h3 id="3-1-原型化方法"><a href="#3-1-原型化方法" class="headerlink" title="3.1 原型化方法"></a>3.1 原型化方法</h3><p>1. 原型：是实际运行的有产品的主要特征，基于软件最初版本的演习。不需要反映所有的功能，只需有软件功能的子集。<br>原型化方法是通过原型来获取有关建议系统和系统如何迅速满足用户信息需求的反馈的极好办法。<br>2. 原型分类一：<br>水平原型：多种功能的展示<br>垂直原型：对某一个功能进行详细展示</p>
+<p>3.原型分类二(书中的分类)<br>•拼凑原型：构件一个可以运行，但又是经过修补或者拼凑而得到的系统。<br>•非操作原型：为了试验设计方案的某些方面而建立的一个非工作比例模型。如汽车实物模型。当编码成本高时采用<br>•系列首发原型：创建系统的第一个实物工作模型，即试验模型，是可以工作的原型。<br>•精选特征原型：建立一个包含最终系统部分特性而不是全部特性的可工作模型。</p>
+<p>4.原型分类三<br>•抛弃式原型：尽可能快速开发<br>•试用型原型：最终的开发平台和原型相同<br>•试验型原型：最终开发平台与原型不同。</p>
+<p>5.原型化方法的优点<br>•根据用户反馈，不断调整修改<br>•开发周期短，成本低<br>•缩短产品和需求的差别，开发出更贴近用户需求和期望的系统<br>•界面原型在获取用户反馈时有很大优势<br>•可以在系统开发早期改变系统<br>•可以中止一个不能工作的系统开发</p>
+<p>6.原型化方法的缺点：<br>•需求不充足，开发者对用户需求不清楚，误解，过早的形成一个系统<br>•原型和最终系统之间存在差别，用户会误以为是最终系统<br>•开发者容易依赖原型，不愿意放弃原型<br>•原型开发成本高时会过度占用开发周期宝贵的时间，最初原型不能超过20%的时间<br>•经济损耗</p>
+<p>7.原型化方法不适用的地方：<br>嵌入式系统：界面简单，与硬件太接近，需求明确<br>实时控制软件：搜索引擎，<br>科学计算：matlab，因需求明确，精度，效率，时间要求明确，模块太多，重要性均等，无法明确判定哪些是重要的需要原型化的。<br>但是很多应用，如游戏是适用于原型开发的。</p>
+<h3 id="3-2-原型开发"><a href="#3-2-原型开发" class="headerlink" title="3.2 原型开发"></a>3.2 原型开发</h3><p>1. 原型化方法的要求：<br>用户是熟练的专家，可以给出反馈<br>重视界面，如手持设备<br>成本低，不会占用太长的开发周期</p>
+<p>2.开发准则<br>•引进便于管理的模块：但不用建立完整的工作准则<br>•快速建立原型<br>•用连续迭代来修改原型<br>•强调用户界面：用户可以和原型轻松交互</p>
+<p>3.原型开发流程<br>听取用户意见，修改原型，用户测试，不断循环迭代。</p>
+<h3 id="3-3-RAD快速应用程序开发"><a href="#3-3-RAD快速应用程序开发" class="headerlink" title="3.3 RAD快速应用程序开发"></a>3.3 RAD快速应用程序开发</h3><p>1. 定义：是一种面向对象的系统开发方法，包括开发方法和开发工具。目标是缩短传统SDLC方法中信息系统的设计和实践之间漫长的时间，反映需求的变更，是原型化方法的一种特殊实现。</p>
+<p>2. RAD的阶段<br><img src="http://i39.tinypic.com/zjv0nb.jpg"><br>1)需求规划阶段：确定系统的业务目标和信息需求<br>2)RAD设计研讨会：RAD的核心，与用户共同合作设计系统，讨论设计的非技术方面，并对构建的工作原型给出反馈<br>3)实现阶段：根据设计，建立、优化、测试新系统</p>
+<p>3. Jame Martin RAD 四个阶段<br><img src="http://i40.tinypic.com/292bkaq.jpg"><br>1)需求规划：高级用户决定系统的功能<br>2)用户设计：与用户交互讨论系统的非技术方面<br>3)构建阶段：根据设计，用RAD工具构建，并向用户展示新系统，让他们交互、评论和检查。<br>4)转换阶段：新系统取代旧系统，测试新系统，培训用户</p>
+<p>4.优势<br>•传统SDLC采用的是有序的、系统的开发方法，保证系统的完整性和精确性，<br>但抵制变更，不能很好地处理需求的变更。<br>•RAD缩短SDLC，更欢迎变更。</p>
+<p>5.使用条件<br>•团队中有用过RAD的程序员和分析员<br>•由于商业压力，要求加快应用程序某部分的开发<br>•从事一项全新的电子商务应用程序，并且开发团队相信，如果应用程序是第一个或第一批出现在web上，则企业作为一个创新者取得竞争优势。<br>•用户经验丰富，对公司的组织目标高度负责。</p>
+<p>6.缺点：缺乏文档</p>
+<div style="color: #EF4808">
+两个好用的Chrome插件，小伙伴们看完复习资料支持一下吧：
+[剪影截图：好用的网页截图，一键人人分享工具，快捷键ctrl+shift+z, 双击确定!](https://chrome.google.com/webstore/detail/剪影截图/gkloklemhahnoipikedmafefilidffko "剪影截图")
+[TSS下载助手：让你方便一键批量下载](https://chrome.google.com/webstore/detail/tss下载助手/odhkpoplnhfnhhhkgphckabboemiifle "TSS下载助手")
+</div>
+
+<p>资源：<br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" title="System Analysis and Design (Kenneth Kendall) Review Part1">系统分析与设计part1</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" title="System Analysis and Design (Kenneth Kendall) Review Part2">系统分析与设计part2</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" title="System Analysis and Design (Kenneth Kendall) Review Part3">系统分析与设计part3</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" title="System Analysis and Design (Kenneth Kendall) Review Part4">系统分析与设计part4</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" data-id="ckjk20xno00219bwr9iqf8kr9" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/design/" rel="tag">Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/" rel="tag">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/systemanalysis/" rel="tag">SystemAnalysis</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          System Analysis and Design (Kenneth Kendall) Review Part2
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/11/24/distributed-system-review-part4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">分布式系统总结part4</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/27/an-introduction-to-bayesian-networks/" class="title">An Introduction to Bayesian Networks</a></p>
+              <p class="item-date"><time datetime="2020-12-27T10:54:04.000Z" itemprop="datePublished">2020-12-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/25/strucutre-learning-algorithm-notears/" class="title">Strucutre Learning Algorithm NOTEARS</a></p>
+              <p class="item-date"><time datetime="2020-12-25T14:01:59.000Z" itemprop="datePublished">2020-12-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/09/13/akka-http-notes/" class="title">Akka http notes</a></p>
+              <p class="item-date"><time datetime="2020-09-13T13:47:31.000Z" itemprop="datePublished">2020-09-13</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/08/04/java-performance-notes-monitoring-tools/" class="title">Java Performance Toolbox</a></p>
+              <p class="item-date"><time datetime="2018-08-04T10:24:34.000Z" itemprop="datePublished">2018-08-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/07/16/big-data-expert/" class="title">Big Data And ML Learning</a></p>
+              <p class="item-date"><time datetime="2018-07-16T00:33:12.000Z" itemprop="datePublished">2018-07-16</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/akka-scala/" style="font-size: 10px;">Akka, Scala</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/big-data/" style="font-size: 13.33px;">Big Data</a> <a href="/tags/causal-inference-ai/" style="font-size: 11.67px;">Causal Inference, AI</a> <a href="/tags/design/" style="font-size: 15px;">Design</a> <a href="/tags/hbase/" style="font-size: 16.67px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 13.33px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 16.67px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 15px;">Scala</a> <a href="/tags/spark/" style="font-size: 10px;">Spark</a> <a href="/tags/systemanalysis/" style="font-size: 15px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.67px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/apache-storm/" style="font-size: 10px;">apache storm</a> <a href="/tags/java-performance/" style="font-size: 10px;">java performance</a> <a href="/tags/learning/" style="font-size: 11.67px;">learning</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/machine-learning/" style="font-size: 10px;">machine learning</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.67px;">sort</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/spark-streaming/" style="font-size: 10px;">spark streaming</a> <a href="/tags/%E8%AF%97%E8%AF%9D/" style="font-size: 10px;">诗话</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Cyanny Liang
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

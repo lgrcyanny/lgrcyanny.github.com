@@ -1,8 +1,363 @@
-{% extends "_layout.swig" %}
-{% import '_partial/post.swig' as postPage %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Revolution——面向对象看黑客帝国 | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="作者: Thomas Zhang 前言清楚地记得，第一次看《The Matrix》这部电影是在小学六年级，在一个英语班上，同小伙伴们一起，围着一个20英寸的小电视，一知半解地看完了一部完全没有中文字幕的英文版本。虽然那时的自己，对这个繁复庞杂的世界架构必然一知半解，但纵然如此，惊喜与震撼已经随着剧终Neo手中听筒的落地，而深埋内心。我开始像Mopheus一样的问自己。What is real? H">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Revolution——面向对象看黑客帝国">
+<meta property="og:url" content="http://www.cyanny.com/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="作者: Thomas Zhang 前言清楚地记得，第一次看《The Matrix》这部电影是在小学六年级，在一个英语班上，同小伙伴们一起，围着一个20英寸的小电视，一知半解地看完了一部完全没有中文字幕的英文版本。虽然那时的自己，对这个繁复庞杂的世界架构必然一知半解，但纵然如此，惊喜与震撼已经随着剧终Neo手中听筒的落地，而深埋内心。我开始像Mopheus一样的问自己。What is real? H">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i58.tinypic.com/t4z978.jpg">
+<meta property="og:image" content="http://i57.tinypic.com/2monnyf.jpg">
+<meta property="og:image" content="http://i60.tinypic.com/344fkgw.jpg">
+<meta property="og:image" content="http://i62.tinypic.com/2csc64p.jpg">
+<meta property="article:published_time" content="2014-02-27T02:41:52.000Z">
+<meta property="article:modified_time" content="2016-09-27T01:03:08.000Z">
+<meta property="article:author" content="Cyanny Liang">
+<meta property="article:tag" content="life">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i58.tinypic.com/t4z978.jpg">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %} {{ page.title }} · {{ config.title }} {% endblock %}
+  
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 
-{% block main %}
-    {{ postPage.render(page) }}
-{% endblock %}
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">AI System Architecture</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" target="_blank" rel="noopener" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        64
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        38
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      
+      <section id="main"><article id="post-revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Revolution——面向对象看黑客帝国
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/">
+    <time datetime="2014-02-27T02:41:52.000Z" itemprop="datePublished">2014-02-27</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/life/">Life</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>作者: Thomas Zhang</p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>清楚地记得，第一次看《The Matrix》这部电影是在小学六年级，在一个英语班上，同小伙伴们一起，围着一个20英寸的小电视，一知半解地看完了一部完全没有中文字幕的英文版本。虽然那时的自己，对这个繁复庞杂的世界架构必然一知半解，但纵然如此，惊喜与震撼已经随着剧终Neo手中听筒的落地，而深埋内心。我开始像Mopheus一样的问自己。What is real? How to define real? 我开始问自己，这个世界是否真的有可能是一个Matrix中的映像，周遭的生活，是否真的有可能是镜花水月，空中楼台。转眼十几年过去了。这十几年中，《The Matrix》三部曲一直珍藏在我的硬盘中，时不时翻出来重新品味，每次又都有不一样的体验。[more…]<br>十年后的今天，我已经从一个懵懂的少年，成为一个软件工程专业的学生。不得不说，直到接触了软件，接触了计算机体系结构，接触了面向对象的设计思想，对于这部电影，我才有了一个更深刻，更不一样的理解和体会。而经过这一整个学期对面向对象技术的实papapa践与深入了解，对这部经典的理解，似乎又深入了许多。<br>对于这三部曲，《The Matrix》是开创性的，如疾风骤雨办将一个残酷的真相——现实劈头盖脸的丢到你面前，只留下目瞪口呆的你独自回味着扑面而来的震撼和冲击；《The Matrix ——Reload》是颠覆性的，将你冥思苦想，以为理解了的世界一把推翻，告诉你，真相，其实远远没有那么简单；《The Matrix —— Revolution》是整个三部曲的高潮与结尾，却更是一个开端，那一夜雨战之后，一切都恢复了原装，但是一切，又都变得不同了起来。这篇文章当然不是描述对电影艺术表现抑或情节内容的感受与分析，但是我们仍然要找一个切入点，一个面向对象世界中，和那个电影中的波澜壮阔的世界能够微妙的联系在一起的点。我选择了，Revolution——革命。</p>
+<h3 id="Recolution"><a href="#Recolution" class="headerlink" title="Recolution"></a>Recolution</h3><p>在那个雨夜大战之后，Neo和Smith这一对系统中的异常，终于被抹平，Matrix中的世界，似乎又恢复昔日的平静，一切都回到了原点。但，事实真的是这样么？Revolution，革命，究竟又指的是什么呢？<br>其实事实上，这时候的世界已经发生了本质的变化。还记得《Reload》里面的印度小姑娘Sati么？在从前，一个在系统中本应该被删除的，没有既定目标的冗余程序，现在竟然可以在Architecture眼皮底下自由地玩耍，并且可以完成一项似乎并没有“实用”功能性的代码改写——让夕阳变得美丽——来纪念逝去的人类朋友Neo。这意味着看似恢复原样的Matrix系统其实已经在不经意间完成了一次根本上变化，整个Matrix中，开始允许因为“爱”产生的冗余程序的存在。这是一个近乎根本性的有颠覆意义的改变。<br>也就是说，Revolution并不仅仅指的是在人类的角度上，Neo通过自我牺牲完成了对Zion的拯救，改变了脱离Matrix的人类宿命一样的被屠杀的命运；在另一个层面上，也指的是在Oracle的指引与Neo的协助之下，整个Matrix系统进行了一次根本性的“革命”。<br>更确切的对应到软件体系中，我们应该可以说，在电影中Matrix系统进行了一次大规模的系统热升级，在这次升级中，对整个系统的内存回收机制做出了根本上的修改，以使得系统更好的完成承载作为“电池”的人类思维的需求！<br>在影片中，从Merovingian、Architecture和Oracle的口中，直接间接的，我们可以知道，整个Matrix系统已经先后进行过六次这样的“升级”。这种开发模式，细细想来，与面向对象、敏捷开发中经常应用的迭代式的开发方式，有着异曲同工之处。<br>但是，一个系统要应用迭代开发方式，那么这个系统一定要满足特定的条件。在敏捷系统中，迭代开发需要满足<br>1、在项目开发早期需求可能有所变化<br>2、分析设计人员对应用领域很熟悉<br>3、高风险项目<br>4、用户可不同程度地参与整个项目的开发过程<br>5、使用面向对象的语言或统一建模语言<br>6、使用CASE工具<br>7、具有高素质的项目管理者和软件研发团队<br>其中，面向对象是使用迭代开发方式的必要条件之一。接下来，就来分析一下《The Matrix》世界对应到面向对象方式中的设计。</p>
+<h3 id="The-Desert-of-the-Real"><a href="#The-Desert-of-the-Real" class="headerlink" title="The Desert of the Real"></a>The Desert of the Real</h3><p>Mopheus第一次试图向Neo介绍the Matrix的真相时候告诉他，由于历史信息的缺失，对整个世界的构成和来由并不完全清楚，通过推测，才得以窥知这个世界的秘密，他称之为，the desert of the real。可以想见，如果到了一个人工智能发展如此强大的时代，编程语言的类别或许应该一定会超越目前人类的认知和理解。但是从矩阵世界中发生的故事中，我们其实还是可以管中窥豹，发现很多面向对象的蛛丝马迹。下面，就来一一剖析。</p>
+<p><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=t4z978"><img src="http://i58.tinypic.com/t4z978.jpg" alt="Image and video hosting by TinyPic"></a></p>
+<p>在PB Kruchten经典的论文中可以知道，我们可以通过4+1视对面向对象设计的架构进行描述。部署视图显示的是系统的实际部署情况，它是为了便于理解系统在一组处理节点上的物理分布。所以，这里就先从高层次上，与物理世界关系方面，对矩阵世界的部署视图进行尝试性的描述。<br>上图就是矩阵世界中地球上各个系统的部署视图，可以看出，地表上，机器城维护者作为能源的巨大的分布式电力供应系统，而这个电力系统以人供电，每个人又通过统一的接口连接在Matrix则个虚拟现实系统之中，为系统统一管理、控制。人类反抗组织以地下的Zion为基地，通过庞大的地下管道系统进行反抗机器城的活动，从电池组合Matrix中解救出有意愿脱离Matrix的人类。通过电影中可以得知，上面各个系统之间存在着繁复的交互关系，接下来就用4+1视图中逻辑视图中的类图，来形象的展示各个系统和各个部件之间的关系。</p>
+<p><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=2monnyf"><img src="http://i57.tinypic.com/2monnyf.jpg" alt="Image and video hosting by TinyPic"></a></p>
+<p>上图可见，Matrix系统由两部分组成，接入系统的人，以及保证系统正常运行的各类程序。Architecture与Oracle均是系统程序的一部分，拥有相对于其他程序高得多的权限，并且拥有与机器城交互的能力。每隔一定时间，系统中不稳定的人群中会由Oracle指引和选择出现The One，The One多重继承了程序和人的属性，帮助Matrix完成每一次的系统更新。<br>以上就是从The Matrix电影有限的信息中——the desert of real——中推测出来的，关于Matrix面向对象层次上抽象出来的设计描述。满足了这个前提条件，接下来，让我们回归正题，来讨论Matrix中对于“迭代式开发”技术的应用。</p>
+<h3 id="宿命的迭代"><a href="#宿命的迭代" class="headerlink" title="宿命的迭代"></a>宿命的迭代</h3><p>迭代开发，是面向对象以及目前流行的敏捷开发方式中最常用的一种开发方式。迭代，是快速原型与面向对象技术的结合。在迭代式开发方法中，整个开发工作被组织为一系列的短小的、固定长度的小项目，被称为一系列的迭代。每一次迭代都包括了需求分析、设计、实现与测试。采用这种方法，开发工作可以在需求被完整地确定之前启动，并在一次迭代中完成系统的一部分功能或业务逻辑的开发工作。再通过客户的反馈来细化需求，并开始新一轮的迭代。下面是迭代开发的流程示意图。</p>
+<p><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=344fkgw"><img src="http://i60.tinypic.com/344fkgw.jpg" alt="Image and video hosting by TinyPic"></a><br>暂且不做说明，同时放上the Matrix中系统升级的时间线如下图。</p>
+<p><a target="_blank" rel="noopener" href="http://tinypic.com/?ref=2csc64p"><img src="http://i62.tinypic.com/2csc64p.jpg" alt="Image and video hosting by TinyPic"></a></p>
+<p>图中可以很明显的看出，第一个有着完美世界架构的矩阵很快失败了，正如迭代开发中第一个原型，通常都是抛弃原型，是快速搭建起来的，以获取用户需求为目的的原型。通常，在使用过后，由于修改变更的可能性极大，所以通常会被抛弃而重新设计。而接下来的五次矩阵升级，都是同一版本的提升性升级，the One选择了重建Zion，新版本的矩阵仅仅是清楚了之前的Bug数据，便继续运行。但是Neo，第六次的选择，作出了不同的选择，选择相信爱，拯救Trinity和Zion。最终Neo牺牲了自己，挽救了矩阵世界和人类世界。同时，系统终于加入了决定性的变更——类似人类的情感——爱以及全新的内存回收机制。<br>多么典型的迭代开发流程！<br>由此可以发现，不论是标准的迭代开发的图示，抑或定义，抑或矩阵的升级流程图，FeedBack都起到了极其重要的作用。而Feedback的来源，正是每一任the One，从Zion，这些排斥现有矩阵的反抗者那里获取的。所以，其实一切的一切，不论是从矩阵中的逃脱、Zion中的自由还是最终Zion的获救，其实都是Machine City，为了更好地设计Matrix系统，进行的宿命办的迭代。<br>When some see coincidence, I see consequence. When other see chance, I see cost.<br>其实每次变更，都是一次选择，一次一次机遇，也一定会付出一定的代价。<br>在迭代中，代价由于快速迭代，所以只会影响这一次迭代的原型。<br>而同样的优点，在矩阵中，则被计算机所完美的利用。正如Architecture所说的，我们能够承受每一次系统迭代升级的代价，也随时准备承受这样的代价。<br>机器的精明，确实人类宿命的悲哀。</p>
+<h3 id="接口，机遇"><a href="#接口，机遇" class="headerlink" title="接口，机遇"></a>接口，机遇</h3><p>那么，再这样完善的系统精巧的设计中，人类是不是真的就没有机会完成复兴呢？其实人类反击的机遇也恰恰蕴含在这近乎完美的设计之中。<br>在这样一个世界中，Matrix的世界中，人类与机器其实遵循同样的定律生活在一个虚拟的空间中。也就是说，机器和人类的思维，其实共享着同样的接口。面向接口设计的完美实例！这也就意味着，如果信息隐藏做的足够好，那么，既然人无法分辨机器，那么反过来，在Matrix中，自然可以做到让机器无法分辨出人！这不正是人的机遇么~？！<br>在《The Matrix》的动画版《Animatrix》中，描述了这样一幕，人类反抗组织通过私有Matrix，成功的与机器交流，并“招安了”许多机器作为保护自己的助手。同样的枷锁，蕴含在面向对象中的精灵，原来同样可以加诸机器头上！</p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>Architecture：You play a dangerous game!<br>Oracle: Change is always dangerous.<br>Architecture：Just how long,  do you think this peace can last.<br>Oracle: As long as  it can.</p>
+<p>May so be the software system!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/" data-id="ckjk20xmv001k9bwr7al08t1k" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2014/02/27/revolution-e9-9d-a2-e5-90-91-e5-af-b9-e8-b1-a1-e7-9c-8b-e9-bb-91-e5-ae-a2-e5-b8-9d-e5-9b-bd/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/life/" rel="tag">life</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/02/27/nodejs-hbase-hadoop2-thrift2-e9-85-8d-e7-bd-ae-e4-b8-8e-e4-bd-bf-e7-94-a8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Nodejs HBase0.96 Hadoop2.2.0 Thrift2配置与使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/02/06/set-hadoop-hbase-part2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Set up Hadoop 2.2 and HBase 0.96 part2</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/27/an-introduction-to-bayesian-networks/" class="title">An Introduction to Bayesian Networks</a></p>
+              <p class="item-date"><time datetime="2020-12-27T10:54:04.000Z" itemprop="datePublished">2020-12-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/25/strucutre-learning-algorithm-notears/" class="title">Strucutre Learning Algorithm NOTEARS</a></p>
+              <p class="item-date"><time datetime="2020-12-25T14:01:59.000Z" itemprop="datePublished">2020-12-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/09/13/akka-http-notes/" class="title">Akka http notes</a></p>
+              <p class="item-date"><time datetime="2020-09-13T13:47:31.000Z" itemprop="datePublished">2020-09-13</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/08/04/java-performance-notes-monitoring-tools/" class="title">Java Performance Toolbox</a></p>
+              <p class="item-date"><time datetime="2018-08-04T10:24:34.000Z" itemprop="datePublished">2018-08-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/07/16/big-data-expert/" class="title">Big Data And ML Learning</a></p>
+              <p class="item-date"><time datetime="2018-07-16T00:33:12.000Z" itemprop="datePublished">2018-07-16</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/akka-scala/" style="font-size: 10px;">Akka, Scala</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/big-data/" style="font-size: 13.33px;">Big Data</a> <a href="/tags/causal-inference-ai/" style="font-size: 11.67px;">Causal Inference, AI</a> <a href="/tags/design/" style="font-size: 15px;">Design</a> <a href="/tags/hbase/" style="font-size: 16.67px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 13.33px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 16.67px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 15px;">Scala</a> <a href="/tags/spark/" style="font-size: 10px;">Spark</a> <a href="/tags/systemanalysis/" style="font-size: 15px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.67px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/apache-storm/" style="font-size: 10px;">apache storm</a> <a href="/tags/java-performance/" style="font-size: 10px;">java performance</a> <a href="/tags/learning/" style="font-size: 11.67px;">learning</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/machine-learning/" style="font-size: 10px;">machine learning</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.67px;">sort</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/spark-streaming/" style="font-size: 10px;">spark streaming</a> <a href="/tags/%E8%AF%97%E8%AF%9D/" style="font-size: 10px;">诗话</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Cyanny Liang
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

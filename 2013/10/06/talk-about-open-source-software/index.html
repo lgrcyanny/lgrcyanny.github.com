@@ -1,8 +1,398 @@
-{% extends "_layout.swig" %}
-{% import '_partial/post.swig' as postPage %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>谈谈开源软件，谈谈质量 | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="开源软件的基本概念最早可追溯到1955年IBM为了交换编程资料、深入研究IBM操作系统而开发的“IBM用户组分享”。在几十年后，1997年Eric Raymond发表了《大教堂与市集》——开源软件运动的圣经，以大教堂和市集这生动的比喻，阐述了商业封闭软件和自由软件的开发模式，并以Linux和Fetchmail为案例讨论了开源软件的优势。至今，20多年过去了，开源软件取得了不朽的成就，像Linux，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈谈开源软件，谈谈质量">
+<meta property="og:url" content="http://www.cyanny.com/2013/10/06/talk-about-open-source-software/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="开源软件的基本概念最早可追溯到1955年IBM为了交换编程资料、深入研究IBM操作系统而开发的“IBM用户组分享”。在几十年后，1997年Eric Raymond发表了《大教堂与市集》——开源软件运动的圣经，以大教堂和市集这生动的比喻，阐述了商业封闭软件和自由软件的开发模式，并以Linux和Fetchmail为案例讨论了开源软件的优势。至今，20多年过去了，开源软件取得了不朽的成就，像Linux，">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2013-10-06T03:25:17.000Z">
+<meta property="article:modified_time" content="2016-09-27T01:03:08.000Z">
+<meta property="article:author" content="Cyanny Liang">
+<meta property="article:tag" content="Learning">
+<meta property="article:tag" content="Methodology">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %} {{ page.title }} · {{ config.title }} {% endblock %}
+  
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 
-{% block main %}
-    {{ postPage.render(page) }}
-{% endblock %}
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">AI System Architecture</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" target="_blank" rel="noopener" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        64
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        38
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      
+      <section id="main"><article id="post-talk-about-open-source-software" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      谈谈开源软件，谈谈质量
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/10/06/talk-about-open-source-software/">
+    <time datetime="2013-10-06T03:25:17.000Z" itemprop="datePublished">2013-10-06</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/life/">Life</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>开源软件的基本概念最早可追溯到1955年IBM为了交换编程资料、深入研究IBM操作系统而开发的“IBM用户组分享”。在几十年后，1997年Eric Raymond发表了《大教堂与市集》——开源软件运动的圣经，以大教堂和市集这生动的比喻，阐述了商业封闭软件和自由软件的开发模式，并以Linux和Fetchmail为案例讨论了开源软件的优势。至今，20多年过去了，开源软件取得了不朽的成就，像Linux，Java，Eclipse，Android，Apache，Hadoop，Git，Nginx，Python，Node.js等，都是优秀的开源软件。</p>
+<h3 id="开源软件vs自由软件"><a href="#开源软件vs自由软件" class="headerlink" title="开源软件vs自由软件"></a>开源软件vs自由软件</h3><h5 id="开源软件"><a href="#开源软件" class="headerlink" title="开源软件"></a>开源软件</h5><p>开源软件的定义，是由Bruce Perens(Debian创始人之一)于1997年基于Debian Free Software Guidelines提出，开源软件即公开源代码的软件，允许用户使用，修改，拷贝，合并，出版发行，再散布，贩售软件及软件副本，同时开源软件允许版权持有人在软件协议的规定之下保留一部分权利。</p>
+<p>open source describes a broad general type of software license that makes source code available to the general public with relaxed or non-existent copyright restrictions.[more…]</p>
+<p>1998年Eric.S.Raymond和Perens成立了OSI(Open Source Initiative), OSI规定开源软件需要遵守OSI支持的许可证，例如Apache License, BSD license, GNU General Public License, GNU Lesser General Public License, MIT License, Eclipse Public License和Mozilla Public License，如果软件源代码本身开源，但是限制用户的修改和再发行等权利，或者程序源码不可读、质量低造成用户难以自由使用，也只能是“Source Available Software”，不是开源软件。</p>
+<h5 id="自由软件"><a href="#自由软件" class="headerlink" title="自由软件"></a>自由软件</h5><p>相对于开源软件，我们常提到自由软件，大多数开源软件也是自由软件，但二者不能混谈。自由软件, 是1983年由美国麻神理工人工智能实验室研究Richard Stallman提出，并于1984年发起了自由软件运动，建立了自由软件基金会(FSS)，启动了GNU工程。他提出了Copyleft的思想，并为Copyleft提出了GPL许可证，GPL是该运动的精髓。自由软件的定义有FSS在1986年正式提出：<br>software is free software if people who receive a copy of the software have the following four freedoms.</p>
+<p>Freedom 0: The freedom to run the program for any purpose.</p>
+<p>Freedom 1: The freedom to study how the program works, and change it to make it do what you wish.</p>
+<p>Freedom 2: The freedom to redistribute copies so you can help your neighbor.</p>
+<p>Freedom 3: The freedom to improve the program, and release your improvements (and modified versions in general) to the public, so that the whole community benefits.</p>
+<p>Freedoms 1 and 3 require source code to be available because studying and modifying software without its source code can range from highly impractical to nearly impossible.</p>
+<h5 id="开源软件和自由软件区别"><a href="#开源软件和自由软件区别" class="headerlink" title="开源软件和自由软件区别"></a>开源软件和自由软件区别</h5><p>如果硬要区别开源软件和自由软件，可以说二者的出发点不同，用Richard Stallman的话说”Open source is a development methodology; free software is a social movement”. </p>
+<p>开源软件出发点是程序本身，旨在通过开源，让更多的人合作开发，Linus定律指出”Given enough eyeballs all bugs are shallow.”,开源致力于提高程序的质量，是一种集市的开发模式.</p>
+<p>自由软件可以看做一种哲学和道德观念，强调用户的自由，如果一个软件卖给一个用户的只是二进制代码，而没有源代码，妨碍了用户自由使用、学习的权利，这就是不道德的。Richard Stallman认为软件不应该用来剥削和压榨利润，应该给用户自由的权利。自由软件一定是开源的，自由软件可以看做是开源软件的子集，开源软件中存在一些软件是限制用户再发售软件的权利，这就不是自由的。但大多数软件是自由开源软件FOSS。</p>
+<p>The term “open source” software is used by some people to mean more or less the same category as free software. It is not exactly the same class of software: they accept some licenses that we consider too restrictive, and there are free software licenses they have not accepted. However, the differences in extension of the category are small: nearly all free software is open source, and nearly all open source software is free.</p>
+<p>—–<a target="_blank" rel="noopener" href="http://www.gnu.org/philosophy/categories.html">Free Software Foundation</a> </p>
+<p>自由软件常用的许可证是GPL和BSD，现在的更多的FOSS接受MIT或者BSD的许可证，而不太接受自由软件协议GPL，因为在GPL下，再次开发的软件必须是GPL的，不能作为商业用途，代码的传染性太高，也算是一种对自由的限制。</p>
+<h3 id="开源软件的优势"><a href="#开源软件的优势" class="headerlink" title="开源软件的优势"></a>开源软件的优势</h3><p>1.较低的维护成本，快速的Bug修复</p>
+<p>正如Linus定律所述: “如果有足够多的眼睛，所有的错误都是浅显的。”更多的开发者，则可以更快的修复Bug。程序员如果找到Bug，不比像商业软件中那样，先上报、再审批、再决定Bug修复方法，再修复，效率较低，而开源社区的程序员们则可以快速响应修复问题。并且，开源软件的开发者们都是自主自愿的做贡献，软件的维护成本基本为零。</p>
+<p>2. 自由和透明性</p>
+<p>开源软件让开发者可以自由地使用和学习源代码，可以按自己的需求修改源代码，可以学习别人的代码，提高自己的技能。同时也可以了解软件的运作机制，修复bug，为开源软件做出贡献，提高自己在科技界的知名度。 这是开发者的快乐所在。</p>
+<p>3. 为公司打开市场</p>
+<p>IBM公司在开源软件Eclipse上投入上亿美元，开发了这个高质量的Java IDE，打败了竞争对手，推广了自己的产品，赢得了市场；Joyent公司发布开源的Node.js, 一个基于Chrome V8引擎的开发web应用的开发平台，曾一度成为GitHub上的Top Star，并受MicroSoft, Linkedln，eBay等大公司的亲睐，相信Joyent这家云服务提供商也拓宽了自己的市场。在软件有了市场后，便可以通过对软件的互补物品，如技术支持，存储空间，广告等方面获得利润。</p>
+<p>4. 吸引更多优秀的工程师</p>
+<p>一个公司进行一个开源项目，可以吸引到更多的人才。很多工程师，喜欢为开源社区工作，提高自己在科技界的声望，帮助他们找到更好的工作。而如果有公司支持开源项目，他们也乐意去那里工作。</p>
+<h3 id="开源软件的质量不太理想"><a href="#开源软件的质量不太理想" class="headerlink" title="开源软件的质量不太理想"></a>开源软件的质量不太理想</h3><p>开源软件承诺并鼓励开发更高质量，更高可靠性，更加灵活，更低成本的软件，让用户得到更多的自由，而我们也看到像Linux，GNU Project, Apache Project, Python, Chromium, Mozilla, Android都是高质量的开源软件，然而开源软件并不保证一定高质量，在<a target="_blank" rel="noopener" href="http://www.ohloh.net/" title="ohloh">ohloh(开源和自由软件的在线字典)</a>上的60多万的开源软件的质量没有那么理想，高质量的开源软件是榜样，但不能把开源和高质量等同。<br>Robert在《软件工程的事实与谬误中》给出了质量的定义，即7个属性的集合：可靠性，可移植性，效率，可用性（人类工程学），可测试性，易理解性和可修改性。<br>开源软件在质量方面的劣势如下：</p>
+<p>1. 可用性不理想</p>
+<p>商业软件，如Windows，Adobe Photoshop，Office，Dropbox，Skype，iTune等，都有对应的开源软件，如Ubuntu，GIMP，Open Office，Cabos，CuteCom，Songbird，同时也是免费的。开源软件的开发者们缺乏在可用性，HCI方面的设计经验，常常会去模仿工业界的商用软件的设计，缺乏自主创新，这也就解释了几乎每一个商业软件的都有一个开源软件与之对应。模仿的结果是可用性和用户满意度不高，对于不懂技术的普通用户，如果经济允许，购买商用软件会比用开源带来更多的方便。</p>
+<p>2. “早发布，常发布”造成缺乏成熟的设计</p>
+<p>开源社区，有优秀的程序员，但少有优秀的设计师。开源软件让开发者合作开发，其本质是大量的开发者为软件免费修复bug。开源软件还没有设计好，就草率的发布，势必会降低软件的质量，软件最终会失控。而很多时候，软件设计的重要性等同甚至大于代码的重要性，如HCI设计，需要专业的设计师。而开发者们都喜欢去实现算法，编写代码，在可用性上只按自己的喜好进行设计，造成在细节方面做得不如商业软件。</p>
+<p>3. 文档质量不高</p>
+<p>很多时候拿到一份源代码，看文档比看源码更有效率，文档是交流的利器。然而，开源软件的文档质量并没有商业软件那么理想。商业软件有好的技术文档和用户手册，但开源软件的开发者宁可写代码，也不太喜欢写文档。我曾经参与过Joomla项目，Joomla的文档就让人很头疼。</p>
+<p>4. 软件变得越来越复杂而难以控制</p>
+<p>太多的人参与，太多的意见，开发者们按自己的需求，自己对”好软件”的定义开发，让软件越来越复杂，集成和版本控制的成本增加，这些都源于对用户需求没有一个清晰的定义，不满足用户的需求，或者过多冗余的功能，会造成软件的质量下降。</p>
+<p>5. 开发人员管理困难</p>
+<p>好的软件往往需要一个或多个优秀的开发者全职在一起工作，一起开发、维护和改善软件。当开发者遍布世界各地，便很难保证开发者会全职为软件做贡献。而很多优秀的开源软件是大公司支持的，软件的贡献者同时也是公司的全职员工，这也是这些开源软件可以高质量的一个原因。</p>
+<h3 id="开源软件和商业软件之间的平衡"><a href="#开源软件和商业软件之间的平衡" class="headerlink" title="开源软件和商业软件之间的平衡"></a>开源软件和商业软件之间的平衡</h3><p>软件开发没有能带来数量级增长的银弹，开源和商业软件各有优势，如何选择是需要仔细考虑的。</p>
+<p>1. 根据用户的需求来决定用开源软件或者商业软件</p>
+<p>开源软件，开放源代码，开发者对此更感兴趣，如果应用是面向开发者的软件，对可用性和HCI要求不高，如编程语言（Python），服务器，IDE，平台软件，可以考虑用开源软件，让大量的开发者合作开发，可以提高软件的质量。</p>
+<p>如果用户是不关心技术的普通用户，且如果有对软件保密性、安全性、高可靠性等方面的需求，采用商业软件的开发方法更好，例如金融理财软件，邮件系统，铁路系统等。<br>如果用户对软件的交付日期有要求，不要用开源软件，开源很难控制开发进度。</p>
+<p>2. 如果采用开源软件，当心GPL</p>
+<p>很多开源软件受GPL的保护，而如果你需要二次开发的开源软件，在GPL下，则你开发的软件也必须在GPL下，这会损害你的专利权利，并且软件不能出售。</p>
+<p>3. 考虑个人的需求和公司的需求</p>
+<p>如果对于开发者个人，需要提高自己在软件界的声望，想锻炼自己的能力，让CV更加好看，多参与和贡献开源软件是一个好方法。</p>
+<p>如果一个公司，想扩大自己的市场影响力，想以开源软件的方法获得商业利益，则可以采用开源软件。</p>
+<p>但如果个人或者公司想创新，实现创新的idea，并保有自己的专利权利，打算以出售软件来赚钱，那么就要采用商业软件的开发方法。</p>
+<p>总之，有了开源软件，我们就多了一种软件的开发方法，开源软件为软件的世界带来了很多生机，像GitHub现在全球最大的开源社区，每天都有世界各地的开发者合作交流。商业软件还是开源软件，我们都要从自己的需求出发来决定。</p>
+<h3 id="一些参考资源"><a href="#一些参考资源" class="headerlink" title="一些参考资源"></a>一些参考资源</h3><p><a target="_blank" rel="noopener" href="http://www.gnu.org/philosophy/when_free_software_isnt_practically_better.html" title="When Free Software Isn">When Free Software Isn’t (Practically) Better</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.mpt.net.nz/2012/06/why-free-software-has-poor-usability/" title="why-free-software-has-poor-usability">Why free software has poor usability, and how to improve it</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.lambdassociates.org/blog/the_problems_of_open_source.htm" title="the_problems_of_open_source.htm">The Problems of Open Source</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.gilyehuda.com/2011/01/12/open-source-considerations/" title="open-source-considerations">Corporate Open Source Considerations</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.hackerfactor.com/blog/index.php?/archives/415-Open-Source-Sucks.html" title="Open-Source-Sucks">Open Source Sucks</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.hackerfactor.com/blog/index.php?/archives/416-Open-Source-Rocks.html" title="Open-Source-Rocks">Open Source Rocks</a></p>
+<p><a target="_blank" rel="noopener" href="http://whdb.com/blog/2008/the-top-50-proprietary-programs-that-drive-you-crazy-and-their-open-source-alternatives/" title="the-top-50-proprietary-programs-that-drive-you-crazy-and-their-open-source-alternatives/">The Top 50 Proprietary Programs that Drive You Crazy — and Their Open Source Alternatives</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.forbes.com/sites/rajsabhlok/2013/07/18/open-source-software-the-hidden-cost-of-free/" title="open-source-software-the-hidden-cost-of-free">Open Source Software: The Hidden Cost of Free</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/10/06/talk-about-open-source-software/" data-id="ckjk20xmy001q9bwrard42f9n" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/10/06/talk-about-open-source-software/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/" rel="tag">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/methodology/" rel="tag">Methodology</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/11/01/agile-advantages-and-disadvantages/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          “吐槽”敏捷软件开发
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">统计学的基本概念和方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/27/an-introduction-to-bayesian-networks/" class="title">An Introduction to Bayesian Networks</a></p>
+              <p class="item-date"><time datetime="2020-12-27T10:54:04.000Z" itemprop="datePublished">2020-12-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/25/strucutre-learning-algorithm-notears/" class="title">Strucutre Learning Algorithm NOTEARS</a></p>
+              <p class="item-date"><time datetime="2020-12-25T14:01:59.000Z" itemprop="datePublished">2020-12-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/09/13/akka-http-notes/" class="title">Akka http notes</a></p>
+              <p class="item-date"><time datetime="2020-09-13T13:47:31.000Z" itemprop="datePublished">2020-09-13</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/08/04/java-performance-notes-monitoring-tools/" class="title">Java Performance Toolbox</a></p>
+              <p class="item-date"><time datetime="2018-08-04T10:24:34.000Z" itemprop="datePublished">2018-08-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/07/16/big-data-expert/" class="title">Big Data And ML Learning</a></p>
+              <p class="item-date"><time datetime="2018-07-16T00:33:12.000Z" itemprop="datePublished">2018-07-16</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/akka-scala/" style="font-size: 10px;">Akka, Scala</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/big-data/" style="font-size: 13.33px;">Big Data</a> <a href="/tags/causal-inference-ai/" style="font-size: 11.67px;">Causal Inference, AI</a> <a href="/tags/design/" style="font-size: 15px;">Design</a> <a href="/tags/hbase/" style="font-size: 16.67px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 13.33px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 16.67px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 15px;">Scala</a> <a href="/tags/spark/" style="font-size: 10px;">Spark</a> <a href="/tags/systemanalysis/" style="font-size: 15px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.67px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/apache-storm/" style="font-size: 10px;">apache storm</a> <a href="/tags/java-performance/" style="font-size: 10px;">java performance</a> <a href="/tags/learning/" style="font-size: 11.67px;">learning</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/machine-learning/" style="font-size: 10px;">machine learning</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.67px;">sort</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/spark-streaming/" style="font-size: 10px;">spark streaming</a> <a href="/tags/%E8%AF%97%E8%AF%9D/" style="font-size: 10px;">诗话</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Cyanny Liang
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

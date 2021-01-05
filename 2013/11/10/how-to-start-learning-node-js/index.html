@@ -1,8 +1,379 @@
-{% extends "_layout.swig" %}
-{% import '_partial/post.swig' as postPage %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>How to start learning Node.js | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="I have always wanted to do some meaningful projects, not the homework project at college, not the debug working at company. I just wanted to start a meaningful project for interest, or for fun. Maybe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to start learning Node.js">
+<meta property="og:url" content="http://www.cyanny.com/2013/11/10/how-to-start-learning-node-js/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="I have always wanted to do some meaningful projects, not the homework project at college, not the debug working at company. I just wanted to start a meaningful project for interest, or for fun. Maybe">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2013-11-10T12:36:45.000Z">
+<meta property="article:modified_time" content="2016-09-27T01:03:08.000Z">
+<meta property="article:author" content="Cyanny Liang">
+<meta property="article:tag" content="Learning">
+<meta property="article:tag" content="nodejs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %} {{ page.title }} · {{ config.title }} {% endblock %}
+  
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 
-{% block main %}
-    {{ postPage.render(page) }}
-{% endblock %}
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">AI System Architecture</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" target="_blank" rel="noopener" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        64
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        38
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      
+      <section id="main"><article id="post-how-to-start-learning-node-js" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      How to start learning Node.js
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/10/how-to-start-learning-node-js/">
+    <time datetime="2013-11-10T12:36:45.000Z" itemprop="datePublished">2013-11-10</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/nodejs/">Nodejs</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I have always wanted to do some meaningful projects, not the homework project at college, not the debug working at company. I just wanted to start a meaningful project for interest, or for fun. Maybe it will become a big success. and I believe in that. And recently I am busy with a spark prject based on Node.js.</p>
+<p>Node.js is a platform built on Chrome’s JavaScript V8 engine. The event-driven, non-blocking I/O model makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.</p>
+<p>In short, I think the advantages is:[more…]</p>
+<ul>
+<li>  Same language on both server side and front side</li>
+<li>  Event-driven and callback feature gains perfect performance</li>
+<li>  With WebSocket, you can built great real-time app, like online chat room</li>
+<li>  Worth to learn, it’s new, and will give you a new perspective of web development</li>
+</ul>
+<h2 id="Beginner-Guides"><a href="#Beginner-Guides" class="headerlink" title="Beginner Guides"></a>Beginner Guides</h2><p><a target="_blank" rel="noopener" href="http://nodeguide.com/beginner.html">1. Felix’s Node.js Beginners Guide</a></p>
+<p>This a short blog that can help you overview Node.js, learn some basics of Node.js, you can finish it within 30 min.<br>The Module system of node is worth to dig, read the <a target="_blank" rel="noopener" href="http://nodejs.org/api/modules.html">api</a>, especially the concept of <strong>exports</strong> and the <strong>module.exports</strong></p>
+<p><a target="_blank" rel="noopener" href="http://nodeguide.com/style.html#class-names">2. Node style guide</a></p>
+<p>Before programming, learn the programming style of node.</p>
+<p><a target="_blank" rel="noopener" href="https://npmjs.org/doc/coding-style.html">NPM coding style</a><br>This is the npm coding style. At the beginning, indentation with 2 spaces make me uneasy. But now I am used to it.</p>
+<p><a target="_blank" rel="noopener" href="http://www.nodebeginner.org/">3. The Node Beginning Book</a></p>
+<p>The beginning book is really great, Even though it has more than 70 pages, I finished it and learned a lot. I followed the example in the book, build a simple blog demo. And the code in the book had some tiny issue. I have uploaded the demo to my github, <a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/nodedemo">node-simle-blog-demo</a>.<br>BTW, the book will teach you how to run linux command by node <a target="_blank" rel="noopener" href="http://nodejs.org/api/child_process.html">Child Processes</a>, sounds interesting.</p>
+<h2 id="Learning-more-details"><a href="#Learning-more-details" class="headerlink" title="Learning more details"></a>Learning more details</h2><p><a target="_blank" rel="noopener" href="http://expressjs.com/guide.html">4. Express guide</a></p>
+<p>After learning how to build an application stack from the beginner book, you can start express now, finish the guide, understand the basics of the great web framework express. BTW, in node community, there are large amount of web framework. Like Tower.js, meteor.js, derby and so on. But express is the most popular and is supported by many people. I recommend it.</p>
+<p><a target="_blank" rel="noopener" href="http://www.manning.com/cantelon/">5. Node.js in Action</a></p>
+<p>The book recommended by express guide has more than 400 pages. Don’t withdraw, insist on it, you can follow the book example, and learn more details about node. I haven’t finish it, because I want to start my project more quickly, I just walked to Chapter4.<br>The <strong>callback</strong> model and <strong>event driven</strong> explained in the book is great. Especially the muti-chat room by socket.io gave me a deep impression.</p>
+<p><a target="_blank" rel="noopener" href="http://howtonode.org/express-mongodb">6. Build a express mongo blog</a></p>
+<p>Follow the blog and build a simple blog with mongodb+express+jade, the code of jade for the blog has a tiny issue <a target="_blank" rel="noopener" href="http://www.devthought.com/code/use-jade-blocks-not-layouts/">here</a>, my demo is here <a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/expressblog">express blog</a></p>
+<p>7. Now I am fed up with tutorials, I decided to build something by myself. I build a file uploader/downloader with express. <a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/ExpressFileManager">FileManager</a></p>
+<h2 id="Build-the-Web-project"><a href="#Build-the-Web-project" class="headerlink" title="Build the Web project"></a>Build the Web project</h2><p><a target="_blank" rel="noopener" href="https://github.com/madhums/nodejs-express-mongoose-demo">8. Node Express mongoose demo</a></p>
+<p>I build PartyTime based on the demo. The demo is a blog with passport and authentication function. Worth to learn</p>
+<p><a target="_blank" rel="noopener" href="http://mongoosejs.com/">9. Mongoose</a></p>
+<p>Although mongodb provide nodejs api, I think the middleware is more better than the origin mongodb API</p>
+<p><a target="_blank" rel="noopener" href="http://docs.mongodb.org/manual/">10. Mongodb Manual</a></p>
+<p>Lean basics about mongodb, especially the Data Modeling method.</p>
+<h2 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h2><p><a target="_blank" rel="noopener" href="https://github.com/joyent/node">11. Node github</a></p>
+<p><a target="_blank" rel="noopener" href="http://docs.nodejitsu.com/">12. A guide for api usage</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.nodecloud.org/">13. Node Cloud</a><br>This is a resource directory gathering sites related to Node.js.</p>
+<p><a target="_blank" rel="noopener" href="https://npmjs.org/">14. NPM</a>  Finding and uploading npm package.</p>
+<p>15. Some api worth to read: Modules, Child Processes, Crypto, File System, HTTP, Events, Path, QueryString, URL.</p>
+<h2 id="Good-Luck"><a href="#Good-Luck" class="headerlink" title="Good Luck!"></a>Good Luck!</h2><p>Many tutorials, no matter how to lean, enjoy the learning process and the final sucess! Don’t waiting for finishing every details before starting your project.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/10/how-to-start-learning-node-js/" data-id="ckjk20xmt001g9bwr5a160zix" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/10/how-to-start-learning-node-js/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/" rel="tag">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          如何配置VPS并发布WordPress Blog?(第二篇)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/11/01/agile-advantages-and-disadvantages/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">“吐槽”敏捷软件开发</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/27/an-introduction-to-bayesian-networks/" class="title">An Introduction to Bayesian Networks</a></p>
+              <p class="item-date"><time datetime="2020-12-27T10:54:04.000Z" itemprop="datePublished">2020-12-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/25/strucutre-learning-algorithm-notears/" class="title">Strucutre Learning Algorithm NOTEARS</a></p>
+              <p class="item-date"><time datetime="2020-12-25T14:01:59.000Z" itemprop="datePublished">2020-12-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/09/13/akka-http-notes/" class="title">Akka http notes</a></p>
+              <p class="item-date"><time datetime="2020-09-13T13:47:31.000Z" itemprop="datePublished">2020-09-13</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/08/04/java-performance-notes-monitoring-tools/" class="title">Java Performance Toolbox</a></p>
+              <p class="item-date"><time datetime="2018-08-04T10:24:34.000Z" itemprop="datePublished">2018-08-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/07/16/big-data-expert/" class="title">Big Data And ML Learning</a></p>
+              <p class="item-date"><time datetime="2018-07-16T00:33:12.000Z" itemprop="datePublished">2018-07-16</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/akka-scala/" style="font-size: 10px;">Akka, Scala</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/big-data/" style="font-size: 13.33px;">Big Data</a> <a href="/tags/causal-inference-ai/" style="font-size: 11.67px;">Causal Inference, AI</a> <a href="/tags/design/" style="font-size: 15px;">Design</a> <a href="/tags/hbase/" style="font-size: 16.67px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 13.33px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 16.67px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 15px;">Scala</a> <a href="/tags/spark/" style="font-size: 10px;">Spark</a> <a href="/tags/systemanalysis/" style="font-size: 15px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.67px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/apache-storm/" style="font-size: 10px;">apache storm</a> <a href="/tags/java-performance/" style="font-size: 10px;">java performance</a> <a href="/tags/learning/" style="font-size: 11.67px;">learning</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/machine-learning/" style="font-size: 10px;">machine learning</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.67px;">sort</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/spark-streaming/" style="font-size: 10px;">spark streaming</a> <a href="/tags/%E8%AF%97%E8%AF%9D/" style="font-size: 10px;">诗话</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Cyanny Liang
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

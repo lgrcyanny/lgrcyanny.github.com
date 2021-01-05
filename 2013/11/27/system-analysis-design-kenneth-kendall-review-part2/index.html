@@ -1,8 +1,394 @@
-{% extends "_layout.swig" %}
-{% import '_partial/post.swig' as postPage %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>System Analysis and Design (Kenneth Kendall) Review Part2 | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="4. 分析：使用数据流图4.1.数据流图功能和优点概念化数据在整个组织是如何流动的，数据经历的过程和变换，以及输出。优点：(1) 不必过早着手系统和技术的实现。(2) 进一步了解系统和子系统的相互关系。(3) 通过数据流图与用户交流当前系统的知识。(4) 更好地了解业务，分析建议的系统以确定是否定义了必要的数据和过程。[more…] 4.2.数据流图的图例规范1. 实体的命名：名词2. 数据流命名">
+<meta property="og:type" content="article">
+<meta property="og:title" content="System Analysis and Design (Kenneth Kendall) Review Part2">
+<meta property="og:url" content="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="4. 分析：使用数据流图4.1.数据流图功能和优点概念化数据在整个组织是如何流动的，数据经历的过程和变换，以及输出。优点：(1) 不必过早着手系统和技术的实现。(2) 进一步了解系统和子系统的相互关系。(3) 通过数据流图与用户交流当前系统的知识。(4) 更好地了解业务，分析建议的系统以确定是否定义了必要的数据和过程。[more…] 4.2.数据流图的图例规范1. 实体的命名：名词2. 数据流命名">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i42.tinypic.com/105a914.jpg">
+<meta property="og:image" content="http://i44.tinypic.com/11r86lx.jpg">
+<meta property="og:image" content="http://i44.tinypic.com/xnyzbo.jpg">
+<meta property="og:image" content="http://i42.tinypic.com/28k6bud.jpg">
+<meta property="og:image" content="http://i42.tinypic.com/256fnuc.jpg">
+<meta property="og:image" content="http://i42.tinypic.com/ddp0mh.jpg">
+<meta property="article:published_time" content="2013-11-27T03:07:46.000Z">
+<meta property="article:modified_time" content="2016-09-27T01:03:08.000Z">
+<meta property="article:author" content="Cyanny Liang">
+<meta property="article:tag" content="Learning">
+<meta property="article:tag" content="Design">
+<meta property="article:tag" content="SystemAnalysis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i42.tinypic.com/105a914.jpg">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %} {{ page.title }} · {{ config.title }} {% endblock %}
+  
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 
-{% block main %}
-    {{ postPage.render(page) }}
-{% endblock %}
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">AI System Architecture</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" target="_blank" rel="noopener" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        64
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        38
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      
+      <section id="main"><article id="post-system-analysis-design-kenneth-kendall-review-part2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      System Analysis and Design (Kenneth Kendall) Review Part2
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/">
+    <time datetime="2013-11-27T03:07:46.000Z" itemprop="datePublished">2013-11-27</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="4-分析：使用数据流图"><a href="#4-分析：使用数据流图" class="headerlink" title="4. 分析：使用数据流图"></a>4. 分析：使用数据流图</h2><h3 id="4-1-数据流图功能和优点"><a href="#4-1-数据流图功能和优点" class="headerlink" title="4.1.数据流图功能和优点"></a>4.1.数据流图功能和优点</h3><p>概念化数据在整个组织是如何流动的，数据经历的过程和变换，以及输出。<br>优点：<br>(1) 不必过早着手系统和技术的实现。<br>(2) 进一步了解系统和子系统的相互关系。<br>(3) 通过数据流图与用户交流当前系统的知识。<br>(4) 更好地了解业务，分析建议的系统以确定是否定义了必要的数据和过程。[more…]</p>
+<h3 id="4-2-数据流图的图例规范"><a href="#4-2-数据流图的图例规范" class="headerlink" title="4.2.数据流图的图例规范"></a>4.2.数据流图的图例规范</h3><p><img src="http://i42.tinypic.com/105a914.jpg"><br>1. 实体的命名：名词<br>2. 数据流命名：名词<br>3. 过程命名<br>在上下文图中，赋予整个系统的名称， 如“选课系统”<br>命名子系统时，使用诸如“预定子系统”， “Web用户执行系统”<br>具体过程命名：动词+形容词+名词 “计算净工资”，每一个过程要有一个唯一编号，指出它在图中的层次。</p>
+<h3 id="4-3-开发数据流图步骤"><a href="#4-3-开发数据流图步骤" class="headerlink" title="4.3.开发数据流图步骤"></a>4.3.开发数据流图步骤</h3><p>1. 步骤<br>1)制定一个业务活动列表：实体，数据流，过程，数据存储<br>2)创建上下文图，外部实体+输入+输出+系统，没有过程和数据存储<br>3)0层图：分解系统，展示高层的过程和数据存储，过程一般不超过9个，为避免数据流线交叉，同一个实体和数据存储可以出现多次。<br>4)画0层图中每个过程的子图<br>注意编号与父过程相同<br>纵向平衡——不能有父过程没有的输入和输出。<br>子图中通常不显示实体，显示接口数据流。<br>可以有父过程中没有显示的数据存储。<br>5)检查错误：编号正确，命名正确，输入输出清晰，没有back hole, 没有miracle<br>6)根据逻辑数据流图，开发物理数据流图：通过名字描述真实地文件和报表的物理存储，增加控制以指出合适过程完成或发生错误。<br>7)分割物理数据流图。</p>
+<p>2. 注意点</p>
+<ol>
+<li>图例和标识的准确性</li>
+<li>数据流：不能从实体到实体，不能存储到存储，可以从实体到过程，过程到过程，过程到存储</li>
+<li>数据流图的层次性</li>
+<li>尽量不要有线性流，即一个输入和输出的过程，出现通常是遗漏了数据流，一个过程输入和输出总数在&gt;=4个以上最好。</li>
+<li>用户要能理解</li>
+</ol>
+<h3 id="4-4-如何向用户解释数据流图"><a href="#4-4-如何向用户解释数据流图" class="headerlink" title="4.4 如何向用户解释数据流图"></a>4.4 如何向用户解释数据流图</h3><p>1. 数据流图的标记要具体而有意义、<br>2.可以通过举例，类比和问询，让用户了解DFD的原理<br>3.每个DFD的过程控制在9个以内，太大的图，则要分解，保证在一页纸内<br>4.结合表格和图表向用户解释</p>
+<h3 id="4-5-逻辑数据流图-vs-物理数据流图"><a href="#4-5-逻辑数据流图-vs-物理数据流图" class="headerlink" title="4.5.逻辑数据流图 vs 物理数据流图"></a>4.5.逻辑数据流图 vs 物理数据流图</h3><ol>
+<li>二者的区别<br><img src="http://i44.tinypic.com/11r86lx.jpg"></li>
+</ol>
+<p>2)逻辑数据流图优势<br>a)更好地与用户交流<br>b)系统更稳定<br>c)更好地了解业务<br>d)灵活、更易维护<br>e)消除冗余，更容易创建物理模型</p>
+<p>3)物理数据流图优势<br>a)澄清哪些过程是手工的，哪些是自动的<br>b)更详细的描述过程<br>c)标识临时数据存储<br>d)指定真实地文件名和打印输出名<br>e)增加确保正确地完成过程的控制。<br>物理数据流图创建方法：事件建模法，用例法.</p>
+<p><img src="http://i44.tinypic.com/xnyzbo.jpg"></p>
+<h2 id="5-使用数据字典分析系统"><a href="#5-使用数据字典分析系统" class="headerlink" title="5. 使用数据字典分析系统"></a>5. 使用数据字典分析系统</h2><h3 id="5-1-数据字典的基本概念"><a href="#5-1-数据字典的基本概念" class="headerlink" title="5.1.数据字典的基本概念"></a>5.1.数据字典的基本概念</h3><p>1.数据字典定义<br>是一种关于数据的数据参考书，指导系统的分析与设计，包括数据流，数据结构，数据元素和数据存储。</p>
+<p>2.数据字典的必要性<br>a)作为数据的记录文档<br>b)消除冗余，保证数据的一致性<br>c)验证DFD的完备性和准确性<br>d)为开发界面和报表提供切入点<br>e)找出数据流图中过程的逻辑<br>f)创建XML</p>
+<p>3.DFD与数据字典的关系<br><img src="http://i42.tinypic.com/28k6bud.jpg"></p>
+<h3 id="5-2-数据流的描述"><a href="#5-2-数据流的描述" class="headerlink" title="5.2 数据流的描述"></a>5.2 数据流的描述</h3><p>通过DFD确定系统的输入和输出，对每个数据流描述如下，具体实例可以看书。<br>1)ID：可选标识符<br>2)数据流名称<br>3)数据流描述<br>4)数据流来源<br>5)数据流目标<br>6)数据流类型：文件、界面、报表、表格或内部数据(中间的临时数据)<br>7)包含的数据结构<br>8)单位时间的流量<br>9)备注</p>
+<h3 id="5-3-数据结构描述"><a href="#5-3-数据结构描述" class="headerlink" title="5.3.数据结构描述"></a>5.3.数据结构描述</h3><p>1.描述<br>1)= 表示组成<br>2)+ 表示“和”<br>3){} 表示重复元素，一定有至少一个 1<del>n，可以包含固定重复次数，或上限与下限<br>4)[] “非此即彼”，互斥的选择<br>5)() 表示可选元素 0</del>1<br><img src="http://i42.tinypic.com/256fnuc.jpg"></p>
+<p>2.逻辑数据结构和物理数据结构<br>逻辑数据结构是业务上，用户看到的数据。物理数据结构是软件实现所需要的数据。<br>物理数据结构需要增加：<br>1)键字段，唯一标识一条记录<br>2)标识主记录的状态代码，诸如一个雇员当前被雇佣或否。<br>3)如果一个文件包含不同的记录类型，则可以用交易码标识记录的类型。例如，包含返还项的记录和支付记录的信用文件。<br>4)重复组数据项，包含该组中有多少个数据项的计数。<br>5)重复组中数据项多少的限制<br>6)客户访问一个安全Web站点的密码。</p>
+<h3 id="5-4-数据元素描述"><a href="#5-4-数据元素描述" class="headerlink" title="5.4 数据元素描述"></a>5.4 数据元素描述</h3><p>1)ID, 可选的<br>2)元素名称<br>3)别名<br>4)简短描述<br>5)是基本元素还是派生元素</p>
+<p>6)元素长度：<br>对于数值金额的长度，给出最大数额。<br>名称和地址，给出合适的长度<br>对于其他字段，参照历史数据</p>
+<p>7)数据类型：数值，日志，字母，varchar，字符<br>8)如果用特殊编码符号表明应当如何表示数据，则应包含输入和输出的格式。</p>
+<p>9)验证标准，保证数据的精确性，对于离散或连续的数据有以下标准<br>a)某个值范围适合包含连续数据，如GPA 0.00~4.00<br>b)如果数据式离散的，则指出一组值<br>c)如果值的列表是泛指的，则可以采用一个代码表<br>d)对于键或者索引元素，通常包含一个校验位</p>
+<p>10)提供某些元素的默认值<br>11)备注区域</p>
+<h3 id="5-5-数据存储描述"><a href="#5-5-数据存储描述" class="headerlink" title="5.5.数据存储描述"></a>5.5.数据存储描述</h3><p>1)ID，必须有<br>2)数据存储名<br>3)文件的别名<br>4)简短描述<br>5)文件类型：人工文件或计算机文件<br>6)如果是计算机文件，则文件格式指明是数据库文件，还是传统的平面文件<br>7)文件上记录的最大记录数和平均记录数<br>8)文件或数据名指定的文件名(如果已知)<br>9)数据结构应使用数据字典中的名字，提供与此数据存储的元素的连接</p>
+<h3 id="5-6-创建数据字典"><a href="#5-6-创建数据字典" class="headerlink" title="5.6.创建数据字典"></a>5.6.创建数据字典</h3><p>1.先创建DFD，自顶向下开发数据字典和数据流图。可以为每一个层次的DFD创建数据字典。<br><img src="http://i42.tinypic.com/ddp0mh.jpg"><br>子数据流图上的数据流名称，包含在父过程上的数据流的元素或结构化记录中</p>
+<p>2.分析输入输出<br>输入输出分析表包括：<br>1)输入或输出的描述名<br>2)负责进一步澄清细节、设计反馈和最后核准的用户联系信息<br>3)输入数据还是输出数据<br>4)数据流的格式。逻辑DFD，可以处于未确定<br>5)表明报表上或者界面上的数据顺序的元素<br>6)一个元素列表，包括元素的名称、长度，是基本元素还是派生元素，编辑标准。</p>
+<p>3.开发数据存储<br>确定永久信息或临时信息。</p>
+<h3 id="5-7-使用数据字典"><a href="#5-7-使用数据字典" class="headerlink" title="5.7.使用数据字典"></a>5.7.使用数据字典</h3><p>数据字典可以用来创建界面、报表和表单<br>1.使用数据字典产生计算机语言时要考虑<br>1)输出数据流中的基本元素必须出现在产生该输出数据流过程的输入数据流中。基本元素由键盘输入，而不由某一个过程创建<br>2)派生元素必须由过程创建，并且至少应当由一个不是该元素自身为输入的过程输出<br>3)输入或者输出某个数据存储的数据流中的元素，必须包含在该数据存储中</p>
+<p>2.使用数据字典可以创建XML文档<br>XML是一种可用来在企业中交换数据的语言，是一种对数据进行定义、排序、过滤并把它转换成一种每个人都可以使用的统一数据语言的方法。</p>
+<div style="color: #EF4808">
+两个好用的Chrome插件，小伙伴们看完复习资料支持一下吧：
+[剪影截图：好用的网页截图，一键人人分享工具，快捷键ctrl+shift+z, 双击确定!](https://chrome.google.com/webstore/detail/剪影截图/gkloklemhahnoipikedmafefilidffko "剪影截图")
+[TSS下载助手：让你方便一键批量下载](https://chrome.google.com/webstore/detail/tss下载助手/odhkpoplnhfnhhhkgphckabboemiifle "TSS下载助手")
+</div>
+
+<p>资源：<br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" title="System Analysis and Design (Kenneth Kendall) Review Part1">系统分析与设计part1</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" title="System Analysis and Design (Kenneth Kendall) Review Part2">系统分析与设计part2</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" title="System Analysis and Design (Kenneth Kendall) Review Part3">系统分析与设计part3</a><br><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/11/27/system-analysis-design-kenneth-kendall-review-part4/" title="System Analysis and Design (Kenneth Kendall) Review Part4">系统分析与设计part4</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/" data-id="ckjk20xmx001o9bwr0wag04ss" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/27/system-analysis-design-kenneth-kendall-review-part2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/design/" rel="tag">Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/" rel="tag">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/systemanalysis/" rel="tag">SystemAnalysis</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          System Analysis and Design (Kenneth Kendall) Review Part3
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/11/27/system-analysis-design-kenneth-kendall-review-part1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">System Analysis and Design (Kenneth Kendall) Review Part1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/27/an-introduction-to-bayesian-networks/" class="title">An Introduction to Bayesian Networks</a></p>
+              <p class="item-date"><time datetime="2020-12-27T10:54:04.000Z" itemprop="datePublished">2020-12-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/25/strucutre-learning-algorithm-notears/" class="title">Strucutre Learning Algorithm NOTEARS</a></p>
+              <p class="item-date"><time datetime="2020-12-25T14:01:59.000Z" itemprop="datePublished">2020-12-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/09/13/akka-http-notes/" class="title">Akka http notes</a></p>
+              <p class="item-date"><time datetime="2020-09-13T13:47:31.000Z" itemprop="datePublished">2020-09-13</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/08/04/java-performance-notes-monitoring-tools/" class="title">Java Performance Toolbox</a></p>
+              <p class="item-date"><time datetime="2018-08-04T10:24:34.000Z" itemprop="datePublished">2018-08-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/07/16/big-data-expert/" class="title">Big Data And ML Learning</a></p>
+              <p class="item-date"><time datetime="2018-07-16T00:33:12.000Z" itemprop="datePublished">2018-07-16</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/akka-scala/" style="font-size: 10px;">Akka, Scala</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/big-data/" style="font-size: 13.33px;">Big Data</a> <a href="/tags/causal-inference-ai/" style="font-size: 11.67px;">Causal Inference, AI</a> <a href="/tags/design/" style="font-size: 15px;">Design</a> <a href="/tags/hbase/" style="font-size: 16.67px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 13.33px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 16.67px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 15px;">Scala</a> <a href="/tags/spark/" style="font-size: 10px;">Spark</a> <a href="/tags/systemanalysis/" style="font-size: 15px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.67px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/apache-storm/" style="font-size: 10px;">apache storm</a> <a href="/tags/java-performance/" style="font-size: 10px;">java performance</a> <a href="/tags/learning/" style="font-size: 11.67px;">learning</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/machine-learning/" style="font-size: 10px;">machine learning</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.67px;">sort</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/spark-streaming/" style="font-size: 10px;">spark streaming</a> <a href="/tags/%E8%AF%97%E8%AF%9D/" style="font-size: 10px;">诗话</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Cyanny Liang
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

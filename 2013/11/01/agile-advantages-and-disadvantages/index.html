@@ -1,8 +1,408 @@
-{% extends "_layout.swig" %}
-{% import '_partial/post.swig' as postPage %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>“吐槽”敏捷软件开发 | CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="敏捷软件开发是在迭代和增量软件开发方法的基础上发展而来的一套软件开发方法，敏捷开发主张软件开发团队自组织，跨功能，它在1990年代开始逐渐引起广泛关注，并在2001年初由17名开发者在美国犹他州雪鸟滑雪胜地发起并组成了敏捷联盟，发表了著名的敏捷宣言。 敏捷宣言的价值观倡导：个体和互动高于流程和工具；工作的软件高于详尽的文档；客户合作高于合同谈判；响应变化高于遵循计划。在这四个价值观的倡导下，该联盟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="“吐槽”敏捷软件开发">
+<meta property="og:url" content="http://www.cyanny.com/2013/11/01/agile-advantages-and-disadvantages/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="敏捷软件开发是在迭代和增量软件开发方法的基础上发展而来的一套软件开发方法，敏捷开发主张软件开发团队自组织，跨功能，它在1990年代开始逐渐引起广泛关注，并在2001年初由17名开发者在美国犹他州雪鸟滑雪胜地发起并组成了敏捷联盟，发表了著名的敏捷宣言。 敏捷宣言的价值观倡导：个体和互动高于流程和工具；工作的软件高于详尽的文档；客户合作高于合同谈判；响应变化高于遵循计划。在这四个价值观的倡导下，该联盟">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2013-10-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2017-03-05T02:30:17.000Z">
+<meta property="article:author" content="Cyanny Liang">
+<meta property="article:tag" content="Agile">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %} {{ page.title }} · {{ config.title }} {% endblock %}
+  
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 
-{% block main %}
-    {{ postPage.render(page) }}
-{% endblock %}
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
+
+    <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">AI System Architecture</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" target="_blank" rel="noopener" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        64
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        38
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      
+      <section id="main"><article id="post-agile-advantages-and-disadvantages" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      “吐槽”敏捷软件开发
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/01/agile-advantages-and-disadvantages/">
+    <time datetime="2013-10-31T16:00:00.000Z" itemprop="datePublished">2013-11-01</time>
+  </a>
+</div>
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>敏捷软件开发是在迭代和增量软件开发方法的基础上发展而来的一套软件开发方法，敏捷开发主张软件开发团队自组织，跨功能，它在1990年代开始逐渐引起广泛关注，并在2001年初由17名开发者在美国犹他州雪鸟滑雪胜地发起并组成了敏捷联盟，发表了著名的敏捷宣言。</p>
+<p>敏捷宣言的价值观倡导：个体和互动高于流程和工具；工作的软件高于详尽的文档；客户合作高于合同谈判；响应变化高于遵循计划。在这四个价值观的倡导下，该联盟又发布了敏捷开发的12条原则。12条原则中强调了敏捷开发的最重要目标是通过持续不断地及早交付有价值的软件使客户满意，即不再以on-time, on-budget作为成功的标准，而是以给客户带来的商业价值作为成功的标准。</p>
+<p>敏捷开发是轻量的开发方法，尽量的减少文档并面向源码，但文档并不是敏捷开发的根本特点，在《新方法学》中提到敏捷方法的两个根本特点：“适应性”而“非预见性”，“面向人”而非“面向过程”。</p>
+<p>敏捷方法矫正了传统软件开发方法中的官僚繁琐的过程，拥抱变化，强调适应性和以人为本的理念。敏捷开发方法包括XP，Scrum，水晶系列，相关环境驱动测试，Lean Developments (精悍开发)和RUP (Rational Unified Process)。而Scrum作为一种重要的敏捷开发方法，现被广泛应用在企业软件的开发中。[more…]</p>
+<h3 id="敏捷开发的优势"><a href="#敏捷开发的优势" class="headerlink" title="敏捷开发的优势"></a>敏捷开发的优势</h3><p>敏捷软件开发作为一种新型的软件开发方法，具有很多优势：</p>
+<p>1. 适应性</p>
+<p>敏捷开发，敏捷的迭代周期短，可以快速交付可用的原型，通过迭代开发的方式对变更的需求做出适应性的调整，持续不断地及早的交付有价值的软件使客户满意。</p>
+<p>2. 团队自组织，以人为本</p>
+<p>敏捷团队里没有蓝领的编码工人，每一个人都是设计者，因为编码也是一种设计，编码是专业性更高的设计，给开发者更多的自主性，让他们自主决定一个user story该分成几个task，可以提高他们的积极性和创造力。让开发者自愿地投入产品开发比用强制力的手段更能带来产品的成功。</p>
+<p>3. 关注软件，减少繁琐的文档</p>
+<p>敏捷价值观众强调工作的软件高于详尽的文档，软件的需求不确定，软件的设计也很难给出，而敏捷开发可以更快的开始编码，生产出迭代可交付的产品，根据用户的反馈再做修改，不需要详尽的体系结构设计文件，详细设计文档等，减少了开发者的工作量，更多的关注编码。</p>
+<p>4. 面对面的交流</p>
+<p>敏捷开发的原则强调传递信息效果最好效率也最高的方式是面对面的交谈，Scrum每天的daily meeting，可以让团队成员面对面交流，保持项目进展的透明性。</p>
+<p>敏捷开发还有很多优势，在此就不一一列举，而我们更需要关注的是，是不是所有的软件开发都要敏捷呢？事实上，工业界也有很多公司不用敏捷开发，敏捷开发还存在它不能适应的地方。</p>
+<h3 id="敏捷开发不是银弹"><a href="#敏捷开发不是银弹" class="headerlink" title="敏捷开发不是银弹"></a>敏捷开发不是银弹</h3><p>没有什么软件开发方法可以作为银弹的，敏捷开发也有它的不足。在Brooks的《人月神话》中，说道软件开发的根本任务是打造抽象软件实体的概念结构，次要任务是使用编程语言表达这些抽象实体，在空间、时间限制内将它们映射成机器语言。</p>
+<p>同时也提出了软件开发最根本的困难是复杂性，可变性，一致性和不可见性，而这部分就将从软件开发的根本困难方面探讨敏捷方法还存在的缺陷。</p>
+<p> <strong>(一)从复杂性方面和不可见性考虑——敏捷方法缺乏足够的设计和文档</strong></p>
+<p>复杂性是软件开发中的本质特性，复杂性主要来自于如何打造抽象和复杂的概念结构。McConnel曾经指出一个大型项目中，编码和单元测试只占15%，对于一个大型项目，编码的比重较少，还需要大部分的时间进行计划和设计，如果只是依靠代码很难把这些抽象的概念结构表达清楚的。敏捷方法中，采用面向源码而不是面向文档的方式进行软件开发，缺乏对整个产品和系统设计的考量和设计文档。</p>
+<p>在不可见性方面，软件是复杂的，难以可视化，敏捷可以通过迭代来交付可视化可运行的原型，但是通常的界面原型是不能够表现软件的质量属性的，软件需要必要设计，提高质量。</p>
+<p>敏捷方法在设计方面的不足，主要表现如下：</p>
+<p>1. 在开发之前，缺乏足够的针对易用性方面地设计，主要是用户体验和UI的设计</p>
+<p>在2009年，一份针对敏捷开发现状的调查报告—— Current State of Agile User-Centered Design: A Survey中指出：“ 敏捷软件开发方法在今天越来越流行，每年在工业界都有一定的增长。但是采用敏捷方法的团队缺乏软件易用性的意识，不能把易用性和以用户为中心的设计(User-Centered Design, UCD)和敏捷开发方法结合起来”。</p>
+<p>敏捷开发的最终目的是要及早的交付有价值的让客户满意的软件。然而太快的交付会造成软件的用户体验不佳。在这份报告中采用XP的方式开发一款游戏软件，软件确实可以不断地交付高质量的增量，但是用户对游戏并不满意。</p>
+<p>芬兰兰普拉达理工大学的教师Lea Hannola在他的论文Assessing and improving the front end activities of software development中指出：“软件开发能获得的最重要的益处可以通过提升前端的行为来实现。” [23]而如果要提升前端的行为就需要在软件编码开发之前对用户界面，前端交互方式，用户的输入，软件的输出，图形的色彩，相关的商业规则等方面，进行设计，并对设计的前端交互进行review。</p>
+<p>在这里并不是说需要一个完美的易用性设计，毕竟想挖掘所有的用户需求是困难，我们强调的是”just enough design”. 敏捷开发之前的几个迭代周期，不应该直接编码来做出一个交互原型UI，太多的关注代码的细节，浪费时间和精力，应该进行必要地易用性设计，这样以后的迭代中会更有信心，前期工作做好了后期的变更代价也会降低。</p>
+<p>2. 直接开始低层设计即编码，会带来更多的缺陷</p>
+<p>敏捷开发面向源码，不面向文档，提倡可运行的软件高于详尽的文档。而在实践中，很多敏捷团队把文档降到最低，只写user story, 拆分task，用JIRA跟踪管理项目Task，Bug等。</p>
+<p>Jack Reeves提出源码也应该是设计文档，而源码的设计文档是在数据结构和算法方面的低层的设计文档，过分的关注细节，会造成丢失大局。试问：如果对商业过程的规则都没有进行很好地建模和设计，何来一个良好的数据结构呢？试问：如果没有很好地中层设计，如何开发出符合模块化、信息隐藏，符合六条面向对象设计原则的代码呢？试问：如果不进行良好的设计，如何让写出的代码符合设计模式，而不是乱序的堆砌代码呢？</p>
+<p>在软件开发之前，虽然不恩能够进行完备的设计，但是可以进行能够指导开发工作的”enough up-front design”。</p>
+<p>软件开发的复杂度是复杂抽象概念结构的表达，例如开发一个股票交易软件，对股票交易的规则，对经济市场的信息需要进行建模，不管是用本体论，还是用BPL，UML，如果进行过设计，则可以降低一定的复杂度，在这些软件中编程实现是次要任务，根本任务是要把业务流程表达清楚，没有清晰地业务流程编码也使很难进行的。</p>
+<p>《软件工程的事实与谬误》中指出软件质量由七个属性组成：可移植性，可靠性，效率，可用性，可测试性，易理解性和可修改性。要做到这些质量，需要从体系结构方面进行设计，通过软件的User Story场景，建模逻辑视图、开发视图、进程视图和部署视图，从总体的角度定义软件的体系结构风格，是以数据为中心的风格、主程序子程序风格、隐式调用风格、Pipe Line风格、Client-Server风格或者MVC风格，这些都需要在体系结构上进行设计，并生成必要地文档。</p>
+<p>光从源码中的复杂的文件夹结构，复杂的包结构，是很难快速看出软件的体系结构风格的，不利于维护。</p>
+<p>而在体系结构的基础上，最好进行一定的中层设计，如果采用结构化的变成方法，则需要对函数的调用关系方面进行一定的设计，如是面向对象的方面，则需要绘制必要地类图、包图，如是对数据库的设计，则需要实体关系图，数据存储的设计。</p>
+<p>在足够的设计的基础上，复杂度降低了，再开始迭代编码，会让开发的增量更有质量。同时在设计和分析阶段，可以减少一定的缺陷，根据贝姆定律，在软件开发后期的变更的代价会更大，虽然敏捷拥抱变化，但我想没有哪一个程序员希望在迭代的后期在架构上做出变更，越早地给出一个设计方案，可以一定程度上降低后期变更的可能性。</p>
+<p>一个良好的设计，通过设计建模，让软件的质量属性一定程度上可视化，提高可见性，同时编写必要地设计文档，可以让团队保持接口的一致性。</p>
+<p>3. 对于需求相对确定的复杂项目，更需要设计</p>
+<p>如开发一个操作系统，服务器，数据库，编程语言如Nodejs，Python这类需求可以相对确定和复杂度较高的项目，也可以采用敏捷开发，但是在迭代开始之前，需要根据需求进行体系结构设计，中层设计，再针对具体的进行低层设计，编码，持续集成，测试，并根据每一个迭代的增量交付修改设计，再进行下一个迭代。</p>
+<p><strong>(二)从可变性方面考虑——敏捷方法缺乏足够的需求工程过程和文档</strong></p>
+<p>Scrum中通过User Story, 用文本的方式描述需求，“作为。。。，我想。。。，以便。。。”，再加上优先级和相关的功能测试集。</p>
+<p>但是简单地User Story并不能更清晰地表达复杂的需求，如一些专业领域的需求的建模，如金融、医学、生物等领域的，对于业务流程，需要适当数据流图和决策树表达复杂的业务流程，对于相关的数据，需要创建数据字典。</p>
+<p>在开始敏捷的快速迭代之前，一个足够的需求工程过程，可以让项目的域更加清晰和明确。敏捷开发的一个很大的问题是项目的域失控(Scope Creep), 敏捷虽然强调“欣然面对需求的变化，及时在开发的后期也一样”， 而敏捷的方法是快速迭代，用两周和三周的时间做出对需求变更的调整。但是没人会喜欢软件开发后期需求的变更，那为什么不在项目开始之前和用户做好足够的沟通呢？</p>
+<p>敏捷开发随着增量的迭代，用户会持续的提出需求，添加新功能，每一个sprint太过分的强调sprint的goal，而最终忘记了软件的goal，造成软件功能冗余，或偏离最初的需求，最终Scope Creep。</p>
+<p>需求工程过程也是一个可以降低复杂度的过程，通过需求的描述用例，活动图，复杂的状态图，通过多个维度分析软件需求，明确Scope，降低软件后期变更的风险和压力。</p>
+<p><strong>(三)从一致性方面考虑——敏捷方法不适合工作地点分离的团队</strong></p>
+<p>Scrum只适合小团队运作, 并且工作地点要尽量在一起，这样面对面的交流可以保证工作的透明度和一致性</p>
+<p>对于大型地上百人，而又不能拆分的团队，用敏捷开发是不适合的。敏捷，如Scrum最高效地是在5-6人，当超过7人时daily meeting，Planning Meeting的时间就会变长，影响团队的士气和气氛，同时会降低交流的效率。</p>
+<p>同时当团队成员不在一个办公室或者交流的网速不好，处于异地如跨国团队，团队的交流效率是不高的，此时敏捷开发是不适合的。不利于团队的知识的一致性</p>
+<p><strong>(四)从管理方面考虑——敏捷方法的其他问题</strong></p>
+<p>最后再从软件开发的管理方面讨论一下敏捷方法还存在的问题：<br>1. 每一个Sprint的估算没有那么准确</p>
+<p>虽然团队的估算能力好于个人，scrum sprint planning meeting的估算最终并没有那么准确，尤其是当sprint的User Story和task划分不明确时，估算的过程无疑是一个浪费时间的事情。</p>
+<p>2. Scrum Master变成决策者</p>
+<p>每天的Daily Meeting只是大家同步和汇报一下进度，而在中国很多的公司，也难免Scrum Master官僚起来，不相信团队成员，站立会议变成了向领导报告，听取领导建议，再开始今天的工作，而失去了站立会议的本意。团队打着自主的旗号，其实还是官僚的组织。 </p>
+<p>敏捷需要Scrum Master相信自己的团队。</p>
+<p>3. Scrum团队只适合有很好开发经验的团队</p>
+<p>敏捷开发不适合专业技能不强的团队，敏捷开发需要跨功能的经验充足的团队，专业技能不足，sprint的任务难以交付，也就失去了敏捷的意义。</p>
+<p>4. 不适合有deadline和固定预算的项目</p>
+<p>Scrum敏捷开发，可以很好的运作在需求不明确，deadline不明确的软件开发中，如移动互联网的很多项目，创新项目，而当软件项目是合同制的，需求明确，需要on-time, under-budget，那么采用传统的软件开发更好。</p>
+<p>5. 团队成员的离开可能会带来很大的负面效应</p>
+<p>Scrum团队本身是小型的团队，当某一个团队成员，特别是核心技术成员离开团队，会对团队的工作效率，士气等造成负面影响。</p>
+<p>6. 每个sprint的测试压力较大<br>敏捷团队是跨功能的团队，同时也包含测试人员，我曾经实习的团队有8人，其中有两名测试人员，她们在每个sprint中承担了所有的测试任务，工作压力大，尤其在sprint交付时的回归测试中，不得不占用其他开发者的时间帮助测试，而且测试保证的只是功能正常，对代码质量方面，无法提供保障。</p>
+<p>7. 当一个sprint backlog确定后，在一个sprint中的需求不允许变更</p>
+<p>在Scrum的一个sprint中，当前sprint的backlog不会再变更，变更是发生在下一次planning，但当在当前的sprint中如果User Story没有定义好，对需求理解不够清晰，或者在sprint的迭代周期内发生需求变更，那么当前sprint的交付注定会让用户不满意，无疑是浪费时间，那么只有在下一次planning才会做出变更。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>敏捷开发纵然不是银弹，但他做为一种轻量级的软件开发方法，确实会给软件开发带来效率的提升，尤其是它强调的面对面交流，如daily meeting保持了团队进度的透明性，让每一个人都知道项目的进度，帮助项目管理。同时敏捷开发给了团队很大的自主性，如果是正确的采取的敏捷方法，团队的士气和积极性都会得到很大的提升。我们应该根据自己的需求来决定是否采取敏捷软件开发方法，不能盲目跟风。</p>
+<h3 id="有价值的参考资料"><a href="#有价值的参考资料" class="headerlink" title="有价值的参考资料"></a>有价值的参考资料</h3><p><a target="_blank" rel="noopener" href="http://agilemanifesto.org/iso/zhchs/" title="敏捷宣言">敏捷宣言</a></p>
+<p><a target="_blank" rel="noopener" href="http://agilemanifesto.org/iso/zhchs/principles.html" title="敏捷12原则">敏捷12原则</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.softwarepractitioner.org/translations/fowler/newMethodology.shtml" title="新方法论">新方法论</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.belatrixsf.com/benefits-pitfalls-of-using-scrum-software-development-methodology/" title="benefits-pitfalls-of-using-scrum-software-development-methodology">benefits-pitfalls-of-using-scrum-software-development-methodology</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.thoughtworks.com/insights/articles/providing-just-enough-design-can-make-agile-software-delivery-more-successful" title="providing-just-enough-design-can-make-agile-software-delivery-more-successful">providing-just-enough-design-can-make-agile-software-delivery-more-successful</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.my-project-management-expert.com/the-advantages-and-disadvantages-of-agile-software-development.html" title="the-advantages-and-disadvantages-of-agile-software-development">the-advantages-and-disadvantages-of-agile-software-development</a></p>
+<p><a target="_blank" rel="noopener" href="http://foohack.com/2007/11/agile-scrum-sucks-but-so-do-the-alternatives/" title="agile-scrum-sucks-but-so-do-the-alternatives">agile-scrum-sucks-but-so-do-the-alternatives</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/01/agile-advantages-and-disadvantages/" data-id="ckjk20xnb001t9bwr7dh60ijk" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/01/agile-advantages-and-disadvantages/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/agile/" rel="tag">Agile</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/11/10/how-to-start-learning-node-js/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          How to start learning Node.js
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/10/06/talk-about-open-source-software/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">谈谈开源软件，谈谈质量</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/27/an-introduction-to-bayesian-networks/" class="title">An Introduction to Bayesian Networks</a></p>
+              <p class="item-date"><time datetime="2020-12-27T10:54:04.000Z" itemprop="datePublished">2020-12-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/25/strucutre-learning-algorithm-notears/" class="title">Strucutre Learning Algorithm NOTEARS</a></p>
+              <p class="item-date"><time datetime="2020-12-25T14:01:59.000Z" itemprop="datePublished">2020-12-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/09/13/akka-http-notes/" class="title">Akka http notes</a></p>
+              <p class="item-date"><time datetime="2020-09-13T13:47:31.000Z" itemprop="datePublished">2020-09-13</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/08/04/java-performance-notes-monitoring-tools/" class="title">Java Performance Toolbox</a></p>
+              <p class="item-date"><time datetime="2018-08-04T10:24:34.000Z" itemprop="datePublished">2018-08-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/07/16/big-data-expert/" class="title">Big Data And ML Learning</a></p>
+              <p class="item-date"><time datetime="2018-07-16T00:33:12.000Z" itemprop="datePublished">2018-07-16</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/akka-scala/" style="font-size: 10px;">Akka, Scala</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/big-data/" style="font-size: 13.33px;">Big Data</a> <a href="/tags/causal-inference-ai/" style="font-size: 11.67px;">Causal Inference, AI</a> <a href="/tags/design/" style="font-size: 15px;">Design</a> <a href="/tags/hbase/" style="font-size: 16.67px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 13.33px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 16.67px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 15px;">Scala</a> <a href="/tags/spark/" style="font-size: 10px;">Spark</a> <a href="/tags/systemanalysis/" style="font-size: 15px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.67px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/apache-storm/" style="font-size: 10px;">apache storm</a> <a href="/tags/java-performance/" style="font-size: 10px;">java performance</a> <a href="/tags/learning/" style="font-size: 11.67px;">learning</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/machine-learning/" style="font-size: 10px;">machine learning</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.67px;">sort</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/spark-streaming/" style="font-size: 10px;">spark streaming</a> <a href="/tags/%E8%AF%97%E8%AF%9D/" style="font-size: 10px;">诗话</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Cyanny Liang
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

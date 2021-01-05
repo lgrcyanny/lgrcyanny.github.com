@@ -1,15 +1,1440 @@
-{% extends "_layout.swig" %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CyannyLive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Wisdom comes from inside">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CyannyLive">
+<meta property="og:url" content="http://www.cyanny.com/page/6/index.html">
+<meta property="og:site_name" content="CyannyLive">
+<meta property="og:description" content="Wisdom comes from inside">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Cyanny Liang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@lgrcyanny">
+<link rel="publisher" href="lgrcyanny">
+<meta property="fb:admins" content="lgrcyanny">
+<meta property="fb:app_id" content="lgrcyanny">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %}
-  {{config.title}}
-  {% if config.subtitle %}
-    | {{ config.subtitle }}
-  {% endif %}
-{% endblock %}
+  
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40624708-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
 
 
-{% block main %}
-  {% include "_partial/main.swig" %}
-  {% include "_partial/pagenum.swig" %}
-{% endblock %}
+  
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="CyannyLive" type="application/atom+xml">
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/." id="logo"><i class="logo"></i><span class="site-title">CyannyLive</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/.">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/jianyinjietu">剪影截图</a>
+        
+      </nav>
+      
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/.">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+        <td><a class="main-nav-link" href="/categories">Categories</a></td>
+      
+        <td><a class="main-nav-link" href="/tags">Tags</a></td>
+      
+        <td><a class="main-nav-link" href="/jianyinjietu">剪影截图</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://www.cyanny.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+</header>
 
+    <div class="outer">
+      
+        <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/css/images/avatar.png">
+      <h2 id="name">Cyanny Liang</h2>
+      <h3 id="title">AI System Architecture</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+      <a id="follow" target="_blank" rel="noopener" href="https://github.com/lgrcyanny/">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        64
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        38
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/lgrcyanny" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/lgrcyanny" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="https://www.facebook.com/CyannyLIANG" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+        
+          <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      
+      <section id="main">
+      <article id="post-distributed-system-review-part1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/24/distributed-system-review-part1/">分布式系统总结part1</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/24/distributed-system-review-part1/">
+    <time datetime="2013-11-24T03:12:15.000Z" itemprop="datePublished">2013-11-24</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/distributed-system/">Distributed System</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/distributed-system/life/">Life</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>激动哥给了一些点，总结如下吧，算是对分布式的一些理解，希望对朋友们有帮助。</p>
+<h3 id="分布式系统系统基本概念"><a href="#分布式系统系统基本概念" class="headerlink" title="分布式系统系统基本概念"></a>分布式系统系统基本概念</h3><p>分布式系统是若干独立计算机的集合，这些计算机对于用户来说就像单个相关系统。透明性, 故障透明性。</p>
+<p>本质： 硬件上——机器是物理上独立的。软件上——对用户来说它们就像载和单个系统打交道。分布式系统位于用户的应用层和底层操作系统之间，有时也叫做中间件.</p>
+<p>分布式系统的目标：资源链接和共享，透明性，开放性，可伸缩性。[more…]</p>
+<h3 id="分布式系统作为中间件技术"><a href="#分布式系统作为中间件技术" class="headerlink" title="分布式系统作为中间件技术"></a>分布式系统作为中间件技术</h3><ol>
+<li><p>中间件在分布式系统中的位置</p>
+<p> 中间件：在应用系统和网络系统之间的附加的软件层，隐藏网络操作系统中低层平台集合的异构性，提供一组完整程度不同的服务集，提高分布的透明性。</p>
+<p> 中间件的最高目标是透明性。同时也具有开放性、可扩展性和易用性</p>
+</li>
+<li><p> 中间件模型</p>
+</li>
+</ol>
+<ul>
+<li>  基于分布式文件系统：任何东西都是作为文件来处理，只对传统文件支持分布的透明性，比网络操作系统前进了一小步，仍然要求进程显式启动分布式机器，有一定的扩展。</li>
+<li>  基于RPC：允许进程调用位于远程机器上的过程实现来隐藏网络通信。调用参数透明的传递到远程机器上，看起来就像在调用本地的进程一样，不知道网络通信的发生。</li>
+<li>  基于分布式对象: 调用分布在远程机器上的对象的接口，通过消息传递调用</li>
+</ul>
+<p>3.中间件通信技术</p>
+<p>(1) RPC</p>
+<p>使用客户端存根和服务器端存根，实现访问的透明性，按值传递，对引用传递的支持比较弱， 基于响应的暂时同步通信。</p>
+<p>(2) RMI——远程对象调用</p>
+<p>不使用用客户端存根和服务器端存根，使用针对对象的存根。本质上是RPC，但针对远程对象。</p>
+<p>(3) MPI:面向消息的通信</p>
+<p>RPC和RMI的不足：要求远程机器正在执行; 并且对同步要求高，客户在发出请求后阻塞</p>
+<p>通信类型：持久通信，暂时通信；异步通信，同步通信； 两两正交共四种。</p>
+<p>•持久异步通信：如邮件系统，消息队列</p>
+<p>•持久同步通信</p>
+<p>•暂时异步通信：如异步RPC，UDP</p>
+<p>•暂时同步通信：基于接收的暂时同步通信：最弱的基于消息接收机制; 基于交付的暂时同步通信;基于响应的暂时同步通信： RMI， RPC。</p>
+<p>MPI比套接字提供更多的抽象的消息传递原语，提供持久异步通信，用在RPC和RMI不适用的场合，它们主要用来协助将高度分散的数据库集成进大规模信息系统中。其他的应用还包括电子邮件和工作流。</p>
+<p>(4)面向流的通信：</p>
+<p>流是一种完全不同的通信方式，它的主要问题是两个连续的消息是否有时间上的联系。如音频流和视频流，同步很关键。</p>
+<p>在连续数据流中，每个消息都规定了端到端的最大延迟时间。另外，发送的消息还要受端到端最小延迟时间的约束。</p>
+<p>三种传输模式</p>
+<p>异步传输模式：数据项是逐个传输的，但是对某一项在何时进行传输并没有进一步的限制。</p>
+<p>同步传输模式：数据流中每一个单元都定义了一个端到端最大延迟时间。</p>
+<p>等待传输模式：模式中数据单元必须按时传输，也就是数据传输的端到端延迟时间必须同时受到上限和下限的约束，实时系统。</p>
+<h3 id="进程迁移"><a href="#进程迁移" class="headerlink" title="进程迁移"></a>进程迁移</h3><ol>
+<li><p>弱迁移 vs 弱迁移</p>
+<p> 弱迁移：即代码的可移植性，只传输代码段以及某些初始化数据，传输过来的程序总是以初始状态重新开始执行，弱可迁移性只要求在目标机器上能执行该代码段，例如Java Applet小程序，这种方法的好处在于简单性。</p>
+<p> 强迁移：迁移执行中的进程，先停止运行中的进程，捕捉运行现场，迁移到另一台机器上，从中断处继续运行，强迁移比弱迁移实现难度大，例如D’Agent是支持强可移动性的一个例子(Dartmouth College)</p>
+</li>
+<li><p>发送者启动迁移 vs 接收者启动迁移</p>
+<p> 发送者启动迁移，代码或正在执行的进程在哪台机器上，就由该机器来启动迁移，例如向Web服务器发送搜索程序运行查询。这种迁移容易实现.</p>
+<p> 接收者启动迁移，代码迁移的主动权在目标机器手中，例如Java Applet</p>
+<p> 区别：接收者下载代码到客户端，性能好，安全性好，客户端只有少数的资源需要保护，如内存和网络连接等；</p>
+<p> 发送者启动迁移，上传代码到服务器端，需要认证用户，需要对服务器资源提供强保护。</p>
+</li>
+<li><p> 在目标进程内执行迁移代码 vs 在派生进程内执行迁移代码</p>
+</li>
+</ol>
+<p>三种方法相互正交，形成了8中进程迁移方法，如图：</p>
+<p><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System20.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/Distributed-System20-580x300.png" alt="Distributed System20"></a></p>
+<h3 id="移动Agent的基本概念"><a href="#移动Agent的基本概念" class="headerlink" title="移动Agent的基本概念"></a>移动Agent的基本概念</h3><ol>
+<li><p> 定义：是一种分布式的应用，移动Agent是一个运行于开放、动态网络环境中的，封装良好的计算实体，可自主地在异构的网络上寻找合适的计算资源，然后移动到资源所在机器上使用这些资源，它代表用户自主地在网络上移动，完成指定的任务。移动Agent由数据、操作、行为规则 封装而成。</p>
+</li>
+<li><p> 基本特点：</p>
+</li>
+</ol>
+<ul>
+<li>  自主移动性：不拘泥于初始执行结点，可再网络各主机间自主移动。移动Agent可以将自身的状态和代码从一个环境迁移到另一个环境，并恢复执行。</li>
+<li>  协作性：移动Agent可以和其他Agent进行自主通信，协作完成任务。</li>
+<li>  安全性</li>
+<li>  移动功能而不移动数据，减少网络负担和延迟</li>
+</ul>
+<h3 id="Mogent解决移动通信失效"><a href="#Mogent解决移动通信失效" class="headerlink" title="Mogent解决移动通信失效"></a>Mogent解决移动通信失效</h3><p>1.移动通信失效定义</p>
+<p>移动Agent最大的特性是移动性，其通信机制要求位置透明性，可靠性，高效性，异步性，自适应性。但在Agent自主移动过程中，常会导致消息发送到某一网络节点但接收者已经离开无法收到消息的情况，这种因为目标Agent的物理位置变化造成通信不正常的现象称为移动Agent通信失效。通信失效与网络和节点故障无关，完全是由Agent的移动性造成的，这是移动Agent协作的致命缺陷。</p>
+<p>2. Mogent系统架构</p>
+<p>一个完整的移动Agent通信协议至少包括Agent寻址和消息传送两大部分。Mogent系统采用结构化旅行计划模型。</p>
+<p>Mogent的架构中有两个重要实体：</p>
+<ul>
+<li>  Mogent： 即移动Agent，可以协同工作。</li>
+<li>  Host：一个物理节点的抽象，由IP地址或域名来标识，每一个Host安装MogentServer，维护管理本地的Mogent，主要由迁移子系统、通信子系统、安全子系统和开发监控子系统构成。</li>
+</ul>
+<p>3.Mogent系统的寻址</p>
+<p>Mogent-Server中有两个部件Home和Communicator完成Agent的透明寻址。</p>
+<p>Home：记录Host上“出生的”Agent的动态信息，Agent每次迁移到另一台Host必须向出生地登记当前的地址和物理名，基于起始位置的定位。</p>
+<p>Communicator：记录当前Host上所有agent的信息，Agent迁移时要向Communicator register 和 unregister, 负责agent之间通信的目标寻址、信件转发和通信失效排除等通信细节。</p>
+<p>4.通信失效的解决：消息传送</p>
+<p><strong>通信失效问题本质上是通信和移动所共享的“位置”信息未同步造成的。</strong><br>Mogent系统中引入了“状态”的概念，每个Agent的状态分为迁移态和静止态。</p>
+<p>同时引入两个信号量进行集中式同步控制策略，通过Home-Communicator集中管理对目标Mogent的地址信息的互斥访问，从根本上避免通信失效的发生，保证通信的可靠性。</p>
+<ul>
+<li>  迁移状态：由Home构件记录Agent的状态，当Mogent在一个Host上时状态为静止态，当按旅行计划准备迁移时Mogent要通知Home更新状态为迁移态。</li>
+<li>  在途信件数：保存在Host上，记录当前时刻以该Mogent为通信对象的在途信件数，发出信件，在途信件数增加，信件到达，在途信件数减一</li>
+</ul>
+<p>消息发送机制：Mogent通过控制“在途信件数”和“迁移状态”这两个信号量，确保消息发送者仅向处于静止状态的Agent发送消息</p>
+<p>Mogent迁移机制：Agent只有在没有消息发送给他的情况下才能移动。</p>
+<p>5.Mogent局限性</p>
+<ul>
+<li>  频繁迁移，Home的地址注册开销大，会拥挤</li>
+<li>  Agent迁移受到信号量的限制,影响Agent的自主性和移动性</li>
+</ul>
+<h3 id="两种名称解析方法-递归和迭代"><a href="#两种名称解析方法-递归和迭代" class="headerlink" title="两种名称解析方法:递归和迭代"></a>两种名称解析方法:递归和迭代</h3><p>分布式系统中名称用来标识一个实体，有三种类型——名称、标识符、地址，名称解析就是查询名称的过程。</p>
+<p>1.迭代名称解析</p>
+<p>客户端把需要解析的名称路径发给根服务器root，根服务器解析出下一个服务器server1的地址返回给客户端，客户端再查询server1，server1再解析出server2的地址…</p>
+<p>如此迭代直到能解析出所需实体的地址。例如：考虑绝对路径名：root:&lt;nl, vu, cs, ftp, pub, globe, index.txt&gt;的解析，第四章PPT上有详细的说明</p>
+<p>总之迭代名称解析是客户端发起迭代查询。</p>
+<p>2.递归名称解析</p>
+<p>客户端把需要解析的名称路径发给根服务器root，根服务器解析出server1的地址后，不把结果返回给客户端，直接把名称传给server1，由server1解析后，再传给server2…不断递归，最后将解析出的实体地址返回给根服务器，根服务器再将实体地址返回给客户端。</p>
+<p>3.两种解析的比较<br>递归名称解析的缺陷：要求每台服务器具有较高的性能，根服务器要完成完整的名称解析，开销较大，一般在名称空间的全局层中，采用迭代名称解析。</p>
+<p>优点：与迭代名称解析相比，递归解析可以有效的使用缓存提高性能；减少了通信开销，通信开销取决于客户主机和服务器之间的信息交换。</p>
+<p>而在DNS解析中：从客户机到本地DNS的查询是递归查询，从本地DNS到到其他DNS服务器之间的查询是迭代查询</p>
+<h3 id="移动实体的定位"><a href="#移动实体的定位" class="headerlink" title="移动实体的定位"></a>移动实体的定位</h3><p>移动实体的定位方法：使用与位置无关的标识符有效地实现定位。</p>
+<p><strong>1.广播和多播</strong></p>
+<p><strong>原理：</strong>包含该实体所用标识符的消息会广播到每台机器上，并且请求每台机器查看它是否拥有该实体。只有能够为实体提供访问点的机器才会发送回复消息，回复消息中包含访问点的地址。类比ARP</p>
+<p><strong>缺点：</strong>扩展性不好，随着网络的膨胀，广播变得更加低效。</p>
+<p>可以采用多播向特定的一组主机发送标识符，使用多播查找最近的复制实体，但实践证明，选择最近的复制实体没有那么容易。</p>
+<p><strong>2.转发指针</strong></p>
+<p><strong>原理：</strong>每当一个实体转移到另一个位置时，他就会留下一个指针，说明它下一步所在的位置。 例如：当实体从A移动到B时，它将在A中留下一个指针，这个指针指向它在B中的新位置。</p>
+<p>定位实体需要遍历转发指针形成的路线。为了避免形成太长的指针链，定期缩短指针链很重要。</p>
+<p><strong>优点：</strong>简便，一旦找到一个实体，就可以顺着转发指针链查找到实体当前的地址。</p>
+<p><strong>缺点：</strong>链可能特别长，定位实体的开销较大。链很脆弱，容易断开，只要一个转发指针丢失，就无法定位实体。一个解决办法是让指针链相对短一些，确保转发指针链的健壮性。<br>链中所有中间位置就必须维护它们的那一部分指针链。</p>
+<p><strong>3.基于起始位置的方法</strong></p>
+<p><strong>原理：</strong>每当实体转移到一个地方时，他会通知起始位置，告诉起始位置自己当前的位置，在定位实体时，首先询问起始位置，以便了解实体的当前位置。起始位置就是创建实体的位置。</p>
+<p><strong>优点：</strong>大型网络中进行实体定位,如Mogent</p>
+<p><strong>缺点：</strong>为了与移动实体通信，需要先和起始位置通信，而起始位置和实体本身的位置处于完全不同的位置，增加了通信延迟。    使用起始位置，必须保证起始位置始终存在，否则将无法定位实体。起始位置如果转移到另一个网络，将会无法定位实体。一种解决的办法是：注册起始位置，客户先查找起始位置所在的位置，起始位置相对稳定，可以缓存它。</p>
+<p><strong>4.分层方法——创建一颗搜索树</strong></p>
+<p><strong>原理：</strong> 网络划分成不重叠的分层域。只有一个顶级域，它覆盖了整个网络，每个域又可以划分为更多的子域。最低层的域叫做叶域，与网络中的局域网向对应。</p>
+<p>每个层次的每个域都有关联的目录节点，目录节点会持续跟踪实体，形成目录节点树。</p>
+<p>顶级域拥有每个实体的位置记录(指针)，其中每条位置记录都存储一个指向更低层子域目录节点的指针 </p>
+<p><strong>优点：</strong>查询操作是在局部进行，最差情况下，搜索会从叶域一直查到根域，再从根域到达包括该实体地址的子域。更新，插入和删除操作是局部进行：从叶节点到根节点。</p>
+<p><strong>缺点：</strong>第一， 定位实体的开销较大，从叶节点到根节点，再到叶节点。一种解决方法是采用指针缓存。第二，扩展性问题： 根节点需要存储所有实体的位置记录, 并为每个实体处理请求， 太多的查询和更新请求会成为瓶颈。解决办法是把根节点和其他高层目录节点划分成多个子节点，每个子节点处理实体的定位请求。<br>这些子节点最好均匀的扩散到网络中</p>
+<h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><p><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/11/24/distributed-system-review-part1/" title="分布式系统总结part1">分布式系统总结part1 中间件，进程迁移，移动通信失效，名称解析，移动实体定位</a></p>
+<p><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/11/24/distributed-system-review-part2/" title="分布式系统总结part2">分布式系统总结part2 Lamport同步与向量时间戳，两大选举算法，三大互斥算法</a></p>
+<p><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/11/24/distributed-system-review-part3/" title="分布式系统总结part3">分布式系统总结part3 复制和一致性(以数据和以客户为中心的一致性)，容错（拜占庭将军问题，两阶段与三阶段提交）</a></p>
+<p><a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/11/24/distributed-system-review-part4/" title="分布式系统总结part4">分布式系统总结part4 Petri网解决哲学家问题和生产者、消费者问题</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/24/distributed-system-review-part1/" data-id="ckjk20xmj000u9bwrh2ep4fcv" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/24/distributed-system-review-part1/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/" rel="tag">Learning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-netkit-filesystem-custom-cutting" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/16/netkit-filesystem-custom-cutting/">Netkit Filesystem 定制和裁剪</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/16/netkit-filesystem-custom-cutting/">
+    <time datetime="2013-11-16T10:42:51.000Z" itemprop="datePublished">2013-11-16</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/network/">Network</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Netkit, “The poor man’s system for experimenting computer networking”，是基于Linux的开源网络实验环境，该环境通过启动多台Linux虚拟机，模拟路由器，交换机和PC的网络通信功能，Netkit中预装了路由协议软件包Quagga,可以提供多种路由协议功能，如RIP， OSPF， BGP，IS-IS等，Netkit主要用于网络功能的模拟，而不做网络性能的模拟。</p>
+<p>最近花了一周的时间实验Netkit，是网络的大作业，如果不是作业的机会，也不会有空去看这么古老的Netkit，他是北欧开发的一个开源网络实验环境，相比Packet Tracer美观的图形界面，对于没有图形界面的Netkit来说，Netkit的优势在于提供了用户模式的Linux内核，每一个虚拟机就是一个Linux系统，可以更真实地模拟路由等网络功能，用户通过命令行操作虚拟机，能更好地学习和实验网络，而不是学习一个Cisco设备。如果有朋友以后用到Netkit，希望这个Blog会helpful。</p>
+<p>Netkit主要由三部分构成：</p>
+<ul>
+<li>  netkit-core: 包含启动虚拟机和网络实验的脚本文件，如vstart，lstart等。</li>
+<li>  netkit-uml-filesystem: 这是一个基于Debian的文件系统，Netkit在该文件系统中安装了软件包，并配置了quagga，ebtables, iptables等服务。Netkit的文件系统是“copy-on-write”的模式，每个虚拟机启动时会生成一个*.disk文件，该文件就是该文件系统的拷贝，在虚拟机中作的任何更改都不会影响Netkit的Filesystem，修改写入*.disk文件.</li>
+<li>  netkit-uml-kernel: 这是一个linux kernel， Netkit通过patch文件对kernel进行了相关配置，Netkit的kernel是用户模式的linux进程，也叫做虚拟机,我们可以在Linux系统如Ubuntu中启动netkit，kernel进程的运行依赖于文件系统。<br>我们发现Netkit的文件系统解压后超过10GB，每次启动一个虚拟机就会产生一个10GB的*.disk文件，占用空间较大，我们主要使用Netkit的Quagga进行路由协议的模拟，而Netkit很强大，提供了apache, FTP, openssl,openvpn, DNS, email等功能，我们不需要这些冗余功能，因此我们着手重新制作一个文件系统，并尽量让文件系统容量小，提高Netkit网络实验的性能。</li>
+</ul>
+<p>Netkit官方提供了Makefile文件让开发者自己Build文件系统，然而实验后发现官方Makefile无法运行通过，并且Netkit官方指南中并不建议自己Build一个文件系统，在Google后也没有发现更多有用的文档，因此希望通过本Blog详细地描述如何制作一个小巧可用的Netkit文件系统以及遇到的问题。 [more…]</p>
+<h2 id="实验成果"><a href="#实验成果" class="headerlink" title="实验成果"></a>实验成果</h2><p>最终定制和裁剪的文件系统只有335M，该文件系统基于Debian Squeeze版本定制，没有采用当前的最新版本Wheezy版，因为并不修改Netkit-Kernel，最新版的Wheezy文件系统和现有的Netkit Kernel不兼容。</p>
+<p>该文件系统的制作简单来说，分为三个阶段：制作基础的linux filesystem， 配置为可用的Netkit文件系统，安装quagga和必要的软件包。这些步骤都是通过shell命令来完成的。</p>
+<p>你可能会问，为什么是335M？我们最早制作的文件系统是2GB，在运行稳定后，我们发现2GB是稀疏文件，在虚拟机中通过df命令我们看到磁盘空间只占用了310M，在基础的Linux文件系统安装好后，磁盘占用空间在250M左右，而我们安装了less,vim,chkconfig,quagga,telnet, telnetd, tcptraceroute这7个必要的包后，磁盘占用空间为310M+，因此我们取文件系统320M来制作，在制作完成后，大小为335M。</p>
+<p>最终制作和裁剪的文件系统通过了静态路由，RIP， OSPF Single Area, OSPF Multi Area, BGP的测试。</p>
+<p>定制文件系统的源代码在：<a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/NetkitNewFS">NetkitNewFS</a></p>
+<p>测试的实验拓扑文件在：<a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/NetkitLabs">NetkitLabs</a></p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>1. Ubuntu 32位环境或虚拟机</p>
+<p>Netkit是基于32bit的Linux系统编译的，建议在32bit环境下运行，64Bit的机器安装会缺一些lib包，让工作更加麻烦.</p>
+<p>2. 安装Netkit</p>
+<p>其次，安装Netkit，参见<a target="_blank" rel="noopener" href="http://wiki.netkit.org/index.php/Main_Page">官方网站</a>，安装很简单，解压+配置环境变量。</p>
+<p>也可以看<a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/NetkitNewFS">NetkitNewFS</a>源码下的README，有安装方法。</p>
+<h2 id="定制流程"><a href="#定制流程" class="headerlink" title="定制流程"></a>定制流程</h2><p>整个定制过程大体可以分为三歩：制作基础的Linux内核文件系统，修改文件系统为可用的Netkit文件系统，为文件系统安装Quagga。下面让我们按照这个顺序来看看整个定制流程。</p>
+<h3 id="step1-制作基础的Linux内核文件系统："><a href="#step1-制作基础的Linux内核文件系统：" class="headerlink" title="step1.制作基础的Linux内核文件系统："></a>step1.制作基础的Linux内核文件系统：</h3><p>我们直接写一个bash脚本来完成第一步制作基础的Linux内核的文件系统的工作，完整的脚本内容如下：</p>
+<p>脚本不长(<a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/NetkitNewFS/blob/master/netkit-fs-build.sh">netkit-fs-build.sh</a>)<br>[bash]<br>#!/bin/bash<br>echo &quot;====================Installing Base Linux System======================&quot;<br>FS_NAME=netkit-fs-light<br>MOUNT_DIR=/mnt/nkfs2<br>FILESYSTEM_SIZE=320</p>
+<h1 id="each-cylinder-has-63-sectors-each-of-which-is-512-bytes"><a href="#each-cylinder-has-63-sectors-each-of-which-is-512-bytes" class="headerlink" title="each cylinder has 63 sectors, each of which is 512 bytes"></a>each cylinder has 63 sectors, each of which is 512 bytes</h1><p>let CYL_COUNT=$FILESYSTEM_SIZE*1048576/32256</p>
+<h1 id="Create-empty-netkit-fs-file"><a href="#Create-empty-netkit-fs-file" class="headerlink" title="Create empty netkit-fs file"></a>Create empty netkit-fs file</h1><p>dd if=/dev/zero of=$FS_NAME bs=1M count=0 seek=$FILESYSTEM_SIZE</p>
+<h1 id="Create-image-partition"><a href="#Create-image-partition" class="headerlink" title="Create image partition"></a>Create image partition</h1><p>echo &quot;,,L,*&quot; | sfdisk -q -H 1 -S 63 -C $CYL_COUNT $FS_NAME</p>
+<h1 id="Binding-lookback-device-to-netkit-fs"><a href="#Binding-lookback-device-to-netkit-fs" class="headerlink" title="Binding lookback device to netkit-fs"></a>Binding lookback device to netkit-fs</h1><p>device_name=$(losetup -f)</p>
+<h1 id="The-offset-is-the-size-of-one-track"><a href="#The-offset-is-the-size-of-one-track" class="headerlink" title="The offset is the size of one track"></a>The offset is the size of one track</h1><p>losetup –offset 512 $device_name $FS_NAME</p>
+<h1 id="Create-ext2-filesystem"><a href="#Create-ext2-filesystem" class="headerlink" title="Create ext2 filesystem"></a>Create ext2 filesystem</h1><p>mkfs.ext2 $device_name<br>losetup -d $device_name</p>
+<h1 id="Mount-netkit-fs"><a href="#Mount-netkit-fs" class="headerlink" title="Mount netkit-fs"></a>Mount netkit-fs</h1><p>rm -rf $MOUNT_DIR<br>mkdir $MOUNT_DIR<br>mount -o loop,offset=512 -t ext2 $FS_NAME $MOUNT_DIR</p>
+<h1 id="Install-the-base-filesystem-from-Internet"><a href="#Install-the-base-filesystem-from-Internet" class="headerlink" title="Install the base filesystem  from Internet"></a>Install the base filesystem  from Internet</h1><p>debootstrap –arch i386 squeeze $MOUNT_DIR <a target="_blank" rel="noopener" href="http://ftp.cn.debian.org/debian">http://ftp.cn.debian.org/debian</a><br>echo &quot;=================Base Linux System Installed Success==================&quot;</p>
+<p>umount $MOUNT_DIR<br>echo &quot;done!&quot;<br>[/bash]<br>脚本的功能是创建一个320M的文件，采用sfdisk创建Linux分区表，绑定到环回设备上创建ext2文件系统，在mount到主机的/mnt/nkfs2下，通过debootstrap命令联网联网下载并安装Linux Squeeze 文件系统。具体每一歩，在脚本注释中。<br>值得注意的是，脚本的最后部分，即命令：<br>[bash]<br>debootstrap –arch i386 squeeze $MOUNT_DIR <a target="_blank" rel="noopener" href="http://ftp.cn.debian.org/debian">http://ftp.cn.debian.org/debian</a><br>[/bash]<br>需要通过联网安装debian squeeze内核，该文件系统下载解压后只有200多兆，选择squeeze主要是为了和netkit-kernel兼容。<br>保存脚本文件，比如存为netkit-fs-build.sh，打开终端，cd到脚本文件所在目录下，使用命令：<br>[bash]<br>sudo sh netkit-fs-build.sh<br>[/bash]<br>运行脚本（注意使用root权限），即可得到基础的Linux文件系统了。</p>
+<h3 id="step2-修改文件系统为可用的Netkit文件系统："><a href="#step2-修改文件系统为可用的Netkit文件系统：" class="headerlink" title="step2.修改文件系统为可用的Netkit文件系统："></a>step2.修改文件系统为可用的Netkit文件系统：</h3><h4 id="1-从Netkit原始文件系统中拷贝必要的文件，并修改netkit-phase1和netkit-phase2"><a href="#1-从Netkit原始文件系统中拷贝必要的文件，并修改netkit-phase1和netkit-phase2" class="headerlink" title="1. 从Netkit原始文件系统中拷贝必要的文件，并修改netkit-phase1和netkit-phase2"></a>1. 从Netkit原始文件系统中拷贝必要的文件，并修改netkit-phase1和netkit-phase2</h4><p>上一步得到的文件系统，并不可以直接用于Netkit，启动虚拟机会失败，需要用到Netkit原始的文件系统中的部分文件进行补充，将其配置成可用的Netkit FileSystem。<br>所有需要添加到自制文件系统中的Netkit原始文件系统中的文件我们把他们放在了<a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/NetkitNewFS/tree/master/netkit-tweaks">netkit-tweaks</a>文件夹下，其目录结构如下，各自作用见注释：<br>[text]<br>netkit-tweaks<br>—- etc<br>———init.d #contains netkit-phase1 and netkit-phase2, the two important file for netkit bootstrap<br>———network #interfaces configure<br>———inittab # inittab file for bootstrap runlevel<br>———resolv.conf # DNS parse<br>———sysctl.conf # net.ipv4.ip_forward=1 for ip forwarding, important configure, enable ip packet forwarding<br>—–sbin<br>———mingetty # mingetty is a minimal getty program for watching virtual termianl<br>[/text]</p>
+<p>该文件夹下所有的文件都可以在Netkit原始文件系统下找到，可以通过挂载原始文件系统把他们从挂载地址拷贝出来，其中/mnt/nkfs1为自定义的挂载地址：<br>[bash]<br>mount -o loop,offset=32768 netkit-fs-i386-F5.2 /mnt/nkfs1<br>[/bash]<br>文件netkit-phase1和netkit-phase2需要稍作修改， 修改netkit-phase1中开头部分为：<br>[bash]</p>
+<h3 id="BEGIN-INIT-INFO"><a href="#BEGIN-INIT-INFO" class="headerlink" title="BEGIN INIT INFO"></a>BEGIN INIT INFO</h3><h1 id="Provides"><a href="#Provides" class="headerlink" title="Provides:"></a>Provides:</h1><h1 id="Required-Start"><a href="#Required-Start" class="headerlink" title="Required-Start:"></a>Required-Start:</h1><h1 id="Required-Stop-all"><a href="#Required-Stop-all" class="headerlink" title="Required-Stop: $all"></a>Required-Stop: $all</h1><h1 id="Default-Start-2-3-4-5"><a href="#Default-Start-2-3-4-5" class="headerlink" title="Default-Start: 2 3 4 5"></a>Default-Start: 2 3 4 5</h1><h1 id="Default-Stop-0-1-6"><a href="#Default-Stop-0-1-6" class="headerlink" title="Default-Stop: 0 1 6"></a>Default-Stop: 0 1 6</h1><h1 id="Short-Description"><a href="#Short-Description" class="headerlink" title="Short-Description:"></a>Short-Description:</h1><h1 id="Description"><a href="#Description" class="headerlink" title="Description:"></a>Description:</h1><h3 id="END-INIT-INFO"><a href="#END-INIT-INFO" class="headerlink" title="END INIT INFO"></a>END INIT INFO</h3><p>[/bash]</p>
+<p>修改netkit-phase2中开头部分为：<br>[bash]</p>
+<h3 id="BEGIN-INIT-INFO-1"><a href="#BEGIN-INIT-INFO-1" class="headerlink" title="BEGIN INIT INFO"></a>BEGIN INIT INFO</h3><h1 id="Provides-1"><a href="#Provides-1" class="headerlink" title="Provides:"></a>Provides:</h1><h1 id="Required-Start-all"><a href="#Required-Start-all" class="headerlink" title="Required-Start: $all"></a>Required-Start: $all</h1><h1 id="Required-Stop"><a href="#Required-Stop" class="headerlink" title="Required-Stop:"></a>Required-Stop:</h1><h1 id="Default-Start-2-3-4-5-1"><a href="#Default-Start-2-3-4-5-1" class="headerlink" title="Default-Start: 2 3 4 5"></a>Default-Start: 2 3 4 5</h1><h1 id="Default-Stop-0-1-6-1"><a href="#Default-Stop-0-1-6-1" class="headerlink" title="Default-Stop: 0 1 6"></a>Default-Stop: 0 1 6</h1><h1 id="Short-Description-1"><a href="#Short-Description-1" class="headerlink" title="Short-Description:"></a>Short-Description:</h1><h1 id="Description-1"><a href="#Description-1" class="headerlink" title="Description:"></a>Description:</h1><h3 id="END-INIT-INFO-1"><a href="#END-INIT-INFO-1" class="headerlink" title="END INIT INFO"></a>END INIT INFO</h3><p>[/bash]<br>$all的意思是最后，在netkit-phase1中表示最后停止，在netkit-phase2中表示最后开始，这是启动优先级的配置。<br>同时在netkit-phase2中，并将文件中/bin/sh -c ‘source /hostlab/$HOSTNAME.startup’这种类似的语句修改为”source /hostlab/$HOSTNAME.startup”。<br>因为用/bin/sh启动 startup脚本会会报”/bin/sh: source not found”的错误，默认用bash启动startup脚本就不会报错。<br>至此，所有需要添加进自制文件系统的文件已经全部在netkit-tweaks文件夹中了。</p>
+<h4 id="2-拷贝必要的文件到文件系统中"><a href="#2-拷贝必要的文件到文件系统中" class="headerlink" title="2. 拷贝必要的文件到文件系统中"></a>2. 拷贝必要的文件到文件系统中</h4><p>首先挂载刚刚创建的文件系统netkit-fs-light：<br>[bash]<br>FS_NAME=netkit-fs-light<br>NETKIT_TWEAKS_DIR=netkit-tweaks<br>MOUNT_DIR=/mnt/nkfs2<br>mount -o loop,offset=512 -t ext2 $FS_NAME $MOUNT_DIR<br>[/bash]<br>下面需要把一些必要的文件拷贝到自制的文件系统中，其中**/etc/sysctl.conf**文件很重要，作用是将ipv4.ip_forward设为1，否则虚拟机无法ping通：<br>[bash]<br>cp -Rvf $NETKIT_TWEAKS_DIR/etc $MOUNT_DIR/<br>cp -Rvf $NETKIT_TWEAKS_DIR/sbin $MOUNT_DIR/<br>[/bash]</p>
+<h4 id="3-改变root根目录位置，准备安装必要的工具和软件"><a href="#3-改变root根目录位置，准备安装必要的工具和软件" class="headerlink" title="3. 改变root根目录位置，准备安装必要的工具和软件"></a>3. 改变root根目录位置，准备安装必要的工具和软件</h4><p>改变root的执行程序参考的根目录位置至挂载文件系统的位置，方便我们直接配置文件系统和使用文件系统中的命令：<br>[bash]<br>chroot $MOUNT_DIR<br>[/bash]<br>挂载proc文件系统，proc文件系统是提供Linux内核数据结构接口的伪文件系统，文件系统并没有挂载proc文件系统，proc文件系统一般挂载在/proc目录下，如果没有挂载，虚拟机启动时会出现mtab无法初始化错误，也就是mtab文件会被损坏，因此我们为了让文件系统更完善，增加挂载proc文件系统的命令。<br>[bash]<br>mount -t proc none /proc<br>[/bash]</p>
+<h4 id="4-安装必要的软件包"><a href="#4-安装必要的软件包" class="headerlink" title="4. 安装必要的软件包"></a>4. 安装必要的软件包</h4><p>紧接着为文件系统更新和安装一些必要的工具和软件：<br>[bash]<br>apt-get update<br>apt-get install less<br>apt-get install vim<br>apt-get install chkconfig #为设置netkit-phase文件的启动优先级<br>[/bash]</p>
+<h4 id="5-设置netkit-phase1和netkit-phase2脚本的启动优先级"><a href="#5-设置netkit-phase1和netkit-phase2脚本的启动优先级" class="headerlink" title="5. 设置netkit-phase1和netkit-phase2脚本的启动优先级"></a>5. 设置netkit-phase1和netkit-phase2脚本的启动优先级</h4><p>在Debian 6.0之后，不能采用update-rc.d命令设置init.d目录下启动文件的优先级，采用insserv命令可以简单设置。我们尝试过将rcX.d文件从原始netkit文件系统中拷贝到新的文件系统中，发现不能使用，rcX.d这些链接文件是需要通过命令来生成的。在原始的netkit Makefile中采用update-rc.d设置是不成功的，采用insserv是我们做出的改进。<br>将netkit-phase1和netkit-phase2链接到rcX.d并设置优先级：<br>[bash]<br>insserv netkit-phase1<br>chkconfig netkit-phase1 on<br>insserv netkit-phase2<br>chkconfig netkit-phase2 on<br>[/bash]</p>
+<h4 id="6-禁止不必要的启动项，取消挂载"><a href="#6-禁止不必要的启动项，取消挂载" class="headerlink" title="6. 禁止不必要的启动项，取消挂载"></a>6. 禁止不必要的启动项，取消挂载</h4><p>取消cron job的启动项，加快启动<br>[bash]<br>update-rc.d cron remove<br>[/bash]<br>最后退出并取消挂载：<br>[bash]<br>exit # 退出新文件系统的根目录环境，回到ubunu根目录环境下<br>umount $MOUNT_DIR/proc<br>umount $MOUNT_DIR<br>[/bash]<br>如果因为设备正忙而无法取消挂载，可以察看相应进程，先杀死进程再取消挂载：<br>[bash]<br>fuser -m $MOUNT_DIR</p>
+<h1 id="if-out-put-is-dev-sdc1-538"><a href="#if-out-put-is-dev-sdc1-538" class="headerlink" title="if out put is /dev/sdc1: 538"></a>if out put is /dev/sdc1: 538</h1><p>ps -aux | grep 538</p>
+<h1 id="then-kill-the-process-by-proccess-id"><a href="#then-kill-the-process-by-proccess-id" class="headerlink" title="then kill the process by proccess id"></a>then kill the process by proccess id</h1><p>[/bash]</p>
+<h3 id="step3-为文件系统安装quagga："><a href="#step3-为文件系统安装quagga：" class="headerlink" title="step3.为文件系统安装quagga："></a>step3.为文件系统安装quagga：</h3><p>以上两步都是在Ubuntu主机下运行的，现在我们自制的Netkit FileSystem应该可以正常启动虚拟机了，最后一步需要启动虚拟机并在虚拟机内安装quagga。<br>首先启动Netkit虚拟机：<br>[bash]<br>FS_NAME=netkit-fs-light<br>vstart pc1 -m $FS_NAME -M 512 –eth0=tap,10.0.0.1,10.0.0.2 –append=rout:98:1 –W<br>[/bash]<br>该命令中参数解释如下：<br>–m $FS_NAME 表示以指定的文件系统作为虚拟机的文件系统<br>-M 512 指定内存512M，以为要联网安装，所以不能用默认的32M内存，太小<br>–eth0=tap,10.0.0.1,10.0.0.2 绑定eth0网卡到tap碰撞域，tap碰撞域是netkit保留的碰撞域，通过tap可以连接主机上外部因特网，10.0.0.1是TAP-ADDRESS是在Tap碰撞域中分配给主机Ubuntu的地址，10.0.0.2是GUEST-ADDRESS是分配给虚拟机的地址，此时可以ping任意的因特网，如baidu.com是可以成功的。<br>–append=rout:98:1 为netkit-kernel提供的参数<br>-W 表示对虚拟机的修改就是对Netkit文件系统的修改，不产生*.disk文件<br>启动后的虚拟机如图：<br><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/netkit.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/netkit-580x393.png" alt="netkit"></a><br>接下来在虚拟机中安装必要软件和工具：<br>[bash]<br>apt-get install telnet<br>apt-get install telnetd<br>apt-get install tcptraceroute<br>[/bash]<br>接着安装quagga，注意安装的quagga 版本为0.99.20.1，太高的版本可能会因为与内核版本不兼容：<br>[bash]<br>apt-cache policy quagga # 查看quagga可安装的版本，默认就有 0.99.20.1版本<br>apt-get install quagga -v 0.99.20.1<br>[/bash]<br>察看占用空间，最后退出虚拟机:<br>[bash]<br>dh -lf  # 320M is the smallest solution, since up to now, 310M has been used<br>halt<br>[/bash]<br>至此，我们的文件系统就制作成功了，以上step2和step3的脚本，请参考<a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/NetkitNewFS/blob/master/configure-netkit.sh">configure-netkit.sh</a>，我采用的是手工配置，一方面命令不多，另一方面手工配置可以保证每一步的正确性。通过查看文件系统的信息我们看到文件系统为335M左右。<br>使用这一自制文件系统，我们通过了rip, ospf single area, ospf multi area和simple bgp的网络实验测试。Netkit lab实验在官方网站中有详细的教程，在此就不详细描述实验了，能做出这个文件系统，我表示很欣慰，同时也学习到文件系统的制作是通过shell命令完成，开始以为需要C方面的知识。</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>在实验中，遇到了很多问题，这些问题对定制该文件系统有很大价值，在此做一个记录和说明，如果遇到相似的问题，可以参考。</p>
+<h3 id="1-虚拟机启动闪退"><a href="#1-虚拟机启动闪退" class="headerlink" title="1. 虚拟机启动闪退"></a>1. 虚拟机启动闪退</h3><p>我们在做netkit文件系统时，有三个组员出现了启动虚拟机闪退的问题，我们为此花费了很多时间，的解决方法如下：<br>1.检查基础Linux文件系统是否安装成功，之前是因为文件系统的分区就没有创建成功，造成debootstrap也没有成功，文件没有安装好，启动闪退。<br>2.基础文件系统安装好了，拷贝了netkit-phaseX等文件后，启动虚拟机闪退，这是因为netkit-phaseX文件没有设置好优先级，需要在Ubuntu主机中通过insserv和chkconfig设置优先级。方可启动不闪退。</p>
+<h3 id="2-Quagga安装失败"><a href="#2-Quagga安装失败" class="headerlink" title="2. Quagga安装失败"></a>2. Quagga安装失败</h3><p>我尝试过在Ubuntu中，通过chroot后，在文件系统中安装quagga，此时安装的quagga的版本不是0.99.20.1版，安装失败，之后又在虚拟机种通过手工编译安装quagga，依然失败。<br>最后的解决方法是，在虚拟机中，采用apt-get install quagga –v 0.99.20.1安装，-v指定版本，quagga的安装需要依赖netkit提供的内核，在ubuntu安装是没有netkit内核的，造成不能使用。</p>
+<h3 id="3-IP-Forwarding问题"><a href="#3-IP-Forwarding问题" class="headerlink" title="3. IP Forwarding问题"></a>3. IP Forwarding问题</h3><p>Quagga安装成功后，lab可以启动了，路由可以学习到路由，但是不能ping通，纠结一阵之后，我们发现是ip forward在Linux中默认关闭了，打开就可以。因此从原netkit文件系统中拷贝sysctl.conf文件，该文件可以永久设定net.ipv4.ip_forward=1，这样ip forward在启动时就已经打开，虚拟机之间就可以ping通了。</p>
+<h3 id="4-Fedora-x64下配置虚拟机和配更改文件系统的问题-from-Aqua"><a href="#4-Fedora-x64下配置虚拟机和配更改文件系统的问题-from-Aqua" class="headerlink" title="4. Fedora- x64下配置虚拟机和配更改文件系统的问题(from Aqua)"></a>4. Fedora- x64下配置虚拟机和配更改文件系统的问题(from Aqua)</h3><p>在Ubuntu系统中配置完成实验之后，我们尝试了在64位Fedora系统中配置Netkit虚拟机。由于Netkit是基于32位系统编译，所以要首先解决64位系统中的不同函数库的依赖问题。在Debian系统中，解决32位函数库依赖只需要apt-get ia32-libs即可。但是在Fedora的yum系统中，并不存在这个名称的包。经验证，如下命令解决问题。<br>[bash]<br>su -c ‘yum -y install –skip-broken glibc.i686 arts.i686 audiofile.i686 bzip2-libs.i686 cairo.i686 cyrus-sasl-lib.i686 dbus-libs.i686 directfb.i686 esound-libs.i686 fltk.i686 freeglut.i686 gtk2.i686 hal-libs.i686 imlib.i686 lcms-libs.i686 lesstif.i686 libacl.i686 libao.i686 libattr.i686 libcap.i686 libdrm.i686 libexif.i686 libgnomecanvas.i686 libICE.i686 libieee1284.i686 libsigc++20.i686 libSM.i686 libtool-ltdl.i686 libusb.i686 libwmf.i686 libwmf-lite.i686 libX11.i686 libXau.i686 libXaw.i686 libXcomposite.i686 libXdamage.i686 libXdmcp.i686 libXext.i686 libXfixes.i686 libxkbfile.i686 libxml2.i686 libXmu.i686 libXp.i686 libXpm.i686 libXScrnSaver.i686 libxslt.i686 libXt.i686 libXtst.i686 libXv.i686 libXxf86vm.i686 lzo.i686 mesa-libGL.i686 mesa-libGLU.i686 nas-libs.i686 nss_ldap.i686 cdk.i686 openldap.i686 pam.i686 popt.i686 pulseaudio-libs.i686 sane-backends-libs-gphoto2.i686 sane-backends-libs.i686 SDL.i686 svgalib.i686 unixODBC.i686 zlib.i686 compat-expat1.i686 compat-libstdc++-33.i686 openal-soft.i686 alsa-oss-libs.i686 redhat-lsb.i686 alsa-plugins-pulseaudio.i686 alsa-plugins-oss.i686 alsa-lib.i686 nspluginwrapper.i686 libXv.i686 libXScrnSaver.i686 qt.i686 qt-x11.i686 pulseaudio-libs.i686 pulseaudio-libs-glib2.i686 alsa-plugins-pulseaudio.i686’<br>[/bash]<br>这个长命令涵盖了ia32-libs中包含的所有依赖文件。<br>但是在生成文件系统过程中，由于Debian的Debootstrap并不能很好的兼容Fedora系统，导致生成文件系统失败。尚未找到更好的解决方案。<br>在Fedora下的尝试不成功，这也就是我们选取Ubuntu的原因，Netkit是32bitDebian系统，在32bitDebian系统下编译会更好。</p>
+<h3 id="参考资源"><a href="#参考资源" class="headerlink" title="参考资源"></a>参考资源</h3><p>[1] <a target="_blank" rel="noopener" href="http://wiki.netkit.org/index.php/Main_Page">Netkit官方网站</a><br>[2] <a target="_blank" rel="noopener" href="http://wiki.netkit.org/index.php/FAQ#How_can_I_build_a_custom_kernel.2Ffilesystem_from_scratch_for_use_with_Netkit.3F">Netkit官方FAQ</a><br>[3] <a target="_blank" rel="noopener" href="http://wiki.netkit.org/index.php/Labs_Official">Netkit 官方实验和介绍</a><br>[4] <a target="_blank" rel="noopener" href="http://list.dia.uniroma3.it/pipermail/netkit.users/2007-October/000271.html">Netkit用户问答</a><br>[5] <a target="_blank" rel="noopener" href="http://www.debian.org/releases/">Debian内核release介绍</a><br>[6] <a target="_blank" rel="noopener" href="http://www.linux.com/news/enterprise/systems-management/8116-an-introduction-to-services-runlevels-and-rcd-scripts">An introduction to services, runlevels, and rc.d scripts</a><br>[7] <a target="_blank" rel="noopener" href="http://opensourcecentre.wordpress.com/article/install-quagga-as-linux-router/">Install quagga as linux router</a><br>[8] <a target="_blank" rel="noopener" href="http://openmaniak.com/quagga_tutorial.php#ip_forwarding">Quagga Tutorial for ip forwarding</a><br>[9] <a target="_blank" rel="noopener" href="http://ocaoimh.ie/2008/02/13/how-to-umount-when-the-device-is-busy/">How to umount when device is busy</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/16/netkit-filesystem-custom-cutting/" data-id="ckjk20xnn00209bwr4g7b6c01" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/16/netkit-filesystem-custom-cutting/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/" rel="tag">Network</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-ipsec-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/13/ipsec-architecture/">IPsec之IP层安全架构</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/13/ipsec-architecture/">
+    <time datetime="2013-11-13T02:37:38.000Z" itemprop="datePublished">2013-11-13</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/network/">Network</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="什么是IPSec"><a href="#什么是IPSec" class="headerlink" title="什么是IPSec"></a>什么是IPSec</h3><p>IP层的安全架构由IPsec定义，IPsec(Internet Protocol Security), 是一个开放标准的框架，它是为IP层提供端到端的数据加密，数据完整性和数据认证的协议簇。</p>
+<p>IPsec最早于1995年在RFC1825和RFC1829中定义，之后在1998年IETF又重新修改为RFC2401和RFC2412, 在RFC2401中引入秘钥交换协议(IKE)管理安全联盟(Security Association, SA), 而后在2005年，IETF又发布了新的文档定义RFC4301和RFC4309，引入IKEv2管理SA。本文即基于RFC4301来阐述IPsec的主要功能和工作机制。</p>
+<p>IPsec的设计意图是为IPv4和IPv6提供安全保护，在RFC6434之前IPsec是必选内容，而对IPv4是可选的。IPv6的地址空间广阔，更有可能成为DDos, IP欺诈等网络攻击的目标，因此IETF旨在随着IPv6的发展，推广IPsec，提高IP层的安全性。</p>
+<p>IPsec是OSI第三层协议，它可以为上层的基于TCP和UDP协议的数据流提供数据安全保护，如SSL不能保护UDP的通信流，就可以借助IPsec保护数据流。</p>
+<p>IPsec可以在一个主机、网关或独立的设备中进行实现，从IP层提供高质量的安全服务，包括访问控制，无连接的完整性，数据源认证，重放攻击检测和拒绝和数据加密等.</p>
+<p>IPsec定义了IPsec作为一个IP层防火墙所需的最小功能集。IPsec进行访问控制的规则主要定义在安全规则数据库中(Security Policy Database, SPD)，IPsec根据这些规则对数据包进行保护、丢弃或通过的处理。[more…]</p>
+<h3 id="IPsec安全功能组成"><a href="#IPsec安全功能组成" class="headerlink" title="IPsec安全功能组成"></a>IPsec安全功能组成</h3><p>总体来说IPsec的安全功能由两个安全协议(AH和ESP)和建立安全联盟的协议(IKE)组成。</p>
+<p>1. 两种安全协议</p>
+<p>包括认证头协议(Authentication Header，AH)和封装安全载荷协议(Encapsulating Security Payload, ESP)。</p>
+<p>AH，提供数据完整性，反重放攻击和可选的数据源认证的安全特性。通常使用单向Hash函数的摘要算法——MD5和SHA1实现其安全特性。</p>
+<p>ESP，可以同时提供数据完整性，数据加密，反重放攻击等安全特性。通常使用DES，3DES和AES等加密算法来进行数据加密。使用MD5和SHA1实现数据认证。</p>
+<p>AH和ESP都采用SPD来提供访问控制。IPsec要求一定要实现ESP，AH可选，一般ESP就可以满足大部分的安全需求.</p>
+<p>AH在实践中用的少，其原因有二：第一，没有数据加密，数据是以明文传输，而ESP提供数据加密。第二，AH提供数据源认证，一旦数据源地址发生改变，校验失败，所以AH不能穿越NAT。但是在PC到PC的通信中，采用AH更好，因为ESP的开销较大。</p>
+<p>2. 建立安全联盟的协议</p>
+<p>Internet Key Exchange, IKE是用于建立和维护SA的协议，在端到端之间进行协商，确认通信端的身份，建立安全的通信关联。</p>
+<p>在1998年RFC2401中第一次在IPsec中引入IKE，8年后RFC4301中更新为IKEv2,RFC4301中采用的是IKEv2。IKEv1和IKEv2的主要区别是：</p>
+<ul>
+<li>  IKEv2比IKEv1消耗的带宽更少。</li>
+<li>  IKEv2支持扩展认证头协议(Extensible Authentication Protocol, EAP), 而IKEv1不支持，IKEv2对无线的支持更好。</li>
+<li>  IKEv2支持MOBIKE，而IKEv1不支持，IKEv2可以提供移动通信支持。</li>
+<li>  IKEv2内内嵌支持NAT，而IKEv1不支持。</li>
+<li>  IKEv2可以检测隧道是否alive，但IKEv2不支持。</li>
+<li>  IKEv2的引入可以在建立安全关联时，提供更好的安全特性。</li>
+</ul>
+<h3 id="IPsec数据处理模型"><a href="#IPsec数据处理模型" class="headerlink" title="IPsec数据处理模型"></a>IPsec数据处理模型</h3><p><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/1.1Top-Level-IPsec-Processing-Model-.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/1.1Top-Level-IPsec-Processing-Model--580x344.png" alt="1.1Top Level IPsec Processing Model"></a></p>
+<p>Psec在数据处理时,在保护接口(Protected Interface)和非保护接口(Unprotected Interface)之间创建了一个分界(Boundary)。数据从非保护接口进入，IPsec会基于AH或ESP进行访问控制，对数据的处理结果有三种：保护(Protected), 丢弃(Discard), 通过(Bypass)。</p>
+<p>IPsec对IP数据包处理有两种情况：</p>
+<p>Inbound，即IP输入，数据从非保护接口端进入穿过IPsec，从保护接口端输出。</p>
+<p>Outbound, 即IP输出, 数据从保护接口端进入，从非保护接口端输出。</p>
+<h3 id="IPsec两种封装模式和应用场景"><a href="#IPsec两种封装模式和应用场景" class="headerlink" title="IPsec两种封装模式和应用场景"></a>IPsec两种封装模式和应用场景</h3><p>IPsec的一个重要应用场景就是VPN。<br><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/1.2IPsec-VPN%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/1.2IPsec-VPN%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-580x321.png" alt="1.2IPsec VPN应用场景"></a></p>
+<p>如图上图所示，企业的各个内网间通过隧道连接，而隧道模式是IPsec重要的应用模式。</p>
+<p>IPsec提供两种封装模式，传输模式和隧道模式，主要分为四种场景：</p>
+<p><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/1.3IPsec%E5%9B%9B%E7%A7%8D%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/1.3IPsec%E5%9B%9B%E7%A7%8D%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-580x290.png" alt="1.3IPsec四种应用场景"></a></p>
+<p>1. Gateway-to-Gateway网关到网关，如上图的A场景，Alice的PC要访问公司HR的服务器，需要通过隧道模式进行安全连接，该隧道就是建立在两个网关之间。这是通常的VPN的场景。</p>
+<p>2. End-to-Gateway端到网关，如图中的B场景，从Alice的PC端连接到另一个IPsec网关，这也是在隧道模式下。</p>
+<p>3. End-to-End端到端，如图中的C场景，采用隧道模式一个Cisco路由器和PIX防火墙通过隧道模式连接。</p>
+<p>4. 传输模式，如图中的D场景传输模式，IPsec传输模式一般用于端到端的情况，或者端到网关，此时网关被当作一个主机。D场景中Alice PC用传输模式连接PIX防火墙，对防火墙进行管理。</p>
+<p>可以发现，IPsec的传输模式和隧道模式的区别：</p>
+<p>传输模式一般只用于端到端的情况，如PC-to-PC。传输模式下，AH，ESP不对IP头进行修改和加密。</p>
+<p>隧道模式可以用于任何一种场景，多用于网关到网关的场景，但是隧道模式下，AH,ESP会在源IP报文前面添加外网IP头，隧道模式会多一层IP头的开销，在端到端的模式中，建议使用传输模式。</p>
+<h3 id="IPsec重要加密和认证算法"><a href="#IPsec重要加密和认证算法" class="headerlink" title="IPsec重要加密和认证算法"></a>IPsec重要加密和认证算法</h3><p>IPsec为了保证数据的完整性，实现数据的认证和加密，相关算法有：<br>数据加密算法：</p>
+<ul>
+<li>  DES，基于共享秘钥进行数据加密和解密，采用56bit的秘钥保证加密的性能。</li>
+<li>  3DES，与DES相似，提供数据加密和解密，采用变长的秘钥。</li>
+<li>  Diffie-Hellman(D-H): 这是一个公钥加密协议。它可以在通信的两端基于MD5或DES算法建立共享秘钥，实现安全通信。D-H主要用于IKE，建立安全session会话。秘钥一般为768bit或1024bit。</li>
+<li>  RSA，基于公钥的加密，来实现数据认证，例如在Cisco的路由上的IPsec采用D-H交换来决定两端的私钥，并生成共享秘钥，采用RSA签名进行公钥认证。</li>
+</ul>
+<p>数据认证算法：</p>
+<ul>
+<li>  Message Digest 5（MD5）: 是一个Hash算法，用于数据包验证。这是一个单向的加密算法，IKE，AH和ESP中采用MD5进行数据认证，防止重放攻击。</li>
+<li>  Secure Hash Algorithm(SHA-1): 是一个Hash算法，用于数据包验证。IKE，AH和ESP中采用MD5进行数据认证，防止重放攻击。</li>
+</ul>
+<h3 id="IPsec安全协议之AH认证头协议"><a href="#IPsec安全协议之AH认证头协议" class="headerlink" title="IPsec安全协议之AH认证头协议"></a>IPsec安全协议之AH认证头协议</h3><p>AH协议主要用于保护传输分组的数据完整性，并可以进行数据源认证。它采用滑动窗口和丢弃旧数据包的技术来防止重放攻击。但是AH不提供数据加密。</p>
+<p>在IPv4和IPv6中，AH试图保护所有的IP头字段，除了TTL，ECN, Flags等可变字段。</p>
+<p><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/2.1AH%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%95%B0%E6%8D%AE%E5%B0%81%E8%A3%85%E6%A8%A1%E5%BC%8F.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/2.1AH%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%95%B0%E6%8D%AE%E5%B0%81%E8%A3%85%E6%A8%A1%E5%BC%8F-580x265.png" alt="2.1AH的两种数据封装模式"></a></p>
+<p>如图，AH提供两种封装模式，传输模式和隧道模式。</p>
+<p>传输模式下，AH采用单向Hash算法，对IP头和数据载荷进行摘要，形成AH头部，AH头部放在IP头部和数据之间。在AH处理前后IP头部不发生变化。</p>
+<p>隧道模式下，AH对原IP头进行Hash摘要，生成新的IP头。摘要生成的头被放于新的IP头之后，原IP头之前。</p>
+<p>AH不能通过NAT，因为NAT会改变源IP地址，破坏AH头部，造成包被IPsec另一端拒绝。</p>
+<p><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/2.2AH%E5%A4%B4%E9%83%A8%E5%AD%97%E6%AE%B5.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/2.2AH%E5%A4%B4%E9%83%A8%E5%AD%97%E6%AE%B5-580x146.png" alt="2.2AH头部字段"></a></p>
+<p>如所示是AH的头部字段，包括：</p>
+<p>下一个头(Next Header)：8bit，标识被传输的IP报文采用的是什么协议，如TCP或UDP。</p>
+<p>载荷长度(Payload Len)：8bit认证包头的大小。</p>
+<p>保留字段：16bit为将来应用做保留，目前都置0。</p>
+<p>安全参数索引(SPI): 32bit与目的IP地址一起来标识与接收方的安全关联。</p>
+<p>序列号(Sequence Number):32bit，单调增值的序列号，防止重放攻击。</p>
+<p>完整性检查值(Integrity Check Value, ICV): 变长字段，一般32bit的倍数，包含认证当前包所必须的数据。</p>
+<h3 id="IPsec安全协议之ESP封装安全载荷协议"><a href="#IPsec安全协议之ESP封装安全载荷协议" class="headerlink" title="IPsec安全协议之ESP封装安全载荷协议"></a>IPsec安全协议之ESP封装安全载荷协议</h3><p>ESP协议为IPsec提供数据源认证，数据完整性和数据加密功能。与AH不同的是在传输模式下，ESP不提供对整个IP数据包的数据完整性和认证功能，只对IP数据载荷进行加密和认证。然而在传输模式下，提供对整个IP包的加密和认证，生成新的包头。</p>
+<p><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/2.3ESP%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%B0%81%E8%A3%85%E6%A8%A1%E5%BC%8F.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/2.3ESP%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%B0%81%E8%A3%85%E6%A8%A1%E5%BC%8F-580x229.png" alt="2.3ESP的两种封装模式"></a></p>
+<p>如图是ESP的两种封装模式。</p>
+<p>传输模式下，ESP只对上层协议数据加密，不加密IP头，只对ESP头和加密的上层协议数据进行认证，不认证IP头，生成的新IP报文，IP头不变，ESP头和加密的数据放在IP头之后。</p>
+<p>隧道模式下，ESP对整个IP头和上层协议数据加密，对ESP头和加密数据进行认证，生成新的IP头，包括外部IP源、目的地址。但新的IP头不参与认证。</p>
+<p>在ESP加密和认证中，总是先对数据加密再HASH认证，这样可以让接收端在解密之前，对数据包进行快速检测，防止重放攻击。</p>
+<p><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/2.4ESP%E7%9A%84%E5%A4%B4%E9%83%A8%E5%AD%97%E6%AE%B5.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/2.4ESP%E7%9A%84%E5%A4%B4%E9%83%A8%E5%AD%97%E6%AE%B5-580x217.png" alt="2.4ESP的头部字段"></a></p>
+<p>如图2.4，是ESP定义的头部字段：</p>
+<p>安全参数索引(SPI): 32bit与目的IP地址一起来标识与接收方的安全关联。</p>
+<p>序列号(Sequence Number):32bit，单调增值的序列号，防止重放攻击。</p>
+<p>载荷数据(Payload Data): 变长，受保护的IP数据，其数据内容由下一个头字段标识。</p>
+<p>填充(Padding)：一些加密算法用此字段将数据填充至块的长度，和下一字段对齐。</p>
+<p>填充长度:8bit,标识填充字段的长度。</p>
+<p>下一个头(Next Header): 标识被传输数据所用的上层协议。</p>
+<p>完整性检查值(Integrity Check Value, ICV): 变长字段，一般32bit的倍数，包含认证当前包所必须的数据。</p>
+<h3 id="SA安全联盟"><a href="#SA安全联盟" class="headerlink" title="SA安全联盟"></a>SA安全联盟</h3><p>安全联盟（Security Association, SA也有翻译为安全关联、安全连接），是IPsec中的重要概念。在IPsec发送端和接收端进行安全通信之前，IPsec需要通过SA建立安全关联来确定如何建立安全通信。</p>
+<p>IPsec为安全通信提供数据加密，数据完整性和认证这三种服务，当服务的类型确立后，通信的两端需要确立采用什么加密(DES或3DES)和认证(MD5或SHA-1)算法, 再决定算法后又需要交换session秘钥。可以对于一个安全通信会话，需要交换很多信息，所以引进SA的概念来管理安全通信参数和算法等信息。</p>
+<p>总之，SA就是IPsec进行安全通信的一簇算法和安全参数，如封装模式，发送方和接收方的IP地址，兴趣流等，这些参数被用于加密和认证。</p>
+<p>SA是单向的，通信的两端如果要双向通信，则需要建立一对SA，这样当任何一方的SA被破解，另一方的SA不会受影响。</p>
+<p><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/3.1SA%E7%9A%84%E7%BB%93%E6%9E%84%E7%A4%BA%E4%BE%8B.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/3.1SA%E7%9A%84%E7%BB%93%E6%9E%84%E7%A4%BA%E4%BE%8B-580x321.png" alt="3.1SA的结构示例"></a></p>
+<p>如图是一个SA的结构示例，包括：</p>
+<p>目的地址</p>
+<p>安全参数索引(SPI): 每一个通信端都有唯一的SPI，IPsec将基于SPI，源地址和目的地址在SAD数据库中搜索安全参数记录。</p>
+<p>IPsec安全协议</p>
+<p>秘钥</p>
+<p>其他的SA属性，如IPsec Lifetime</p>
+<p><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/3.2SA%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/3.2SA%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6-580x310.png" alt="3.2SA的工作机制"></a></p>
+<p>如图所示，是一个在具体通信中路由器R1和R2的IPsec SA参数，可以看到SA是单向的，从任何一方到另一方都要建立SA。当一个数据包需要IPsec保护，首先它会查询SAD数据库（安全关联数据库），将SA中的SPI插入到IPsec的头部，当接收端收到数据包后，接收端会根据目的地址和SPI在自己的SAD中找到相应的SA, 如果SA匹配，则进一步采用AH或ESP对数据包进行处理。</p>
+<p><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/3.3%E4%B8%8D%E5%90%8C%E9%80%9A%E4%BF%A1%E7%AB%AF%E7%9A%84%E4%B8%8D%E5%90%8CSA.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/3.3%E4%B8%8D%E5%90%8C%E9%80%9A%E4%BF%A1%E7%AB%AF%E7%9A%84%E4%B8%8D%E5%90%8CSA-580x272.png" alt="3.3不同通信端的不同SA"></a></p>
+<p>如图所示，是在一个网络中，不同的主机间的通信采用了不同IPsec安全参数，从Client到Router A采用传输模式ESP，Router A到Router B采用隧道模式AH，这些安全参数都需要SA来管理。</p>
+<h3 id="SA如何判断网关的安全性—-IKE"><a href="#SA如何判断网关的安全性—-IKE" class="headerlink" title="SA如何判断网关的安全性—-IKE"></a>SA如何判断网关的安全性—-IKE</h3><p>SA是安全连接，而如何建立安全连接呢？如何确定网关的安全信呢？需要因特网秘钥交换(Internet Key Exchange)协议，IKE旨在对IPsec通信的两端进行安全会话秘钥交换，建立和维护SA。</p>
+<p>IKE的具体工作机制在RFC2409中定义，而在RFC2401中使用的IKEv2在RFC4306中有定义。</p>
+<h3 id="IPsec重要数据库"><a href="#IPsec重要数据库" class="headerlink" title="IPsec重要数据库"></a>IPsec重要数据库</h3><ol>
+<li><p>Security Policy Database (SPD)</p>
+<p> SA是管理安全通信的参数，但不管理具体的数据包的处理，对每一个IP数据包采取什么样的安全服务，如何进行访问控制，需要这些访问控制的信息就存储在安全规则数据库SPD中。</p>
+<p> 每一个IPsec至少要实现一个SPD，SPD是一个有序数据库，它存储访问控制列表（Access Control List, ACL）,防火墙或路由的包过滤规则等。</p>
+<p> SPD中的记录，对数据的处理有三种选择：丢弃（Discard），通过（Bypass）和保护（Protect）。</p>
+<p> SPD在逻辑上被分为三部分：</p>
+<p> SPD-I：包括对于inbound的数据包，需要采取丢弃和通过的规则。</p>
+<p> SPI-S：包括需要对数据进行保护的规则。</p>
+<p> SPI-O：包括对于outbound的数据包，需要采取丢弃和通过的规则。</p>
+</li>
+<li><p>Security Association Database (SAD)</p>
+<p> SA安全管理的相关信息，需要存储在SAD中，SAD是一个概念上的数据库，只是以某种列表的数据结构来存储SA。<br> 每一个实体定义了SA的安全参数。对于Outbound的数据包，SAD的实体指向SPD缓存中的SPD-S部分。对于Inbound的数据包，只通过SPI或IPsec协议来查找SA。</p>
+<p> 具体的结构SA实体结构参见前面给出的示例.</p>
+</li>
+<li><p>Peer Authorization Database (PAD)</p>
+<p> PAD，端认证数据库，提供SA管理协议，如IKE与SPD的之间的管理。有时候SA发生变化，SPD就地不到及时更新，此时就需要借助PAD对SA和SPD做出调整。</p>
+<p> PAD是一个有序数据库，它建立了IKE ID和SPD实体的关联。PAD支持6种ID类型：</p>
+<p> DNS Name</p>
+<p> Distinguished Name</p>
+<p> Email Address</p>
+<p> IPv4 Address</p>
+<p> IPv6 Address</p>
+<p> Key ID</p>
+<p> PAD的相关工作机制是：</p>
+<p> 在IKE SA建立时，发送方和接受方都会通过IKE ID进行身份确认，确认之后向对方发送认证信息。当一个IKE信息收到后，便会通过IKE ID在PAD数据库中找到匹配的实体，每一个PAD实体都记录了进行身份认证的方法，它可以保证对不同的通信端采用正确的身份认证。</p>
+</li>
+</ol>
+<h3 id="IPsec的工作机制"><a href="#IPsec的工作机制" class="headerlink" title="IPsec的工作机制"></a>IPsec的工作机制</h3><p><a target="_blank" rel="noopener" href="http://cyanny/myblog/wp-content/uploads/2013/11/5.1IPsec%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6.png"><img src="http://cyanny/myblog/wp-content/uploads/2013/11/5.1IPsec%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6-580x422.png" alt="5.1IPsec工作机制"></a></p>
+<p>如图5.1所示，IPsec的工作流程可以分为5个阶段：</p>
+<p>1. 决定兴趣流</p>
+<p>IPsec对IP包的保护是需要消耗资源的，并非所有的流量都需要IPsec保护，那些需要IPsec保护的数据流就叫做兴趣流，IPsec会对兴趣流进行访问控制。<br>如发起方的兴趣流式192.168.1.0/24 -&gt; 10.0.0.0/8，接收方的兴趣流是10.0.0.0/8-&gt;192.168.1.0/30，那么取交集，兴趣流IPsec保护的兴趣流就是192.168.1.0/30 &lt;-&gt; 10.0.0.0/8</p>
+<p>IPsec通信开始时，发送方如图5.1的Router A要将兴趣流发送给接收方Router B。</p>
+<p>2.IKE 第一步</p>
+<p>对IPsec的通信端进行身份认证，协商并建立IKE SA。这一步建立的是IKE安全连接，通过Diffie-Hellman算法交换共享秘钥，为IKE第二步通信建立安全隧道。</p>
+<p>3.IKE第二步</p>
+<p>IKE第二步，主要是建立IPsec SA，在IKE第一步建立的IKE SA的基础上协商并建立IPSec SA。周期性的协商，保证SA的安全性，可选采用Diffie-Hellman交换算法。</p>
+<p>4.IPsec数据传输</p>
+<p>在IPsec安全隧道建立后，采用IPsec SA确立安全参数，秘钥，进行数据通信。</p>
+<p>5.IPsec会话停止</p>
+<p>IPsec SA通过检测和超时来停止会话，在SA停止IPsec后，如果还需要数据传输，则需要重新进入IKE第一步或IKE第二步重新协商建立新的SA。</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a target="_blank" rel="noopener" href="http://www.rfc-editor.org/search/rfc_search_detail.php?rfc=4301&pubstatus%5B%5D=Any&pub_date_type=any">RFC4301</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.ciscopress.com/articles/article.asp?p=25470" title="Cisco IPsec Overview">Cisco IPsec Overview</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.h3c.com.cn/Service/Channel_Service/Operational_Service/ICG_Technology/201005/675214_30005_0.htm">技术点详解—IPSec VPN基本原理</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/13/ipsec-architecture/" data-id="ckjk20xnn001x9bwr42u690gd" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/13/ipsec-architecture/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/" rel="tag">Learning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-how-to-set-up-vps-and-deploy-wordpress-blog-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/">如何配置VPS并发布WordPress Blog?(第一篇)</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/">
+    <time datetime="2013-11-11T12:02:33.000Z" itemprop="datePublished">2013-11-11</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/linux/">Linux</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近将VPS放到digitalocean上, 因为之前的VPS被关停了,所以再找一个, 相信这次会稳定了,之前的服务器是CentOS5.9,而现在的版本是CentOS7,以下的一些配置可能不正确了,可以参考这个链接<a target="_blank" rel="noopener" href="http://www.howtoforge.com/apache_php_mysql_on_centos_7_lamp" title="lamp with centos7.0">LAMP with Centos 7.0</a></p>
+<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>发布个人的WordPress博客网站，配置LAMP环境，并用GitHub来发布Blog，不用FTP，会很慢。<br>[more…]</p>
+<h3 id="连接VPS"><a href="#连接VPS" class="headerlink" title="连接VPS"></a>连接VPS</h3><p>我在Mac下，所以很方便的连上VPS, 为了方便管理直接用root登陆, 第一次配置安全性先不考虑，用root方便些<br>[bash]<br>ssh -l root ip.address<br>[/bash]<br>如果在Windows下，下载一个putty就可以很方便的连上VPS，SSH端口是22，VPS默认可以用SSH连接。</p>
+<h3 id="有用的命令"><a href="#有用的命令" class="headerlink" title="有用的命令"></a>有用的命令</h3><p>[bash]<br>cat /etc/<em>release</em>    #查看Linux的版本<br>uname -a              # 查看内核的版本<br>ifconfig -a           # 查看网卡情况<br>nman localhost        # 查看端口的情况<br>iptables -vL          # 查看防火墙的情况<br>netstat -aln | grep 80  # 查看网络连接情况<br>init 6                  # 重启<br>passwd                  # 修改当前用户的密码，可以该root密码<br>[/bash]</p>
+<h3 id="Linux-running-level"><a href="#Linux-running-level" class="headerlink" title="Linux running level"></a>Linux running level</h3><p>Linux下的运行级别，一个常识</p>
+<p>0 – halt</p>
+<p>1 – Single user mode </p>
+<p>2 – Multiuser, without NFS </p>
+<p>3 – Full multiuser mode </p>
+<p>4 – unused </p>
+<p>5 – X11 </p>
+<p>6 – reboot </p>
+<p>[bash]<br>init running-level  # 触发运行级别，关机，重启各种方便<br>[/bash]</p>
+<h3 id="关闭selinux"><a href="#关闭selinux" class="headerlink" title="关闭selinux"></a>关闭selinux</h3><p>selinux经常捣乱，先把它关了，还要永久关<br>[bash]<br>getenforce                  # 查看selinux的状态<br>sestatus                    # 一样，查看selinux状态<br>vim /etc/sysconfig/selinux  # 将SELINUX 改为disabled状态，然后重启<br>setenforce 0                # 只能暂时改变selinux状态，不能永久更改，只有上面的方法可以<br>init 6                      # 重启<br>[/bash]</p>
+<p>这个在DigitalOcean的镜像中不需要配置.</p>
+<h3 id="安装Apache"><a href="#安装Apache" class="headerlink" title="安装Apache"></a>安装Apache</h3><p>[bash]<br>yum -y install httpd<br>chkconfig –levels 235 httpd on  # 将httpd进程设置为开机启动<br>service httpd start              # 此时可以用ip访问VPS，如<a target="_blank" rel="noopener" href="http://129.29.10.10,如果可以访问便安装成功/">http://129.29.10.10，如果可以访问便安装成功</a><br>[/bash]<br>Apache在CentOS的DocumentRoot是“/var/www/html”, 配置文件在”/etc/httpd/config/httpd.conf”</p>
+<p>无奈，第一个问题遇到了，我的Apache访问不了，纠结半天，原来是防火墙iptables的问题。</p>
+<h3 id="打开防火墙"><a href="#打开防火墙" class="headerlink" title="打开防火墙"></a>打开防火墙</h3><p>CentOS的iptables默认只让注册过的端口通过，而80端口没有注册过，不能通过防火墙。<br>[bash]<br>vim /etc/sysconfig/iptables</p>
+<h1 id="将-“-A-RH-Firewall-1-INPUT-j-REJECT-–reject-with-icmp-host-prohibited”-这行注释了，保存退出"><a href="#将-“-A-RH-Firewall-1-INPUT-j-REJECT-–reject-with-icmp-host-prohibited”-这行注释了，保存退出" class="headerlink" title="将 “-A RH-Firewall-1-INPUT -j REJECT –reject-with icmp-host-prohibited” 这行注释了，保存退出"></a>将 “-A RH-Firewall-1-INPUT -j REJECT –reject-with icmp-host-prohibited” 这行注释了，保存退出</h1><p>service iptables restart<br>[/bash]<br>BTW,如果采用以下的方法enable 80 端口，我今天成功了, 以前没有成功不知为何，不过上面的方法是肯定好的，下面的方法是一个安全点的办法。<br>[bash]<br>iptables -A INPUT -p tcp –dport 80 -j ACCEPT<br>iptables -A INPUT -p tcp –dport 443 -j ACCEPT  // 添加443 SSL端口未来会用<br>service iptables save                          // /etc/sysconfig/iptables 文件会被重写<br>service iptables restart<br>[/bash]<br>此时再访问<a target="_blank" rel="noopener" href="http://youripaddress就会有apache界面了./">http://youripaddress就会有apache界面了。</a></p>
+<p>在DigitalOcean中,不需要配置本项.</p>
+<h3 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h3><p>[bash]<br>yum install -y mysql mysql-server<br>chkconfig –levels 235 mysqld on<br>service mysqld start<br>mysql_secure_installation         // 设置root密码，我这次谨慎了一下，没有全部选yes，大家看情况，记住自己的root密码<br>mysql -uroot -p                  // 进入MySQL，看看玩玩<br>[/bash]</p>
+<p>在DigitalOcean中安装的是MariaDB, 兼容MySQL, 具体看参考链接.<a target="_blank" rel="noopener" href="http://www.howtoforge.com/apache_php_mysql_on_centos_7_lamp" title="lamp with centos7.0">LAMP with Centos 7.0</a></p>
+<h3 id="安装PHP"><a href="#安装PHP" class="headerlink" title="安装PHP"></a>安装PHP</h3><p>我被坑过，CentOS 5.9的yum的默认包库中PHP是5.1.6，后来WordPress跑不了(至少5.2.4)，所以需要更新一下yum。</p>
+<p>如果想了解更详细的信息，可以看看这个链接<br><a target="_blank" rel="noopener" href="http://www.tecmint.com/install-apache-mysql-php-on-redhat-centos-fedora/" title="Install Apache, MySQL 5.5.32 &amp; PHP 5.5.0 on RHEL/CentOS 6.4/5.9 &amp; Fedora 19-12">Install Apache, MySQL 5.5.32 &amp; PHP 5.5.0 on RHEL/CentOS 6.4/5.9 &amp; Fedora 19-12</a><br>[bash]<br>yum info name of module  # 查看某个包的信息<br>rpm -Uvh <a target="_blank" rel="noopener" href="http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm">http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm</a><br>rpm -Uvh <a target="_blank" rel="noopener" href="http://rpms.famillecollet.com/enterprise/remi-release-5.rpm">http://rpms.famillecollet.com/enterprise/remi-release-5.rpm</a><br>yum –enablerepo=remi,remi-test install -y php php-common<br>yum –enablerepo=remi,remi-test install php-mysql php-pgsql php-pecl-mongo php-sqlite php-pecl-memcache php-pecl-memcached php-gd php-mbstring php-mcrypt php-xml php-pecl-apc php-cli php-pear php-pdo  # 安装PHP会用到的module<br>service httpd restart<br>vim /var/www/html/phpinfo.php<br>[/bash]<br>输入：<br>[php]<br>&lt;?php<br>  phpinfo();<br>?&gt;<br>[/php]<br>再访问<a target="_blank" rel="noopener" href="http://ipaddress/phpinfo.php%EF%BC%8C">http://ipaddress/phpinfo.php，</a> 查看php的状态</p>
+<h3 id="VPS-DNS解析"><a href="#VPS-DNS解析" class="headerlink" title="VPS DNS解析"></a>VPS DNS解析</h3><p>有了VPS，再买一个域名吧，我在godaddy上买了一个域名，用DNSPod来解析，国内的DNS解析，会快一些。</p>
+<p>需要在godaddy上将NameServer更改为:</p>
+<p>[text]<br>F1G1NS1.DNSPOD.NET<br>F1G1NS2.DNSPOD.NET<br>[/text]<br>再到DNSpod上注册，填写IP，等信息，就能简单完成DNS解析，从此以后就可以用域名访问VPS了。</p>
+<h3 id="本章结束"><a href="#本章结束" class="headerlink" title="本章结束"></a>本章结束</h3><p>OKay, that’s it! LAMP环境安装好了，一切就绪，坐等发布WordPress了，请看<a target="_blank" rel="noopener" href="http://cyanny/myblog/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" title="如何配置VPS并发布WordPress Blog?(第二篇)">如何配置VPS并发布WordPress Blog?(第二篇)</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/" data-id="ckjk20xms001e9bwr0apsc8to" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-1/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vps/" rel="tag">VPS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-how-to-set-up-vps-and-deploy-wordpress-blog-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/">如何配置VPS并发布WordPress Blog?(第二篇)</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/">
+    <time datetime="2013-11-11T12:00:14.000Z" itemprop="datePublished">2013-11-11</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/linux/">Linux</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>完成了VPS的LAMP环境的配置，接下来的工作就是要将WordPress Blog部署到VPS上。方法多种多样，例如可以在VPS上配置FTP，用FTP将文件传输到VPS上，以后就可以直接在VPS上写博客了，一次性的买卖，方便，听起来很不错，但是不安全，如果哪天VPS Down了数据就没了。</p>
+<p>我采取的办法是在本地写博客，然后发布到GitHub,然后VPS端Clone到本地，这样做的原因如下：</p>
+<p>[more…]</p>
+<ul>
+<li>  WordPress Blog作为轻量的博客，主要发布文字，图片是用第三方的图床，博客本身的数据量不大。</li>
+<li>  FTP传输速度不理想。</li>
+<li>  GitHub在VPS端运行很快，VPS毕竟是服务器，网速快，因此部署Blog很快。</li>
+<li>  版本控制，本地有数据备份，以后要迁移VPS也可以轻松搞定。</li>
+<li>  WordPress的Blog数据是写入MySQL的，因此发布WordPress时的一个大问题就是要处理MySQL的数据，其实基本的mysqldump就可以了。</li>
+</ul>
+<h3 id="VPS-配置GIT"><a href="#VPS-配置GIT" class="headerlink" title="VPS 配置GIT"></a>VPS 配置GIT</h3><p>[bash]<br>rpm -Uvh <a target="_blank" rel="noopener" href="http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm">http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm</a> // 这个在前面的php安装时输入过了，可以忽略<br>rpm -Uvh <a target="_blank" rel="noopener" href="http://rpms.famillecollet.com/enterprise/remi-release-5.rpm">http://rpms.famillecollet.com/enterprise/remi-release-5.rpm</a> // 这个在前面的php安装时输入过了，可以忽略<br>yum install git-core -y<br>git –version<br>[/bash]<br>一定配置一下SSH，这样不会在git clone时报错，当然建立github repository和使用github都是默认掌握了。<br><a target="_blank" rel="noopener" href="https://help.github.com/articles/set-up-git#platform-linux" title="Set up Git for linux">Set up git</a> </p>
+<p><a target="_blank" rel="noopener" href="https://help.github.com/articles/generating-ssh-keys" title="Generate ssh key">Enable SSH Git</a></p></p>
+<h3 id="VPS-MySQL权限配置"><a href="#VPS-MySQL权限配置" class="headerlink" title="VPS MySQL权限配置"></a>VPS MySQL权限配置</h3><p>刚装MySQL时运行过mysql_secure_installation，如果所有选项都yes了，那么VPS的mysql只能是本地的root可以访问，blog访问不了，这一步很关键，也让我头疼了很久。</p>
+<p>进入MySQL<br>[bash]<br>mysql -u root -p<br>[/bash]<br>[sql]<br>CREATE USER ‘monty’@’localhost’ IDENTIFIED BY ‘some_password’;<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘monty’@’localhost’;<br>CREATE USER ‘monty’@’%’ IDENTIFIED BY ‘some_password’;<br>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘monty’@’%;<br>[/sql]<br><strong>watch out</strong></p>
+<p>我在这一步遇到了问题：当运行<br>[sql]<br>GRANTALL PRIVILEGES ON <em>.</em> TO ‘monty’@’localhost’;<br>[/sql]<br>报错：Access denied for user ‘root’@’localhost’。后来在stackoverflow上找到了答案：<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/8484722/access-denied-for-user-rootlocalhost-while-attempting-to-grant-privileges">access-denied-for-user-rootlocalhost-while-attempting-to-grant-privileges</a></p>
+<p>我采用了二楼的方法如下就可以了：<br>[bash]<br>$ su - mysql<br>$ rm -rf /var/lib/mysql/*<br>$ mysql_install_db<br>$ /etc/init.d/mysql restart<br>[/bash]<br>然后再重置root密码：<br>[bash]<br>mysqladmin -u root password<br>[/bash]</p>
+<h3 id="VPS-MySQL-CharSet配置"><a href="#VPS-MySQL-CharSet配置" class="headerlink" title="VPS MySQL CharSet配置"></a>VPS MySQL CharSet配置</h3><p>为了防止中文乱码，将VPS的MySQL的CharSet设置为utf8，当然WordPress的mysqldump的SQL文件中的每一个表都强制指定了CharSet为utf8，如果略去这一步也是可以的。<br>[bash]<br>vim /etc/my.cnf<br>[/bash]<br>在文本中的相应位置添加<br>[text]<br>[mysqld]<br>init_connect=’SET collation_connection = utf8_unicode_ci’<br>character-set-server = utf8<br>collation-server = utf8_unicode_ci<br>[client]<br>default-character-set = utf8<br>[mysql]<br>default-character-set = utf8<br>[/text]<br>验证，进入MySQL输入：<br>[sql]<br>SHOW VARIABLES LIKE ‘character%’;<br>SHOW VARIABLES LIKE ‘collation%’;<br>[/sql]</p>
+<h3 id="创建博客数据库"><a href="#创建博客数据库" class="headerlink" title="创建博客数据库"></a>创建博客数据库</h3><p>进入mysql，创建数据库<br>[bash]<br>mysql -u root -p<br>[/bash]<br>[sql]<br>mysql&gt; create database yourblogdatabase;<br>[/sql]</p>
+<h3 id="本地Blog-GitHub-Set-Up"><a href="#本地Blog-GitHub-Set-Up" class="headerlink" title="本地Blog GitHub Set Up"></a>本地Blog GitHub Set Up</h3><p>首先在GitHub网站上创建一个Repository，<a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/CyannyLive" title="GitHub of Cyanny Live Blog">GitHub of Cyanny Live Blog</a><br>在本地的Blog中：<br>[bash]<br>cd ~/Sites/Blog //打开文件夹<br>git init<br>git remote add origin <a href="mailto:&#x67;&#105;&#116;&#x40;&#103;&#x69;&#116;&#x68;&#x75;&#98;&#46;&#99;&#111;&#109;">&#x67;&#105;&#116;&#x40;&#103;&#x69;&#116;&#x68;&#x75;&#98;&#46;&#99;&#111;&#109;</a>:lgrcyanny/CyannyLive.git  // github的ssh地址<br>git pull origin master<br>[/bash]</p>
+<h3 id="本地Blog-MySQL数据导出备份"><a href="#本地Blog-MySQL数据导出备份" class="headerlink" title="本地Blog MySQL数据导出备份"></a>本地Blog MySQL数据导出备份</h3><p>我直接写了一个脚本，备份MySQL的数据，脚本backup.sh如下:<br>[shell]</p>
+<h1 id="bin-bash"><a href="#bin-bash" class="headerlink" title="!/bin/bash"></a>!/bin/bash</h1><p>export DATABASE_DIR=~/Sites/myblog/wp-content/backup-db<br>cd $DATABASE_DIR<br>mysqldump -u root -pyourpassword dbname &gt; temp-db.sql</p>
+<h1 id="sed-命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，"><a href="#sed-命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，" class="headerlink" title="sed 命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，"></a>sed 命令替换在sql文件中Blog的http地址，这一步非常重要，否则在VPS上打不开，</h1><h1 id="原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的"><a href="#原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的" class="headerlink" title="原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的"></a>原因很简单，本地是Localhost访问，VPS是域名访问，WordPress为每一个Post生成的访问地址是写死的</h1><p>sed ‘s%<a target="_blank" rel="noopener" href="http://cyanny/myblog%http://www.cyanny.com%g&#39;">http://cyanny/myblog%http://www.cyanny.com%g&#39;</a> temp-db.sql &amp;gt; db.sql</p>
+<h1 id="数据压缩一下，会从上百KB变成几十个KB"><a href="#数据压缩一下，会从上百KB变成几十个KB" class="headerlink" title="数据压缩一下，会从上百KB变成几十个KB"></a>数据压缩一下，会从上百KB变成几十个KB</h1><p>tar -czvf db.tar.gz db.sql</p>
+<h1 id="删除中间文件"><a href="#删除中间文件" class="headerlink" title="删除中间文件"></a>删除中间文件</h1><p>rm db.sql<br>rm temp-db.sql<br>[/shell]<br>运行backup.sh<br>[bash]<br>sh backup.sh<br>[/bash]</p>
+<h3 id="本地Blog-htaccess配置"><a href="#本地Blog-htaccess配置" class="headerlink" title="本地Blog htaccess配置"></a>本地Blog htaccess配置</h3><p>博客的访问地址，如果设置过Permalinks，这一步就很重要，否则在VPS端地址找不到<br>[bash]<br>cp .htaccess htaccess.prod<br>[/bash]<br>编辑htaccess.prod<br>[text]<br>&lt;IfModule mod_rewrite.c&gt;<br>RewriteEngine On<br>RewriteBase /<br>RewriteRule ^index&amp;#46;php$ - [L]<br>RewriteCond %{REQUEST_FILENAME} !-f<br>RewriteCond %{REQUEST_FILENAME} !-d<br>RewriteRule . /index.php [L]<br>&lt;/IfModule&gt;<br>[/text]</p>
+<h3 id="本地Blog的其他配置"><a href="#本地Blog的其他配置" class="headerlink" title="本地Blog的其他配置"></a>本地Blog的其他配置</h3><p>编辑.gitignore<br>[text]<br>wp-config.php<br>uploads/&amp;#42;<br>wp-cache/&amp;#42;<br>wp-content/cache<br>.htaccess<br>[/text]</p>
+<p>wp-config.php配置<br>[bash]<br>cp wp-config.php wp-config-prod.php  //本地的数据库配置和VPS上的不一样，因此要在wp-config-prod.php中设置VPS的DB信息<br>[/bash]</p>
+<h3 id="本地Blog-发布到-GitHub"><a href="#本地Blog-发布到-GitHub" class="headerlink" title="本地Blog 发布到 GitHub"></a>本地Blog 发布到 GitHub</h3><p>[bash]<br>git add .<br>git commit -a -m ‘message’<br>git push origin master<br>[/bash]</p>
+<h3 id="VPS端-Enable-htaccess-overwirte"><a href="#VPS端-Enable-htaccess-overwirte" class="headerlink" title="VPS端 Enable htaccess overwirte"></a>VPS端 Enable htaccess overwirte</h3><p>因为Blog的Post地址会被overwrite，所以需要VPS端具有htaccess overwrite的功能，这个Bug让我抓狂很久。</p>
+<p>进入VPS<br>[bash]<br>vim /etc/httpd/conf/httpd.conf<br>[/bash]<br>编辑httpd.conf<br>[text]<br>// 找到下面这一段<br>&lt;Directory /var/www/html&gt;<br>  Options Indexes FollowSymLinks MultiViews<br>  // 更改为 AllowOverride All<br>  AllowOverride None<br>  Order allow,deny<br>  allow from all<br>&lt;/Directory&gt;<br>[/text]</p>
+<h3 id="VPS端的发布脚本"><a href="#VPS端的发布脚本" class="headerlink" title="VPS端的发布脚本"></a>VPS端的发布脚本</h3><p>为了方便VPS端将WordPress从GitHub Clone到本地, 设置文件权限，DB数据导入，我创建了一个简单地发布脚本</p>
+<p>deploy.sh, 这个脚本放在VPS上<br>[bash]</p>
+<h1 id="bin-bash-1"><a href="#bin-bash-1" class="headerlink" title="!/bin/bash"></a>!/bin/bash</h1><p>export BLOG_ROOT_DIR=/var/www/html/cyannyblog<br>export BLOG_DATABASES_DIR=$BLOG_ROOT_DIR/wp-content/backup-db</p>
+<h1 id="Git-update"><a href="#Git-update" class="headerlink" title="Git update"></a>Git update</h1><p>rm -Rf cyannyblog<br>git clone <a href="mailto:&#x67;&#x69;&#x74;&#x40;&#x67;&#105;&#116;&#104;&#117;&#x62;&#46;&#x63;&#x6f;&#109;">&#x67;&#x69;&#x74;&#x40;&#x67;&#105;&#116;&#104;&#117;&#x62;&#46;&#x63;&#x6f;&#109;</a>:lgrcyanny/CyannyLive.git cyannyblog  # 更换为自己的GitHub的地址</p>
+<h1 id="Change-mod-grant-access-right"><a href="#Change-mod-grant-access-right" class="headerlink" title="Change mod, grant access right"></a>Change mod, grant access right</h1><p>chmod -R 755 $BLOG_ROOT_DIR<br>chmod -R 777 $BLOG_ROOT_DIR/wp-content</p>
+<h1 id="Add-config"><a href="#Add-config" class="headerlink" title="Add config"></a>Add config</h1><p>rm -f $BLOG_ROOT_DIR/wp-config.php<br>cp $BLOG_ROOT_DIR/wp-config-prod.php $BLOG_ROOT_DIR/wp-config.php</p>
+<h1 id="Add-htaccess"><a href="#Add-htaccess" class="headerlink" title="Add .htaccess"></a>Add .htaccess</h1><p>cd $BLOG_ROOT_DIR<br>rm -f .htaccess<br>cp htaccess.prod .htaccess</p>
+<h1 id="Import-data-to-mysql-不用担心数据冲突，因为mysqldump出来的表都会先drop再导入"><a href="#Import-data-to-mysql-不用担心数据冲突，因为mysqldump出来的表都会先drop再导入" class="headerlink" title="Import data to mysql 不用担心数据冲突，因为mysqldump出来的表都会先drop再导入"></a>Import data to mysql 不用担心数据冲突，因为mysqldump出来的表都会先drop再导入</h1><p>cd $BLOG_DATABASES_DIR<br>tar -xvf db.tar.gz<br>mysql -u yourdbuser -pyourpassword -h localhost dbname &lt; db.sql<br>[/bash]</p>
+<p>在VPS上运行deploy.sh<br>[bash]<br>sh deploy.sh<br>[/bash]</p>
+<h3 id="VPS端将DocumentRoot指向Blog文件夹"><a href="#VPS端将DocumentRoot指向Blog文件夹" class="headerlink" title="VPS端将DocumentRoot指向Blog文件夹"></a>VPS端将DocumentRoot指向Blog文件夹</h3><p>[bash]<br>vim /etc/httpd/conf/httpd.conf<br>[/bash]<br>编辑httpd.conf:<br>[text]<br>DocumentRoot &quot;/var/www/html/blog&quot;<br>[/text]<br>我想这不是一个好办法，不过先将就一下。如果要在VPS上放置多个网站，DocumentRoot当然不能只是Blog，应该可以有一些Virtual的方法的，之后我会改进。目前这样是因为DNS不能解析到某一个路径</p>
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>Okay, 发布流程部署结束，接下来就可以访问啦。<br>以后每写一遍Post，或者本地有什么更新只需三个步骤就可以完成发布：</p>
+<p>1. 本地 run backup.sh</p>
+<p>2. GitHub Commit</p>
+<p>3. VPS run deploy.sh, 当然未来还可以用cronjob，这样VPS端的发布问题就不用手工了，鉴于不是频繁发布Post，手工操作也无妨。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>1. 2014-08-17<br>VPS版本换了Centos7, MySQL替换为MariaDB, 但是DB不稳定,今天终于挂了<br>[bash]<br>systemctl restart mariadb<br>[/bash]<br>启动失败,最后修复如下:<br>[bash]<br>systemctl stop mariadb<br>rm -rf /var/lib/mysql<br>rm -rf /var/log/mariadb/<br>yum list mariadb<br>yum remove maridadb mariadb-server</p>
+<h1 id="yum-remove-all-list-about-mariadb"><a href="#yum-remove-all-list-about-mariadb" class="headerlink" title="yum remove all list about mariadb"></a>yum remove all list about mariadb</h1><p>yum install mariadb mariadb-server<br>reboot<br>systemctl enable mariadb<br>mkdir -p /var/lib/mysql<br>chown -R mysql:mysql /var/lib/mysql<br>systemctl start mariadb<br>yum install php-mysql<br>systemctl restart httpd.service<br>[/bash]</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/" data-id="ckjk20xmt001f9bwrg8vlej7c" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/11/how-to-set-up-vps-and-deploy-wordpress-blog-2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vps/" rel="tag">VPS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-how-to-start-learning-node-js" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/10/how-to-start-learning-node-js/">How to start learning Node.js</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/10/how-to-start-learning-node-js/">
+    <time datetime="2013-11-10T12:36:45.000Z" itemprop="datePublished">2013-11-10</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/nodejs/">Nodejs</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I have always wanted to do some meaningful projects, not the homework project at college, not the debug working at company. I just wanted to start a meaningful project for interest, or for fun. Maybe it will become a big success. and I believe in that. And recently I am busy with a spark prject based on Node.js.</p>
+<p>Node.js is a platform built on Chrome’s JavaScript V8 engine. The event-driven, non-blocking I/O model makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.</p>
+<p>In short, I think the advantages is:[more…]</p>
+<ul>
+<li>  Same language on both server side and front side</li>
+<li>  Event-driven and callback feature gains perfect performance</li>
+<li>  With WebSocket, you can built great real-time app, like online chat room</li>
+<li>  Worth to learn, it’s new, and will give you a new perspective of web development</li>
+</ul>
+<h2 id="Beginner-Guides"><a href="#Beginner-Guides" class="headerlink" title="Beginner Guides"></a>Beginner Guides</h2><p><a target="_blank" rel="noopener" href="http://nodeguide.com/beginner.html">1. Felix’s Node.js Beginners Guide</a></p>
+<p>This a short blog that can help you overview Node.js, learn some basics of Node.js, you can finish it within 30 min.<br>The Module system of node is worth to dig, read the <a target="_blank" rel="noopener" href="http://nodejs.org/api/modules.html">api</a>, especially the concept of <strong>exports</strong> and the <strong>module.exports</strong></p>
+<p><a target="_blank" rel="noopener" href="http://nodeguide.com/style.html#class-names">2. Node style guide</a></p>
+<p>Before programming, learn the programming style of node.</p>
+<p><a target="_blank" rel="noopener" href="https://npmjs.org/doc/coding-style.html">NPM coding style</a><br>This is the npm coding style. At the beginning, indentation with 2 spaces make me uneasy. But now I am used to it.</p>
+<p><a target="_blank" rel="noopener" href="http://www.nodebeginner.org/">3. The Node Beginning Book</a></p>
+<p>The beginning book is really great, Even though it has more than 70 pages, I finished it and learned a lot. I followed the example in the book, build a simple blog demo. And the code in the book had some tiny issue. I have uploaded the demo to my github, <a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/nodedemo">node-simle-blog-demo</a>.<br>BTW, the book will teach you how to run linux command by node <a target="_blank" rel="noopener" href="http://nodejs.org/api/child_process.html">Child Processes</a>, sounds interesting.</p>
+<h2 id="Learning-more-details"><a href="#Learning-more-details" class="headerlink" title="Learning more details"></a>Learning more details</h2><p><a target="_blank" rel="noopener" href="http://expressjs.com/guide.html">4. Express guide</a></p>
+<p>After learning how to build an application stack from the beginner book, you can start express now, finish the guide, understand the basics of the great web framework express. BTW, in node community, there are large amount of web framework. Like Tower.js, meteor.js, derby and so on. But express is the most popular and is supported by many people. I recommend it.</p>
+<p><a target="_blank" rel="noopener" href="http://www.manning.com/cantelon/">5. Node.js in Action</a></p>
+<p>The book recommended by express guide has more than 400 pages. Don’t withdraw, insist on it, you can follow the book example, and learn more details about node. I haven’t finish it, because I want to start my project more quickly, I just walked to Chapter4.<br>The <strong>callback</strong> model and <strong>event driven</strong> explained in the book is great. Especially the muti-chat room by socket.io gave me a deep impression.</p>
+<p><a target="_blank" rel="noopener" href="http://howtonode.org/express-mongodb">6. Build a express mongo blog</a></p>
+<p>Follow the blog and build a simple blog with mongodb+express+jade, the code of jade for the blog has a tiny issue <a target="_blank" rel="noopener" href="http://www.devthought.com/code/use-jade-blocks-not-layouts/">here</a>, my demo is here <a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/expressblog">express blog</a></p>
+<p>7. Now I am fed up with tutorials, I decided to build something by myself. I build a file uploader/downloader with express. <a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/ExpressFileManager">FileManager</a></p>
+<h2 id="Build-the-Web-project"><a href="#Build-the-Web-project" class="headerlink" title="Build the Web project"></a>Build the Web project</h2><p><a target="_blank" rel="noopener" href="https://github.com/madhums/nodejs-express-mongoose-demo">8. Node Express mongoose demo</a></p>
+<p>I build PartyTime based on the demo. The demo is a blog with passport and authentication function. Worth to learn</p>
+<p><a target="_blank" rel="noopener" href="http://mongoosejs.com/">9. Mongoose</a></p>
+<p>Although mongodb provide nodejs api, I think the middleware is more better than the origin mongodb API</p>
+<p><a target="_blank" rel="noopener" href="http://docs.mongodb.org/manual/">10. Mongodb Manual</a></p>
+<p>Lean basics about mongodb, especially the Data Modeling method.</p>
+<h2 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h2><p><a target="_blank" rel="noopener" href="https://github.com/joyent/node">11. Node github</a></p>
+<p><a target="_blank" rel="noopener" href="http://docs.nodejitsu.com/">12. A guide for api usage</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.nodecloud.org/">13. Node Cloud</a><br>This is a resource directory gathering sites related to Node.js.</p>
+<p><a target="_blank" rel="noopener" href="https://npmjs.org/">14. NPM</a>  Finding and uploading npm package.</p>
+<p>15. Some api worth to read: Modules, Child Processes, Crypto, File System, HTTP, Events, Path, QueryString, URL.</p>
+<h2 id="Good-Luck"><a href="#Good-Luck" class="headerlink" title="Good Luck!"></a>Good Luck!</h2><p>Many tutorials, no matter how to lean, enjoy the learning process and the final sucess! Don’t waiting for finishing every details before starting your project.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/10/how-to-start-learning-node-js/" data-id="ckjk20xmt001g9bwr5a160zix" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/10/how-to-start-learning-node-js/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/" rel="tag">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-agile-advantages-and-disadvantages" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/01/agile-advantages-and-disadvantages/">“吐槽”敏捷软件开发</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/11/01/agile-advantages-and-disadvantages/">
+    <time datetime="2013-10-31T16:00:00.000Z" itemprop="datePublished">2013-11-01</time>
+  </a>
+</div>
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>敏捷软件开发是在迭代和增量软件开发方法的基础上发展而来的一套软件开发方法，敏捷开发主张软件开发团队自组织，跨功能，它在1990年代开始逐渐引起广泛关注，并在2001年初由17名开发者在美国犹他州雪鸟滑雪胜地发起并组成了敏捷联盟，发表了著名的敏捷宣言。</p>
+<p>敏捷宣言的价值观倡导：个体和互动高于流程和工具；工作的软件高于详尽的文档；客户合作高于合同谈判；响应变化高于遵循计划。在这四个价值观的倡导下，该联盟又发布了敏捷开发的12条原则。12条原则中强调了敏捷开发的最重要目标是通过持续不断地及早交付有价值的软件使客户满意，即不再以on-time, on-budget作为成功的标准，而是以给客户带来的商业价值作为成功的标准。</p>
+<p>敏捷开发是轻量的开发方法，尽量的减少文档并面向源码，但文档并不是敏捷开发的根本特点，在《新方法学》中提到敏捷方法的两个根本特点：“适应性”而“非预见性”，“面向人”而非“面向过程”。</p>
+<p>敏捷方法矫正了传统软件开发方法中的官僚繁琐的过程，拥抱变化，强调适应性和以人为本的理念。敏捷开发方法包括XP，Scrum，水晶系列，相关环境驱动测试，Lean Developments (精悍开发)和RUP (Rational Unified Process)。而Scrum作为一种重要的敏捷开发方法，现被广泛应用在企业软件的开发中。[more…]</p>
+<h3 id="敏捷开发的优势"><a href="#敏捷开发的优势" class="headerlink" title="敏捷开发的优势"></a>敏捷开发的优势</h3><p>敏捷软件开发作为一种新型的软件开发方法，具有很多优势：</p>
+<p>1. 适应性</p>
+<p>敏捷开发，敏捷的迭代周期短，可以快速交付可用的原型，通过迭代开发的方式对变更的需求做出适应性的调整，持续不断地及早的交付有价值的软件使客户满意。</p>
+<p>2. 团队自组织，以人为本</p>
+<p>敏捷团队里没有蓝领的编码工人，每一个人都是设计者，因为编码也是一种设计，编码是专业性更高的设计，给开发者更多的自主性，让他们自主决定一个user story该分成几个task，可以提高他们的积极性和创造力。让开发者自愿地投入产品开发比用强制力的手段更能带来产品的成功。</p>
+<p>3. 关注软件，减少繁琐的文档</p>
+<p>敏捷价值观众强调工作的软件高于详尽的文档，软件的需求不确定，软件的设计也很难给出，而敏捷开发可以更快的开始编码，生产出迭代可交付的产品，根据用户的反馈再做修改，不需要详尽的体系结构设计文件，详细设计文档等，减少了开发者的工作量，更多的关注编码。</p>
+<p>4. 面对面的交流</p>
+<p>敏捷开发的原则强调传递信息效果最好效率也最高的方式是面对面的交谈，Scrum每天的daily meeting，可以让团队成员面对面交流，保持项目进展的透明性。</p>
+<p>敏捷开发还有很多优势，在此就不一一列举，而我们更需要关注的是，是不是所有的软件开发都要敏捷呢？事实上，工业界也有很多公司不用敏捷开发，敏捷开发还存在它不能适应的地方。</p>
+<h3 id="敏捷开发不是银弹"><a href="#敏捷开发不是银弹" class="headerlink" title="敏捷开发不是银弹"></a>敏捷开发不是银弹</h3><p>没有什么软件开发方法可以作为银弹的，敏捷开发也有它的不足。在Brooks的《人月神话》中，说道软件开发的根本任务是打造抽象软件实体的概念结构，次要任务是使用编程语言表达这些抽象实体，在空间、时间限制内将它们映射成机器语言。</p>
+<p>同时也提出了软件开发最根本的困难是复杂性，可变性，一致性和不可见性，而这部分就将从软件开发的根本困难方面探讨敏捷方法还存在的缺陷。</p>
+<p> <strong>(一)从复杂性方面和不可见性考虑——敏捷方法缺乏足够的设计和文档</strong></p>
+<p>复杂性是软件开发中的本质特性，复杂性主要来自于如何打造抽象和复杂的概念结构。McConnel曾经指出一个大型项目中，编码和单元测试只占15%，对于一个大型项目，编码的比重较少，还需要大部分的时间进行计划和设计，如果只是依靠代码很难把这些抽象的概念结构表达清楚的。敏捷方法中，采用面向源码而不是面向文档的方式进行软件开发，缺乏对整个产品和系统设计的考量和设计文档。</p>
+<p>在不可见性方面，软件是复杂的，难以可视化，敏捷可以通过迭代来交付可视化可运行的原型，但是通常的界面原型是不能够表现软件的质量属性的，软件需要必要设计，提高质量。</p>
+<p>敏捷方法在设计方面的不足，主要表现如下：</p>
+<p>1. 在开发之前，缺乏足够的针对易用性方面地设计，主要是用户体验和UI的设计</p>
+<p>在2009年，一份针对敏捷开发现状的调查报告—— Current State of Agile User-Centered Design: A Survey中指出：“ 敏捷软件开发方法在今天越来越流行，每年在工业界都有一定的增长。但是采用敏捷方法的团队缺乏软件易用性的意识，不能把易用性和以用户为中心的设计(User-Centered Design, UCD)和敏捷开发方法结合起来”。</p>
+<p>敏捷开发的最终目的是要及早的交付有价值的让客户满意的软件。然而太快的交付会造成软件的用户体验不佳。在这份报告中采用XP的方式开发一款游戏软件，软件确实可以不断地交付高质量的增量，但是用户对游戏并不满意。</p>
+<p>芬兰兰普拉达理工大学的教师Lea Hannola在他的论文Assessing and improving the front end activities of software development中指出：“软件开发能获得的最重要的益处可以通过提升前端的行为来实现。” [23]而如果要提升前端的行为就需要在软件编码开发之前对用户界面，前端交互方式，用户的输入，软件的输出，图形的色彩，相关的商业规则等方面，进行设计，并对设计的前端交互进行review。</p>
+<p>在这里并不是说需要一个完美的易用性设计，毕竟想挖掘所有的用户需求是困难，我们强调的是”just enough design”. 敏捷开发之前的几个迭代周期，不应该直接编码来做出一个交互原型UI，太多的关注代码的细节，浪费时间和精力，应该进行必要地易用性设计，这样以后的迭代中会更有信心，前期工作做好了后期的变更代价也会降低。</p>
+<p>2. 直接开始低层设计即编码，会带来更多的缺陷</p>
+<p>敏捷开发面向源码，不面向文档，提倡可运行的软件高于详尽的文档。而在实践中，很多敏捷团队把文档降到最低，只写user story, 拆分task，用JIRA跟踪管理项目Task，Bug等。</p>
+<p>Jack Reeves提出源码也应该是设计文档，而源码的设计文档是在数据结构和算法方面的低层的设计文档，过分的关注细节，会造成丢失大局。试问：如果对商业过程的规则都没有进行很好地建模和设计，何来一个良好的数据结构呢？试问：如果没有很好地中层设计，如何开发出符合模块化、信息隐藏，符合六条面向对象设计原则的代码呢？试问：如果不进行良好的设计，如何让写出的代码符合设计模式，而不是乱序的堆砌代码呢？</p>
+<p>在软件开发之前，虽然不恩能够进行完备的设计，但是可以进行能够指导开发工作的”enough up-front design”。</p>
+<p>软件开发的复杂度是复杂抽象概念结构的表达，例如开发一个股票交易软件，对股票交易的规则，对经济市场的信息需要进行建模，不管是用本体论，还是用BPL，UML，如果进行过设计，则可以降低一定的复杂度，在这些软件中编程实现是次要任务，根本任务是要把业务流程表达清楚，没有清晰地业务流程编码也使很难进行的。</p>
+<p>《软件工程的事实与谬误》中指出软件质量由七个属性组成：可移植性，可靠性，效率，可用性，可测试性，易理解性和可修改性。要做到这些质量，需要从体系结构方面进行设计，通过软件的User Story场景，建模逻辑视图、开发视图、进程视图和部署视图，从总体的角度定义软件的体系结构风格，是以数据为中心的风格、主程序子程序风格、隐式调用风格、Pipe Line风格、Client-Server风格或者MVC风格，这些都需要在体系结构上进行设计，并生成必要地文档。</p>
+<p>光从源码中的复杂的文件夹结构，复杂的包结构，是很难快速看出软件的体系结构风格的，不利于维护。</p>
+<p>而在体系结构的基础上，最好进行一定的中层设计，如果采用结构化的变成方法，则需要对函数的调用关系方面进行一定的设计，如是面向对象的方面，则需要绘制必要地类图、包图，如是对数据库的设计，则需要实体关系图，数据存储的设计。</p>
+<p>在足够的设计的基础上，复杂度降低了，再开始迭代编码，会让开发的增量更有质量。同时在设计和分析阶段，可以减少一定的缺陷，根据贝姆定律，在软件开发后期的变更的代价会更大，虽然敏捷拥抱变化，但我想没有哪一个程序员希望在迭代的后期在架构上做出变更，越早地给出一个设计方案，可以一定程度上降低后期变更的可能性。</p>
+<p>一个良好的设计，通过设计建模，让软件的质量属性一定程度上可视化，提高可见性，同时编写必要地设计文档，可以让团队保持接口的一致性。</p>
+<p>3. 对于需求相对确定的复杂项目，更需要设计</p>
+<p>如开发一个操作系统，服务器，数据库，编程语言如Nodejs，Python这类需求可以相对确定和复杂度较高的项目，也可以采用敏捷开发，但是在迭代开始之前，需要根据需求进行体系结构设计，中层设计，再针对具体的进行低层设计，编码，持续集成，测试，并根据每一个迭代的增量交付修改设计，再进行下一个迭代。</p>
+<p><strong>(二)从可变性方面考虑——敏捷方法缺乏足够的需求工程过程和文档</strong></p>
+<p>Scrum中通过User Story, 用文本的方式描述需求，“作为。。。，我想。。。，以便。。。”，再加上优先级和相关的功能测试集。</p>
+<p>但是简单地User Story并不能更清晰地表达复杂的需求，如一些专业领域的需求的建模，如金融、医学、生物等领域的，对于业务流程，需要适当数据流图和决策树表达复杂的业务流程，对于相关的数据，需要创建数据字典。</p>
+<p>在开始敏捷的快速迭代之前，一个足够的需求工程过程，可以让项目的域更加清晰和明确。敏捷开发的一个很大的问题是项目的域失控(Scope Creep), 敏捷虽然强调“欣然面对需求的变化，及时在开发的后期也一样”， 而敏捷的方法是快速迭代，用两周和三周的时间做出对需求变更的调整。但是没人会喜欢软件开发后期需求的变更，那为什么不在项目开始之前和用户做好足够的沟通呢？</p>
+<p>敏捷开发随着增量的迭代，用户会持续的提出需求，添加新功能，每一个sprint太过分的强调sprint的goal，而最终忘记了软件的goal，造成软件功能冗余，或偏离最初的需求，最终Scope Creep。</p>
+<p>需求工程过程也是一个可以降低复杂度的过程，通过需求的描述用例，活动图，复杂的状态图，通过多个维度分析软件需求，明确Scope，降低软件后期变更的风险和压力。</p>
+<p><strong>(三)从一致性方面考虑——敏捷方法不适合工作地点分离的团队</strong></p>
+<p>Scrum只适合小团队运作, 并且工作地点要尽量在一起，这样面对面的交流可以保证工作的透明度和一致性</p>
+<p>对于大型地上百人，而又不能拆分的团队，用敏捷开发是不适合的。敏捷，如Scrum最高效地是在5-6人，当超过7人时daily meeting，Planning Meeting的时间就会变长，影响团队的士气和气氛，同时会降低交流的效率。</p>
+<p>同时当团队成员不在一个办公室或者交流的网速不好，处于异地如跨国团队，团队的交流效率是不高的，此时敏捷开发是不适合的。不利于团队的知识的一致性</p>
+<p><strong>(四)从管理方面考虑——敏捷方法的其他问题</strong></p>
+<p>最后再从软件开发的管理方面讨论一下敏捷方法还存在的问题：<br>1. 每一个Sprint的估算没有那么准确</p>
+<p>虽然团队的估算能力好于个人，scrum sprint planning meeting的估算最终并没有那么准确，尤其是当sprint的User Story和task划分不明确时，估算的过程无疑是一个浪费时间的事情。</p>
+<p>2. Scrum Master变成决策者</p>
+<p>每天的Daily Meeting只是大家同步和汇报一下进度，而在中国很多的公司，也难免Scrum Master官僚起来，不相信团队成员，站立会议变成了向领导报告，听取领导建议，再开始今天的工作，而失去了站立会议的本意。团队打着自主的旗号，其实还是官僚的组织。 </p>
+<p>敏捷需要Scrum Master相信自己的团队。</p>
+<p>3. Scrum团队只适合有很好开发经验的团队</p>
+<p>敏捷开发不适合专业技能不强的团队，敏捷开发需要跨功能的经验充足的团队，专业技能不足，sprint的任务难以交付，也就失去了敏捷的意义。</p>
+<p>4. 不适合有deadline和固定预算的项目</p>
+<p>Scrum敏捷开发，可以很好的运作在需求不明确，deadline不明确的软件开发中，如移动互联网的很多项目，创新项目，而当软件项目是合同制的，需求明确，需要on-time, under-budget，那么采用传统的软件开发更好。</p>
+<p>5. 团队成员的离开可能会带来很大的负面效应</p>
+<p>Scrum团队本身是小型的团队，当某一个团队成员，特别是核心技术成员离开团队，会对团队的工作效率，士气等造成负面影响。</p>
+<p>6. 每个sprint的测试压力较大<br>敏捷团队是跨功能的团队，同时也包含测试人员，我曾经实习的团队有8人，其中有两名测试人员，她们在每个sprint中承担了所有的测试任务，工作压力大，尤其在sprint交付时的回归测试中，不得不占用其他开发者的时间帮助测试，而且测试保证的只是功能正常，对代码质量方面，无法提供保障。</p>
+<p>7. 当一个sprint backlog确定后，在一个sprint中的需求不允许变更</p>
+<p>在Scrum的一个sprint中，当前sprint的backlog不会再变更，变更是发生在下一次planning，但当在当前的sprint中如果User Story没有定义好，对需求理解不够清晰，或者在sprint的迭代周期内发生需求变更，那么当前sprint的交付注定会让用户不满意，无疑是浪费时间，那么只有在下一次planning才会做出变更。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>敏捷开发纵然不是银弹，但他做为一种轻量级的软件开发方法，确实会给软件开发带来效率的提升，尤其是它强调的面对面交流，如daily meeting保持了团队进度的透明性，让每一个人都知道项目的进度，帮助项目管理。同时敏捷开发给了团队很大的自主性，如果是正确的采取的敏捷方法，团队的士气和积极性都会得到很大的提升。我们应该根据自己的需求来决定是否采取敏捷软件开发方法，不能盲目跟风。</p>
+<h3 id="有价值的参考资料"><a href="#有价值的参考资料" class="headerlink" title="有价值的参考资料"></a>有价值的参考资料</h3><p><a target="_blank" rel="noopener" href="http://agilemanifesto.org/iso/zhchs/" title="敏捷宣言">敏捷宣言</a></p>
+<p><a target="_blank" rel="noopener" href="http://agilemanifesto.org/iso/zhchs/principles.html" title="敏捷12原则">敏捷12原则</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.softwarepractitioner.org/translations/fowler/newMethodology.shtml" title="新方法论">新方法论</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.belatrixsf.com/benefits-pitfalls-of-using-scrum-software-development-methodology/" title="benefits-pitfalls-of-using-scrum-software-development-methodology">benefits-pitfalls-of-using-scrum-software-development-methodology</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.thoughtworks.com/insights/articles/providing-just-enough-design-can-make-agile-software-delivery-more-successful" title="providing-just-enough-design-can-make-agile-software-delivery-more-successful">providing-just-enough-design-can-make-agile-software-delivery-more-successful</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.my-project-management-expert.com/the-advantages-and-disadvantages-of-agile-software-development.html" title="the-advantages-and-disadvantages-of-agile-software-development">the-advantages-and-disadvantages-of-agile-software-development</a></p>
+<p><a target="_blank" rel="noopener" href="http://foohack.com/2007/11/agile-scrum-sucks-but-so-do-the-alternatives/" title="agile-scrum-sucks-but-so-do-the-alternatives">agile-scrum-sucks-but-so-do-the-alternatives</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/11/01/agile-advantages-and-disadvantages/" data-id="ckjk20xnb001t9bwr7dh60ijk" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/11/01/agile-advantages-and-disadvantages/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/agile/" rel="tag">Agile</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-talk-about-open-source-software" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/06/talk-about-open-source-software/">谈谈开源软件，谈谈质量</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/10/06/talk-about-open-source-software/">
+    <time datetime="2013-10-06T03:25:17.000Z" itemprop="datePublished">2013-10-06</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/life/">Life</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>开源软件的基本概念最早可追溯到1955年IBM为了交换编程资料、深入研究IBM操作系统而开发的“IBM用户组分享”。在几十年后，1997年Eric Raymond发表了《大教堂与市集》——开源软件运动的圣经，以大教堂和市集这生动的比喻，阐述了商业封闭软件和自由软件的开发模式，并以Linux和Fetchmail为案例讨论了开源软件的优势。至今，20多年过去了，开源软件取得了不朽的成就，像Linux，Java，Eclipse，Android，Apache，Hadoop，Git，Nginx，Python，Node.js等，都是优秀的开源软件。</p>
+<h3 id="开源软件vs自由软件"><a href="#开源软件vs自由软件" class="headerlink" title="开源软件vs自由软件"></a>开源软件vs自由软件</h3><h5 id="开源软件"><a href="#开源软件" class="headerlink" title="开源软件"></a>开源软件</h5><p>开源软件的定义，是由Bruce Perens(Debian创始人之一)于1997年基于Debian Free Software Guidelines提出，开源软件即公开源代码的软件，允许用户使用，修改，拷贝，合并，出版发行，再散布，贩售软件及软件副本，同时开源软件允许版权持有人在软件协议的规定之下保留一部分权利。</p>
+<p>open source describes a broad general type of software license that makes source code available to the general public with relaxed or non-existent copyright restrictions.[more…]</p>
+<p>1998年Eric.S.Raymond和Perens成立了OSI(Open Source Initiative), OSI规定开源软件需要遵守OSI支持的许可证，例如Apache License, BSD license, GNU General Public License, GNU Lesser General Public License, MIT License, Eclipse Public License和Mozilla Public License，如果软件源代码本身开源，但是限制用户的修改和再发行等权利，或者程序源码不可读、质量低造成用户难以自由使用，也只能是“Source Available Software”，不是开源软件。</p>
+<h5 id="自由软件"><a href="#自由软件" class="headerlink" title="自由软件"></a>自由软件</h5><p>相对于开源软件，我们常提到自由软件，大多数开源软件也是自由软件，但二者不能混谈。自由软件, 是1983年由美国麻神理工人工智能实验室研究Richard Stallman提出，并于1984年发起了自由软件运动，建立了自由软件基金会(FSS)，启动了GNU工程。他提出了Copyleft的思想，并为Copyleft提出了GPL许可证，GPL是该运动的精髓。自由软件的定义有FSS在1986年正式提出：<br>software is free software if people who receive a copy of the software have the following four freedoms.</p>
+<p>Freedom 0: The freedom to run the program for any purpose.</p>
+<p>Freedom 1: The freedom to study how the program works, and change it to make it do what you wish.</p>
+<p>Freedom 2: The freedom to redistribute copies so you can help your neighbor.</p>
+<p>Freedom 3: The freedom to improve the program, and release your improvements (and modified versions in general) to the public, so that the whole community benefits.</p>
+<p>Freedoms 1 and 3 require source code to be available because studying and modifying software without its source code can range from highly impractical to nearly impossible.</p>
+<h5 id="开源软件和自由软件区别"><a href="#开源软件和自由软件区别" class="headerlink" title="开源软件和自由软件区别"></a>开源软件和自由软件区别</h5><p>如果硬要区别开源软件和自由软件，可以说二者的出发点不同，用Richard Stallman的话说”Open source is a development methodology; free software is a social movement”. </p>
+<p>开源软件出发点是程序本身，旨在通过开源，让更多的人合作开发，Linus定律指出”Given enough eyeballs all bugs are shallow.”,开源致力于提高程序的质量，是一种集市的开发模式.</p>
+<p>自由软件可以看做一种哲学和道德观念，强调用户的自由，如果一个软件卖给一个用户的只是二进制代码，而没有源代码，妨碍了用户自由使用、学习的权利，这就是不道德的。Richard Stallman认为软件不应该用来剥削和压榨利润，应该给用户自由的权利。自由软件一定是开源的，自由软件可以看做是开源软件的子集，开源软件中存在一些软件是限制用户再发售软件的权利，这就不是自由的。但大多数软件是自由开源软件FOSS。</p>
+<p>The term “open source” software is used by some people to mean more or less the same category as free software. It is not exactly the same class of software: they accept some licenses that we consider too restrictive, and there are free software licenses they have not accepted. However, the differences in extension of the category are small: nearly all free software is open source, and nearly all open source software is free.</p>
+<p>—–<a target="_blank" rel="noopener" href="http://www.gnu.org/philosophy/categories.html">Free Software Foundation</a> </p>
+<p>自由软件常用的许可证是GPL和BSD，现在的更多的FOSS接受MIT或者BSD的许可证，而不太接受自由软件协议GPL，因为在GPL下，再次开发的软件必须是GPL的，不能作为商业用途，代码的传染性太高，也算是一种对自由的限制。</p>
+<h3 id="开源软件的优势"><a href="#开源软件的优势" class="headerlink" title="开源软件的优势"></a>开源软件的优势</h3><p>1.较低的维护成本，快速的Bug修复</p>
+<p>正如Linus定律所述: “如果有足够多的眼睛，所有的错误都是浅显的。”更多的开发者，则可以更快的修复Bug。程序员如果找到Bug，不比像商业软件中那样，先上报、再审批、再决定Bug修复方法，再修复，效率较低，而开源社区的程序员们则可以快速响应修复问题。并且，开源软件的开发者们都是自主自愿的做贡献，软件的维护成本基本为零。</p>
+<p>2. 自由和透明性</p>
+<p>开源软件让开发者可以自由地使用和学习源代码，可以按自己的需求修改源代码，可以学习别人的代码，提高自己的技能。同时也可以了解软件的运作机制，修复bug，为开源软件做出贡献，提高自己在科技界的知名度。 这是开发者的快乐所在。</p>
+<p>3. 为公司打开市场</p>
+<p>IBM公司在开源软件Eclipse上投入上亿美元，开发了这个高质量的Java IDE，打败了竞争对手，推广了自己的产品，赢得了市场；Joyent公司发布开源的Node.js, 一个基于Chrome V8引擎的开发web应用的开发平台，曾一度成为GitHub上的Top Star，并受MicroSoft, Linkedln，eBay等大公司的亲睐，相信Joyent这家云服务提供商也拓宽了自己的市场。在软件有了市场后，便可以通过对软件的互补物品，如技术支持，存储空间，广告等方面获得利润。</p>
+<p>4. 吸引更多优秀的工程师</p>
+<p>一个公司进行一个开源项目，可以吸引到更多的人才。很多工程师，喜欢为开源社区工作，提高自己在科技界的声望，帮助他们找到更好的工作。而如果有公司支持开源项目，他们也乐意去那里工作。</p>
+<h3 id="开源软件的质量不太理想"><a href="#开源软件的质量不太理想" class="headerlink" title="开源软件的质量不太理想"></a>开源软件的质量不太理想</h3><p>开源软件承诺并鼓励开发更高质量，更高可靠性，更加灵活，更低成本的软件，让用户得到更多的自由，而我们也看到像Linux，GNU Project, Apache Project, Python, Chromium, Mozilla, Android都是高质量的开源软件，然而开源软件并不保证一定高质量，在<a target="_blank" rel="noopener" href="http://www.ohloh.net/" title="ohloh">ohloh(开源和自由软件的在线字典)</a>上的60多万的开源软件的质量没有那么理想，高质量的开源软件是榜样，但不能把开源和高质量等同。<br>Robert在《软件工程的事实与谬误中》给出了质量的定义，即7个属性的集合：可靠性，可移植性，效率，可用性（人类工程学），可测试性，易理解性和可修改性。<br>开源软件在质量方面的劣势如下：</p>
+<p>1. 可用性不理想</p>
+<p>商业软件，如Windows，Adobe Photoshop，Office，Dropbox，Skype，iTune等，都有对应的开源软件，如Ubuntu，GIMP，Open Office，Cabos，CuteCom，Songbird，同时也是免费的。开源软件的开发者们缺乏在可用性，HCI方面的设计经验，常常会去模仿工业界的商用软件的设计，缺乏自主创新，这也就解释了几乎每一个商业软件的都有一个开源软件与之对应。模仿的结果是可用性和用户满意度不高，对于不懂技术的普通用户，如果经济允许，购买商用软件会比用开源带来更多的方便。</p>
+<p>2. “早发布，常发布”造成缺乏成熟的设计</p>
+<p>开源社区，有优秀的程序员，但少有优秀的设计师。开源软件让开发者合作开发，其本质是大量的开发者为软件免费修复bug。开源软件还没有设计好，就草率的发布，势必会降低软件的质量，软件最终会失控。而很多时候，软件设计的重要性等同甚至大于代码的重要性，如HCI设计，需要专业的设计师。而开发者们都喜欢去实现算法，编写代码，在可用性上只按自己的喜好进行设计，造成在细节方面做得不如商业软件。</p>
+<p>3. 文档质量不高</p>
+<p>很多时候拿到一份源代码，看文档比看源码更有效率，文档是交流的利器。然而，开源软件的文档质量并没有商业软件那么理想。商业软件有好的技术文档和用户手册，但开源软件的开发者宁可写代码，也不太喜欢写文档。我曾经参与过Joomla项目，Joomla的文档就让人很头疼。</p>
+<p>4. 软件变得越来越复杂而难以控制</p>
+<p>太多的人参与，太多的意见，开发者们按自己的需求，自己对”好软件”的定义开发，让软件越来越复杂，集成和版本控制的成本增加，这些都源于对用户需求没有一个清晰的定义，不满足用户的需求，或者过多冗余的功能，会造成软件的质量下降。</p>
+<p>5. 开发人员管理困难</p>
+<p>好的软件往往需要一个或多个优秀的开发者全职在一起工作，一起开发、维护和改善软件。当开发者遍布世界各地，便很难保证开发者会全职为软件做贡献。而很多优秀的开源软件是大公司支持的，软件的贡献者同时也是公司的全职员工，这也是这些开源软件可以高质量的一个原因。</p>
+<h3 id="开源软件和商业软件之间的平衡"><a href="#开源软件和商业软件之间的平衡" class="headerlink" title="开源软件和商业软件之间的平衡"></a>开源软件和商业软件之间的平衡</h3><p>软件开发没有能带来数量级增长的银弹，开源和商业软件各有优势，如何选择是需要仔细考虑的。</p>
+<p>1. 根据用户的需求来决定用开源软件或者商业软件</p>
+<p>开源软件，开放源代码，开发者对此更感兴趣，如果应用是面向开发者的软件，对可用性和HCI要求不高，如编程语言（Python），服务器，IDE，平台软件，可以考虑用开源软件，让大量的开发者合作开发，可以提高软件的质量。</p>
+<p>如果用户是不关心技术的普通用户，且如果有对软件保密性、安全性、高可靠性等方面的需求，采用商业软件的开发方法更好，例如金融理财软件，邮件系统，铁路系统等。<br>如果用户对软件的交付日期有要求，不要用开源软件，开源很难控制开发进度。</p>
+<p>2. 如果采用开源软件，当心GPL</p>
+<p>很多开源软件受GPL的保护，而如果你需要二次开发的开源软件，在GPL下，则你开发的软件也必须在GPL下，这会损害你的专利权利，并且软件不能出售。</p>
+<p>3. 考虑个人的需求和公司的需求</p>
+<p>如果对于开发者个人，需要提高自己在软件界的声望，想锻炼自己的能力，让CV更加好看，多参与和贡献开源软件是一个好方法。</p>
+<p>如果一个公司，想扩大自己的市场影响力，想以开源软件的方法获得商业利益，则可以采用开源软件。</p>
+<p>但如果个人或者公司想创新，实现创新的idea，并保有自己的专利权利，打算以出售软件来赚钱，那么就要采用商业软件的开发方法。</p>
+<p>总之，有了开源软件，我们就多了一种软件的开发方法，开源软件为软件的世界带来了很多生机，像GitHub现在全球最大的开源社区，每天都有世界各地的开发者合作交流。商业软件还是开源软件，我们都要从自己的需求出发来决定。</p>
+<h3 id="一些参考资源"><a href="#一些参考资源" class="headerlink" title="一些参考资源"></a>一些参考资源</h3><p><a target="_blank" rel="noopener" href="http://www.gnu.org/philosophy/when_free_software_isnt_practically_better.html" title="When Free Software Isn">When Free Software Isn’t (Practically) Better</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.mpt.net.nz/2012/06/why-free-software-has-poor-usability/" title="why-free-software-has-poor-usability">Why free software has poor usability, and how to improve it</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.lambdassociates.org/blog/the_problems_of_open_source.htm" title="the_problems_of_open_source.htm">The Problems of Open Source</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.gilyehuda.com/2011/01/12/open-source-considerations/" title="open-source-considerations">Corporate Open Source Considerations</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.hackerfactor.com/blog/index.php?/archives/415-Open-Source-Sucks.html" title="Open-Source-Sucks">Open Source Sucks</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.hackerfactor.com/blog/index.php?/archives/416-Open-Source-Rocks.html" title="Open-Source-Rocks">Open Source Rocks</a></p>
+<p><a target="_blank" rel="noopener" href="http://whdb.com/blog/2008/the-top-50-proprietary-programs-that-drive-you-crazy-and-their-open-source-alternatives/" title="the-top-50-proprietary-programs-that-drive-you-crazy-and-their-open-source-alternatives/">The Top 50 Proprietary Programs that Drive You Crazy — and Their Open Source Alternatives</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.forbes.com/sites/rajsabhlok/2013/07/18/open-source-software-the-hidden-cost-of-free/" title="open-source-software-the-hidden-cost-of-free">Open Source Software: The Hidden Cost of Free</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/10/06/talk-about-open-source-software/" data-id="ckjk20xmy001q9bwrard42f9n" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/10/06/talk-about-open-source-software/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/" rel="tag">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/methodology/" rel="tag">Methodology</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/">统计学的基本概念和方法</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/">
+    <time datetime="2013-10-03T14:42:08.000Z" itemprop="datePublished">2013-10-03</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/life/">Life</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如果这本书读完《统计学的基本概念和方法》，一本价值500页的书，最后给忘记了，我会为我这几天的功夫感到遗憾，姑且高兴高兴把报告亮出来。谈谈感想。</p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>“统计学是用以收集数据、分析数据和由数据得出结论的一组概念、原则和方法。” 这是埃维森在本书中给统计学下的定义。而在读完本书后，我觉得统计学不仅仅是那些曾经学习的数学定义和公式，本书用大量的例子有趣地说明了统计就在生活中，如政府部门的政策和评估、人口调查、医学、心理学、和法学等等领域，统计学都有重要的角色。而如何正确的收集数据，如何选择合适统计分析方法，以及如何用怀疑的眼光来看待一些社会生活中的统计结论，不盲从以及冷静的分析，是我觉得本书给我的一大益处。</p>
+<p>总的来说，统计学可以说是在各种随机的数据中寻找寻找规律性的方法。统计学家所做的许多工作都是为了回答四个问题：</p>
+<p>问题1：在数据中，变量之间是否有关系？</p>
+<p>问题2：变量之间的关系有多强？</p>
+<p>问题3：总体中是否存在该关系？</p>
+<p>问题4：观测到的关系是一种因果关系吗？[more…]</p>
+<p>纵观本书，为了回答这四个问题，首先要定义需要观测的变量并收集数据；对数据进行整理，用圆饼图、条形图、点图或直方图等，形象地对数据做出表示；计算汇总统计量，如均值，方差，标准差等；从原始数据做出初步猜测，所观测的变量之间是否有关系；为了验证猜想，运用公式，计算变量之间的相关系数，如对于数量型变量的分析，还需计算出线性回归公式；接着，对总体中是否存在该关系做出假设，如零假设是总体中不存在这些关系，再运用假设检验的方法拒绝零假设，即统计上显著，从而可以将样本的结论推广到总体，假设检验中会用到z，t，χ2, F分布；最后，对于因果关系，这是很难回答的，统计上相关未必有因果关系，这需要综合考虑多方面的因素才能下结论，然而 否定因果关系是容易的，可以通过引入第三方变量造成变量中的关系消失来否定因果关系。</p>
+<h3 id="数据的收集"><a href="#数据的收集" class="headerlink" title="数据的收集"></a>数据的收集</h3><p>统计结果是基于：数据的收集和统计方法的运用。</p>
+<p>而正确的进行数据收集是对后期得出正确的统计结论的重要保障。而实践中我们由于成本、社会道德等原因，很难进行全部总体的普查，一般是进行抽样，这样可以节约成本，加快数据收集过程，提高效率并减少偏差。一个合适的能够被用来推广到总体的统计样本叫随机样本。首先我们要定义清楚总体是什么，即采样的种群，是所有成年人或者某公司所有员工；其次我们要选择正确的采样方法的保证采样的随机性，如概率采样，分层采样和聚类采样；最后，我们要决定采样规模，样本数越大，抽样误差越小。例如调查总体中样本的百分比，往往要求误差在3%以内，那么需要至少1200个响应者。</p>
+<p>实际中，采样会遇到很多问题，对人的研究比研究土豆难得多，例如组织问题，心里问题，道德问题和成本问题等，都应在进行数据抽样前多加考虑。</p>
+<h3 id="数据描述"><a href="#数据描述" class="headerlink" title="数据描述"></a>数据描述</h3><p>在得到采样数据后，我们一般会采用表的形式来记录数据，而为了展现统计结果，图是分析数据的一种极富有信息的方法，直观易于理解。</p>
+<ul>
+<li>分类变量</li>
+</ul>
+<p>一般采用圆饼图和条形图来展现。当类别不是很多时，圆饼图表达更易于表达出每一个类别的相对大小。但是圆饼图用于显示每一组有多少个观测数时不是很好。</p>
+<p>而条形图，优势在于可以显示每一个组的观测数，可以有相同高度不同宽度的条形图，也可以选择不同高度和相同宽度的条形图。</p>
+<ul>
+<li>度量变量</li>
+</ul>
+<p>度量变量一般用点线图，茎叶图，盒形图，直方图，散点图和时间序列图来展现。</p>
+<p>点线图：在一条连续的线上表明一个小的数据阵，原始值得以保留，适合展现小规模数据的分布和变化。盒形图：对数据进行了简化，取5个值，最大值，最小值，中位数，25%和75%分位数来构成。表明了两个极值和中间值的范围，在分析若干组数据时很有用。但无法恢复原始数据。直方图：用矩形的面积表示变量值的观测和相对数量，可用于显示大量的观测数据，但是无法保持原始值。茎叶图：适合展现小数据集，但不适合展现数据变化范围小的数据。散点图：可以用于表现变量之间的关系，在回归分析中常用到，表现了数据的分布和变化。时间序列图：在横轴上均匀的显示时间，纵轴上是变量的值，可以展现多个变量的数据。</p>
+<ul>
+<li>地图作图</li>
+</ul>
+<p>根据数据，按区域在地图上染色，标识数据，如人口分布等。但地图可能会误导，地图上面积小，但是人口密度大，但面积和人口密度不成正比。</p>
+<p>如何选择正确的图呢？Edward Tufte定义了图优性：图要能够在最短的时间内用最少的笔墨，在最小的空间里给观众最多的思想。在统计图选择中，我们面临两个矛盾：数据的简化和数据的完整，我们需要在简单化受益和信息的丢失之间权衡。</p>
+<h3 id="分析统计量"><a href="#分析统计量" class="headerlink" title="分析统计量"></a>分析统计量</h3><ul>
+<li><p>平均数</p>
+<p>  数据的统计量计算需要正确的方法。平均数包括众数，中位数和均值。众数适用于分类变量，特别是有多个值的分类变量，如宗教、种族的划分。中位数：一组数据中的中间值，不受极值的影响，当数据出现非对称分布时应该用中位数，例如收入、房子价格。但中位数只是中间点的数据，但没有充分利用数据。均值：在对总体进行点估计时常用均值，均值可以充分地利用观测数据，但均值容易受极值的影响。 如果均值和中位数差不多，采用均值，但如果非常不同，采用中为数据，对于非对称数据，采用中位数更好。</p>
+</li>
+<li><p>变差</p>
+<p>  极差：很容易受极端值的影响，为了避免这种影响，我们可以采用四分位数极差。</p>
+<p>  标准差：度量数据在平均意义上和均值的偏离。</p>
+</li>
+<li><p>  标准误差：多个样本均值的标准差，一般比某一组观察值的标准差小。</p>
+</li>
+<li><p>  标准得分=(观察值 - 均值) / 标准差，可以对不同的观察值进行比较。</p>
+</li>
+</ul>
+<h3 id="重要的概率分布"><a href="#重要的概率分布" class="headerlink" title="重要的概率分布"></a>重要的概率分布</h3><p>统计的样本一般假定是随机样本，对于随机样本的分析，需要计算概率，概率可以从等可能事件，相对频数和主观概率中得到。而了解概率的分布是在进行参数假设检验等分析中重要的一步。</p>
+<ul>
+<li>离散型变量的概率分布</li>
+</ul>
+<p>主要有几何分布和二项分布，主要在分类变量且样本数量很少时才很方便。对有很少的样本而可能性很多的分析，可以采用Poisson分布。</p>
+<ul>
+<li>连续型变量的概率分布</li>
+</ul>
+<p>主要有z（标准正太分布），t，χ2, F分布。标准正态分布是一个钟形曲线，均值=0，标准差=1，曲线下面有95%的面积在-1.96~1.96之间。一般假设检验和参数估计中会计算出标准的z值再查表得到概率。t分布，又叫学生分布，和正态分布很像，是最常用的统计分布，t分布的前提是总体要符合正态分布，根据自由度选择t分布。χ2, F分布都是有偏的，取值从0开始，按自由度选择。</p>
+<ul>
+<li>p值：即极端概率发生的概率，p值在说明统计显著方面很重要。</li>
+</ul>
+<h3 id="统计推断：估计和假设检验"><a href="#统计推断：估计和假设检验" class="headerlink" title="统计推断：估计和假设检验"></a>统计推断：估计和假设检验</h3><p>对样本的分析最终需要做出一个关于总体的估计。</p>
+<ul>
+<li>点估计</li>
+</ul>
+<p>在估计总体均值时一般采用样本均值而不是中位数或众数来估计。</p>
+<ul>
+<li>区间估计</li>
+</ul>
+<p>只给出一个点是不够准确的，总要说明误差范围。在来自不同样本的多个置信区间当中包含未知总体参数的区间所占的百分比称为置信水平。我们一般采用95%的置信区间，意思不是该区间中包含真值的概率，而是多次抽样中有95%的置信区间包含未知总体参数的值。可以通过增加样本容量或降低置信水平来获得较短的置信区间。一般对于1200个响应者，抽样误差可控在-3%~3%，且置信水平是95%.</p>
+<ul>
+<li>统计显著</li>
+</ul>
+<p>显著是在本书开端就提出的问题，统计显著是对参数假设检验而言的，一个检验的显著水平a是抽样所得的数据拒绝了本来是正确的零假设的概率。p值越小越显著。一般p取0.05，但对于双边检验p=0.025。</p>
+<p>假设检验可以进行总体均值的检验（t检验），总体比例检验(z检验)。当然也可以采用计算置信区间的方法，如果零假设中的相关参数值在置信区间，就不拒绝。</p>
+<h3 id="变量间的关系"><a href="#变量间的关系" class="headerlink" title="变量间的关系"></a>变量间的关系</h3><p>对于从试验和观测中得到的数据，我们最终关心的是变量之间的关系问题。因此统计量的计算，数据的描述，统计推断都在为回答变量之间的关系做铺垫。四个重要的关系问题：问题1：在数据中，变量之间是否有关系？问题2：变量之间的关系有多强？问题3：总体中是否存在该关系？问题4：观测到的关系是一种因果关系吗？</p>
+<p>前三个问题，可以通过统计方法得到准确的结论，但是因果关系确很难回答，我们在判断因果关系时：(1) 用常识进行推断. (2) 主意自变量和因变量的发生顺序。(3) 即使自变量发生在因变量之前，但当引入第三个变量，自变量和因变量的关系消失，他们也没有因果关系。然而，统计关系强，确实可以反映可以从多大程度上用自变量去估计因变量。</p>
+<p>变量分为三类：分类型变量，顺序型变量和数量型变量，不同的变量，分析方法不同。</p>
+<p>1. 两个分类型变量的关系： χ2分析</p>
+<p>常用列联表来表示分类型变量。</p>
+<p>变量间是否有关系？可以通过观察数据的百分比分布得出。</p>
+<p>变量之间的关系强度？通过公式计算相关系数。</p>
+<p>总体中是否有这个关系？通过 χ2分析得到p值，进而拒绝零假设。</p>
+<p>因果关系？分类变量的统计关系，不能说明因果关系。</p>
+<p>2. 两个数值型变量的分析：回归分析和相关分析</p>
+<p>回归分析描述的是一个或多个自变量的变化是如何影响因变量的方法。相关分析描述的是两个数值型变量的关系强度。在对数值型变量的回归分析前，需要观察散点图，如果数据很分散，则变量的关系就很弱，同时回归分析时需要抛弃极端值。</p>
+<p>回归分析重要参数如下</p>
+<p>回归方程y = a + bx， b即回归系数，表示自变量变化1，因变量的变化值。</p>
+<p>相关系数r：r^2表示自变量在决定因变量的取值变化效应中所占的比例，其他的变化影响来自残差变量。</p>
+<p>总平方和=⨊(观测值 - 平均值)^2 = 残差平方和 + 回归平方和</p>
+<p>残差平方和=⨊(估计值 - 观测值)^2</p>
+<p>回归平方和 = ⨊(估计值 - 平均值)^2 </p>
+<p>r^2 = 回归平方和 /  总平方和  </p>
+<p>￼￼回归方程是否能对总体做出估计？需要进行相关分析，置信区间的计算，相关分析中采用t假设检验。</p>
+<p>3. 一个数值型变量和一个分类型变量的关系</p>
+<p>变量：分类型变量，因变量：数值型变量。例如地区和犯罪率的关系。对于关系强度的计算，需要计算总平方和，残差平方和以及自变量效应的平方和。</p>
+<p>总平方和(TSS)=⨊⨊(观测值 - 平均值)^2 = 残差平方和 + 回归平方和</p>
+<p>残差平方和(RSS)=⨊⨊(观测值 - 组均值)^2</p>
+<p>分类变量平方和(CSS) = ⨊⨊ni(组均值 - 平均值)^2  (ni—每组中的观测值数量) </p>
+<p>相关系数R ^ 2 = 回归平方和 /  总平方和  </p>
+<p>采用F检验进行分析。</p>
+<p>在书中，还提到配对数据的差异检验，如分析各个地区犯罪率与年份的关系，配对数据检验采用t检验，有时如果无法确定总体是正态分布，可以采用符号检验，但符号检验采用二项分布，如果数据量大不太合适。</p>
+<p>4. 两个顺序型变量的分析：秩方法</p>
+<p>顺序型变量很少出现，尽管有些变量如富裕程度，看上去是分类型变量，但是富裕程度有低、中、高的顺序，如果采用分类型变量的χ2分析，数据就不能充分利用。</p>
+<p>一般地，当一个数量型变量和一个顺序型变量出现时，都作为顺序型变量来分析，反之不行。</p>
+<p>当一个分类型变量和一个顺序型变量进行分析时，都看做分类型变量来分析。</p>
+<p>(1) 用词作为两个顺序型变量</p>
+<p>例如：学生对数学的掌握程度(一般、中等、较好)与老师上课的有趣程度(一般、中等，较好)的关系，书中给的例子是政党身份的强弱与对总统选举感兴趣的程度的关系。</p>
+<p>系数 γ 度量两个取值为词的顺序变量的相关程度。</p>
+<p>γ = （相同的次序 - 不同的次序）/ （相同的次序  +  不同的次序）</p>
+<p>可以将 γ转化为z值，进行检验，根据p值拒绝零假设。</p>
+<p>(2) 用数字作为两个顺序性变量</p>
+<p>例如：马刺队和灰熊队2011年和2012年的排名关系，或者一个人的经济地位与人的能力的关系。</p>
+<p>采用Spearman   rs相关系数来度量两个取值为数量的顺序变量的相关程度。一般将rs转化为t变量进行检验。</p>
+<p>5. 多元分析</p>
+<p>多元统计分析考虑两个或两个以上的变量对一个因变量的相关的影响。多元分析可以通过引入控制变量，来观察自变量和因变量的关系，如果关系消失，则否定因果关系。</p>
+<p>(1) 三个分类型变量</p>
+<p>偏Φ，是当控制变量取特定值时，度量自变量和因变量之间的相关程度。可以认为是对每一个控制变量的值，得出的自变量和因变量的相关系数Φ的平均值。例如：控制性别，研究收入和投票的关系。</p>
+<p>(2) 多个数值型变量间的关系</p>
+<p>采用多元回归分析，计算每一个自变量的偏归系数，构造回归方程。</p>
+<p>相关系数R是因变量的实际值和回归方程预测值之间关系的强度。R^2是所有自变量共同解释因变量差异的总和。</p>
+<p>一般将R转化为F比，进行假设检验其统计上的显著性。</p>
+<p>(3) 因变量是数量型变量，自变量是两个分类型变量.</p>
+<p>采用双因子方差分析，由于双因子方差分析可以考虑两个分类变量各自效应之外的交互效应，所以优于单因子方差分析。交互效应，即两个自变量对因变量的联合作用。<br>交互效应大于每个因变量各自效应的总和。通过研究交互效应和残差效应的F比，可以得出两个分类变量对因变量的统计显著性。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在读完本书后，我觉得这么多统计方法，并没有带来很乐观的统计现状。统计从收集数据到分析得出结论，每一步都可能误用，而大多数误用不是故意的，且有些别有用心的人会对用一些方法对统计结果进行有意的歪曲，统计中需要警惕：</p>
+<p>1. 数据收集中的危险，研究者往往会在数据收集的随机性上打折扣，例如研究成年人的购物兴趣，研究者为了方便会选取一些积极性较高的大学生，样本是随机的，但样本的结果只能说明大学生的购买兴趣，统计推断只能把他推广到它产生的总体。</p>
+<p>2. 调查的环境，调查的身份，提问的方式，被访者是否在一个舒适和私下的环境下接受采访，也会对数据产生影响。</p>
+<p>3. 问题的内容和提问的时机，例如薪水问题如果提问不当，被访者会很反感。</p>
+<p>4. 结果的记录方式，如果一个人吸烟的兴趣是4分，两个相同分数的人对分数的理解是不同的。而且大多数研究场合下人们都会对回答有某种程度的夸张。</p>
+<p>5. 分析方法的误用，统计推断的误用，例如收入的平均数应该用中位数而不是均值；用最小二乘法计算回归方程，而不是绝对值，双边假设检验的p=0.025，而不是0.05。</p>
+<p>6. 数字的错误解释，如Benz公司广告说过去15年来被注册的他们公司的车种97%仍然在使用，其实97%中也包含近几年来注册的新车，消费者总是会被误导。</p>
+<p>总之，任何有收集经验数据的场合都需要统计方法，而统计的结果依赖于数据和分析方法。统计很神奇，可以从混乱与随机中找到规律，而我们要做地是不被规律所误导，不盲从详细各种社会统计，官方统计，要拥有一双怀疑的眼睛。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/" data-id="ckjk20xnm001w9bwr4xcqezk4" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/10/03/e7-bb-9f-e8-ae-a1-e5-ad-a6-e7-9a-84-e5-9f-ba-e6-9c-ac-e6-a6-82-e5-bf-b5-e5-92-8c-e6-96-b9-e6-b3-95/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/" rel="tag">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/math/" rel="tag">math</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-select-second-smallest-element" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/09/12/select-second-smallest-element/">找一个数组中第2小的元素</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/09/12/select-second-smallest-element/">
+    <time datetime="2013-09-12T12:09:43.000Z" itemprop="datePublished">2013-09-12</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/algorithm/">Algorithm</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>找出一个数组中的最小元素或者最大元素，遍历是最优解,即O(n)，我想这是会编程的人都会的简单算法。而如何找出第二小的元素呢，先排序，然后再选么，这样的算法最优也是O(n * lg n)，还是一次遍历来的更快，思想如下：</p>
+<p>假定数组A有n个元素,元素可以有重复：</p>
+<p>1. 初始化一个数组res[2]，变量i, i为遍历时使用。</p>
+<p>2. 当n为奇数时, res[0] = A[0], res[1] = A[1], i = 1;</p>
+<p>3. 当n为偶数时, res[0] = min {A[0], A[1]}, res[1] = max{A[0], A[1]}, i = 2;</p>
+<p>4. 接下来每次取数组A中的两个元素，较小的元素如果小于res[0]比较，则res[1] = res[0], 再赋值 res[0] = small；</p>
+<p>5. 如果res[0] == res[1]或者较大的元素小于res[1], 则res[1] = large;[more…]</p>
+<p>以上算法可以O(3n/2 - 2)时间，即O(n)的时间内选出第二小的元素。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/lgrcyanny/Algorithm/blob/master/src/com/algorithm/orderstatistics/SecondSmallest.java">Github Source Code</a><br>[java]<br>public int selectSecondSmallest() {<br>    int[] res = new int[2];<br>    int n = data.length;<br>    int i = 2;<br>    if (n % 2 == 0) {<br>        i = 2;<br>        if (data[0] &lt; data[1]) {<br>            res[0] = data[0];<br>            res[1] = data[1];<br>        } else {<br>            res[0] = data[1];<br>            res[1] = data[0];<br>        }<br>    } else {<br>        i = 1;<br>        res[0] = data[0];<br>        res[1] = data[1];<br>    }<br>    for ( ;i &lt; n; i += 2) {<br>        int large = getLarge(data[i], data[i + 1]);<br>        int small = getSmall(data[i], data[i + 1]);<br>        if (small &lt; res[0]) {<br>            res[1] = res[0]; // Maybe res[0] is the second minimum, don’t forget the tiny step<br>            res[0] = small;<br>        } else if (small &lt; res[1]) {<br>            res[1] = small;<br>            continue;<br>        }<br>        if (large &lt; res[1] || res[0] == res[1]) {<br>            res[1] = large;<br>        }<br>    }<br>    System.out.println(&quot;The smallest is &quot; + res[0]);<br>    System.out.println(&quot;The second minimun is &quot; + res[1]);<br>    return res[1];<br>}<br>[/java]</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>这个算法很简单，但是算法导论的答案给的太复杂了，<a target="_blank" rel="noopener" href="http://blog.csdn.net/mishifangxiangdefeng/article/details/7687460">用了树的算法</a>，这么诡异而复杂，算是领教了。这个算法可以扩展到找第i个小的元素。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.cyanny.com/2013/09/12/select-second-smallest-element/" data-id="ckjk20xmv001l9bwr43dpa6bu" class="article-share-link">Share</a>
+      
+        <a href="http://www.cyanny.com/2013/09/12/select-second-smallest-element/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning/" rel="tag">Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/">Next &amp;raquo;</a>
+      </nav>
+    </section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/27/an-introduction-to-bayesian-networks/" class="title">An Introduction to Bayesian Networks</a></p>
+              <p class="item-date"><time datetime="2020-12-27T10:54:04.000Z" itemprop="datePublished">2020-12-27</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/12/25/strucutre-learning-algorithm-notears/" class="title">Strucutre Learning Algorithm NOTEARS</a></p>
+              <p class="item-date"><time datetime="2020-12-25T14:01:59.000Z" itemprop="datePublished">2020-12-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2020/09/13/akka-http-notes/" class="title">Akka http notes</a></p>
+              <p class="item-date"><time datetime="2020-09-13T13:47:31.000Z" itemprop="datePublished">2020-09-13</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/08/04/java-performance-notes-monitoring-tools/" class="title">Java Performance Toolbox</a></p>
+              <p class="item-date"><time datetime="2018-08-04T10:24:34.000Z" itemprop="datePublished">2018-08-04</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2018/07/16/big-data-expert/" class="title">Big Data And ML Learning</a></p>
+              <p class="item-date"><time datetime="2018-07-16T00:33:12.000Z" itemprop="datePublished">2018-07-16</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">Algorithm</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/">Distributed System</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/distributed-system/life/">Life</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">Hadoop</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hbase/">HBase</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/hive/">Hive</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">Life</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">Network</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">Nodejs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/system-analysis-and-design/">System Analysis and Design</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/agile/" style="font-size: 10px;">Agile</a> <a href="/tags/akka/" style="font-size: 10px;">Akka</a> <a href="/tags/akka-scala/" style="font-size: 10px;">Akka, Scala</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/big-data/" style="font-size: 13.33px;">Big Data</a> <a href="/tags/causal-inference-ai/" style="font-size: 11.67px;">Causal Inference, AI</a> <a href="/tags/design/" style="font-size: 15px;">Design</a> <a href="/tags/hbase/" style="font-size: 16.67px;">HBase</a> <a href="/tags/hadoop/" style="font-size: 18.33px;">Hadoop</a> <a href="/tags/hive/" style="font-size: 10px;">Hive</a> <a href="/tags/javascript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/language/" style="font-size: 10px;">Language</a> <a href="/tags/learn/" style="font-size: 10px;">Learn</a> <a href="/tags/learning/" style="font-size: 20px;">Learning</a> <a href="/tags/linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/machine-learning/" style="font-size: 13.33px;">Machine Learning</a> <a href="/tags/mapreduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/methodology/" style="font-size: 10px;">Methodology</a> <a href="/tags/network/" style="font-size: 10px;">Network</a> <a href="/tags/node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/research/" style="font-size: 16.67px;">Research</a> <a href="/tags/resource/" style="font-size: 10px;">Resource</a> <a href="/tags/scala/" style="font-size: 15px;">Scala</a> <a href="/tags/spark/" style="font-size: 10px;">Spark</a> <a href="/tags/systemanalysis/" style="font-size: 15px;">SystemAnalysis</a> <a href="/tags/vps/" style="font-size: 11.67px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 16.67px;">algorithm</a> <a href="/tags/apache-storm/" style="font-size: 10px;">apache storm</a> <a href="/tags/java-performance/" style="font-size: 10px;">java performance</a> <a href="/tags/learning/" style="font-size: 11.67px;">learning</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/machine-learning/" style="font-size: 10px;">machine learning</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/sort/" style="font-size: 11.67px;">sort</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/spark-streaming/" style="font-size: 10px;">spark streaming</a> <a href="/tags/%E8%AF%97%E8%AF%9D/" style="font-size: 10px;">诗话</a>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Cyanny Liang
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'lgrcyanny';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>
