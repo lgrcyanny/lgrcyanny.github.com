@@ -79,7 +79,7 @@ disqus_shortname: lgrcyanny
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:lgrcyanny/lgrcyanny.github.com.git
+  repo: git@github.com:lgrcyanny/lgrcyanny.github.io.git
   branch: master
 
 # RSS config
@@ -88,4 +88,3 @@ feed:
   type: atom
   path: atom.xml
   limit: 20
-
